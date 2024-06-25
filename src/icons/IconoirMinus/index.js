@@ -1,0 +1,1 @@
+export { IconoirMinus } from "./IconoirMinus";

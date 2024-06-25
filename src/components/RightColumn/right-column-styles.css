@@ -1,0 +1,676 @@
+.div-6 {
+  background-color: var(--bg-gray);
+  height: 1202px;
+  position: relative;
+  width: 1440px;
+}
+
+.group-3 {
+  background-color: var(--pending-yeallow);
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/rectangle-3@2x.png);
+  background-size: 100% 100%;
+  border-radius: 8px;
+  height: 220px;
+  position: relative;
+  width: 332px;
+}
+
+.frame-23 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.frame-24 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+}
+
+.text-wrapper-14 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 27px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.frame-25 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  position: relative;
+}
+
+.ellipse-4 {
+  height: 27px;
+  object-fit: cover;
+  position: relative;
+  width: 27px;
+}
+
+.ellipse-5 {
+  height: 27px;
+  position: relative;
+  width: 27px;
+}
+
+.line {
+  align-self: stretch;
+  height: 1px;
+  margin-left: -0.5px;
+  margin-right: -0.5px;
+  object-fit: cover;
+  position: relative;
+  width: 100%;
+}
+
+.frame-26 {
+  align-items: flex-start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 2px;
+  position: relative;
+}
+
+.text-wrapper-15 {
+  color: var(--text-gray);
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 18px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.text-wrapper-16 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 21px;
+  margin-right: -45.33px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.line-2 {
+  flex: 1;
+  flex-grow: 1;
+  height: 23px;
+  object-fit: cover;
+  position: relative;
+}
+
+.frame-27 {
+  align-items: flex-end;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 2px;
+  justify-content: center;
+  position: relative;
+}
+
+.text-wrapper-17 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 21px;
+  margin-left: -42.33px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.frame-29 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.text-wrapper-18 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.frame-30 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+}
+
+.frame-31 {
+  align-items: flex-start;
+  align-self: stretch;
+  background-color: var(--bg-gray);
+  border: 1px solid;
+  border-color: var(--primary-blue);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  position: relative;
+  width: 100%;
+}
+
+.text-wrapper-19 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.fluent-ios-arrow-2 {
+  height: 18px !important;
+  position: relative !important;
+  width: 18px !important;
+}
+
+.line-3 {
+  align-self: stretch;
+  height: 1px;
+  object-fit: cover;
+  position: relative;
+  width: 100%;
+}
+
+.text-wrapper-20 {
+  align-self: stretch;
+  color: var(--text-gray);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: relative;
+}
+
+.frame-32 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.frame-33 {
+  align-items: flex-start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.frame-34 {
+  align-items: flex-start;
+  align-self: stretch;
+  border: 1px solid;
+  border-color: var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  position: relative;
+  width: 100%;
+}
+
+.right-column {
+    align-items: flex-start;
+  position: relative;
+
+}
+
+.frame-35 {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: var(--line);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  overflow: hidden;
+  padding: 12px 16px;
+  position: absolute;
+  top: 0;
+  width: 364px;
+}
+
+.frame-36 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  position: relative;
+}
+
+.text-wrapper-21 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.ic-round-info {
+  height: 24px !important;
+  position: relative !important;
+  width: 24px !important;
+}
+
+.group-wrapper {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 4.17px;
+  justify-content: center;
+  position: relative;
+}
+
+.group-4 {
+  height: 50px;
+  margin-right: -2px;
+  position: relative;
+  width: 52.21px;
+}
+
+.overlap-group-2 {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/ellipse-4-2.svg);
+  background-size: 100% 100%;
+  height: 50px;
+  position: relative;
+  width: 50px;
+}
+
+.text-wrapper-22 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 8.3px;
+  font-weight: 600;
+  left: 16px;
+  letter-spacing: 0;
+  line-height: 12.5px;
+  position: absolute;
+  text-align: center;
+  top: 19px;
+  white-space: nowrap;
+}
+
+.ellipse-6 {
+  height: 50px;
+  background-size: 100% 100%;
+  height: 50px;
+  position: relative;
+  width: 50px;
+}
+
+.frame-37 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 24px;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.frame-38 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.frame-39 {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 12px 16px;
+  position: relative;
+  width: 364px;
+}
+
+.text-wrapper-23 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 600;
+  left: 12px;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: absolute;
+  text-align: center;
+  top: 17px;
+  white-space: nowrap;
+}
+
+.text-wrapper-24 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 600;
+  left: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: absolute;
+  text-align: center;
+  top: 17px;
+  white-space: nowrap;
+}
+
+.frame-40 {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #dddddd;
+  border-radius: 16px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  padding: 16px;
+  position: relative;
+  width: 364px;
+}
+
+.group-5 {
+  height: 288px;
+  margin-left: -6.52px;
+  margin-right: -16.52px;
+  position: relative;
+  width: 355.03px;
+}
+
+.overlap-group-3 {
+  height: 310px;
+  position: relative;
+  top: -23px;
+  width: 345px;
+}
+
+.text-wrapper-25 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  left: 132px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: center;
+  top: 34px;
+  white-space: nowrap;
+}
+
+.rectangle-26 {
+  left: 144px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.rectangle-instance {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/rectangle-26-2@2x.png) !important;
+  left: 19px !important;
+  position: absolute !important;
+  top: 67px !important;
+}
+
+.rectangle-26-instance {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/rectangle-26-3@2x.png) !important;
+  left: 26px !important;
+  position: absolute !important;
+  top: 253px !important;
+}
+
+.design-component-instance-node {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/rectangle-26-4@2x.png) !important;
+  left: 291px !important;
+  position: absolute !important;
+  top: 73px !important;
+}
+
+.rectangle-4 {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/rectangle-26-5@2x.png) !important;
+  left: 280px !important;
+  position: absolute !important;
+  top: 253px !important;
+}
+
+.text-wrapper-26 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  left: 267px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 110px;
+  white-space: nowrap;
+}
+
+.text-wrapper-27 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  left: 277px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 289px;
+  white-space: nowrap;
+}
+
+.text-wrapper-28 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 108px;
+  white-space: nowrap;
+}
+
+.text-wrapper-29 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 600;
+  left: 11px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: center;
+  top: 289px;
+  white-space: nowrap;
+}
+
+.pentagon {
+  height: 243px;
+  left: 39px;
+  position: absolute;
+  top: 56px;
+  width: 256px;
+}
+
+.mask-group {
+  height: 242px;
+  left: 66px;
+  position: absolute;
+  top: 56px;
+  width: 180px;
+}
+
+.vector {
+  height: 246px;
+  left: 65px;
+  position: absolute;
+  top: 55px;
+  width: 182px;
+}
+
+.frame-instance {
+  flex: 0 0 auto !important;
+}
+
+.frame-42 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.frame-43 {
+  align-items: center;
+  align-self: stretch;
+  background-color: var(--bg-gray);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 4px;
+  position: relative;
+  width: 100%;
+}
+
+.mdi-idea-wrapper {
+  align-items: flex-start;
+  background-color: #00c8751a;
+  border-radius: 8px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+}
+
+.mdi-idea {
+  height: 14px !important;
+  position: relative !important;
+  width: 14px !important;
+}
+
+.text-wrapper-30 {
+  color: var(--text-black);
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.text-wrapper-31 {
+  color: var(--text-black);
+  flex: 1;
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 18px;
+  margin-top: -1px;
+  position: relative;
+}
+
+.text-wrapper-32 {
+  color: var(--text-black);
+  flex: 1;
+  font-family: "Poppins", Helvetica;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: relative;
+}
+
+.top-navigation-instance {
+  left: 240px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.top-navigation-2 {
+  background-image: url(https://c.animaapp.com/zzQb4IEW/img/hugeicons-notification-02-11.svg) !important;
+}

@@ -1,0 +1,45 @@
+/* Ensure full height for the main container */
+.app-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 120vh; /* Full viewport height */
+    height: auto;
+}
+
+.main-and-footer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Sidebar menu with fixed positioning */
+.home-primary-menu-instance {
+    width: 270px; /* Adjust as necessary */
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+/* Main content area taking the remaining space */
+.main-content {
+    margin-left: 270px; /* Same width as the sidebar */
+    flex: 1;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    margin-bottom: 50px; /* Adjust to match the footer height */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Footer that stays at the bottom */
+.footer-frame-118 {
+    margin-left: 270px; /* Match the left margin with the sidebar */
+    margin-right: 23%;
+    height: 100px; /* Adjust to match the footer height */
+    position: relative;
+    bottom: 0; /* Stick to the bottom */
+    background-color: #f1f1f1; /* Example background color */
+    width: calc(77% - 270px); /* Adjust for the sidebar width */
+}

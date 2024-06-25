@@ -1,0 +1,1 @@
+export { IconamoonSendFill } from "./IconamoonSendFill";

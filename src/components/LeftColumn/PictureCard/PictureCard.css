@@ -1,0 +1,16 @@
+
+
+.profile-image{
+    height: 100%;
+    margin: 0 auto;
+    display: block;
+    border-radius: 50%;
+}
+
+.ellipse-7{
+  background-size: 10%;
+  height: 27px;
+  position: relative;
+  width: 27px;
+}
+
