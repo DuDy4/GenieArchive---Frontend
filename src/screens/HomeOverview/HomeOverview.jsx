@@ -36,8 +36,18 @@ function getDirectImageLink(fileLink) {
 console.log(icons_routes); // Log profile
 
 export const HomeOverview = () => {
-  const {name} = useParams()
-  console.log('HomeOverview - name:', name); 
+//   const {name} = useParams()
+
+    const currentUrl = window.location.href;
+        // Create a URL object
+        const url = new URL(currentUrl);
+        // Extract the path
+        const path = url.pathname;
+        // Split the path and get the parameter
+        const segments = path.split('/');
+        const username = segments[segments.length - 1];
+        const name = username.split('-').join(' ');
+    console.log('HomeOverview - name:', name);
 
   //const [profile, setProfile] = useState(vc.investors[name]);
   

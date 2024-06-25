@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@frontegg/react": "^6.0.40",
     "axios": "^1.7.2",
     "babel-plugin-require-context-hook": "^1.0.0",
     "chart.js": "^4.4.3",
@@ -19,7 +20,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-image": "^4.1.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.24.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
