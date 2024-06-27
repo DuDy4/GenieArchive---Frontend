@@ -33,8 +33,6 @@ function getDirectImageLink(fileLink) {
   }
 }
 
-console.log(icons_routes); // Log profile
-
 export const HomeOverview = () => {
 //   const {name} = useParams()
 
@@ -52,6 +50,7 @@ export const HomeOverview = () => {
   //const [profile, setProfile] = useState(vc.investors[name]);
   
   const [data, setData] = useState([]);
+  const [profile, setProfile] = useState({name: ''})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -85,7 +84,7 @@ export const HomeOverview = () => {
         // newProfile.news = profile.news;
         console.log('new profile:', newProfile);
         setData(newProfile);
-        profile = newProfile;
+        setProfile(newProfile)
         setLoading(false);
       })
       .catch((error) => {
@@ -95,12 +94,20 @@ export const HomeOverview = () => {
   }, []); // Empty dependency array means this useEffect runs once when the component mounts
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+//   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
-        <LeftColumn className="left-column" profile={newProfile} />
-        <RightColumn className="right-column" profile={newProfile} />
+        {profile.name ? (
+                <>
+                 <LeftColumn className="left-column" profile={profile} />
+                 <RightColumn className="right-column" profile={profile} />
+                </>
+             )
+            :
+                <div className="loading-spinner"></div>
+            }
+
 
         <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" />
     </>
