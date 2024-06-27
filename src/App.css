@@ -23,7 +23,6 @@
 
 /* Main content area taking the remaining space */
 .main-content {
-    margin-left: 270px; /* Same width as the sidebar */
     flex: 1;
     overflow-y: auto; /* Allow scrolling if content overflows */
     margin-bottom: 50px; /* Adjust to match the footer height */
@@ -35,7 +34,6 @@
 
 /* Footer that stays at the bottom */
 .footer-frame-118 {
-    margin-left: 270px; /* Match the left margin with the sidebar */
     margin-right: 23%;
     height: 100px; /* Adjust to match the footer height */
     position: relative;
