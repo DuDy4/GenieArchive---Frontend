@@ -53,46 +53,46 @@ export const HomeOverview = ({user}) => {
   const [profile, setProfile] = useState({name: ''})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const apiUrl = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    // Make the API call inside useEffect
-    fetch(apiUrl + '/v1/vc-profile?name=' + name)
-    // fetch('https://localhost:8443/v1/vc-profile?name=' + name)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('new data:', data);
-        newProfile = {};
-        newProfile.name = data["Full name"];
-        newProfile.company = data["VC name"];
-        newProfile.position = data["Position"];
-        newProfile.links = {"linkedin" : data['Personal LinkedIn'] }
-        newProfile.image = data["Image link"];
-        console.log('original strengths:', profile.strengths);
-        console.log('new strengths:', data["Strengths"]);
-        newProfile.strengths = data["Strengths"];
-        newProfile.challenges = profile.challenges;
-        // newProfile.connections = Array(data["Image link"]);
-        newProfile.connections = data["Connections"];
-        newProfile.interests = data["Hobbies Data"]
-        newProfile.news = data["News Data"];
-        // newProfile.news = profile.news;
-        console.log('new profile:', newProfile);
-        setData(newProfile);
-        console.log('new data:', data);
-        setProfile(newProfile)
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []); // Empty dependency array means this useEffect runs once when the component mounts
+//   const apiUrl = process.env.REACT_APP_API_URL;
+//
+//   useEffect(() => {
+//     // Make the API call inside useEffect
+//     fetch(apiUrl + '/v1/vc-profile?name=' + name)
+//     // fetch('https://localhost:8443/v1/vc-profile?name=' + name)
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Network response was not ok');
+//         }
+//         return response.json();
+//       })
+//       .then((data) => {
+//         console.log('new data:', data);
+//         newProfile = {};
+//         newProfile.name = data["Full name"];
+//         newProfile.company = data["VC name"];
+//         newProfile.position = data["Position"];
+//         newProfile.links = {"linkedin" : data['Personal LinkedIn'] }
+//         newProfile.image = data["Image link"];
+//         console.log('original strengths:', profile.strengths);
+//         console.log('new strengths:', data["Strengths"]);
+//         newProfile.strengths = data["Strengths"];
+//         newProfile.challenges = profile.challenges;
+//         // newProfile.connections = Array(data["Image link"]);
+//         newProfile.connections = data["Connections"];
+//         newProfile.interests = data["Hobbies Data"]
+//         newProfile.news = data["News Data"];
+//         // newProfile.news = profile.news;
+//         console.log('new profile:', newProfile);
+//         setData(newProfile);
+//         console.log('new data:', data);
+//         setProfile(newProfile)
+//         setLoading(false);
+//       })
+//       .catch((error) => {
+//         setError(error);
+//         setLoading(false);
+//       });
+//   }, []); // Empty dependency array means this useEffect runs once when the component mounts
 
 //   if (loading) return <div>Loading...</div>;
 {/*   if (error) return <div>Error: {error.message}</div>; */}

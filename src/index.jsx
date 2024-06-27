@@ -22,6 +22,8 @@ root.render(
             contextOptions={contextOptions}
             hostedLoginBox={true}
             authOptions={authOptions}>
-            <App />
+{/*             <TenantProvider> */}
+                <App />
+{/*             </TenantProvider> */}
         </FronteggProvider>
     );
