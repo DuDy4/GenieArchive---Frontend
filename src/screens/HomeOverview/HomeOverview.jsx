@@ -33,7 +33,7 @@ function getDirectImageLink(fileLink) {
   }
 }
 
-export const HomeOverview = () => {
+export const HomeOverview = ({user}) => {
 //   const {name} = useParams()
 
     const currentUrl = window.location.href;
@@ -110,7 +110,7 @@ export const HomeOverview = () => {
             }
 
 
-        <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" />
+        <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" user={user} />
     </>
   );
 };

@@ -7,9 +7,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { HugeiconsNotification024 } from "../../icons/HugeiconsNotification024";
 import { SecondaryNav } from "../SecondaryNav";
+import FronteggHeader from "../FronteggHeader/FronteggHeader";
 import "./style.css";
 
-export const TopNavigation = ({ property1, className, groupClassName }) => {
+export const TopNavigation = ({ property1, className, groupClassName, user }) => {
   return (
     <div className={`top-navigation ${className}`}>
       {property1 === "nav-1" && <SecondaryNav className="secondary-nav-1" property1="default" />}
@@ -50,33 +51,30 @@ export const TopNavigation = ({ property1, className, groupClassName }) => {
           </div>
         </div>
       )}
+        <div className="frame-19">
+                <div className="group">
+                  <div className="frame-20">
+                    <div className="text-wrapper-13">Progress</div>
+                    <div className="overlap-group-wrapper">
+                      <div className="overlap-group">
+                        <div className="rectangle-2" />
+                        <div className={`rectangle-3 property-1-${property1}`} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="element-wrapper">
+                    <div className="element">
+                      {["nav-1", "nav-2", "nav-3"].includes(property1) && <>10%</>}
 
-      <div className="frame-19">
-        <div className="group">
-          <div className="frame-20">
-            <div className="text-wrapper-13">Progress</div>
-            <div className="overlap-group-wrapper">
-              <div className="overlap-group">
-                <div className="rectangle-2" />
-                <div className={`rectangle-3 property-1-${property1}`} />
+                      {property1 === "variant-4" && <>30%</>}
+
+                      {property1 === "variant-5" && <>60%</>}
+                    </div>
+                  </div>
+                </div>
+
               </div>
-            </div>
-          </div>
-          <div className="element-wrapper">
-            <div className="element">
-              {["nav-1", "nav-2", "nav-3"].includes(property1) && <>10%</>}
-
-              {property1 === "variant-4" && <>30%</>}
-
-              {property1 === "variant-5" && <>60%</>}
-            </div>
-          </div>
-        </div>
-        <div className="frame-21">
-          <div className="ellipse-3" />
-          <div className={`group-2 ${groupClassName}`} />
-        </div>
-      </div>
+      <FronteggHeader className={groupClassName} user={user} />
     </div>
   );
 };

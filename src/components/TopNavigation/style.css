@@ -212,13 +212,16 @@
 }
 
 .top-navigation .ellipse-3 {
-  background-color: #ffffff;
-  border: 1px solid;
-  border-color: var(--line);
-  border-radius: 21px;
-  height: 42px;
-  position: relative;
-  width: 42px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: var(--line);
+    height: 42px;
+    position: relative;
+    width: 42px;
+    overflow: hidden; /* ensures the image doesn't overflow the div */
+    border-radius: 50%; /* makes the div circular */
+    position: relative; /* ensures the image is positioned correctly */
+    cursor: pointer; /* makes it clear that the element is clickable */
 }
 
 .top-navigation .group-2 {
