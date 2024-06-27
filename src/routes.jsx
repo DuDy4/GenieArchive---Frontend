@@ -1,6 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import { HomeOverview } from "./screens/HomeOverview";
-import {App} from "./App";
+import App from "./App";
 import {TemplateHTML} from "./screens/TemplateHTML";
 
 

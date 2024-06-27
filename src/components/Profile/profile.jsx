@@ -33,7 +33,7 @@ function getDirectImageLink(fileLink) {
   }
 }
 
-export const HomeOverview = () => {
+export const Profile = () => {
 //   const {name} = useParams()
 
     const currentUrl = window.location.href;
@@ -48,9 +48,8 @@ export const HomeOverview = () => {
     console.log('HomeOverview - name:', name);
 
   //const [profile, setProfile] = useState(vc.investors[name]);
-  
+
   const [data, setData] = useState([]);
-  const [profile, setProfile] = useState({name: ''})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -84,8 +83,7 @@ export const HomeOverview = () => {
         // newProfile.news = profile.news;
         console.log('new profile:', newProfile);
         setData(newProfile);
-        console.log('new data:', data);
-        setProfile(newProfile)
+        profile = newProfile;
         setLoading(false);
       })
       .catch((error) => {
@@ -94,21 +92,13 @@ export const HomeOverview = () => {
       });
   }, []); // Empty dependency array means this useEffect runs once when the component mounts
 
-//   if (loading) return <div>Loading...</div>;
-{/*   if (error) return <div>Error: {error.message}</div>; */}
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
-        {profile.name ? (
-                <>
-                 <LeftColumn className="left-column" profile={profile} />
-                 <RightColumn className="right-column" profile={profile} />
-                </>
-             )
-            :
-                <div className="loading-spinner"></div>
-            }
-
+        <LeftColumn className="left-column" profile={newProfile} />
+        <RightColumn className="right-column" profile={newProfile} />
 
         <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" />
     </>
