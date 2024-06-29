@@ -40,6 +40,7 @@ export const ContactsProvider = ({ user, children }) => {
                                     <tr>
                                         <th>Select</th>
                                         <th>Name</th>
+                                        <th>Company</th>
                                         <th>Email</th>
                                         <th>LinkedIn</th>
                                     </tr>
@@ -61,12 +62,14 @@ export const ContactsProvider = ({ user, children }) => {
                     response.data.forEach(contact => {
                         const row = newWindow.document.createElement('tr');
                         row.innerHTML = `
-                            <td><input type="checkbox" value="${contact.id}" /></td>
+                            <td><input type="checkbox" value="${contact.Id}" /></td>
                             <td>${contact.FirstName} ${contact.LastName}</td>
+                            <td>${contact.Account.Name}</td>
                             <td>${contact.Email}</td>
                             <td>${contact.LinkedInUrl__c}</td>
                         `;
                         contactList.appendChild(row);
+                        setContacts([...contacts, contact])
                     });
 
                     // Add event listener to the button
@@ -76,7 +79,7 @@ export const ContactsProvider = ({ user, children }) => {
                         checkboxes.forEach(checkbox => {
                             const row = checkbox.parentElement.parentElement;
                             checkedContacts.push({
-                                id: checkbox.value,
+                                id: row.children[0].children[0].value,
                                 name: row.children[1].textContent.trim(),
                                 email: row.children[2].textContent.trim()
                             });
