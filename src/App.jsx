@@ -26,13 +26,13 @@ function App() {
       { isAuthenticated ? (
         <div className="app-container">
           <div className="main-menu">
-              <TenantProvider user={user}>
-                <HomePrimaryMenu className="home-primary-menu-instance" />
-              </TenantProvider>
+                <HomePrimaryMenu className="home-primary-menu-instance" user={user} />
           </div>
           <div className="main-and-footer">
             <div className="main-content">
-              <HomeOverview user={user}/>
+                <TenantProvider user={user}>
+                    <HomeOverview user={user}/>
+                </TenantProvider>
             </div>
             <Footer />
           </div>

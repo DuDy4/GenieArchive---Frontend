@@ -2,10 +2,8 @@ import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 
 
-// Create a context for the tenant
 export const TenantContext = createContext();
 
-// Create a provider for components to consume and subscribe to changes
 export const TenantProvider = ({ user, children }) => {
     const [tenantId, setTenantId] = useState(null);
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -23,6 +21,7 @@ export const TenantProvider = ({ user, children }) => {
         .then(response => {
             console.log('Signup successful:', response.data);
             if (response.data) {
+                setTenantId(user.tenantId);
                 setSfCreds(response.data.salesforce_creds);
                 console.log('Salesforce creds:', sfCreds);
             }
@@ -38,8 +37,10 @@ export const TenantProvider = ({ user, children }) => {
         }
     }, [sfCreds]);
 
+    const value = { tenantId, sfCreds };
+
   return (
-    <TenantContext.Provider value={tenantId, sfCreds}>
+    <TenantContext.Provider value={value}>
       {children}
     </TenantContext.Provider>
   );
