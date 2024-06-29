@@ -19,6 +19,8 @@ import icons_routes from "../../data/icons_routes.json";
 import icon from "../../data/strength_icons/rectangle-26-1@2x.png";
 import { profile } from "../../providers/test_provider";
 import { TenantContext } from "../../providers/TenantProvider";
+import { ContactsProvider } from "../../providers/ContactsProvider";
+import SalesforceFetcher from "../../components/SalesforceFetcher/SalesforceFetcher";
 
 
 function getDirectImageLink(fileLink) {
@@ -62,6 +64,7 @@ export const HomeOverview = ({user}) => {
 
   return (
     <>
+
         {profile.name ? (
                 <>
                  <LeftColumn className="left-column" profile={profile} />
@@ -69,8 +72,11 @@ export const HomeOverview = ({user}) => {
                 </>
              )
             :
-                <div className="loading-spinner"></div>
-            }
+            (
+                    <ContactsProvider>
+                        <SalesforceFetcher />
+                    </ContactsProvider>
+            )}
 
 
         <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" user={user} />

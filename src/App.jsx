@@ -40,7 +40,7 @@ function App() {
         </div>
       ) : (
         <div>
-          <button onClick={() => loginWithRedirect()}>Click me to login</button>
+                <div className="loading-spinner"></div>
         </div>
       )}
     </div>
