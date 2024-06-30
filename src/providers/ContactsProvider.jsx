@@ -74,18 +74,19 @@ export const ContactsProvider = ({ user, children }) => {
 
                     // Add event listener to the button
                     newWindow.document.getElementById('gather-checked').addEventListener('click', () => {
+                        const checkedContactIds = [];
                         const checkedContacts = [];
                         const checkboxes = newWindow.document.querySelectorAll('#contact-list input[type="checkbox"]:checked');
                         checkboxes.forEach(checkbox => {
-                            const row = checkbox.parentElement.parentElement;
-                            checkedContacts.push({
+                            checkedContactIds.push(checkbox.value);
+                            let row = checkbox.parentElement.parentElement;
+                            checkedContacts.push( {
                                 id: row.children[0].children[0].value,
                                 name: row.children[1].textContent.trim(),
                                 email: row.children[2].textContent.trim()
-                            });
+                            })
                         });
-                        setSelectedContacts(checkedContacts);
-
+                        setSelectedContacts(checkedContactIds);
                         // Display the result
                         const resultDiv = newWindow.document.getElementById('result');
                         resultDiv.innerHTML = '<h2>Checked Contacts</h2><ul>' + checkedContacts.map(contact => `<li>${contact.name} (${contact.email})</li>`).join('') + '</ul>';
@@ -108,19 +109,20 @@ export const ContactsProvider = ({ user, children }) => {
             });
     };
 
-//     const handleSelectedContacts = (contacts) => {
-//         axios.post(`${apiUrl}/v1/salesforce/build-profiles/${tenantId}`, contacts, { withCredentials: true })
-//             .then(response => {
-//                 console.log('Contacts saved:', response.data);
-//             })
-//             .catch(error => {
-//                 console.error('Error saving contacts:', error);
-//             });
+    const handleSelectedContacts = (contacts) => {
+        axios.post(`${apiUrl}/v1/salesforce/build-profiles/${tenantId}`, contacts, { withCredentials: true })
+            .then(response => {
+                console.log('Contacts saved:', response.data);
+            })
+            .catch(error => {
+                console.error('Error saving contacts:', error);
+            });
+        }
 
 
     useEffect(() => {
         if (selectedContacts.length > 0) {
-//             handleSelectedContacts(selectedContacts);
+            handleSelectedContacts(selectedContacts);
             console.log('Selected contacts updated:', selectedContacts); // This will log the updated state in the main window console
             setRender(!render);
         }

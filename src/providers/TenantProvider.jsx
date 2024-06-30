@@ -5,7 +5,7 @@
     export const TenantContext = createContext();
 
     export const TenantProvider = ({ user, children }) => {
-        const [tenantId, setTenantId] = useState(null);
+        const [tenantId, setTenantId] = useState(user.tenantId);
         const apiUrl = process.env.REACT_APP_API_URL;
         const [sfCreds, setSfCreds] = useState({});
         const [render, setRender] = useState(false);
@@ -43,30 +43,6 @@
                             setRender(!render);
                         }
                     }
-//             const oauthWindow = window.open('', '_blank');
-//
-//             try {
-//                     const response = await axios.get(apiUrl + `/v1/salesforce/auth/${tenantId}`, { withCredentials: true });
-//
-//                     if (response.status === 200) {
-//                         // The backend should handle the redirect
-//                         if (oauthWindow) {
-//                             oauthWindow.location = response.data.redirect_url;
-//                         } else {
-//                             console.error('Popup blocked, please allow popups for this site.');
-//                         }
-//                     } else {
-//                         if (oauthWindow) {
-//                             oauthWindow.close();
-//                         }
-//                         console.error('Unexpected response status:', response.status);
-//                     }
-//                 } catch (error) {
-//                     if (oauthWindow) {
-//                         oauthWindow.close();
-//                     }
-//                     console.error('Error during OAuth process:', error);
-//                 }
             }
 
         useEffect(() => {

@@ -4,6 +4,7 @@ import { HomePrimaryMenu } from './components/HomePrimaryMenu/HomePrimaryMenu';
 import { useAuth, useLoginWithRedirect } from '@frontegg/react';
 import { HomeOverview } from './screens/HomeOverview/HomeOverview';
 import { TenantProvider } from './providers/TenantProvider';
+import { ProfilesProvider } from './providers/ProfilesProvider';
 import Footer from './screens/Footer/footer';
 import axios from 'axios';
 
@@ -31,7 +32,9 @@ function App() {
           <div className="main-and-footer">
             <div className="main-content">
                 <TenantProvider user={user}>
-                    <HomeOverview user={user}/>
+                    <ProfilesProvider>
+                        <HomeOverview user={user}/>
+                    </ProfilesProvider>
                 </TenantProvider>
             </div>
             <Footer />
