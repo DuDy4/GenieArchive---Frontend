@@ -20,7 +20,7 @@ const SalesforceFetcher = () => {
 
     return (
         <div style={{ paddingTop: '10%', paddingLeft: '5%' }}>
-            {Object.keys(sfCreds).length > 0 ? (
+            {Object.keys(sfCreds).length > 0 && sfCreds.salesforce_access_token ? (
                 <div>
                     <h2>Connected to Salesforce</h2>
                     <button onClick={fetchContacts}>Fetch Profiles</button>
