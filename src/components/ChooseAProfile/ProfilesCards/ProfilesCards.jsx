@@ -19,11 +19,14 @@ const ProfileCards = () => {
         <div className="profile-cards-container">
             <button className="refresh-button" onClick={fetchProfiles}>Refresh Profiles</button>
             Choose a profile:
-            {profiles.map(profile => (
-                <div key={profile.uuid} className="profile-card" onClick={() => handleProfileClick(profile)}>
-                    <h3>{profile.name}</h3>
-                </div>
-            ))}
+            <div className="profile-cards-list">
+                {profiles.map(profile => (
+                    <div key={profile.uuid} className="profile-card" onClick={() => handleProfileClick(profile)}>
+                        <h1>{profile.name}</h1>
+                        <h4>{profile.position}, {profile.company}</h4>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
