@@ -50,8 +50,8 @@ export const RightColumn = ({ profile }) => {
                 </div>
                 {console.log('HomeOverview - profile.strengths:', profile.strengths) }
                 <SpiderChart data={ profile.strengths.map((strength, index) => ({
-                                             name: strength.strength,
-                                             image: icons_routes[strength.strength],
+                                             name: strength.strength_name || strength.strengths_name,
+                                             image: icons_routes[strength.strength_name || strength.strengths_name],
                                              score: strength.score
                                            }))} />
             </div>

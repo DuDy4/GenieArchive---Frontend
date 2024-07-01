@@ -9,6 +9,7 @@ export const GetToKnow = ({profile}) => {
 
     const strengths = currentProfile.strengths || [];
 
+    console.log('GetToKnow - strengths:', strengths);
 
     return (
         <div className="frame-28">
@@ -17,7 +18,8 @@ export const GetToKnow = ({profile}) => {
             </div>
             <div className="frame-30">
                     {strengths.map((strength, index) => (
-                        <Strength key={index} title={strength.strength} text={strength.reasoning} />
+                        <Strength key={index} title={strength.strength_name || strength.strengths_name}
+                         text={strength.reasoning} />
                     ))}
             </div>
         </div>

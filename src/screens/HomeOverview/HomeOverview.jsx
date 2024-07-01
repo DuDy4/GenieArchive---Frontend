@@ -68,7 +68,7 @@ export const HomeOverview = ({user}) => {
         {Object.keys(profile).length > 0  ? (
                 <>
                  <LeftColumn className="left-column" profile={profile} />
-{/*                  <RightColumn className="right-column" profile={profile} /> */}
+                 <RightColumn className="right-column" profile={profile} />
                 </>
              )
             :
