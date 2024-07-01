@@ -240,6 +240,12 @@
   height: 18px !important;
   position: relative !important;
   width: 18px !important;
+  transition: transform 0.3s ease;
+
+}
+
+.fluent-ios-arrow-2.open {
+  transform: rotate(180deg);
 }
 
 .line-3 {

@@ -17,7 +17,7 @@ export const PictureCard = ({profile}) => {
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
              onClick={() => cleanProfile()} alt={currentProfile.name} title="Change Profile">
-                <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.image} />
+                <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.picture_url} />
             </div>
             <div className="frame-23">
                 <div className="frame-24">

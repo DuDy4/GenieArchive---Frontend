@@ -71,20 +71,24 @@
   align-items: center;
   align-self: stretch;
   background-color: var(--text-black);
-  border-radius: 39px;
+  border-radius: 20px;
   display: flex;
   flex: 0 0 auto;
   justify-content: space-between;
-  padding: 4px 12px 4px 4px;
+  padding: 8px 12px 8px 12px;
   position: relative;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .home-primary-menu .frame-12 {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
-  gap: 6px;
+  gap:12px;
   position: relative;
 }
 
@@ -98,7 +102,6 @@
 .home-primary-menu .text-wrapper-8 {
   color: var(--white);
   font-family: "Poppins", Helvetica;
-  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0;
   line-height: normal;
@@ -111,3 +114,29 @@
   position: relative !important;
   width: 18px !important;
 }
+
+.home-primary-menu .fluent-ios-arrow .open{
+  transform: rotate(180deg);
+}
+
+.toggle-menu-and-user-bubble{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.dropdown-button-line{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: white;
+}
+
+.dropdown-icon{
+    height: 20px;
+    align-self: center;
+
+}
+
