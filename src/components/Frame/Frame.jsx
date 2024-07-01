@@ -26,7 +26,7 @@ export const Frame = ({ className, profile }) => {
       <div className="div">
         <div className="div">
           <div className="text-wrapper-2">RELEVANT CONNECTIONS</div>
-          {connections.length > 0 && (
+          {connections && connections.length > 0 && (
             <div className="div-4">
               {connections.map((connection, index) => {
                 const title = Object.keys(connection)[0];
@@ -39,14 +39,14 @@ export const Frame = ({ className, profile }) => {
               })}
             </div>
           )}
-          {connections.length === 0 && (
+          {connections && connections.length === 0 && (
           <div className="div-2">
             <img className="img" alt="Ellipse" title="John Doe" src="https://static.thenounproject.com/png/6967179-200.png" />
           </div>
           )}
         </div>
       </div>
-      {interests.length > 0 && (
+      {interests && interests.length > 0 && (
         <div className="div-3">
           <div className="text-wrapper-2">INTEREST IN</div>
           <div className="div-4">
@@ -63,7 +63,7 @@ export const Frame = ({ className, profile }) => {
           </div>
         </div>
       )}
-      {news.length > 0 && (
+      {news && news.length > 0 && (
         <div className="div-3">
           <div className="text-wrapper-2">TOP NEWS</div>
             {news.map((news_object, index) => {
