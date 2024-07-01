@@ -1,5 +1,5 @@
-import {useState} from "react";
-import eli_dubnov from "../../../data/profile_pictures/eli_dubnov.png";
+import {useState, useContext} from "react";
+import {ProfilesContext} from "../../../providers/ProfilesProvider";
 import {Link} from "react-router-dom";
 import "./PictureCard.css";
 
@@ -9,11 +9,15 @@ export const PictureCard = ({profile}) => {
     const [backgroundPicture, setBackgroundPicture] = useState(
         // {backgroundImage: 'url(../../data/images/${profile.name}.png)'});
         {backgroundImage: 'url(${profile.image})'});
+    const {cleanProfile} = useContext(ProfilesContext);
     const links = currentProfile.links || {};
+
+    console.log('PictureCard - currentProfile:', currentProfile);
     return (
         <div className="frame-22">
-            <div className="group-3" style={backgroundPicture}>
-                <img className="profile-image" alt="Eli Dubnov" src={profile.image} />
+            <div className="group-3" style={backgroundPicture}
+             onClick={() => cleanProfile()} alt={currentProfile.name} title="Change Profile">
+                <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.image} />
             </div>
             <div className="frame-23">
                 <div className="frame-24">

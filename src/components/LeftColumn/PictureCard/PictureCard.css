@@ -5,7 +5,25 @@
     margin: 0 auto;
     display: block;
     border-radius: 50%;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
+
+.profile-image:hover {
+    /* Scale up the image and add a box shadow on hover */
+    transform: scale(1.1);
+    filter: brightness(80%); /* Example filter to darken the image on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.profile-image:hover::after {
+    /* Show a clickable mouse icon on hover */
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300C875" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 16.5l6-4.5-6-4.5v9zM5 20h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zm14-9.5V8h-5.5l5.5 4z"/></svg>');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .ellipse-7{
   background-size: 10%;
@@ -13,4 +31,5 @@
   position: relative;
   width: 27px;
 }
+
 
