@@ -19,8 +19,9 @@ import icons_routes from "../../data/icons_routes.json";
 import icon from "../../data/strength_icons/rectangle-26-1@2x.png";
 import { profile } from "../../providers/test_provider";
 import { TenantContext } from "../../providers/TenantProvider";
+import { ProfilesContext } from "../../providers/ProfilesProvider";
 import { ContactsProvider } from "../../providers/ContactsProvider";
-import SalesforceFetcher from "../../components/SalesforceFetcher/SalesforceFetcher";
+import ProfilesManager from "../../components/ChooseAProfile/ProfilesManager";
 
 
 function getDirectImageLink(fileLink) {
@@ -41,6 +42,7 @@ function getDirectImageLink(fileLink) {
 
 export const HomeOverview = ({user}) => {
     const { tenantId, sfCreds } = useContext(TenantContext);
+    const {profile} = useContext(ProfilesContext);
     console.log('tenantId:', tenantId);
     console.log('Salesforce creds in HomeOverview:', sfCreds);
 
@@ -53,28 +55,26 @@ export const HomeOverview = ({user}) => {
         const segments = path.split('/');
         const username = segments[segments.length - 1];
         const name = username.split('-').join(' ');
-    console.log('HomeOverview - name:', name);
 
   //const [profile, setProfile] = useState(vc.investors[name]);
   
   const [data, setData] = useState([]);
-  const [profile, setProfile] = useState({name: ''})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   return (
     <>
 
-        {profile.name ? (
+        {Object.keys(profile).length > 0  ? (
                 <>
                  <LeftColumn className="left-column" profile={profile} />
-                 <RightColumn className="right-column" profile={profile} />
+{/*                  <RightColumn className="right-column" profile={profile} /> */}
                 </>
              )
             :
             (
                     <ContactsProvider>
-                        <SalesforceFetcher />
+                        <ProfilesManager />
                     </ContactsProvider>
             )}
 

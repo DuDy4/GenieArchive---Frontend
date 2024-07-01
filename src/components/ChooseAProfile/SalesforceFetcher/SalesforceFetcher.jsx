@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { TenantContext } from '../../providers/TenantProvider';
-import { ContactsContext } from '../../providers/ContactsProvider';
-import { ProfilesContext } from '../../providers/ProfilesProvider';
+import { TenantContext } from '../../../providers/TenantProvider';
+import { ContactsContext } from '../../../providers/ContactsProvider';
+import { ProfilesContext } from '../../../providers/ProfilesProvider';
 
 
 const SalesforceFetcher = () => {
@@ -23,7 +23,7 @@ const SalesforceFetcher = () => {
     }, [sfCreds, profiles]);
 
     return (
-        <div style={{ paddingTop: '10%', paddingLeft: '5%' }}>
+        <div>
             {Object.keys(sfCreds).length > 0 && sfCreds.salesforce_access_token ? (
                 <>
                     <div>
@@ -31,22 +31,6 @@ const SalesforceFetcher = () => {
                         <button onClick={fetchContacts}>Fetch Contacts</button>
                         <button onClick={fetchProfiles}>Fetch Profiles</button>
                         <button onClick={logOut}>Logout</button>
-                    </div>
-                    <br/>
-                    <div>
-                        <ul>
-                            <li>Profiles:</li>
-                            {profiles && profiles.map(profile => (
-                                <li key={profile.uuid} style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '10px' }}>
-                                    <div style={{ marginRight: '20px', fontWeight: 'bold' }}>{profile.name}</div>
-                                    <ul style={{ listStyleType: 'disc' }}>
-                                        {profile.strengths && profile.strengths.map((strength, index) => (
-                                            <li key={index}>{strength.strength_name || strength.strengths_name}</li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </>
             ) : (
