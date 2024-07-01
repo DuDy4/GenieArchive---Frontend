@@ -14,7 +14,7 @@ import "./style.css";
 
 export const HomePrimaryMenu = ({ property1, className, user }) => {
 
-     const [menuVisible, setMenuVisible] = useState(true);
+     const [menuVisible, setMenuVisible] = useState(false);
 
         const toggleMenu = () => {
             setMenuVisible(!menuVisible);
