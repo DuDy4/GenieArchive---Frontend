@@ -24,7 +24,7 @@ export const Challenges = ({ profile }) => {
                 <div className="text-wrapper-18">Top challenges in the role</div>
             </div>
             <div className="frame-42">
-                {topChallenges.map((challenge, index) => (
+                {topChallenges.length > 0 && topChallenges.map((challenge, index) => (
                     <div className="frame-43" key={index}>
                         <div className="mdi-idea-wrapper">
                             <MdiIdea5 className="mdi-idea" color="#00C875" />
