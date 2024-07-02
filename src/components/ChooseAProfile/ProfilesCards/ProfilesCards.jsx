@@ -34,18 +34,26 @@ const ProfileCards = () => {
     return (
         <div className="profile-cards-container">
             <div className="profiles-cards-header">
-                <input type="text" className="form-control" placeholder="Search name..."
-                 value={searchTerm} onChange={handleSearchChange} />
+                <div className="input-bubble">
+                    <input type="text" className="form-control search-name" placeholder="Search name..."
+                     value={searchTerm} onChange={handleSearchChange} />
+                </div>
 
                 <div className="icons-container">
-                    <button className="refresh-button" onClick={fetchProfiles}>Refresh Profiles</button>
+                    <button className="refresh-button" onClick={fetchProfiles}>
+                        <img width="48" height="48" src="https://img.icons8.com/color/48/life-cycle-female--v1.png"
+                         alt="life-cycle-female--v1" title="Refresh profiles"/>
+                    </button>
                     {loading ? (
                         <button className="refresh-button loading" disabled>
                             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Loading...
                         </button>
                     ) : (
-                        <button className="refresh-button" onClick={fetchContacts}>Choose another Salesforce's contacts</button>
+                        <button className="refresh-button" onClick={fetchContacts}>
+                            <img width="48" height="48" src="https://img.icons8.com/fluency/48/multiple-inputs.png"
+                             alt="multiple-inputs" title="Bring more contacts" />
+                        </button>
                 )}
                 </div>
             </div>

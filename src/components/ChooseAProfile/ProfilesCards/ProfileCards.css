@@ -102,3 +102,47 @@
     align-items: center;
     gap: 10%;
 }
+
+
+.refresh-button {
+    background-color: #ADD8E6;
+    border: none;
+    color: #004466;
+    padding: 10px 20px;
+    font-family: Poppins, Helvetica;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.refresh-button:hover {
+    background-color: #87CEEB;
+    scale: 1.05;
+}
+
+.form-control.search-name {
+    font-size: 28px;
+}
+
+.form-control.search-name::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+.input-bubble {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
