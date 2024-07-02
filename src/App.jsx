@@ -21,7 +21,7 @@ function App() {
     }
 }, [isAuthenticated, loginWithRedirect]);
 
-
+    console.log('User:', user);
   return (
     <div className="App">
       { isAuthenticated ? (

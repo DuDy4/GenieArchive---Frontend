@@ -1,5 +1,5 @@
 /*
-We're constantly improving the code you see. 
+We're constantly improving the code you see.
 Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcNg&d=1152665201300829
 */
 
@@ -33,7 +33,7 @@ export const HomePrimaryMenu = ({ property1, className, user }) => {
             AdminPortal.show();
           };
 
-
+        console.log('HomePrimaryMenu profilePictureUrl:', user.profilePictureUrl)
 
   return (
     <div className={`home-primary-menu ${className}`}>
@@ -56,14 +56,14 @@ export const HomePrimaryMenu = ({ property1, className, user }) => {
           <div className="frame-10">
             <div className="frame-11">
                 {menuVisible && (
-                  <div className="dropdown-menu">
-                          <div className="text-wrapper-9 dropdown-button-line" onClick={handleClick}>
-                              <img className="dropdown-icon" alt="Image" src="https://img.icons8.com/?size=100&id=364&format=png&color=ffffff" />
-                              <img className="dropdown-icon" alt="Image" src="https://img.icons8.com/?size=100&id=arrojWw9F5j5&format=png&color=ffffff" />
+                  <div className="custom-dropdown-menu">
+                          <div className="text-wrapper-9 dropdown-button-line" >
+                              <img className="dropdown-icon" alt="Image" src="https://img.icons8.com/?size=100&id=364&format=png&color=ffffff" onClick={handleClick} />
+                              <img className="dropdown-icon" alt="Image" src="https://img.icons8.com/?size=100&id=arrojWw9F5j5&format=png&color=ffffff" onClick={logout} />
                           </div>
                       <div className="text-wrapper-9 dropdown-button-line">
                           <button className="transparent-bubble-button" onClick={handleClick} >User settings</button>
-                           <button className="transparent-bubble-button dropdown-button-line" onClick={logout}>Logout</button>
+                          <button className="transparent-bubble-button dropdown-button-line" onClick={logout}>Logout</button>
                       </div>
                   </div>
                   )}

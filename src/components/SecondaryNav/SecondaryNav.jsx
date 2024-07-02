@@ -17,14 +17,14 @@ export const SecondaryNav = ({ property1, className }) => {
       <div className={`frame-14 ${property1}`}>
         <div className="text-wrapper-10">Profile in Details</div>
       </div>
-      <div className="frame-15">
+      <div className="frame-15" title="Coming soon">
         <div className="text-wrapper-11">Good to know</div>
       </div>
-      <div className="frame-16">
+      <div className="frame-16" title="Coming soon">
         <HugeiconsNotification024 className="hugeicons" />
         <div className="text-wrapper-11">News</div>
       </div>
-      <div className="frame-17">
+      <div className="frame-17" title="Coming soon">
         <div className="text-wrapper-11">Let the Genie know</div>
       </div>
     </div>

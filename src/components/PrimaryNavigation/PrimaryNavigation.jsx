@@ -17,16 +17,16 @@ export const PrimaryNavigation = ({ property1, className }) => {
         <SolarUserBold3 className="instance-node" color={property1 === "home" ? "white" : "#9F9F9F"} />
         <div className="text-wrapper-5">Home</div>
       </div>
-      <div className={`frame-6 property-1-0-${property1}`}>
+      <div className={`frame-6 property-1-0-${property1}`} title="Coming soon">
         <NounMusicBook575383523 className="instance-node" color={property1 === "play-book" ? "white" : "#9F9F9F"} />
         <div className="text-wrapper-6">Playbook</div>
       </div>
-      <div className={`frame-7 property-1-0-${property1}`}>
+      <div className={`frame-7 property-1-0-${property1}`} title="Coming soon">
         <HeroiconsChartBarSquare20Solid8
           className="instance-node"
           color={property1 === "accelerate-sales-tools" ? "white" : "#9F9F9F"}
         />
-        <div className="text-wrapper-7">Accelerate Sales Tools</div>
+        <div className="text-wrapper-7" title="Coming soon">Accelerate Sales Tools</div>
       </div>
     </div>
   );

@@ -68,48 +68,7 @@
   border-radius: 50%;
 }
 
-.dropdown-menu {
-  background-color: var(--text-black);
-  border-radius: 10px;
-  width: 100%; /* Adjust this if you need different width */
-  padding: 10px;
-  min-width: 200px;
-  z-index: 1000; /* ensure it appears above other elements */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  gap: 15px;
-  letter-spacing: 0;
-  width: fit-content;
-  padding: 8px 12px 0 26px;
-  font-family: Poppins, Helvetica;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--white);
-
-}
-
 .username-name{
    font-size: 22px;
    font-family: cursive;
-}
-
-.transparent-bubble-button{
-    background-color: transparent;
-    border: none;
-    margin: 0;
-    padding: 0;
-    text-align: inherit;
-    font: inherit;
-    border-radius: 0;
-    color: white;
-     padding: 10px;
-    cursor: pointer; /* Change cursor to pointer to indicate clickability */
-}
-.transparent-bubble-button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Light grey background on hover */
-    color: #000; /* Change text color on hover */
-    border-radius: 5px; /* Slight rounding of corners on hover */
-    padding: 10px;
 }

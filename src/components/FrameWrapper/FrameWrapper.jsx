@@ -10,7 +10,7 @@ import "./style.css";
 
 export const FrameWrapper = ({ className }) => {
   return (
-    <div className={`frame-wrapper ${className}`}>
+    <div className={`frame-wrapper ${className}`} title="Coming soon">
       <div className="frame-2">
         <div className="frame-3">
           <img className="image-3" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-9-4@2x.png" />
