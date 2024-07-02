@@ -1,6 +1,7 @@
 import {useState, useContext} from "react";
 import {ProfilesContext} from "../../../providers/ProfilesProvider";
 import {Link} from "react-router-dom";
+import RandomProfilePicture from "../../RandomProfilePictureGenerator/RandomProfilePictureGenerator";
 import "./PictureCard.css";
 
 export const PictureCard = ({profile}) => {
@@ -17,7 +18,8 @@ export const PictureCard = ({profile}) => {
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
              onClick={() => cleanProfile()} alt={currentProfile.name} title="Change Profile">
-                <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.picture_url} />
+                <RandomProfilePicture style="profile-image" profileImage={profile.picture_url} onClick={() => cleanProfile()} alt={currentProfile.name} />
+{/*                 <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.picture_url} /> */}
             </div>
             <div className="frame-23">
                 <div className="frame-24">
