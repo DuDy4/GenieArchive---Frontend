@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { HomePrimaryMenu } from './components/HomePrimaryMenu/HomePrimaryMenu';
 import { useAuth, useLoginWithRedirect } from '@frontegg/react';
 import { HomeOverview } from './screens/HomeOverview/HomeOverview';
+import SingleProfile from './components/SingleProfilePage/SingleProfile';
 import { TenantProvider } from './providers/TenantProvider';
 import { ProfilesProvider } from './providers/ProfilesProvider';
+import { ContactsProvider } from './providers/ContactsProvider';
 import { Route, Routes } from 'react-router-dom';
 import {TemplateHTML} from './screens/TemplateHTML';
 
@@ -26,35 +28,39 @@ function App() {
 
     console.log('User:', user);
   return (
-    <div className="App">
-      { isAuthenticated ? (
-        <div className="app-container">
-          <div className="main-menu">
-                <HomePrimaryMenu className="home-primary-menu-instance" user={user} />
-          </div>
-          <div className="main-and-footer">
 
-            <div className="main-content">
-                <TenantProvider user={user}>
-                    <ProfilesProvider>
-                        <Routes>
-                          <Route path="/" element={<TemplateHTML />} />
-                          <Route path="/profiles" element={<HomeOverview user={user} />} />
+                <div className="App">
+                  { isAuthenticated ? (
+                    <div className="app-container">
+                      <div className="main-menu">
+                            <HomePrimaryMenu className="home-primary-menu-instance" user={user} />
+                      </div>
+                      <div className="main-and-footer">
 
-                        </Routes>
-                    </ProfilesProvider>
-                </TenantProvider>
-            </div>
-            <Footer />
-          </div>
+                        <div className="main-content">
+                            <TenantProvider user={user}>
+                              <ProfilesProvider>
+                                  <ContactsProvider user={user}>
+                                    <Routes>
+                                      <Route path="/" element={<TemplateHTML />} />
+                                      <Route path="/profiles" element={<HomeOverview user={user} />} />
+                                      <Route path="/profiles/:name" element={<SingleProfile />} />
+                                    </Routes>
+                                    </ContactsProvider>
+                                </ProfilesProvider>
+                            </TenantProvider>
+                        </div>
+                        <Footer />
+                      </div>
 
-        </div>
-      ) : (
-        <div>
-                <div className="loading-spinner"></div>
-        </div>
-      )}
-    </div>
+                    </div>
+                  ) : (
+                    <div>
+                            <div className="loading-spinner"></div>
+                    </div>
+                  )}
+                </div>
+
   );
 }
 

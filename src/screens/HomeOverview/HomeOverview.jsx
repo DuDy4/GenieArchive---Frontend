@@ -20,7 +20,6 @@ import icon from "../../data/strength_icons/rectangle-26-1@2x.png";
 import { profile } from "../../providers/test_provider";
 import { TenantContext } from "../../providers/TenantProvider";
 import { ProfilesContext } from "../../providers/ProfilesProvider";
-import { ContactsProvider } from "../../providers/ContactsProvider";
 import ProfilesManager from "../../components/ChooseAProfile/ProfilesManager";
 
 
@@ -64,26 +63,17 @@ export const HomeOverview = ({user}) => {
 
   return (
     <>
-        { !connectionUp ? <div className="loading-spinner-container">
-                            <div className="loading-message">
-                                <h2>Waiting for connection to server...</h2>
-                            </div>
-                            <div className="loading-spinner"></div>
-                        </div>
+        { !connectionUp ?
+            <div className="loading-spinner-container">
+                <div className="loading-message">
+                    <h2>Waiting for connection to server...</h2>
+                </div>
+                <div className="loading-spinner"></div>
+            </div>
 
-                             :
-            Object.keys(profile).length > 0  ? (
-                <>
-                 <LeftColumn className="left-column" profile={profile} />
-                 <RightColumn className="right-column" profile={profile} />
-                </>
-             )
-            :
-            (
-                    <ContactsProvider>
-                        <ProfilesManager />
-                    </ContactsProvider>
-            )
+             :
+
+                <ProfilesManager />
         }
 
         <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" user={user} />

@@ -18,9 +18,7 @@ const ProfilesManager = () => {
 
   return (
     <div className="profile-manager">
-        {Object.keys(profile).length > 0 ? <h1>The chosen profile: {profile.name}</h1> :
-            (profiles.length && sfCreds ? <ProfileCards /> : <SalesforceFetcher />)
-        }
+        {profiles.length && sfCreds ? <ProfileCards /> : <SalesforceFetcher />}
     </div>
   );
 }
