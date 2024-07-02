@@ -10,6 +10,7 @@ export const ProfilesProvider = ({ children }) => {
     const [profiles, setProfiles] = useState([]);
     const [profile, setProfile] = useState({});
     const [connectionUp, setConnectionUp] = useState(false);
+    const [profilesLoading, setProfilesLoading] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
     const { tenantId } = useContext(TenantContext);
 
@@ -17,14 +18,17 @@ export const ProfilesProvider = ({ children }) => {
 
 
     const fetchProfiles = () => {
+        setProfilesLoading(true);
         axios.get(`${apiUrl}/v1/profiles/${tenantId}`, { withCredentials: true })
             .then(response => {
                 console.log('profiles:', response.data);
                 setProfiles(response.data);
                 setConnectionUp(true);
+                setProfilesLoading(false);
             })
             .catch(error => {
                 console.error('Error saving contacts:', error);
+                setProfilesLoading(false);
             });
         }
 
@@ -41,7 +45,8 @@ export const ProfilesProvider = ({ children }) => {
     }, []);
 
 
-    const value = {profiles, fetchProfiles, profile, chooseProfile, cleanProfile, connectionUp};
+    const value = {profiles, fetchProfiles, profile, chooseProfile, cleanProfile,
+        connectionUp, profilesLoading};
 
     return (
         <ProfilesContext.Provider value={value}>

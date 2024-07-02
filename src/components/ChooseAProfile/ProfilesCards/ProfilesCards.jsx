@@ -7,8 +7,8 @@ import RandomProfilePicture from '../../RandomProfilePictureGenerator/RandomProf
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProfileCards = () => {
-    const { profiles, profile, chooseProfile, fetchProfiles } = useContext(ProfilesContext);
-    const { fetchContacts, loading } = useContext(ContactsContext);
+    const { profiles, profile, chooseProfile, fetchProfiles, profilesLoading } = useContext(ProfilesContext);
+    const { fetchContacts, contactsLoading } = useContext(ContactsContext);
     const { logOutFromSalesforce } = useContext(TenantContext);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,13 +40,20 @@ const ProfileCards = () => {
                 </div>
 
                 <div className="icons-container">
-                    <button className="refresh-button" onClick={fetchProfiles}>
-                        <img width="48" height="48" src="https://img.icons8.com/color/48/life-cycle-female--v1.png"
-                         alt="life-cycle-female--v1" title="Refresh profiles"/>
-                    </button>
-                    {loading ? (
+                    {profilesLoading ? (
                         <button className="refresh-button loading" disabled>
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span className="spinner-border custom-size" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
+                    ) : (
+                        <button className="refresh-button" onClick={fetchProfiles}>
+                            <img width="48" height="48" src="https://img.icons8.com/color/48/life-cycle-female--v1.png"
+                             alt="life-cycle-female--v1" title="Refresh profiles"/>
+                        </button>
+                    )}
+                    {contactsLoading ? (
+                        <button className="refresh-button loading" disabled>
+                            <span className="spinner-border custom-size" role="status" aria-hidden="true"></span>
                             Loading...
                         </button>
                     ) : (
@@ -54,7 +61,7 @@ const ProfileCards = () => {
                             <img width="48" height="48" src="https://img.icons8.com/fluency/48/multiple-inputs.png"
                              alt="multiple-inputs" title="Bring more contacts" />
                         </button>
-                )}
+                    )}
                 </div>
             </div>
             <div className="profile-cards-list">

@@ -10,10 +10,10 @@ export const ContactsProvider = ({ user, children }) => {
     const [render, setRender] = useState(false);
     const [contacts, setContacts] = useState([]);
     const [selectedContacts, setSelectedContacts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [contactsLoading, setContactsLoading] = useState(false);
 
     const fetchContacts = async () => {
-        setLoading(true);
+        setContactsLoading(true);
         axios.get(`${apiUrl}/v1/salesforce/contacts/${tenantId}`, { withCredentials: true })
             .then(response => {
                 console.log('Contacts:', response.data);
@@ -105,11 +105,11 @@ export const ContactsProvider = ({ user, children }) => {
                 } else {
                     console.error('Failed to open new window.');
                 }
-                setLoading(false);
+                setContactsLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching contacts:', error);
-                setLoading(false);
+                setContactsLoading(false);
             });
     };
 
@@ -132,7 +132,7 @@ export const ContactsProvider = ({ user, children }) => {
         }
     }, [selectedContacts]);
 
-    const value = { fetchContacts, loading };
+    const value = { fetchContacts, contactsLoading };
 
     return (
         <ContactsContext.Provider value={value}>

@@ -143,6 +143,11 @@
     gap: 5px;
     padding: 5px;
     border-radius: 5px;
+}
 
+.spinner-border.custom-size {
+    height: 33px;
+    width: 33px;
+    font-size: 2.4rem; /* Adjust font size to fit the spinner size */
 }
 
