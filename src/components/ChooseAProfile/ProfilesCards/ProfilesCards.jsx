@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ProfilesContext } from '../../../providers/ProfilesProvider';
 import { ContactsContext } from '../../../providers/ContactsProvider';
 import { TenantContext } from '../../../providers/TenantProvider';
@@ -7,6 +8,7 @@ import RandomProfilePicture from '../../RandomProfilePictureGenerator/RandomProf
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProfileCards = () => {
+    const navigate = useNavigate();
     const { profiles, profile, chooseProfile, fetchProfiles, profilesLoading } = useContext(ProfilesContext);
     const { fetchContacts, contactsLoading } = useContext(ContactsContext);
     const { logOutFromSalesforce } = useContext(TenantContext);
@@ -21,6 +23,8 @@ const ProfileCards = () => {
     const handleProfileClick = (profile) => {
         console.log('Profile clicked:', profile);
         chooseProfile(profile);
+        let name = profile.name.split(' ').join('-').toLowerCase();
+        navigate(`/profiles/${name}`);
     };
 
     const handleSearchChange = (event) => {

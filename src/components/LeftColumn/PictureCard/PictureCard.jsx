@@ -1,11 +1,12 @@
 import {useState, useContext} from "react";
 import {ProfilesContext} from "../../../providers/ProfilesProvider";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
 import RandomProfilePicture from "../../RandomProfilePictureGenerator/RandomProfilePictureGenerator";
 import "./PictureCard.css";
 
 export const PictureCard = ({profile}) => {
-
+    const navigate = useNavigate();
     const [currentProfile, setCurrentProfile] = useState(profile); // Set current profile
     const [backgroundPicture, setBackgroundPicture] = useState(
         // {backgroundImage: 'url(../../data/images/${profile.name}.png)'});
@@ -13,11 +14,19 @@ export const PictureCard = ({profile}) => {
     const {cleanProfile} = useContext(ProfilesContext);
     const links = currentProfile.links || {};
 
+    const navigateToProfiles = () => {
+        console.log('Navigating to profiles');
+        cleanProfile();
+        navigate('/profiles');
+    };
+
+
+
     console.log('PictureCard - currentProfile:', currentProfile);
     return (
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
-             onClick={() => cleanProfile()} alt={currentProfile.name} title="Change Profile">
+             onClick={() => navigateToProfiles()} alt={currentProfile.name} title="Change Profile">
                 <RandomProfilePicture style="profile-image" profileImage={profile.picture_url} onClick={() => cleanProfile()} alt={currentProfile.name} />
 {/*                 <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.picture_url} /> */}
             </div>
