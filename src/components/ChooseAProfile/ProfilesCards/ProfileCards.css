@@ -2,47 +2,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-self: center;
     gap: 16px;
     padding: 16px;
+    width: 100%;
+    min-width: 100%
 }
 
 .profile-cards-list {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
     flex-wrap: wrap;
-}
-
-.refresh-button {
-    background-color: #ADD8E6;
-    border: none;
-    color: #004466;
-    padding: 10px 20px;
-    font-family: Poppins, Helvetica;
-    font-weight: 400;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-}
-
-.refresh-button:hover {
-    background-color: #87CEEB;
-    scale: 1.05;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
 }
 
 .profile-card {
     background-color: #f5eacb;
     border: 1px solid #ddd;
-    min-width: 170px;
-    max-width: 23%;
+    width: 23%; /* Fixed width for each card */
+    max-width: 300px; /* Optional: set a max width */
+    min-width: 200px; /* Optional: set a min width */
     border-radius: 2px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -52,6 +31,18 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        width: 45%; /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        width: 90%; /* Adjust width for very small screens */
+    }
 }
 
 .profile-card:hover {
@@ -76,7 +67,7 @@
     color: #999;
 }
 
-.company-and-position{
+.company-and-position {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -96,10 +87,18 @@
     height: auto;
 }
 
-.profiles-cards-bottom-buttons{
+.profiles-cards-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10%;
+    width: 100%;
+    padding: 16px;
+}
+
+.icons-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10%;
-    padding: 16px;
 }
