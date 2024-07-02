@@ -52,7 +52,7 @@ export const TopNavigation = ({ property1, className, groupClassName }) => {
       )}
 
       <div className="frame-19">
-        <div className="group">
+        <div className="group" title="Coming soon">
           <div className="frame-20">
             <div className="text-wrapper-13">Progress</div>
             <div className="overlap-group-wrapper">
@@ -72,7 +72,7 @@ export const TopNavigation = ({ property1, className, groupClassName }) => {
             </div>
           </div>
         </div>
-        <div className="frame-21">
+        <div className="frame-21" title="Coming soon">
           <div className="ellipse-3" />
           <div className={`group-2 ${groupClassName}`} />
         </div>

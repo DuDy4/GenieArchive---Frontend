@@ -95,3 +95,11 @@
     width: 100%;
     height: auto;
 }
+
+.profiles-cards-bottom-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10%;
+    padding: 16px;
+}
