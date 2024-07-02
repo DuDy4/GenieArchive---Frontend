@@ -5,6 +5,9 @@ import { useAuth, useLoginWithRedirect } from '@frontegg/react';
 import { HomeOverview } from './screens/HomeOverview/HomeOverview';
 import { TenantProvider } from './providers/TenantProvider';
 import { ProfilesProvider } from './providers/ProfilesProvider';
+import { Route, Routes } from 'react-router-dom';
+import {TemplateHTML} from './screens/TemplateHTML';
+
 import Footer from './screens/Footer/footer';
 import axios from 'axios';
 
@@ -30,10 +33,15 @@ function App() {
                 <HomePrimaryMenu className="home-primary-menu-instance" user={user} />
           </div>
           <div className="main-and-footer">
+
             <div className="main-content">
                 <TenantProvider user={user}>
                     <ProfilesProvider>
-                        <HomeOverview user={user}/>
+                        <Routes>
+                          <Route path="/" element={<TemplateHTML />} />
+                          <Route path="/profiles" element={<HomeOverview user={user} />} />
+
+                        </Routes>
                     </ProfilesProvider>
                 </TenantProvider>
             </div>

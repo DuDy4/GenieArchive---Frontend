@@ -32,8 +32,7 @@ export const TemplateHTML = () => {
                 <div className="text-wrapper-15">Company Name</div>
                 <div className="text-wrapper-16">Poodle Cyber security</div>
               </div>
-              <img className="line-2" alt="Line" src="https://c.animaapp.com/zzQb4IEW/img/line-2.svg" />
-              <div className="frame-27">
+                  <div className="frame-27">
                 <div className="text-wrapper-15">Position</div>
                 <div className="text-wrapper-17">Engineering Manager</div>
               </div>
@@ -167,7 +166,47 @@ export const TemplateHTML = () => {
               </div>
             </div>
             <div className="frame-22-wrapper">
-              <Frame className="frame-instance" />
+              <div className={`frame frame-instance`}>
+                    <div className="div-wrapper">
+                      <div className="text-wrapper">Good to know</div>
+                    </div>
+                    <div className="div">
+                      <div className="div">
+                        <div className="text-wrapper-2">RELEVANT CONNECTIONS</div>
+                        <div className="div-2">
+                          <img className="img" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-13-1@2x.png" />
+                          <img className="img" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-12-1@2x.png" />
+                          <img className="img" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-14-1@2x.png" />
+                          <img className="img" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-11-1@2x.png" />
+                          <img className="img" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-15-1@2x.png" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="div-3">
+                      <div className="text-wrapper-2">INTEREST IN</div>
+                      <div className="div-4">
+                        <img className="image" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-7-3@2x.png" />
+                        <img className="image" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-7-4@2x.png" />
+                        <img className="image" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-7-5@2x.png" />
+                        <img className="img" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-8-1@2x.png" />
+                      </div>
+                    </div>
+                    <div className="div-3">
+                      <div className="text-wrapper-2">TOP NEWS</div>
+                      <div className="div-5">
+                        <div className="ellipse-wrapper">
+                          <img className="ellipse" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-6-2@2x.png" />
+                        </div>
+                        <p className="p">Uploaded a new linkedin post about ”saving the whales”</p>
+                      </div>
+                      <div className="div-5">
+                        <div className="image-wrapper">
+                          <img className="image-2" alt="Image" src="https://c.animaapp.com/zzQb4IEW/img/image-12-1@2x.png" />
+                        </div>
+                        <p className="p">There was an article about Joe in Forbes</p>
+                      </div>
+                    </div>
+                  </div>
             </div>
           </div>
         </div>
