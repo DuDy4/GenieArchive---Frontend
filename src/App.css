@@ -28,7 +28,7 @@
     margin-bottom: 50px; /* Adjust to match the footer height */
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
 }
 

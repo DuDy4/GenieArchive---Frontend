@@ -42,7 +42,7 @@ function getDirectImageLink(fileLink) {
 
 export const HomeOverview = ({user}) => {
     const { tenantId, sfCreds } = useContext(TenantContext);
-    const {profile} = useContext(ProfilesContext);
+    const {profile, connectionUp} = useContext(ProfilesContext);
     console.log('tenantId:', tenantId);
     console.log('Salesforce creds in HomeOverview:', sfCreds);
 
@@ -64,8 +64,15 @@ export const HomeOverview = ({user}) => {
 
   return (
     <>
+        { !connectionUp ? <div className="loading-spinner-container">
+                            <div className="loading-message">
+                                <h2>Waiting for connection to server...</h2>
+                            </div>
+                            <div className="loading-spinner"></div>
+                        </div>
 
-        {Object.keys(profile).length > 0  ? (
+                             :
+            Object.keys(profile).length > 0  ? (
                 <>
                  <LeftColumn className="left-column" profile={profile} />
                  <RightColumn className="right-column" profile={profile} />
@@ -76,8 +83,8 @@ export const HomeOverview = ({user}) => {
                     <ContactsProvider>
                         <ProfilesManager />
                     </ContactsProvider>
-            )}
-
+            )
+        }
 
         <TopNavigation className="top-navigation-instance" groupClassName="top-navigation-2" property1="nav-1" user={user} />
     </>

@@ -215,6 +215,7 @@
   height: 18px !important;
   position: relative !important;
   width: 18px !important;
+  cursor: pointer;
 }
 
 .line-3 {

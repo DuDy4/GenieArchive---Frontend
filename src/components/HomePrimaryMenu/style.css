@@ -90,6 +90,7 @@
   flex: 0 0 auto;
   gap:12px;
   position: relative;
+  cursor: pointer;
 }
 
 .home-primary-menu .ellipse-2 {

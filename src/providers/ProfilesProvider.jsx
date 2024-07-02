@@ -9,6 +9,7 @@ export const ProfilesProvider = ({ children }) => {
 
     const [profiles, setProfiles] = useState([]);
     const [profile, setProfile] = useState({});
+    const [connectionUp, setConnectionUp] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
     const { tenantId } = useContext(TenantContext);
 
@@ -20,6 +21,7 @@ export const ProfilesProvider = ({ children }) => {
             .then(response => {
                 console.log('profiles:', response.data);
                 setProfiles(response.data);
+                setConnectionUp(true);
             })
             .catch(error => {
                 console.error('Error saving contacts:', error);
@@ -39,7 +41,7 @@ export const ProfilesProvider = ({ children }) => {
     }, []);
 
 
-    const value = {profiles, fetchProfiles, profile, chooseProfile, cleanProfile};
+    const value = {profiles, fetchProfiles, profile, chooseProfile, cleanProfile, connectionUp};
 
     return (
         <ProfilesContext.Provider value={value}>

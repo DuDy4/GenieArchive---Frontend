@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: center;
     gap: 16px;
     padding: 16px;
 }
@@ -41,6 +42,7 @@
     background-color: #f5eacb;
     border: 1px solid #ddd;
     min-width: 170px;
+    max-width: 23%;
     border-radius: 2px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -72,4 +74,24 @@
     margin: 5px 0 0 0;
     font-size: 14px;
     color: #999;
+}
+
+.company-and-position{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.profile-card-img {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* Set the maximum height */
+    object-fit: cover;
+    border-radius: 2px; /* Match the card border radius */
+}
+
+.fixed-size {
+    width: 100%;
+    height: auto;
 }
