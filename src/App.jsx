@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { HomePrimaryMenu } from './components/HomePrimaryMenu/HomePrimaryMenu';
 import { useAuth, useLoginWithRedirect } from '@frontegg/react';
 import { HomeOverview } from './screens/HomeOverview/HomeOverview';
+import {HomeProfileIn} from './components/figma-anime/src/screens/HomeProfileIn';
 import SingleProfile from './components/SingleProfilePage/SingleProfile';
 import { TenantProvider } from './providers/TenantProvider';
 import { ProfilesProvider } from './providers/ProfilesProvider';
@@ -45,6 +46,7 @@ function App() {
                                       <Route path="/" element={<TemplateHTML />} />
                                       <Route path="/profiles" element={<HomeOverview user={user} />} />
                                       <Route path="/profiles/:name" element={<SingleProfile />} />
+                                      <Route path="/profiles/:name/before-the-meeting" element={<HomeProfileIn />} />
                                     </Routes>
                                     </ContactsProvider>
                                 </ProfilesProvider>

@@ -21,7 +21,7 @@
                 }
 
                 // Listen for messages from the popup
-                oauthWindow.addEventListener('message', handleMessage, false);
+                window.addEventListener('message', handleMessage, false);
 
                 function handleMessage(event) {
                     console.log('Received message:', event.data);

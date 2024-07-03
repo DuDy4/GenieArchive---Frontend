@@ -772,4 +772,6 @@
     margin-bottom: 50px;
     display: flex;
     overflow-y: auto;
+    background: var(--bg-gray, #FAFAFA);
+   
 }

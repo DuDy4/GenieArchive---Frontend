@@ -21,7 +21,7 @@ export const ProfilesProvider = ({ children }) => {
         setProfilesLoading(true);
         axios.get(`${apiUrl}/v1/profiles/${tenantId}`, { withCredentials: true })
             .then(response => {
-                console.log('profiles:', response.data);
+                console.log('ProfileProvider - profiles:', response.data);
                 setProfiles(response.data);
                 setConnectionUp(true);
                 setProfilesLoading(false);

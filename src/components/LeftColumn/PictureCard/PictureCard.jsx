@@ -1,4 +1,4 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import {ProfilesContext} from "../../../providers/ProfilesProvider";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -9,10 +9,10 @@ export const PictureCard = ({profile}) => {
     const navigate = useNavigate();
     const [currentProfile, setCurrentProfile] = useState(profile); // Set current profile
     const [backgroundPicture, setBackgroundPicture] = useState(
-        // {backgroundImage: 'url(../../data/images/${profile.name}.png)'});
         {backgroundImage: 'url(${profile.image})'});
     const {cleanProfile} = useContext(ProfilesContext);
-    const links = currentProfile.links || {};
+
+    const links = currentProfile ? currentProfile.links : {};
 
     const navigateToProfiles = () => {
         console.log('Navigating to profiles');
@@ -20,34 +20,37 @@ export const PictureCard = ({profile}) => {
         navigate('/profiles');
     };
 
+    useEffect(() => {
+        setCurrentProfile(profile);
+        }, [profile]);
 
 
     console.log('PictureCard - currentProfile:', currentProfile);
+    console.log('PictureCard - profile:', profile);
     return (
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
-             onClick={() => navigateToProfiles()} alt={currentProfile.name} title="Change Profile">
-                <RandomProfilePicture style="profile-image" profileImage={profile.picture_url} onClick={() => cleanProfile()} alt={currentProfile.name} />
-{/*                 <img className="profile-image" onClick={() => cleanProfile()} alt={currentProfile.name} src={profile.picture_url} /> */}
+             alt={currentProfile ? currentProfile.name : profile.name} title="Change Profile">
+                <RandomProfilePicture style="profile-image" profileImage={profile ? profile.picture_url : null} onClick={() => cleanProfile()} alt={currentProfile.name} />
             </div>
             <div className="frame-23">
                 <div className="frame-24">
                     <div className="text-wrapper-14">{currentProfile.name}</div>
                     <div className="frame-25">
-                        {links.linkedin ?
+                        {links && links.linkedin ?
                             <Link to={links.linkedin} target="_blank" rel="noopener noreferrer">
                                 <img className="ellipse-4" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-6-1@2x.png" />
                             </Link>
                              : null
                              }
 
-                        {links.twitter ?
+                        {links && links.twitter ?
                             <Link to={links.twitter} target="_blank" rel="noopener noreferrer">
                                 <img className="ellipse-5" alt="Ellipse" src="https://c.animaapp.com/zzQb4IEW/img/ellipse-7@2x.png" />
                             </Link>
                             : null
                             }
-                        {links.facebook ?
+                        {links && links.facebook ?
                             <Link to={links.facebook} target="_blank" rel="noopener noreferrer">
                                 <img className="ellipse-7" alt="Ellipse" src="https://iconape.com/wp-content/files/wg/353362/png/facebook-icon-circle-logo.png" />
                             </Link>

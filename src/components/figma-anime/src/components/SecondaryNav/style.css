@@ -1,0 +1,127 @@
+.secondary-nav {
+  align-items: flex-start;
+  background-color: #0073ea0d;
+  border-radius: 83px;
+  display: inline-flex;
+  padding: 4px;
+  position: relative;
+}
+
+.secondary-nav .frame-14 {
+  align-items: center;
+  border-radius: 76px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  height: 34px;
+  padding: 6px 18px;
+  position: relative;
+}
+
+.secondary-nav .text-wrapper-9 {
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 19.6px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.secondary-nav .frame-15 {
+  align-items: center;
+  border-radius: 76px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  height: 34px;
+  padding: 6px 18px;
+  position: relative;
+}
+
+.secondary-nav .text-wrapper-10 {
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 19.6px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.secondary-nav .frame-16 {
+  align-items: center;
+  border-radius: 76px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  height: 34px;
+  padding: 6px 18px;
+  position: relative;
+}
+
+.secondary-nav .text-wrapper-11 {
+  color: var(--text-gray);
+  font-family: "Poppins", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 19.6px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.secondary-nav .frame-17 {
+  align-items: center;
+  border-radius: 76px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  height: 34px;
+  padding: 6px 18px;
+  position: relative;
+}
+
+.secondary-nav .hugeicons {
+  height: 18px !important;
+  position: relative !important;
+  width: 18px !important;
+}
+
+.secondary-nav .frame-18 {
+  align-items: center;
+  border-radius: 76px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  height: 34px;
+  padding: 6px 18px;
+  position: relative;
+}
+
+.secondary-nav .default {
+  background-color: #ffffff;
+}
+
+.secondary-nav .variant-2 {
+  background-color: #ffffff;
+}
+
+.secondary-nav .frame-14.default .text-wrapper-9 {
+  color: var(--primary-blue);
+}
+
+.secondary-nav .frame-14.variant-2 .text-wrapper-9 {
+  color: var(--text-gray);
+}
+
+.secondary-nav .frame-15.default .text-wrapper-10 {
+  color: var(--text-gray);
+}
+
+.secondary-nav .frame-15.variant-2 .text-wrapper-10 {
+  color: var(--primary-blue);
+}

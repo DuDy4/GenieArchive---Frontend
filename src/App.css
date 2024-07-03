@@ -39,7 +39,7 @@
     position: relative;
     bottom: 0; /* Stick to the bottom */
     background-color: #f1f1f1; /* Example background color */
-    width: calc(77% - 270px); /* Adjust for the sidebar width */
+    width: calc(100%); /* Adjust for the sidebar width */
 }
 
 .loading-spinner {
