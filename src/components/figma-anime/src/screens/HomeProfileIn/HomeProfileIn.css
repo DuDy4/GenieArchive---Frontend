@@ -38,6 +38,7 @@
   padding: 16px;
   border-radius: 16px;
   width: 113%;
+  min-width: 300px; /* Set a minimum width for the cards */
 }
 
 .home-profile-in .frame-22 {
@@ -80,6 +81,15 @@
 }
 
 .home-profile-in .frame-26 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  position: relative;
+  flex-direction: column;
+}
+
+.home-profile-in .frame-260 {
   align-items: flex-start;
   display: inline-flex;
   flex: 0 0 auto;
@@ -1194,4 +1204,9 @@
     flex-direction: column;
     gap: 12px;
     position: relative;
+}
+
+.home-profile-in .line .vertical {
+    height: 23px
+    width: 1px;
 }

@@ -91,7 +91,7 @@ const RightColumn = ({profile}) => {
               <div className="frame-24">
                 <div className="frame-25">
                   <div className="text-wrapper-14">Get to know {currentProfile ? firstName : 'Joe'}</div>
-                  <div className="frame-26">
+                  <div className="frame-260">
                     <img className="rectangle-4" alt="Rectangle" src={icons_routes['Analytical']} />
                     <img className="rectangle-4" alt="Rectangle" src={icons_routes['Context']} />
                     <img className="rectangle-4" alt="Rectangle" src={icons_routes['Futuristic']} />
@@ -165,7 +165,7 @@ const RightColumn = ({profile}) => {
                     <img
                       className="oui-cross-in-circle"
                       alt="Oui cross in circle"
-                      src="/img/oui-cross-in-circle-filled.svg"
+                      src="../../../static/img/oui-cross-in-circle-filled.svg"
                     />
                     <p className="text-wrapper-16">
                       Build Rapport: Start by discussing Joe&#39;s recent achievements and future plans.
@@ -175,7 +175,7 @@ const RightColumn = ({profile}) => {
                     <img
                       className="oui-cross-in-circle"
                       alt="Oui cross in circle"
-                      src="/img/oui-cross-in-circle-filled-1.svg"
+                      src="../../../static/img/oui-cross-in-circle-filled-1.svg"
                     />
                     <p className="text-wrapper-16">
                       Use Visual Aids: Incorporate charts or projections that highlight future benefits and growth
@@ -186,7 +186,7 @@ const RightColumn = ({profile}) => {
                     <img
                       className="oui-cross-in-circle"
                       alt="Oui cross in circle"
-                      src="/img/oui-cross-in-circle-filled-2.svg"
+                      src="../../../static/img/oui-cross-in-circle-filled-2.svg"
                     />
                     <p className="text-wrapper-16">
                       Follow-Up: Send materials that emphasize continuous improvement and future developments related to

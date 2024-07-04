@@ -17,34 +17,34 @@ export const FrameWrapper = ({ className, text = "Uploaded a new linkedin postâ€
         <div className="frame-9">
           <div className="text-wrapper-8">RELEVANT CONNECTIONS</div>
           <div className="frame-10">
-            <img className="img-2" alt="Ellipse" src="/img/ellipse-13.png" />
-            <img className="img-2" alt="Ellipse" src="/img/ellipse-12.png" />
-            <img className="img-2" alt="Ellipse" src="/img/ellipse-14.png" />
-            <img className="img-2" alt="Ellipse" src="/img/ellipse-11.png" />
-            <img className="img-2" alt="Ellipse" src="/img/ellipse-15.png" />
+            <img className="img-2" alt="Ellipse" src="../../../static/img/ellipse-13.png" />
+            <img className="img-2" alt="Ellipse" src="../../../static/img/ellipse-12.png" />
+            <img className="img-2" alt="Ellipse" src="../../../static/img/ellipse-14.png" />
+            <img className="img-2" alt="Ellipse" src="../../../static/img/ellipse-11.png" />
+            <img className="img-2" alt="Ellipse" src="../../../static/img/ellipse-15.png" />
           </div>
         </div>
       </div>
       <div className="frame-11">
         <div className="text-wrapper-8">INTEREST IN</div>
         <div className="frame-12">
-          <img className="image-2" alt="Image" src="/img/image-7.png" />
-          <img className="image-2" alt="Image" src="/img/image-7-1.png" />
-          <img className="image-2" alt="Image" src="/img/image-7-2.png" />
-          <img className="img-2" alt="Image" src="/img/image-8.png" />
+          <img className="image-2" alt="Image" src="../../../static/img/image-7.png" />
+          <img className="image-2" alt="Image" src="../../../static/img/image-7-1.png" />
+          <img className="image-2" alt="Image" src="../../../static/img/image-7-2.png" />
+          <img className="img-2" alt="Image" src="../../../static/img/image-8.png" />
         </div>
       </div>
       <div className="frame-11">
         <div className="text-wrapper-8">TOP NEWS</div>
         <div className="frame-13">
           <div className="ellipse-wrapper">
-            <img className="ellipse-2" alt="Ellipse" src="/img/ellipse-6.png" />
+            <img className="ellipse-2" alt="Ellipse" src="../../../static/img/ellipse-6.png" />
           </div>
           <p className="p">{text}</p>
         </div>
         <div className="frame-13">
           <div className="image-wrapper">
-            <img className="image-3" alt="Image" src="/img/image-12.png" />
+            <img className="image-3" alt="Image" src="../../../static/img/image-12.png" />
           </div>
           <p className="p">There was an article about Joe in Forbes</p>
         </div>

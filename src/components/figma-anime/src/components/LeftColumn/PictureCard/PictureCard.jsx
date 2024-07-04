@@ -62,17 +62,16 @@ export const PictureCard = ({profile}) => {
                         <div className="text-wrapper-15">Company Name</div>
                         <div className="text-wrapper-16">{currentProfile.company}</div>
                     </div>
-                <div className="frame-27">
-                    <div className="text-wrapper-15">Position</div>
-                    <div className="text-wrapper-17">{currentProfile.position}</div>
+{/*                     <img className="line vertical" alt="Line" src="../../../static/img/line-2.svg" /> */}
+                    <div className="frame-27">
+                        <div className="text-wrapper-15">Position</div>
+                        <div className="text-wrapper-17">{currentProfile.position}</div>
+                    </div>
                 </div>
-
-            </div>
-
             </div>
             <img className="line" alt="Line" src="https://c.animaapp.com/zzQb4IEW/img/line-1.svg" />
             <div className="frame-23">
-                <div className="text-wrapper-18">Data Source</div>
+                <div className="text-wrapper-15">Data Source</div>
                 <div className="frame-29">
                     <img className="image" alt="Zoom" title="Zoom" src="https://img.icons8.com/color/48/zoom.png" />
                     <img className="image-2" alt="Google" title="Google" src="https://img.icons8.com/color/48/google-logo.png" />
