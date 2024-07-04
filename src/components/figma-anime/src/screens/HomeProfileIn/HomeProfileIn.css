@@ -25,6 +25,21 @@
   position: relative;
 }
 
+.home-profile-in .frame-230 {
+  align-items: flex-start;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  position: relative;
+  padding: 16px;
+  border-radius: 16px;
+  width: 113%;
+}
+
 .home-profile-in .frame-22 {
     gap: 16px;
     height: 35.4%;
@@ -70,6 +85,7 @@
   flex: 0 0 auto;
   gap: 10px;
   position: relative;
+  flex-direction: row;
 }
 
 .home-profile-in .rectangle-4 {
@@ -658,7 +674,7 @@
   overflow: hidden;
   padding: 16px;
   position: relative;
-  width: 103%;
+  width: 100%;
 }
 
 .home-profile-in .overlap-wrapper {

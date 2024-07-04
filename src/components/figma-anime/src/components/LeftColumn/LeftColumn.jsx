@@ -1,13 +1,26 @@
 import { PictureCard } from './PictureCard/PictureCard';
+import React, { useState, useEffect } from 'react';
 
 
 const LeftColumn = ({profile}) => {
+
+    const [currentProfile, setCurrentProfile] = useState({profile});
+    const name = currentProfile ? currentProfile.name : '';
+    const firstName = name ? name.split(' ')[0] : '';
+    console.log('LeftColumn: Name:', name);
+    console.log('LeftColumn: First Name:', firstName);
+
+    useEffect(() => {
+        console.log('LeftColumn: Profile:', profile);
+        setCurrentProfile(profile);
+    }, [profile]);
+
 
     return (
         <div className="left-column">
             <PictureCard profile={profile} />
             <div className="frame-43">
-              <div className="text-wrapper-14">Joe’s Playbook</div>
+              {currentProfile && <div className="text-wrapper-14">{firstName}’s Playbook</div>}
               <div className="overlap-wrapper">
                 <div className="overlap">
                   <img className="line-3" alt="Line" src="/img/line-10.svg" />

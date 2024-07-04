@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IcRoundInfo2 } from "../../icons/IcRoundInfo2";
 import { Rectangle } from "../Rectangle";
 import { FrameWrapper } from "../FrameWrapper";
@@ -12,10 +12,15 @@ import ellipse from './Ellipse-5.svg';
 
 
 const RightColumn = ({profile}) => {
-    console.log('RightColumn - profile:', profile);
+    const [currentProfile, setCurrentProfile] = useState({profile});
+    const name = currentProfile ? currentProfile.name : '';
+    const firstName = name ? name.split(' ')[0] : '';
+    console.log('LeftColumn: Name:', name);
+    console.log('LeftColumn: First Name:', firstName);
 
     useEffect(() => {
-        console.log('RightColumn - profile:', profile);
+        console.log('LeftColumn: Profile:', profile);
+        setCurrentProfile(profile);
     }, [profile]);
 
     return (
@@ -82,16 +87,16 @@ const RightColumn = ({profile}) => {
                     </div>
                 </div>
             </div>
-            <div className="frame-23">
+            <div className="frame-230">
               <div className="frame-24">
                 <div className="frame-25">
-                  <div className="text-wrapper-14">Get to know Joe</div>
+                  <div className="text-wrapper-14">Get to know {currentProfile ? firstName : 'Joe'}</div>
                   <div className="frame-26">
-                    <img className="rectangle-4" alt="Rectangle" src="/img/rectangle-26-1.png" />
-                    <img className="rectangle-4" alt="Rectangle" src="/img/rectangle-33.png" />
-                    <img className="rectangle-4" alt="Rectangle" src="/img/rectangle-32.png" />
-                    <img className="rectangle-5" alt="Rectangle" src="/img/rectangle-26-2.png" />
-                    <img className="rectangle-5" alt="Rectangle" src="/img/rectangle-26-3.png" />
+                    <img className="rectangle-4" alt="Rectangle" src={icons_routes['Analytical']} />
+                    <img className="rectangle-4" alt="Rectangle" src={icons_routes['Context']} />
+                    <img className="rectangle-4" alt="Rectangle" src={icons_routes['Futuristic']} />
+                    <img className="rectangle-5" alt="Rectangle" src={icons_routes['Ideation']} />
+                    <img className="rectangle-5" alt="Rectangle" src={icons_routes['Input']} />
                   </div>
                 </div>
               </div>
