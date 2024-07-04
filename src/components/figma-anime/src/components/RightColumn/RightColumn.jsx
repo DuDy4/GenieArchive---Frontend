@@ -9,18 +9,17 @@ import SpiderChart from "../../../../SpiderChart/SpiderChart";
 import ellipse from './Ellipse-5.svg';
 
 
-
-
 const RightColumn = ({profile}) => {
     const [currentProfile, setCurrentProfile] = useState({profile});
-    const name = currentProfile ? currentProfile.name : '';
+    const [name, setName] = useState(profile ? profile.name : '');
     const firstName = name ? name.split(' ')[0] : '';
-    console.log('LeftColumn: Name:', name);
-    console.log('LeftColumn: First Name:', firstName);
+    console.log('RightColumn: Name:', name);
+    console.log('RightColumn: First Name:', firstName);
 
     useEffect(() => {
-        console.log('LeftColumn: Profile:', profile);
+        console.log('RightColumn: Profile:', profile);
         setCurrentProfile(profile);
+        setName(profile ? profile.name : '')
     }, [profile]);
 
     return (
@@ -46,7 +45,8 @@ const RightColumn = ({profile}) => {
                         <div className="text-wrapper-18">Top personality</div>
                     </div>
                     {console.log('HomeOverview - profile.strengths:', profile.strengths) }
-                    {Object.keys(profile).length > 0 && <SpiderChart data={ profile.strengths.map((strength, index) => ({
+                    {console.log('HomeOverview - profile:', profile)}
+                    {Object.keys(profile).length > 0 && profile.strengths && <SpiderChart data={ profile.strengths.map((strength, index) => ({
                                                  name: strength.strength_name || strength.strengths_name,
                                                  image: icons_routes[strength.strength_name || strength.strengths_name],
                                                  score: strength.score

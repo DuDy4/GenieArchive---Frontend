@@ -20,8 +20,11 @@ export const HomeProfileIn = () => {
 
 
         useEffect(() => {
-            const profile = profiles.find(profile => profile.name.toLowerCase() === name.toLowerCase());
-            setCurrentProfile(profile);
+            if (profiles){
+                console.log('BeforeTheMeeting: Profiles:', profiles);
+                const profile = profiles.find(profile => profile.name.toLowerCase() === name.toLowerCase());
+                setCurrentProfile(profile);
+                }
         }, [name, profiles]);
 
 
@@ -32,14 +35,8 @@ export const HomeProfileIn = () => {
             <LeftColumn profile={currentProfile} />
             <RightColumn profile={currentProfile} />
         </div>)
-
         :
-
         <div className="loading-spinner"></div>}
-
-
-
-
 
         <TopNavigation
           className="top-navigation-instance"
