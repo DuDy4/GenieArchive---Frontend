@@ -75,8 +75,9 @@ const ProfileCards = () => {
                       <div className="card-body">
                         <h5 className="card-title">{profile.name}</h5>
                         <div className="company-and-position">
-                            <p className="card-text">{profile.position},</p>
-                            <p className="card-text">{profile.company}</p>
+                            {profile.position && <p className="card-text">{profile.position}</p>}
+                            {profile.position && profile.company && ','}
+                            {profile.company && <p className="card-text">{profile.company}</p>}
                         </div>
                       </div>
                     </div>
