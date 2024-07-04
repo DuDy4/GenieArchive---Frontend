@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: row;
   justify-content: start;
-  width: 100%;
+  width: 1400px;
 }
 
 .home-profile-in .div-4 {
@@ -43,7 +43,8 @@
 
 .home-profile-in .frame-22 {
     gap: 16px;
-    height: 35.4%;
+    height: 32%-35.4%;
+    width: 100%;
 }
 
 .home-profile-in .frame-25 {
@@ -160,6 +161,15 @@
     line-height: 150%; /* 18px */
 }
 
+.home-profile-in .text-wrapper-150 {
+    color: var(--text-black, #9F9F9F);
+    font-family: "Poppins-Medium", Helvetica;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+
 .home-profile-in .frame-29 {
   align-items: center;
   align-self: stretch;
@@ -177,12 +187,14 @@
 }
 
 .home-profile-in .text-wrapper-16 {
-    color: var(--text-black, #37455C);
+    color: var(--text-grey, #37455C);
     font-family: Poppins;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: 150%; /* 21px */
+    width: inherit;
+    text-wrap: wrap;
 }
 
 .home-profile-in .frame-30 {
@@ -941,17 +953,6 @@
   top: 638px;
 }
 
-.home-profile-in .top-navigation-instance {
-  left: 240px !important;
-  position: relative;
-  top: 0 !important;
-  height: 10%;
-}
-
-.home-profile-in .top-navigation-2 {
-  background-image: url(../../../static/img/hugeicons-notification-02-11.svg) !important;
-}
-
 .home-profile-in .frame {
   align-items: flex-start;
   background-color: #ffffff;
@@ -1190,6 +1191,7 @@
     border: 1px solid;
     border-color: var(--line);
     border-radius: 16px;
+    height: 32%-35%;
     display: flex;
     flex-direction: row;
     gap: 16px;

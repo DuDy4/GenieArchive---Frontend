@@ -106,7 +106,7 @@ const RightColumn = ({profile}) => {
               </p>
               <div className="frame-27">
                 <div className="frame-28">
-                  <div className="text-wrapper-15">Phrases to use:</div>
+                  <div className="text-wrapper-150">Phrases to use</div>
                   <div className="frame-29">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
@@ -123,7 +123,7 @@ const RightColumn = ({profile}) => {
                   </div>
                 </div>
                 <div className="frame-30">
-                  <div className="text-wrapper-15">Best practices</div>
+                  <div className="text-wrapper-150">Best practices</div>
                   <div className="frame-31">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
@@ -160,7 +160,7 @@ const RightColumn = ({profile}) => {
                   </div>
                 </div>
                 <div className="frame-30">
-                  <div className="text-wrapper-15">Avoid</div>
+                  <div className="text-wrapper-150">Avoid</div>
                   <div className="frame-29">
                     <img
                       className="oui-cross-in-circle"

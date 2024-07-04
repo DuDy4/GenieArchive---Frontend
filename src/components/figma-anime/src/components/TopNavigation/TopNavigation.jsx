@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { HugeiconsNotification024 } from "../../icons/HugeiconsNotification024";
 import { SecondaryNav } from "../SecondaryNav";
-import "./style.css";
 
 export const TopNavigation = ({ property1, className, secondaryNavProperty1 = "default", groupClassName }) => {
   return (

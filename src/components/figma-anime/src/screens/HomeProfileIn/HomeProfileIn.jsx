@@ -5,7 +5,7 @@ import { Frame } from "../../components/Frame";
 import LeftColumn from "../../components/LeftColumn/LeftColumn";
 import RightColumn from "../../components/RightColumn/RightColumn";
 import { Rectangle } from "../../components/Rectangle";
-import { TopNavigation } from "../../components/TopNavigation";
+import { TopNavigation } from "../../../../TopNavigation";
 import "./HomeProfileIn.css";
 
 export const HomeProfileIn = () => {
