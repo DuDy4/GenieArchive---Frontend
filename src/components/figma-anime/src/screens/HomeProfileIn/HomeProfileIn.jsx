@@ -23,14 +23,14 @@ export const HomeProfileIn = () => {
             if (profiles){
                 console.log('BeforeTheMeeting: Profiles:', profiles);
                 const profile = profiles.find(profile => profile.name.toLowerCase() === name.toLowerCase());
-                setCurrentProfile(profile);
+                setCurrentProfile(profile ? profile : {});
                 }
         }, [name, profiles]);
 
 
   return (
     <div className="home-profile-in">
-        {currentProfile ?
+        {Object.keys(currentProfile).length > 0 ?
         (<div className="columns">
             <LeftColumn profile={currentProfile} />
             <RightColumn profile={currentProfile} />
