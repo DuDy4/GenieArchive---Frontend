@@ -32,15 +32,42 @@ const customLabelPlugin = {
         ctx.fillStyle = 'black'; // Custom text color
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+
+        // Split text into lines
+        const maxWidth = 80; // Maximum width of each line
+        const lines = splitTextIntoLines(ctx, label, maxWidth);
+
         const angle = (index / chart.data.labels.length) * (2 * Math.PI) - Math.PI / 2;
-        const x = centerX + (radius + 20) * Math.cos(angle); // Adjust position
-        const y = centerY + (radius + 20) * Math.sin(angle); // Adjust position
-        ctx.fillText(label, x, y);
+        const x = centerX + (radius + 1) * Math.cos(angle); // Adjust position
+        const y = centerY + (radius + 1) * Math.sin(angle); // Adjust position
+        lines.forEach((line, i) => {
+          ctx.fillText(line, x, y + i * 16); // Adjust line height as needed
+        });
         ctx.restore();
       });
     });
   }
 };
+
+// Helper function to split text into lines
+function splitTextIntoLines(ctx, text, maxWidth) {
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = words[0];
+
+  for (let i = 1; i < words.length; i++) {
+    const word = words[i];
+    const width = ctx.measureText(currentLine + ' ' + word).width;
+    if (width < maxWidth) {
+      currentLine += ' ' + word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  lines.push(currentLine);
+  return lines;
+}
 
 Chart.register(customLabelPlugin);
 
