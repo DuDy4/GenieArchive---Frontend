@@ -31,6 +31,7 @@ export const PictureCard = ({profile}) => {
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
              alt={currentProfile ? currentProfile.name : profile.name} title="Change Profile">
+                <img className="back-button-logo" onClick={() => navigateToProfile()} src="https://img.icons8.com/stickers/100/u-turn-to-left.png" alt="Back" title="Back" />
                 <RandomProfilePicture style="profile-image" profileImage={profile ? profile.picture_url : null} onClick={() => cleanProfile()} alt={currentProfile.name} />
             </div>
             <div className="frame-23">

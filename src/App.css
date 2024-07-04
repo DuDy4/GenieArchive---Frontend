@@ -72,3 +72,23 @@
    font-size: 22px;
    font-family: cursive;
 }
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.back-button-logo{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: fixed;
+}
+
+.back-button-logo:hover{
+    background-color: #d1d1d1;
+    border-radius: 30%;
+}

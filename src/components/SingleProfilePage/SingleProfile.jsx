@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ProfilesContext } from '../../providers/ProfilesProvider';
 import { LeftColumn } from '../LeftColumn/LeftColumn';
 import { RightColumn } from '../RightColumn/RightColumn';
@@ -15,14 +15,19 @@ const SingleProfile = () => {
     const profile = profiles.find(profile => profile.name.toLowerCase() === name);
     console.log("Profile: ", profile)
 
+    const navigate = useNavigate();
+
+    const navigateToProfile = () => {
+        navigate(`/profiles/}`);
+    }
+
     return (
             <>
                 {profile ? (
-                    <>
-
+                    <div className="columns">
                         <LeftColumn className="left-column" profile={profile} />
                         <RightColumn className="right-column" profile={profile} />
-                    </>
+                    </div>
                 ) : (
                     <div>Profile not found</div>
                 )}

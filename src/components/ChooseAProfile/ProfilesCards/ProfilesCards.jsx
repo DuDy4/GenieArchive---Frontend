@@ -84,8 +84,6 @@ const ProfileCards = () => {
                 ))}
                 {filteredProfiles.length === 0 && <div>No profiles found</div>}
             </div>
-
-
         </div>
     );
 };

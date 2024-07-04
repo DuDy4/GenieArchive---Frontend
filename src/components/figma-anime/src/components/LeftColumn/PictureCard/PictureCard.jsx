@@ -14,7 +14,6 @@ export const PictureCard = ({profile}) => {
 
     const navigateToProfiles = () => {
         console.log('Navigating to profiles');
-        cleanProfile();
         navigate('/profiles');
     };
 
@@ -29,6 +28,7 @@ export const PictureCard = ({profile}) => {
         <div className="frame-22">
             <div className="group-3" style={backgroundPicture}
              alt={currentProfile ? currentProfile.name : profile.name} title="Change Profile">
+                 <img className="back-button-logo" onClick={() => navigateToProfiles()} src="https://img.icons8.com/stickers/100/u-turn-to-left.png" alt="Back" title="Back" />
                 <RandomProfilePicture style="profile-image" profileImage={profile ? profile.picture_url : null} onClick={() => cleanProfile()} alt={currentProfile.name} />
             </div>
             <div className="frame-23">
@@ -73,6 +73,7 @@ export const PictureCard = ({profile}) => {
             <div className="frame-23">
                 <div className="text-wrapper-15">Data Source</div>
                 <div className="frame-29">
+                    <img className="image" alt="LinkedIn" title="LinkedIn" src="https://img.icons8.com/fluency/48/linkedin.png" />
                     <img className="image" alt="Zoom" title="Zoom" src="https://img.icons8.com/color/48/zoom.png" />
                     <img className="image-2" alt="Google" title="Google" src="https://img.icons8.com/color/48/google-logo.png" />
                     <img className="image-3" alt="Salesforce" title="Salesforce" src="https://img.icons8.com/color/48/salesforce.png" />

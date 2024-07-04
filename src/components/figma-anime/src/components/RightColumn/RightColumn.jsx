@@ -10,9 +10,11 @@ import ellipse from './Ellipse-5.svg';
 
 
 const RightColumn = ({profile}) => {
-    const [currentProfile, setCurrentProfile] = useState({profile});
+    const [currentProfile, setCurrentProfile] = useState(profile);
     const [name, setName] = useState(profile ? profile.name : '');
     const firstName = name ? name.split(' ')[0] : '';
+    console.log('RightColumn: profile:', profile)
+    console.log('RightColumn: currentProfile:', currentProfile);
     console.log('RightColumn: Name:', name);
     console.log('RightColumn: First Name:', firstName);
 
@@ -101,7 +103,9 @@ const RightColumn = ({profile}) => {
                 </div>
               </div>
               <p className="given-joe-s">
-                Given Joe&#39;s personality traits as an Achiever, Futuristic, Developer, Focus and Command, here are
+                Given {firstName ? firstName : 'Joe'}&#39;s personality traits as {Object.keys(currentProfile).length > 0 ?
+                    currentProfile.strengths.map((strength, index) => strength.strength_name || strength.strengths_name).join(', ')
+                    : "a person"} here are
                 strategies to effectively engage with him:
               </p>
               <div className="frame-27">
@@ -124,7 +128,7 @@ const RightColumn = ({profile}) => {
                 </div>
                 <div className="frame-30">
                   <div className="text-wrapper-150">Best practices</div>
-                  <div className="frame-31">
+                  <div className="frame-29">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
                       Joe values clarity and specifics.
@@ -132,7 +136,7 @@ const RightColumn = ({profile}) => {
                       What to do: Provide detailed, concrete information about how your product works and its benefits.
                     </p>
                   </div>
-                  <div className="frame-31">
+                  <div className="frame-29">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
                       Joe is interested in long-term success and future possibilities.
@@ -141,7 +145,7 @@ const RightColumn = ({profile}) => {
                       emphasis on the latter.
                     </p>
                   </div>
-                  <div className="frame-31">
+                  <div className="frame-29">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
                       Joe respects and responds to confidence and decisiveness.
@@ -150,7 +154,7 @@ const RightColumn = ({profile}) => {
                       choice for a leader like him.
                     </p>
                   </div>
-                  <div className="frame-31">
+                  <div className="frame-29">
                     <NounCheck68938205 className="icon-instance-node-2" color="#00C875" />
                     <p className="text-wrapper-16">
                       Joe appreciates professionalism and structure.
