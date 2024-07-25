@@ -1,1 +1,0 @@
-export { HomeProfileIn } from "./HomeProfileIn";

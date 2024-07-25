@@ -1,1 +1,0 @@
-export { PrimaryNavigation } from "./PrimaryNavigation";
