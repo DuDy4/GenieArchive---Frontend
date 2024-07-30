@@ -1,168 +1,58 @@
-import UserImage from "/images/user-image.png";
 import LinkedIcon from "/images/linkedin-icon.svg";
 import XIcon from "/images/twitter-icon.svg";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
-import Chart from "./chart";
+import Chart, { icons } from "./chart";
 import { Tooltip } from "@mui/material";
-
-const phrases = [
-  '"With our solution, you can take command of your projects more effectively, driving your team towards even greater success."',
-  `"I understand that you're looking for solutions that not only help you achieve your goals efficiently but also set you up for future"`,
-];
-
-const bestPractices = [
-  {
-    title: "Joe values clarity and specifics.",
-    description:
-      "What to do: Provide detailed, concrete information about how your product works and its benefits.",
-  },
-  {
-    title: "Joe is interested in long-term success and future possibilities.",
-    description:
-      "What to do: Balance your pitch by discussing both immediate and future benefits, with a strong emphasis on the latter.",
-  },
-  {
-    title: "Joe respects and responds to confidence and decisiveness.",
-    description:
-      "What to do: Be assertive and confident in your presentation, showing how your product is the best choice for a leader like him.",
-  },
-  {
-    title: "Joe appreciates professionalism and structure.",
-    description:
-      "What to do: Ensure your presentation is well-organized, professional, and to the point.",
-  },
-];
-
-const avoids = [
-  "Build Rapport: Start by discussing Joe's recent achievements and future plans.",
-  "Use Visual Aids: Incorporate charts or projections that highlight future benefits and growth potential.",
-  "Follow-Up: Send materials that emphasize continuous improvement and future developments related to your product.",
-];
-
-const relevantConnections = [
-  {
-    name: "John Doe",
-    connection: "../../images/relevant-connection-1.png",
-    linkedin: "https://www.linkedin.com/",
-  },
-  {
-    name: "John Doe",
-    connection: "../../images/relevant-connection-2.png",
-    linkedin: "https://www.linkedin.com/",
-  },
-  {
-    name: "John Doe",
-    connection: "../../images/relevant-connection-3.png",
-    linkedin: "https://www.linkedin.com/",
-  },
-  {
-    name: "John Doe",
-    connection: "../../images/relevant-connection-4.png",
-    linkedin: "https://www.linkedin.com/",
-  },
-  {
-    name: "John Doe",
-    connection: "../../images/relevant-connection-5.png",
-    linkedin: "https://www.linkedin.com/",
-  },
-];
-
-const interests = [
-  {
-    title: "Surfing",
-    image: "../../images/surfing-image.svg",
-  },
-  {
-    title: "Golf",
-    image: "../../images/golf-image.svg",
-  },
-  {
-    title: "Fan of Boston Celtics Team",
-    image: "../../images/boston-celtics-image.svg",
-  },
-  {
-    title: "Football",
-    image: "../../images/football-image.svg",
-  },
-];
-
-const topNews = [
-  {
-    image: "../../images/linkedin-icon.png",
-    title: "Linkedin post ”saving the whales”",
-    link: "https://www.linkedin.com/",
-  },
-  {
-    image: "../../images/linkedin-icon.png",
-    title: "There was an article about Joe in Forbes",
-    link: "https://www.linkedin.com/",
-  },
-];
-
-const playbooks = [
-  {
-    title: "Mail intro - 06/14/24",
-    timeline: "success",
-  },
-  {
-    title: "Invite Joe to the next Hackathon and use your software-08/17/24",
-    timeline: "success",
-  },
-  {
-    title: (
-      <>
-        Invite Joe to interact with fellow de <br />  the company community
-        -08/22/24
-      </>
-    ),
-    timeline: "success",
-  },
-  {
-    title: "First meeting -08/22/24",
-    timeline: "primary",
-  },
-  {
-    title: "Connect on LinkedIn - 08/23/24",
-    timeline: "pending",
-  },
-  {
-    title: "Meeting follow up  -08/25/24",
-    timeline: "pending",
-  },
-  {
-    title:
-      "Give Joe the Data and let him build the use case and convince his manager - 08/27/24",
-    timeline: "pending",
-  },
-  {
-    title: "Send an update on hackathon participation - 08/30/24",
-    timeline: "pending",
-  },
-  {
-    title: "Define a limited POC to Joe group 08/30/24",
-    timeline: "pending",
-  },
-  {
-    title: "Present POC metrics - 08/30/24",
-    timeline: "pending",
-  },
-  {
-    title:
-      "Ask for a meeting with Jim the CRO to present metrics and talk about enterprise deal-08/31/24",
-    timeline: "pending",
-  },
-  {
-    title: "Close the deal- 09/01/24",
-    timeline: "pending",
-  },
-];
+import useGoodToKnow from "../hooks/useGoodToKnow";
+import useAttendeeInfo from "../hooks/useAttendeeInfo";
+import { AttendeeInfoSocials, Connection, Hobby, News } from "../types";
+import useGetToKnow from "../hooks/useGetToKnow";
+import useWorkExperience from "../hooks/useWorkExperience";
+import useStrengths from "../hooks/useStrengths";
+import { IoCloudyNightOutline } from "react-icons/io5";
+import moment from "moment";
 
 interface ProfilesDetailsProps {
   name: string;
+  uuid: string;
 }
 
-const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
+const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
+  const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
+    "TestOwner",
+    uuid
+  );
+  const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow("TestOwner", uuid);
+  const { getToKnow, isLoadingGetToKnow } = useGetToKnow("TestOwner", uuid);
+  const { workExperience, isLoadingWorkExperience } = useWorkExperience(
+    "TestOwner",
+    uuid
+  );
+  const strengths = useStrengths("TestOwner", uuid);
+  
+  if (
+    isLoadingAttendeeInfo ||
+    isLoadingGoodToKnow ||
+    isLoadingGetToKnow ||
+    isLoadingWorkExperience
+  ) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-blue motion-reduce:animate-[spin_1.5s_linear_infinite] z-[999]"
+          role="status"
+          style={{
+            color: "rgb(12, 119, 146)",
+          }}>
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="w-[1050px] px-[15px] py-[3rem] my-0 mx-auto grid overflow-auto"
@@ -172,11 +62,13 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
       }}>
       <div className="space-y-[23.5px]">
         <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
-          <img
-            src={UserImage}
-            alt="user photo"
-            className="bg-cover max-w-full"
-          />
+          <div className="max-h-[225px] overflow-hidden">
+            <img
+              src={attendeeInfo?.picture}
+              alt="user photo"
+              className="h-full"
+            />
+          </div>
 
           <div className="flex items-center justify-between w-full">
             <div className="font-semibold text-heading text-[18px] leading-[27px]">
@@ -184,28 +76,42 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
             </div>
 
             <div className="flex gap-[4px]">
-              <Link to="https://www.linkedin.com/" target="_blank">
-                <img
-                  src={LinkedIcon}
-                  className="min-w-[27px]"
-                  alt="linkedin icon"
-                />
-              </Link>
-              <Link to="https://www.linkedin.com/" target="_blank">
-                <img src={XIcon} className="min-w-[27px]" alt="x icon" />
-              </Link>
+              {attendeeInfo?.social_media_links.map(
+                ({ url, plateform }: AttendeeInfoSocials, index: number) => (
+                  <div key={index}>
+                    <Link
+                      to={url.includes("https") ? url : `https://${url}`}
+                      target="_blank">
+                      <img
+                        src={LinkedIcon}
+                        className="min-w-[27px] max-w-[27px]"
+                        alt="linkedin icon"
+                      />
+                    </Link>
+                    {plateform === "X" && (
+                      <Link to="https://www.twitter.com/" target="_blank">
+                        <img
+                          src={XIcon}
+                          className="min-w-[27px]"
+                          alt="x icon"
+                        />
+                      </Link>
+                    )}
+                  </div>
+                )
+              )}
             </div>
           </div>
 
           <hr className="separator" />
 
-          <div className="flex items-center justify-evenly w-full">
+          <div className="flex items-center justify-between w-full">
             <div className="flex flex-col gap-2">
               <div className="font-medium text-[12px] leading-[18px] text-[#9F9F9F]">
                 Company Name
               </div>
               <div className="font-semibold whitespace-nowrap text-[#37455C] text-[14px] leading-[21px]">
-                Poodle Cyber security
+                {attendeeInfo?.company}
               </div>
             </div>
 
@@ -216,7 +122,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
                 Position
               </div>
               <div className="font-semibold text-[#37455C] whitespace-nowrap text-[14px] leading-[21px]">
-                Engineer Manager
+                {attendeeInfo?.position}
               </div>
             </div>
           </div>
@@ -224,36 +130,49 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
 
         <div className="py-[12px] space-y-2 rounded-[16px] px-[12px] border relative border-[#DDDDDD]">
           <div className="font-semibold text-[16px] text-heading">
-            Joe's Playbook
+            {name.split(" ")[0]}'s Playbook
           </div>
 
           <div className="relative">
-            <img
+            {/* <img
               src="/images/Group 71.png"
               alt="timeline"
-              className="absolute left-4  h-full mt-5 pb-7 overflow-hidden"
-            />
+              className="absolute left-4  h-full mt-5 pb-7 overflow-hidden w-[2.5px]"
+            /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
-              {playbooks.map(({ title, timeline }, index) => (
+              {workExperience?.map(({ title, end_date, start_date }, index) => (
                 <div
-                  className={`primary-text flex items-center gap-4 ${
-                    timeline === "primary" ? "font-semibold" : ""
+                  className={`primary-text flex items-start gap-4 before:content-[''] before:absolute before:w-[2.5px] before:h-full before:left-1.5 before:top-0 relative before:overflow-hidden ${
+                    end_date === null ? "before:bg-[#00C875]" : ""
+                  } ${
+                    typeof end_date === "string" ? "before:bg-[#0073EA]" : ""
+                  } ${
+                    index === workExperience.length - 1
+                      ? "before:-mt-10"
+                      : "before:pb-16 before:mt-4"
                   }`}
                   key={index}>
                   <GreenTimelineIcon
-                    className="min-w-[24px] z-[99]"
+                    className="min-w-[24px] z-[99] mt-2"
+                    // fill="#FFCB00"
+                    // ${
+                    //   timeline === "primary" ? "font-semibold" : ""
+                    // }
                     fill={
-                      (timeline === "pending" ? "#FFCB00" : "") ||
-                      (timeline === "success" ? "#00C875" : "") ||
-                      (timeline === "primary" ? "#0073EA" : "")
+                      // (timeline === "pending" ? "#FFCB00" : "") ||
+                      (end_date === null ? "#00C875" : "") ||
+                      (typeof end_date === "string" ? "#0073EA" : "")
                     }
+                    //  ${
+                    //     timeline === "primary" ? "!text-[#37455C]" : ""
+                    //   }
                   />
-                  <p
-                    className={`primary-text !text-[12px] !font-medium ${
-                      timeline === "primary" ? "!text-[#37455C]" : ""
-                    }`}>
-                    {title}
+                  <p className={`primary-text !text-[12px] !font-medium`}>
+                    {title.name} - {moment(start_date).format("MMM YYYY")} -&gt;{" "}
+                    {end_date === null
+                      ? "Present"
+                      : moment(end_date).format("MMM YYYY")}{" "}
                   </p>
                 </div>
               ))}
@@ -264,7 +183,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
 
       <div className="flex flex-col gap-[24px]">
         <div className="flex gap-[24px] w-full justify-betwee">
-          <Chart />
+          <Chart uuid={uuid} />
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
             <h3 className="font-semibold !text-[16px] text-heading">
@@ -277,11 +196,17 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               </h4>
 
               <div className="flex gap-2">
-                {relevantConnections.map(
-                  ({ name, connection, linkedin }, index) => (
-                    <Link to={linkedin} target="_blank" key={index}>
+                {goodToKnow?.connections?.map(
+                  ({ name, picture_url, linkedin, uuid }: Connection) => (
+                    <Link to={linkedin} target="_blank" key={uuid}>
                       <Tooltip title={name} arrow placement="top">
-                        <img src={connection} alt="connection image" />
+                        <div className="w-[48px] rounded-full">
+                          <img
+                            src={picture_url || "/images/anonymous-user-8.png"}
+                            alt="connection image"
+                            className="rounded-full max-w-full"
+                          />
+                        </div>
                       </Tooltip>
                     </Link>
                   )
@@ -295,11 +220,17 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               </h4>
 
               <div className="flex gap-2">
-                {interests.map(({ image, title }, index) => (
-                  <Tooltip arrow placement="top" key={index} title={title}>
-                    <img src={image} alt="connection image" />
-                  </Tooltip>
-                ))}
+                {goodToKnow?.hobbies?.map(
+                  ({ hobby_name, icon_url }: Hobby, index: number) => (
+                    <Tooltip
+                      arrow
+                      placement="top"
+                      key={index}
+                      title={hobby_name}>
+                      <img src={icon_url} alt="hobby image" />
+                    </Tooltip>
+                  )
+                )}
               </div>
             </div>
 
@@ -309,21 +240,26 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               </h4>
 
               <div className="flex flex-col gap-4">
-                {topNews.map(({ image, title, link }, index) => (
-                  <Link
-                    to={link}
-                    target="_blank"
-                    key={index}
-                    className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-                    <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center">
-                      <img src={image} alt="connection image" />
-                    </div>
+                {goodToKnow?.news?.map(
+                  (
+                    { news_icon, news_title, news_url }: News,
+                    index: number
+                  ) => (
+                    <Link
+                      to={news_url}
+                      target="_blank"
+                      key={index}
+                      className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
+                      <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
+                        <img src={news_icon} alt="news icon" />
+                      </div>
 
-                    <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                      {title}{" "}
-                    </p>
-                  </Link>
-                ))}
+                      <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
+                        {news_title}{" "}
+                      </p>
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -335,18 +271,22 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               <h3
                 className="font-semibold text-[16px] text-heading
               ">
-                Get to know Joe
+                Get to know {name.split(" ")[0]}
               </h3>
 
               <div className="flex gap-2">
-                <Tooltip arrow placement="top" title="Achiever">
-                  <img
-                    src="/images/achiever-icon.svg"
-                    alt="good to know image"
-                    className="min-w-[22px] cursor-pointer"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Command">
+                {strengths?.map(({ strengths_name }) =>
+                  icons[strengths_name] ? (
+                    <Tooltip arrow placement="top" title={strengths_name}>
+                      <img
+                        src={icons[strengths_name]}
+                        alt="good to know image"
+                        className="w-[22px] cursor-pointer"
+                      />
+                    </Tooltip>
+                  ) : null
+                )}
+                {/* <Tooltip arrow placement="top" title="Command">
                   <img
                     src="/images/command-icon.svg"
                     alt="good to know image"
@@ -373,14 +313,12 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
                     alt="good to know image"
                     className="min-w-[22px] cursor-pointer"
                   />
-                </Tooltip>
+                </Tooltip> */}
               </div>
             </div>
 
             <div className="primary-text !text-[12px] !font-medium">
-              Given Joe's personality traits as an Achiever, Futuristic,
-              Developer, Focus and Command, here are strategies to effectively
-              engage with him:
+              {getToKnow?.title}
             </div>
           </div>
 
@@ -391,20 +329,22 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               </h3>
 
               <div className="flex flex-col gap-4">
-                {bestPractices.map(({ title, description }, index) => (
-                  <div className="flex gap-1" key={index}>
-                    <TickIcon />
+                {getToKnow?.best_practices?.map(
+                  ({ reasoning, what_to_do }, index: number) => (
+                    <div className="flex gap-1" key={index}>
+                      <TickIcon />
 
-                    <div>
-                      <p className="primary-text !text-[12px] !font-medium">
-                        {title}
-                      </p>
-                      <p className="primary-text !text-[12px] !font-medium">
-                        {description}
-                      </p>
+                      <div>
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {what_to_do}
+                        </p>
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {reasoning}
+                        </p>{" "}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
 
@@ -414,14 +354,21 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               </h3>
 
               <div className="flex flex-col gap-4">
-                {phrases.map((phrase, index) => (
-                  <div className="flex items-center gap-1" key={index}>
-                    <TickIcon />
-                    <p className="primary-text !text-[12px] !font-medium">
-                      {phrase}
-                    </p>
-                  </div>
-                ))}
+                {getToKnow?.phrases_to_use?.map(
+                  ({ reasoning, phrase_text }: string, index: number) => (
+                    <div className="flex gap-1" key={index}>
+                      <TickIcon />
+                      <div>
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {phrase_text}
+                        </p>
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {reasoning}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
@@ -429,14 +376,21 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name }) => {
               <h3 className="font-medium text-[16px] text-heading">Avoid</h3>
 
               <div className="flex flex-col gap-4">
-                {avoids.map((avoid, index) => (
-                  <div className="flex gap-1 items-center" key={index}>
-                    <CrossIcon />
-                    <p className="primary-text !text-[12px] !font-medium">
-                      {avoid}
-                    </p>
-                  </div>
-                ))}
+                {getToKnow?.avoid?.map(
+                  ({ reasoning, phrase_text }, index: number) => (
+                    <div className="flex gap-1 items-start" key={index}>
+                      <CrossIcon />
+                      <div className="flex flex-col items-start">
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {reasoning}
+                        </p>
+                        <p className="primary-text !text-[12px] !font-medium">
+                          {phrase_text}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>

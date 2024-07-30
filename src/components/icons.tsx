@@ -24,7 +24,7 @@ const CrossIcon = ({ ...props }) => {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="min-w-[16px] min-h-[16px]"
+      className="min-w-[16px] min-h-[16px] mt-1"
       {...props}>
       <g clipPath="url(#clip0_117_6419)">
         <path

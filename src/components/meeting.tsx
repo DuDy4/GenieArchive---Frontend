@@ -1,16 +1,28 @@
 import { Box, Tabs, Tab } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProfileDetails from "./profile-details";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAllProfiles from "../hooks/useAllProfiles";
+import { Profile } from "../types";
 
 const Meeting = () => {
   const { id } = useParams();
-  const [value, setValue] = useState(1);
+  const [searchParams] = useSearchParams();
+  const [value, setValue] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+  const allProfiles = useAllProfiles("TestOwner", id as string);
+  const name = searchParams.get("name");
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    return () => setIsMounted(false);
+  }, []);
 
   return (
     <main className="background">
@@ -35,6 +47,10 @@ const Meeting = () => {
             position: "fixed",
             bottom: "0px",
             height: "90%",
+            transition: "transform 0.3s ease",
+            transform: isMounted
+              ? "translateY(0%) translateZ(0px)"
+              : "translateY(100%) translateZ(0px)",
           }}>
           <Link to="/">
             <CloseIcon
@@ -97,7 +113,7 @@ const Meeting = () => {
                       fontSize: "28px",
                       marginBottom: "8px",
                     }}>
-                    {id}
+                    {name}
                   </Box>
                 </Box>
 
@@ -142,20 +158,30 @@ const Meeting = () => {
                       borderBottom: "1px solid #000",
                     },
                   }}>
-                  <Tab
-                    label="Joe"
-                    sx={{
-                      display: "flex",
-                    }}
-                    value={1}
-                  />
-                  <Tab label="John" value={2} />
+                  {allProfiles?.map(
+                    ({ name, uuid }: Profile, index: number) => (
+                      <Tab
+                        key={index}
+                        onClick={() => {
+                          setValue(index);
+                        }}
+                        label={name}
+                        value={index}
+                      />
+                    )
+                  )}
                 </Tabs>
               </Box>
             </Box>
 
-            {value === 1 && <ProfileDetails name="Joe Johnsan" />}
-            {value === 2 && <ProfileDetails name="John Doe" />}
+            {/* {value === uuid && <ProfileDetails name="Joe Johnsan" />} */}
+            {allProfiles?.map(({ name, uuid }: Profile, index: number) => {
+              return (
+                value === index && (
+                  <ProfileDetails key={uuid} name={name} uuid={uuid} />
+                )
+              );
+            })}
           </Box>
         </Box>
       </div>

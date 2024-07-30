@@ -1,6 +1,9 @@
 import { Radar } from "react-chartjs-2";
 import "chart.js/auto";
 import { Chart } from "chart.js";
+import useStrengths from "../hooks/useStrengths";
+import { Strength } from "../types";
+import LeaderImage from "../../public/images/command-image.png";
 
 const customLabelPlugin = {
   id: "customLabelPlugin",
@@ -20,7 +23,7 @@ const customLabelPlugin = {
         const angle =
           (index / chartInstance.data.labels.length) * (2 * Math.PI) -
           Math.PI / 2;
-        const basePositionOffset = 90;
+        const basePositionOffset = 100;
         const iconSize = 35;
         const textOffset = 10; // Space between icon and text
         const totalHeight = iconSize + textOffset; // Total height for icon and text
@@ -45,13 +48,38 @@ const customLabelPlugin = {
         // Draw the label below the icon
         const labelText = chartInstance.data.labels[index];
         ctx.save();
-        ctx.font = '600 14px "Poppins", Helvetica';
+        ctx.font = '600 10px "Poppins", Helvetica';
         ctx.fillStyle = "black";
         // ctx.color = "#37455C";
-        ctx.textAlign = "center"; // Center text horizontally
+        ctx.textAlign = "center";
+        // ctx.whiteSpace = "wrap" // Center text horizontally
         ctx.textBaseline = "top"; // Align text to start just below the icon
-        ctx.fillText(labelText, x, yForLabel); // Draw the label below the icon
+        // ctx.fillText(labelText, x, yForLabel); // Draw the label below the icon
 
+        // Text wrapping logic
+        const maxWidth = 70; // Maximum width for text area
+        const words = labelText.split(" ");
+        let currentLine = "";
+        const lines = [];
+
+        for (let n = 0; n < words.length; n++) {
+          const testLine = currentLine + words[n] + " ";
+          const metrics = ctx.measureText(testLine);
+          const testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            lines.push(currentLine);
+            currentLine = words[n] + " ";
+          } else {
+            currentLine = testLine;
+          }
+        }
+        lines.push(currentLine);
+
+        // Now draw each line separately
+        ctx.textAlign = "center"; // Center align text
+        lines.forEach((line, i) => {
+          ctx.fillText(line, x, yForLabel + i * 10); // Adjust y position for each line
+        });
         ctx.restore();
       });
     });
@@ -64,9 +92,9 @@ const options = {
   layout: {
     padding: {
       top: 80,
-      bottom: 40,
-      left: 80,
-      right: 80,
+      bottom: 30,
+      left: 90,
+      right: 90,
     },
   },
   elements: {
@@ -78,14 +106,11 @@ const options = {
   responsive: true,
   scales: {
     r: {
-      max: 5,
-      suggestedMax: 5,
       angleLines: {
         color: "#505050",
       },
       ticks: {
-        display: false, // Hide the scale values
-        steps: 5,
+        display: false,
       },
       grid: {
         color: "#505050",
@@ -107,59 +132,116 @@ const options = {
       },
     },
   },
+  maintainAspectRatio: false,
 };
 
-const RadarChart = () => {
-  const data = [
-    {
-      name: "Achiever",
-      image: "/images/acheiver-image.png",
-      score: 5,
-    },
-    {
-      name: "Command",
-      image: "/images/command-image.png",
-      score: 0,
-    },
-    {
-      name: "Focus",
-      image: "/images/focus-image.png",
-      score: 4,
-    },
-    {
-      name: "Futuristic",
-      image: "/images/futuristic-image.png",
-      score: 3,
-    },
-    {
-      name: "Developer",
-      image: "/images/developer-image.png",
-      score: 2,
-    },
-  ];
+export const icons = {
+  Achiever:
+    "https://uxwing.com/wp-content/themes/uxwing/download/sport-and-awards/champion-winner-trophy-icon.png",
+  Activator:
+    "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/head-idea-icon.png",
+  Adaptability:
+    "https://uxwing.com/wp-content/themes/uxwing/download/controller-and-music/control-panel-icon.png",
+  Analytical:
+    "https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/audit-icon.png",
+  Arranger:
+    "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/dependency-icon.png",
+  Belief:
+    "https://uxwing.com/wp-content/themes/uxwing/download/relationship-love/care-icon.png",
+  Command:
+    "https://uxwing.com/wp-content/themes/uxwing/download/tools-equipment-construction/tools-icon.png",
+  Communication:
+    "https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/speaking-bubbles-line-icon.png",
+  Competition:
+    "https://uxwing.com/wp-content/themes/uxwing/download/sport-and-awards/first-medal-icon.png",
+  Connectedness:
+    "https://uxwing.com/wp-content/themes/uxwing/download/medical-science-lab/atom-laboratory-science-icon.png",
+  Consistency:
+    "https://uxwing.com/wp-content/themes/uxwing/download/weather/water-wave-icon.png",
+  Context:
+    "https://uxwing.com/wp-content/themes/uxwing/download/location-travel-map/globe-line-icon.png",
+  Deliberative:
+    "https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/distribution-icon.png",
+  Developer:
+    "https://uxwing.com/wp-content/themes/uxwing/download/toys-childhood/toy-block-icon.png",
+  Discipline:
+    "https://uxwing.com/wp-content/themes/uxwing/download/time-and-date/quick-icon.svg",
+  Empathy:
+    "https://uxwing.com/wp-content/themes/uxwing/download/relationship-love/hobbies-like-icon.png",
+  Focus:
+    "https://uxwing.com/wp-content/themes/uxwing/download/seo-marketing/target-line-icon.png",
+  Futuristic:
+    "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/bulb-exclamation-mark-icon.png",
+  Harmony:
+    "https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/earth-environment-care-icon.png",
+  Ideation:
+    "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/idea-icon.png",
+  Includer:
+    "https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/four-corners-arrows-line-icon.png",
+  Individualization:
+    "https://uxwing.com/wp-content/themes/uxwing/download/crime-security-military-law/evidence-icon.png",
+  Input:
+    "https://uxwing.com/wp-content/themes/uxwing/download/user-interface/underlined-check-line-icon.png",
+  Intellection:
+    "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/psychology-icon.png",
+  Learner:
+    "https://uxwing.com/wp-content/themes/uxwing/download/education-school/knowledge-icon.png",
+  Maximizer:
+    "https://uxwing.com/wp-content/themes/uxwing/download/household-and-furniture/stair-up-icon.png",
+  Positivity:
+    "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/pinch-easy-icon.png",
+  Relator:
+    "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/teamwork-together-icon.png",
+  Responsibility:
+    "https://uxwing.com/wp-content/themes/uxwing/download/internet-network-technology/digital-icon.png",
+  Restorative:
+    "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/product-launch-release-icon.png",
+  "Self-Assurance":
+    "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/person-insurance-icon.png",
+  Significance:
+    "https://uxwing.com/wp-content/themes/uxwing/download/clothes-and-accessories/diamond-gem-icon.png",
+  Strategic:
+    "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/hand-shake-icon.png",
+  Woo: "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/clap-icon.svg",
+  Default:
+    "https://uxwing.com/wp-content/themes/uxwing/download/tools-equipment-construction/setting-line-icon.png",
+  Leadership: LeaderImage,
+};
+
+const RadarChart = ({ uuid }: { uuid: string }) => {
+  const strengths = useStrengths("TestOwner", uuid);
+
+  const data = strengths?.map((strength: Strength) => ({
+    name: strength.strength_name || strength.strengths_name,
+    image: icons[strength.strengths_name] || icons.Default,
+    score: strength.score,
+  }));
 
   const chartData = {
-    labels: data.map((item) => item.name),
+    labels: data?.map((item) => item.name),
     datasets: [
       {
-        data: data.map((item) => item.score),
+        data: data?.map((item) => item.score),
         fill: true,
         backgroundColor: "rgb(255 203 0 / 0.2)",
         borderColor: "#FFCB00",
-        pointImages: data.map((item) => item.image), // Custom property for images
+        pointImages: data?.map((item) => item.image), // Custom property for images
         pointRadius: 0,
       },
     ],
   };
 
   return (
-    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] pb-[12px] px-2 bg-[#FFCB00/20">
+    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20">
       <h3 className="text-heading font-semibold text-[16px]">
         Top personality
       </h3>
 
-      <div className="">
-        <Radar data={chartData} options={options} />
+      <div className="-mt-3">
+        <Radar data={chartData} options={options} height="320px"  style={{
+          width: "100%",
+          height: "320px",
+        }} />
       </div>
     </div>
   );

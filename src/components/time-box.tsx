@@ -2,9 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { getGreeting } from "../utils/helpers";
+import useUser from "../hooks/useUser";
 
 const TimeBox = () => {
   const [time, setTime] = useState(new Date());
+  const { user } = useUser();
 
   useEffect(() => {
     setInterval(() => {
@@ -61,7 +63,7 @@ const TimeBox = () => {
             lineHeight: "24px",
             textAlign: "center",
           }}>
-          {getGreeting()}, Sir!
+          {getGreeting()}, {user?.name}!
         </Typography>
       </Box>
     </Box>

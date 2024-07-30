@@ -16,6 +16,7 @@ import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarSwitch from "./calendar-switch";
+import { useAuth } from "@frontegg/react";
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -32,6 +33,8 @@ const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
 const Preferences = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { user } = useAuth();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -218,7 +221,7 @@ const Preferences = () => {
                     margin: "0px",
                     fontWeight: "400",
                   }}>
-                  useremail@gmail.com
+                  {user ? user?.email : ""}
                 </p>
 
                 <div className="flex gap-1 items-center">
@@ -284,7 +287,7 @@ const Preferences = () => {
                   margin: "0px",
                   fontWeight: "400",
                 }}>
-                useremail@gmail.com
+                {user?.email}
               </p>
               <Tooltip arrow placement="top" title="Logout">
                 <div>

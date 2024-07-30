@@ -8,12 +8,13 @@ import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
 import { AiOutlineSync } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import slugify from "slugify";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CustomDrawer from "./ui/drawer";
+import useMeetings from "../hooks/useMeetings";
+import { Meeting } from "../types";
 
 interface MeetingsCalendarProps {
-  events: Event[];
+  // events: Event[];
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
   openCalendar: boolean;
 }
@@ -21,18 +22,25 @@ interface MeetingsCalendarProps {
 const localizer = momentLocalizer(moment);
 
 const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
-  events,
+  // events,
   openCalendar,
   setOpenCalendar,
 }) => {
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const { meetings } = useMeetings("TestOwner");
   const navigate = useNavigate();
 
+  const events = meetings?.map((meeting: Meeting) => ({
+    id: meeting.uuid,
+    title: meeting.subject,
+    start: new Date(meeting.start_time),
+    end: new Date(meeting.end_time),
+  }));
+
   const handleSelectEvent = useCallback((event: Event) => {
-    const eventSlug = slugify(event.title as string);
-    navigate(`/${eventSlug}`);
+    // const eventSlug = slugify(event.title as string);
+    navigate(`/meeting/${event!.id}?name=${event.title}`);
   }, []);
 
   return (
