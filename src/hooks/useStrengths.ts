@@ -12,11 +12,17 @@ const useStrengths = (tenant_id: string, uuid: string) => {
           import.meta.env.VITE_API_URL
         }/${tenant_id}/profiles/${uuid}/strengths`
       );
-      
-      return response.data;
+      // console.log(response.data,tenant_id,uuid)
+      if(Array.isArray(await response.data)){
+
+        return response.data;
+      }
+     else if ( response.data instanceof Object){
+        return response.data.strengths
+      } 
     },
   });
-
+  
   return strengths;
 };
 

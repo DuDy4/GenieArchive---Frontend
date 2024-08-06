@@ -1,10 +1,11 @@
 import CustomDrawer from "./ui/drawer";
 import { IoIosClose } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Meeting, Profile } from "../types";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
+import { useAuth } from "@frontegg/react";
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -19,20 +20,29 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [meetings, setMeetings] = useState<Meeting[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
+  const { user } = useAuth();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (openSearchBar && searchInputRef.current) {
+      searchInputRef.current?.focus();
+    }
+  }, [openSearchBar]);
 
   useEffect(() => {
     const fetchMeetings = async () => {
       const meetingsResponse = await axios.get(
-        `${import.meta.env.VITE_API_URL}/TestOwner/meetings`
+        `${import.meta.env.VITE_API_URL}/${user?.tenantId}/meetings`
       );
+      // console.log(meetingsResponse?.data)
 
       // Map each meeting to a promise that resolves with the profiles data
       const profilePromises = meetingsResponse.data?.map(
         async (meeting: Meeting) => {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/tenant_id}/${
+            `${import.meta.env.VITE_API_URL}/${user?.tenantId}/${
               meeting.uuid
-            }/profiles/?tenant_id=TestOwner`
+            }/profiles`
           );
 
           const enhancedProfiles = response.data.map((profile: Profile) => ({
@@ -42,11 +52,11 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
           }));
           return enhancedProfiles;
         }
-      );
+    );
 
       // Wait for all promises to resolve
       const allProfiles = await Promise.all(profilePromises);
-
+      // console.log(allProfiles)
       // Combine all profiles into one array
       const combinedProfiles = [].concat(...allProfiles);
 
@@ -86,6 +96,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
             className="border-none outline-none bg-[#E6E8EB] rounded-[4px] text-[12px] font-normal py-[10px] px-[14px] max-h-[56px] w-full"
             value={searchTerm}
             onChange={(e) => handleSearch(e)}
+            ref={searchInputRef}
           />
         </div>
 

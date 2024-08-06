@@ -5,13 +5,15 @@ import ProfileDetails from "./profile-details";
 import { useEffect, useState } from "react";
 import useAllProfiles from "../hooks/useAllProfiles";
 import { Profile } from "../types";
+import { useAuth } from "@frontegg/react";
 
 const Meeting = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const [value, setValue] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const allProfiles = useAllProfiles("TestOwner", id as string);
+  const { user } = useAuth();
+  const { allProfiles, isLoading } = useAllProfiles(user?.tenantId!, id!);
   const name = searchParams.get("name");
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -31,7 +33,8 @@ const Meeting = () => {
           width: "100%",
           height: "100%",
           zIndex: 2,
-        }}>
+        }}
+      >
         <Box
           sx={{
             color: "rgb(17, 24, 28)",
@@ -51,7 +54,8 @@ const Meeting = () => {
             transform: isMounted
               ? "translateY(0%) translateZ(0px)"
               : "translateY(100%) translateZ(0px)",
-          }}>
+          }}
+        >
           <Link to="/">
             <CloseIcon
               sx={{
@@ -70,7 +74,8 @@ const Meeting = () => {
               height: "100%",
               display: "flex",
               flexDirection: "column",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -79,7 +84,8 @@ const Meeting = () => {
                 padding: "24px 3rem",
                 alignItems: "center",
                 justifyContent: "center",
-              }}>
+              }}
+            >
               <Box
                 sx={{
                   minHeight: "56px",
@@ -87,7 +93,8 @@ const Meeting = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "6px",
-                }}>
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -97,7 +104,8 @@ const Meeting = () => {
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                     gap: "16px",
-                  }}>
+                  }}
+                >
                   <Box
                     sx={{
                       display: "inline-flex",
@@ -112,7 +120,8 @@ const Meeting = () => {
                       fontWeight: 600,
                       fontSize: "28px",
                       marginBottom: "8px",
-                    }}>
+                    }}
+                  >
                     {name}
                   </Box>
                 </Box>
@@ -122,7 +131,8 @@ const Meeting = () => {
                     display: "flex",
                     gap: "4px",
                     alignItems: "flex-start",
-                  }}></Box>
+                  }}
+                ></Box>
               </Box>
             </Box>
 
@@ -134,7 +144,8 @@ const Meeting = () => {
                 justifyContent: "center",
                 paddingLeft: "3rem",
                 paddingRight: "3rem",
-              }}>
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
@@ -144,44 +155,60 @@ const Meeting = () => {
                   width: "1050px",
                   borderBottom: "1px solid rgb(236, 238, 240)",
                   minHeight: "unset",
-                }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  textColor="primary"
-                  indicatorColor="primary"
-                  sx={{
-                    "& .Mui-selected": {
-                      borderBottom: "1px solid #000",
-                    },
-                    "& .Mui-focusVisible": {
-                      borderBottom: "1px solid #000",
-                    },
-                  }}>
-                  {allProfiles?.map(
-                    ({ name, uuid }: Profile, index: number) => (
-                      <Tab
-                        key={index}
-                        onClick={() => {
-                          setValue(index);
-                        }}
-                        label={name}
-                        value={index}
-                      />
-                    )
-                  )}
-                </Tabs>
+                }}
+              >
+                {!isLoading ? (
+                  allProfiles?.length > 0 ? (
+                    <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      textColor="primary"
+                      indicatorColor="primary"
+                      sx={{
+                        "& .Mui-selected": {
+                          borderBottom: "1px solid #000",
+                        },
+                        "& .Mui-focusVisible": {
+                          borderBottom: "1px solid #000",
+                        },
+                      }}
+                    >
+                      {allProfiles?.map(
+                        ({ name, uuid }: Profile, index: number) => (
+                          <Tab
+                            key={index}
+                            onClick={() => {
+                              setValue(index);
+                            }}
+                            label={name}
+                            value={index}
+                          />
+                        )
+                      )}
+                    </Tabs>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <p className="text-lg">
+                        This meeting does not yet include any
+                        available profiles!
+                      </p>
+                    </div>
+                  )
+                ) : (
+                  <div className="text-center">loading...</div>
+                )}
               </Box>
             </Box>
-
             {/* {value === uuid && <ProfileDetails name="Joe Johnsan" />} */}
-            {allProfiles?.map(({ name, uuid }: Profile, index: number) => {
-              return (
-                value === index && (
-                  <ProfileDetails key={uuid} name={name} uuid={uuid} />
-                )
-              );
-            })}
+            {allProfiles?.length > 0
+              ? allProfiles?.map(({ name, uuid }: Profile, index: number) => {
+                  return (
+                    value === index && (
+                      <ProfileDetails key={uuid} name={name} uuid={uuid} />
+                    )
+                  );
+                })
+              : null}
           </Box>
         </Box>
       </div>

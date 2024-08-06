@@ -6,7 +6,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FronteggProvider } from "@frontegg/react";
-import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -22,14 +21,12 @@ const contextOptions = {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false}>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <App />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </FronteggProvider>
-    </BrowserRouter>
+    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false}>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </FronteggProvider>
   </React.StrictMode>
 );

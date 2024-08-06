@@ -16,7 +16,7 @@ import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarSwitch from "./calendar-switch";
-import { useAuth } from "@frontegg/react";
+import { ContextHolder, useAuth } from "@frontegg/react";
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -43,6 +43,11 @@ const Preferences = () => {
   };
 
   const [openCalendarModal, setOpenCalendarModal] = useState(false);
+
+  const logout = () => {
+    const baseUrl = ContextHolder.getContext().baseUrl;
+    window.location.href = `${baseUrl}/oauth/logout?post_logout_redirect_uri=${window.location}`;
+  };
 
   return (
     <>
@@ -290,7 +295,7 @@ const Preferences = () => {
                 {user?.email}
               </p>
               <Tooltip arrow placement="top" title="Logout">
-                <div>
+                <div onClick={logout}>
                   <FiLogOut className="logout-icon" />
                 </div>
               </Tooltip>

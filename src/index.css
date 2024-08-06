@@ -469,15 +469,31 @@ element {
 /* global css */
 
 .icon {
-  padding: "4px 4px";
+  padding: 4px 4px;
   z-index: 999;
+  color: rgb(17, 24, 28);
+  font-weight: 400;
+  padding: 2px 2px;
+  border-radius: 4px;
+  transition: 0.2s ease;
 }
 
 .icon:hover {
-  cursor: "pointer";
-  background-color: "rgb(236, 238, 240)";
-  border-radius: "5px";
-  transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1)";
+  cursor: pointer;
+  background-color: rgb(236, 238, 240);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  /* -ms-overflow-style: none; */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .separator {

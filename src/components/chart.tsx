@@ -4,6 +4,7 @@ import { Chart } from "chart.js";
 import useStrengths from "../hooks/useStrengths";
 import { Strength } from "../types";
 import LeaderImage from "../../public/images/command-image.png";
+import { useAuth } from "@frontegg/react";
 
 const customLabelPlugin = {
   id: "customLabelPlugin",
@@ -209,11 +210,12 @@ export const icons = {
 };
 
 const RadarChart = ({ uuid }: { uuid: string }) => {
-  const strengths = useStrengths("TestOwner", uuid);
-
+  const { user } = useAuth();
+  const strengths = useStrengths(user?.tenantId!, uuid);
+  // console.log(strengths)
   const data = strengths?.map((strength: Strength) => ({
     name: strength.strength_name || strength.strengths_name,
-    image: icons[strength.strengths_name] || icons.Default,
+    image: icons[strength.strengths_name || strength.strength_name] || icons.Default,
     score: strength.score,
   }));
 
@@ -238,10 +240,15 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
       </h3>
 
       <div className="-mt-3">
-        <Radar data={chartData} options={options} height="320px"  style={{
-          width: "100%",
-          height: "320px",
-        }} />
+        <Radar
+          data={chartData}
+          options={options}
+          height="320px"
+          style={{
+            width: "100%",
+            height: "320px",
+          }}
+        />
       </div>
     </div>
   );

@@ -1,25 +1,33 @@
+import { useEffect, useState } from "react";
+
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+
+import { CiSearch } from "react-icons/ci";
+import { useAuth, useLoginWithRedirect } from "@frontegg/react";
 import { Box, InputBase, Typography } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import { CiSearch } from "react-icons/ci";
+
+import TimeBox from "./time-box";
 import Calendar from "./calendar";
 import Preferences from "./preferences";
 import SearchAttendes from "./search-attendees";
-import TimeBox from "./time-box";
-import { useState } from "react";
 import UpcomingMeetings from "./upcoming-meetings";
-import { Link } from "react-router-dom";
-import { useAuth, useLoginWithRedirect } from "@frontegg/react";
-import { FronteggContext } from "@frontegg/rest-api";
-import { jwtDecode } from "jwt-decode";
 
 const Home = () => {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
-  const loginWithRedirect = useLoginWithRedirect();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { isAuthenticated } = useAuth();
+  
+  useEffect(() => {
+    const removeCodeParam = () => {
+      let params = new URLSearchParams(searchParams);
+      params.delete("code");
+      setSearchParams(params);
+    };
 
-  const token = FronteggContext.getAccessToken();
-  console.log(token);
-  // const decodedToken = jwtDecode(token!);
+    removeCodeParam();
+  }, [searchParams, setSearchParams]);
 
   return (
     <main className="background">
@@ -51,6 +59,7 @@ const Home = () => {
           }}>
           <InputBase
             placeholder="Search notes"
+            disabled={openSearchBar}
             sx={{
               fontSize: "16px",
               fontWeight: 500,
@@ -60,7 +69,7 @@ const Home = () => {
               "& .MuiInputBase-input": {
                 paddingLeft: "30px", // Make space for the icon inside the input
               },
-              "& .MuiInputBase-disbaled": {
+              "& .MuiInputBase-disabled": {
                 color: "rgb(251, 252, 253)",
               },
             }}
@@ -92,9 +101,19 @@ const Home = () => {
           <Typography>Calendar</Typography>
         </div>
 
-        <div className="box" onClick={() => loginWithRedirect()}>
+        {!isAuthenticated && (
+          <Link
+            className="box"
+            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app">
+            <Typography>Login</Typography>
+          </Link>
+        )}
+
+        {/* <Link
+          className="box"
+          to="https://app-ulb15oyg6a4d.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app">
           <Typography>Login</Typography>
-        </div>
+        </Link> */}
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">

@@ -1,17 +1,28 @@
-import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
-import { Box, Tooltip, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
-import { momentLocalizer, Calendar, Event } from "react-big-calendar";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { Calendar, Event, momentLocalizer } from "react-big-calendar";
+
+import { AiOutlineSync } from "react-icons/ai";
+import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
-import { AiOutlineSync } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Alert, Box, Snackbar, Tooltip, Typography } from "@mui/material";
+import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Meeting } from "../types";
 import CustomDrawer from "./ui/drawer";
 import useMeetings from "../hooks/useMeetings";
-import { Meeting } from "../types";
+
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useAuth } from "@frontegg/react";
 
 interface MeetingsCalendarProps {
   // events: Event[];
@@ -28,8 +39,25 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
 }) => {
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const { meetings } = useMeetings("TestOwner");
+  const [toastShow, setToast] = useState(false);
+  const { user } = useAuth();
+  const { meetings, refetch, isRefetching } = useMeetings(user?.tenantId!);
   const navigate = useNavigate();
+
+  // refetching events data 
+  const handleRefreshEvents = () => {
+    refetch()
+      .then((res) => {
+        console.log(isRefetching);
+        setToast(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleClose = () => {
+    setToast(false);
+  };
 
   const events = meetings?.map((meeting: Meeting) => ({
     id: meeting.uuid,
@@ -43,226 +71,274 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     navigate(`/meeting/${event!.id}?name=${event.title}`);
   }, []);
 
+  const handleViewChange = useCallback((view: string) => {
+    setExpandCalendar(view === "week");
+  }, []);
+
+  const handleNavigate = useCallback((date: Date) => {
+    setSelectedDate(date);
+  }, []);
+
   return (
-    <CustomDrawer open={openCalendar} expand={expandCalendar}>
-      <Box
-        sx={{
-          display: "flex",
-          paddingTop: "0px",
-          paddingBottom: "0px",
-          height: "100%",
-        }}>
+    <>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={toastShow}
+        onClose={handleClose}
+        autoHideDuration={2000}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="standard"
+          sx={{ width: "100%" }}
+        >
+          Completed events sync
+        </Alert>
+      </Snackbar>
+      <CustomDrawer open={openCalendar} expand={expandCalendar}>
         <Box
           sx={{
-            width: "100%",
-            height: "100%",
-            alignItems: "stretch",
             display: "flex",
-            flexDirection: "column",
-          }}>
-          {/* toolbar */}
+            paddingTop: "0px",
+            paddingBottom: "0px",
+            height: "100%",
+          }}
+        >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
               width: "100%",
-              alignItems: "center",
-              backgroundColor: "white",
-              color: "rgb(104, 112, 118)",
-              height: "56px",
-              borderRadius: "8px 8px 0px 0px",
-              padding: "0.5rem 0",
-            }}>
-            {/* calendar toolbar */}
-
+              height: "100%",
+              alignItems: "stretch",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* toolbar */}
             <Box
               sx={{
-                width: "50%",
                 display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
                 alignItems: "center",
-              }}>
-              <Box marginLeft="4px">
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    stroke: "rgb(17, 24, 28)",
-                    alignItems: "center",
-                  }}>
-                  <Typography
+                backgroundColor: "white",
+                color: "rgb(104, 112, 118)",
+                height: "56px",
+                borderRadius: "8px 8px 0px 0px",
+                padding: "0.5rem 0",
+              }}
+            >
+              {/* calendar toolbar */}
+
+              <Box
+                sx={{
+                  width: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Box marginLeft="4px">
+                  <Box
                     sx={{
-                      color: "rgb(17, 24, 28)",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      cursor: "pointer",
-                      padding: "2px 2px",
-                      borderRadius: "4px",
-                      ":hover": {
-                        backgroundColor: "rgb(236, 238, 240)",
-                      },
-                      transition: "0.2s ease",
-                      margin: "0 0 0 4px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      stroke: "rgb(17, 24, 28)",
+                      alignItems: "center",
                     }}
-                    onClick={() => setSelectedDate(new Date())}>
-                    Today
-                  </Typography>
-                  <ChevronLeftOutlined
-                    sx={{
-                      color: "rgb(17, 24, 28)",
-                      fontWeight: 400,
-                      fontSize: "20px",
-                      cursor: "pointer",
-                      padding: "2px 2px",
-                      borderRadius: "4px",
-                      ":hover": {
-                        backgroundColor: "rgb(236, 238, 240)",
-                      },
-                      transition: "0.2s ease",
-                      margin: "0 0 0 4px",
-                    }}
-                    onClick={() => {
-                      const currentDate = new Date(selectedDate);
-                      currentDate.setDate(currentDate.getDate() - 7);
-                      setSelectedDate(currentDate);
-                    }}
-                  />
-                  <ChevronRightOutlined
-                    sx={{
-                      color: "rgb(17, 24, 28)",
-                      fontWeight: 400,
-                      fontSize: "20px",
-                      cursor: "pointer",
-                      padding: "2px 2px",
-                      borderRadius: "4px",
-                      ":hover": {
-                        backgroundColor: "rgb(236, 238, 240)",
-                      },
-                      transition: "0.2s ease",
-                      margin: "0 0 0 4px",
-                    }}
-                    onClick={() => {
-                      const currentDate = new Date(selectedDate);
-                      currentDate.setDate(currentDate.getDate() + 7);
-                      setSelectedDate(currentDate);
-                    }}
-                  />
+                  >
+                    <Typography
+                      sx={{
+                        color: "rgb(17, 24, 28)",
+                        fontWeight: 500,
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        padding: "2px 2px",
+                        borderRadius: "4px",
+                        ":hover": {
+                          backgroundColor: "rgb(236, 238, 240)",
+                        },
+                        transition: "0.2s ease",
+                        margin: "0 0 0 4px",
+                      }}
+                      onClick={() => setSelectedDate(new Date())}
+                    >
+                      Today
+                    </Typography>
+                    <ChevronLeftOutlined
+                      sx={{
+                        color: "rgb(17, 24, 28)",
+                        fontWeight: 400,
+                        fontSize: "20px",
+                        cursor: "pointer",
+                        padding: "2px 2px",
+                        borderRadius: "4px",
+                        ":hover": {
+                          backgroundColor: "rgb(236, 238, 240)",
+                        },
+                        transition: "0.2s ease",
+                        margin: "0 0 0 4px",
+                      }}
+                      onClick={() => {
+                        const currentDate = new Date(selectedDate);
+                        currentDate.setDate(
+                          currentDate.getDate() -
+                            (expandCalendar === true ? 7 : 1)
+                        );
+                        setSelectedDate(currentDate);
+                      }}
+                    />
+                    <ChevronRightOutlined
+                      sx={{
+                        color: "rgb(17, 24, 28)",
+                        fontWeight: 400,
+                        fontSize: "20px",
+                        cursor: "pointer",
+                        padding: "2px 2px",
+                        borderRadius: "4px",
+                        ":hover": {
+                          backgroundColor: "rgb(236, 238, 240)",
+                        },
+                        transition: "0.2s ease",
+                        margin: "0 0 0 4px",
+                      }}
+                      onClick={() => {
+                        const currentDate = new Date(selectedDate);
+                        currentDate.setDate(
+                          currentDate.getDate() +
+                            (expandCalendar === true ? 7 : 1)
+                        );
+                        setSelectedDate(currentDate);
+                      }}
+                    />
+                  </Box>
                 </Box>
+                <Typography
+                  sx={{
+                    color: "rgb(17, 24, 28)",
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    margin: "0px 0px 0px 4px",
+                    lineHeight: "20px",
+                  }}
+                >
+                  {moment(selectedDate).format("MMMM")}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "rgb(104, 112, 118)",
+                    fontWeight: 300,
+                    fontSize: "14px",
+                    margin: "0px 0px 0px 4px",
+                  }}
+                >
+                  {moment(selectedDate).format("YYYY")}
+                </Typography>
               </Box>
-              <Typography
+
+              {/* calendar  */}
+              <Box
                 sx={{
-                  color: "rgb(17, 24, 28)",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  margin: "0px 0px 0px 4px",
-                  lineHeight: "20px",
-                }}>
-                {moment(selectedDate).format("MMMM")}
-              </Typography>
-              <Typography
-                sx={{
-                  color: "rgb(104, 112, 118)",
-                  fontWeight: 300,
-                  fontSize: "14px",
-                  margin: "0px 0px 0px 4px",
-                }}>
-                {moment(selectedDate).format("YYYY")}
-              </Typography>
+                  display: "flex",
+                  width: "50%",
+                  gap: "12px",
+                  padding: "12px",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  color: "black",
+                }}
+              >
+                {isRefetching ? (
+                  <div>
+                    <CircularProgress size={20} color="inherit" />
+                  </div>
+                ) : (
+                  <Tooltip arrow title="Sync calendar">
+                    <button
+                      className="border-none outline-none"
+                      onClick={handleRefreshEvents}
+                    >
+                      <AiOutlineSync size={20} className="icon" />
+                    </button>
+                  </Tooltip>
+                )}
+
+                {expandCalendar ? (
+                  <Tooltip arrow title="Day view">
+                    <div>
+                      <RiCollapseDiagonalLine
+                        size={20}
+                        onClick={() => setExpandCalendar(false)}
+                        className="icon"
+                      />
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <Tooltip arrow title="Week view">
+                    <div>
+                      <CgArrowsExpandRight
+                        size={20}
+                        onClick={() => setExpandCalendar(true)}
+                        className="icon"
+                      />
+                    </div>
+                  </Tooltip>
+                )}
+
+                <CloseIcon
+                  onClick={() => setOpenCalendar(false)}
+                  sx={{
+                    width: "22px",
+                    height: "22px",
+                    color: "rgb(17, 24, 28)",
+                    fontWeight: 400,
+                    cursor: "pointer",
+                    padding: "2px 2px",
+                    borderRadius: "4px",
+                    ":hover": {
+                      backgroundColor: "rgb(236, 238, 240)",
+                    },
+                    transition: "0.2s ease",
+                  }}
+                  className="icon"
+                />
+              </Box>
             </Box>
 
-            {/* calendar  */}
+            {/* meeting calendar */}
             <Box
               sx={{
-                display: "flex",
-                width: "50%",
-                gap: "12px",
-                padding: "12px",
-                alignItems: "center",
-                justifyContent: "end",
-                color: "black",
-              }}>
-              <Tooltip arrow title="Sync calendar">
-                <div>
-                  <AiOutlineSync
-                    style={{
-                      cursor: "pointer",
-                      width: "17px",
-                      height: "17px",
-                    }}
-                  />
-                </div>
-              </Tooltip>
-
-              {expandCalendar ? (
-                <Tooltip arrow title="Day view">
-                  <div>
-                    <RiCollapseDiagonalLine
-                      style={{
-                        cursor: "pointer",
-                        width: "17px",
-                        height: "17px",
-                      }}
-                      onClick={() => setExpandCalendar(false)}
-                      className="icon"
-                    />
-                  </div>
-                </Tooltip>
-              ) : (
-                <Tooltip arrow title="Week view">
-                  <div>
-                    <CgArrowsExpandRight
-                      style={{
-                        cursor: "pointer",
-                        width: "17px",
-                        height: "17px",
-                      }}
-                      onClick={() => setExpandCalendar(true)}
-                      className="icon"
-                    />
-                  </div>
-                </Tooltip>
-              )}
-
-              <CloseIcon
-                onClick={() => setOpenCalendar(false)}
-                sx={{
-                  cursor: "pointer",
-                  width: "17px",
-                  height: "17px",
+                border: "none",
+                height: "100%",
+                marginTop: "0",
+                overflow: "auto",
+                overflowX: "hidden",
+                scrollbarWidth: "none",
+              }}
+            >
+              <Calendar
+                localizer={localizer}
+                startAccessor="start"
+                endAccessor="end"
+                view={expandCalendar ? "week" : "day"}
+                onView={handleViewChange}
+                defaultView="week"
+                events={events}
+                toolbar={false}
+                timeslots={4}
+                selectable={true}
+                date={selectedDate}
+                onNavigate={handleNavigate}
+                formats={{
+                  timeGutterFormat: "h A",
                 }}
-                className="icon"
+                onSelectEvent={handleSelectEvent}
+                className="hide-scrollbar"
               />
             </Box>
           </Box>
-
-          {/* meeting calendar */}
-          <Box
-            sx={{
-              border: "none",
-              height: "100%",
-              marginTop: "0",
-              overflow: "auto",
-              overflowX: "hidden",
-            }}>
-            <Calendar
-              localizer={localizer}
-              startAccessor="start"
-              endAccessor="end"
-              view={expandCalendar ? "week" : "day"}
-              defaultView="week"
-              events={events}
-              toolbar={false}
-              timeslots={4}
-              selectable={true}
-              date={selectedDate}
-              formats={{
-                timeGutterFormat: "h A",
-              }}
-              onSelectEvent={handleSelectEvent}
-            />
-          </Box>
         </Box>
-      </Box>
-    </CustomDrawer>
+      </CustomDrawer>
+    </>
   );
 };
 export default MeetingsCalendar;

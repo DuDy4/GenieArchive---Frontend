@@ -3,7 +3,7 @@ import axios from "axios";
 import { Meeting } from "../types";
 
 const useMeetings = (tenant_id: string) => {
-  const { data: meetings, isLoading: isLoadingMeetings } = useQuery({
+  const { data: meetings, isLoading: isLoadingMeetings,refetch,isRefetching } = useQuery({
     queryKey: ["meetings", tenant_id],
 
     queryFn: async ({ queryKey }) => {
@@ -16,7 +16,7 @@ const useMeetings = (tenant_id: string) => {
     },
   });
 
-  return { meetings, isLoadingMeetings };
+  return { meetings, isLoadingMeetings,refetch ,isRefetching};
 };
 
 export default useMeetings;

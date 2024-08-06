@@ -10,8 +10,9 @@ import { AttendeeInfoSocials, Connection, Hobby, News } from "../types";
 import useGetToKnow from "../hooks/useGetToKnow";
 import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
-import { IoCloudyNightOutline } from "react-icons/io5";
 import moment from "moment";
+import { useAuth } from "@frontegg/react";
+import { isArray } from "chart.js/helpers";
 
 interface ProfilesDetailsProps {
   name: string;
@@ -19,18 +20,23 @@ interface ProfilesDetailsProps {
 }
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
+  const { user } = useAuth();
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
-    "TestOwner",
+    user?.tenantId!,
     uuid
   );
-  const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow("TestOwner", uuid);
-  const { getToKnow, isLoadingGetToKnow } = useGetToKnow("TestOwner", uuid);
+  const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(
+    user?.tenantId!,
+    uuid
+  );
+  const { getToKnow, isLoadingGetToKnow } = useGetToKnow(user?.tenantId!, uuid);
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(
-    "TestOwner",
+    user?.tenantId!,
     uuid
   );
-  const strengths = useStrengths("TestOwner", uuid);
-  
+  console.log(goodToKnow);
+  const strengths = useStrengths(user?.tenantId!, uuid);
+
   if (
     isLoadingAttendeeInfo ||
     isLoadingGoodToKnow ||
@@ -62,7 +68,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
       }}>
       <div className="space-y-[23.5px]">
         <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
-          <div className="max-h-[225px] overflow-hidden">
+          <div className="max-h-[200px] overflow-hidden">
             <img
               src={attendeeInfo?.picture}
               alt="user photo"
@@ -121,7 +127,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               <div className="font-regular text-[12px] leading-[18px] text-[#9F9F9F]">
                 Position
               </div>
-              <div className="font-semibold text-[#37455C] whitespace-nowrap text-[14px] leading-[21px]">
+              <div className="font-bold text-[#37455C] whitespace-nowrap text-[14px] leading-[21px]">
                 {attendeeInfo?.position}
               </div>
             </div>
@@ -130,7 +136,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
         <div className="py-[12px] space-y-2 rounded-[16px] px-[12px] border relative border-[#DDDDDD]">
           <div className="font-semibold text-[16px] text-heading">
-            {name.split(" ")[0]}'s Playbook
+            {name.split(" ")[0]}'s work history
           </div>
 
           <div className="relative">
@@ -141,41 +147,44 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
-              {workExperience?.map(({ title, end_date, start_date }, index) => (
-                <div
-                  className={`primary-text flex items-start gap-4 before:content-[''] before:absolute before:w-[2.5px] before:h-full before:left-1.5 before:top-0 relative before:overflow-hidden ${
-                    end_date === null ? "before:bg-[#00C875]" : ""
-                  } ${
-                    typeof end_date === "string" ? "before:bg-[#0073EA]" : ""
-                  } ${
-                    index === workExperience.length - 1
-                      ? "before:-mt-10"
-                      : "before:pb-16 before:mt-4"
-                  }`}
-                  key={index}>
-                  <GreenTimelineIcon
-                    className="min-w-[24px] z-[99] mt-2"
-                    // fill="#FFCB00"
-                    // ${
-                    //   timeline === "primary" ? "font-semibold" : ""
-                    // }
-                    fill={
-                      // (timeline === "pending" ? "#FFCB00" : "") ||
-                      (end_date === null ? "#00C875" : "") ||
-                      (typeof end_date === "string" ? "#0073EA" : "")
-                    }
-                    //  ${
-                    //     timeline === "primary" ? "!text-[#37455C]" : ""
-                    //   }
-                  />
-                  <p className={`primary-text !text-[12px] !font-medium`}>
-                    {title.name} - {moment(start_date).format("MMM YYYY")} -&gt;{" "}
-                    {end_date === null
-                      ? "Present"
-                      : moment(end_date).format("MMM YYYY")}{" "}
-                  </p>
-                </div>
-              ))}
+              {workExperience?.map(
+                ({ title, end_date, start_date, company }, index) => (
+                  <div
+                    className={`primary-text flex items-start gap-4 before:content-[''] before:absolute before:w-[2.5px] before:h-full before:left-1.5 before:top-0 relative before:overflow-hidden ${
+                      end_date === null ? "before:bg-[#00C875]" : ""
+                    } ${
+                      typeof end_date === "string" ? "before:bg-[#0073EA]" : ""
+                    } ${
+                      index === workExperience.length - 1
+                        ? "before:-mt-10"
+                        : "before:pb-16 before:mt-4"
+                    }`}
+                    key={index}>
+                    <GreenTimelineIcon
+                      className="min-w-[24px] z-[99] mt-2"
+                      fill={
+                        // (timeline === "pending" ? "#FFCB00" : "") ||
+                        (end_date === null ? "#00C875" : "") ||
+                        (typeof end_date === "string" ? "#0073EA" : "")
+                      }
+                      //  ${
+                      //     timeline === "primary" ? "!text-[#37455C]" : ""
+                      //   }
+                    />
+                    <p className={`primary-text !text-[12px] !font-medium`}>
+                      <span className="!font-bold !text-black">
+                        {title.name}
+                      </span>{" "}
+                      <br />
+                      <span>{company.name}</span> <br />
+                      {moment(start_date).format("MMM YYYY")} -&gt;{" "}
+                      {end_date === null
+                        ? "Present"
+                        : moment(end_date).format("MMM YYYY")}{" "}
+                    </p>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -227,7 +236,13 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       placement="top"
                       key={index}
                       title={hobby_name}>
-                      <img src={icon_url} alt="hobby image" />
+                      <div className="w-12 h-12">
+                        <img
+                          src={icon_url}
+                          alt="hobby image"
+                          className="max-w-full"
+                        />
+                      </div>
                     </Tooltip>
                   )
                 )}
@@ -241,21 +256,20 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
               <div className="flex flex-col gap-4">
                 {goodToKnow?.news?.map(
-                  (
-                    { news_icon, news_title, news_url }: News,
-                    index: number
-                  ) => (
+                  ({ news_icon, title, link }: News, index: number) => (
                     <Link
-                      to={news_url}
+                      to={link}
                       target="_blank"
                       key={index}
                       className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-                      <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
-                        <img src={news_icon} alt="news icon" />
-                      </div>
+                      {news_icon ? (
+                        <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
+                          <img src={news_icon} alt="news icon" />
+                        </div>
+                      ) : null}
 
                       <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                        {news_title}{" "}
+                        {title}{" "}
                       </p>
                     </Link>
                   )
@@ -286,34 +300,6 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                     </Tooltip>
                   ) : null
                 )}
-                {/* <Tooltip arrow placement="top" title="Command">
-                  <img
-                    src="/images/command-icon.svg"
-                    alt="good to know image"
-                    className="min-w-[22px] cursor-pointer"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Focus">
-                  <img
-                    src="/images/focus-icon.svg"
-                    alt="good to know image"
-                    className="min-w-[22px] cursor-pointer"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Futuristic">
-                  <img
-                    src="/images/futuristic-icon.svg"
-                    alt="good to know image"
-                    className="min-w-[22px] cursor-pointer"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Developer">
-                  <img
-                    src="/images/developer-icon.svg"
-                    alt="good to know image"
-                    className="min-w-[22px] cursor-pointer"
-                  />
-                </Tooltip> */}
               </div>
             </div>
 
@@ -329,18 +315,18 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h3>
 
               <div className="flex flex-col gap-4">
-                {getToKnow?.best_practices?.map(
-                  ({ reasoning, what_to_do }, index: number) => (
+                {/* {} */}
+                {getToKnow["best_practices"]?.map(
+                  ({ reasoning, phrase_text }: any, index: number) => (
                     <div className="flex gap-1" key={index}>
                       <TickIcon />
-
                       <div>
                         <p className="primary-text !text-[12px] !font-medium">
-                          {what_to_do}
+                          {reasoning}
                         </p>
                         <p className="primary-text !text-[12px] !font-medium">
-                          {reasoning}
-                        </p>{" "}
+                          {phrase_text}
+                        </p>
                       </div>
                     </div>
                   )

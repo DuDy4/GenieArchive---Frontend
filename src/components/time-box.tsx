@@ -2,11 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { getGreeting } from "../utils/helpers";
-import useUser from "../hooks/useUser";
+import { useAuth } from "@frontegg/react";
 
 const TimeBox = () => {
   const [time, setTime] = useState(new Date());
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     setInterval(() => {
@@ -62,6 +62,7 @@ const TimeBox = () => {
             fontWeight: 500,
             lineHeight: "24px",
             textAlign: "center",
+            textTransform: "capitalize"
           }}>
           {getGreeting()}, {user?.name}!
         </Typography>

@@ -12,8 +12,23 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
           import.meta.env.VITE_API_URL
         }/${tenant_id}/profiles/${uuid}/good-to-know`
       );
+      // return response.data;
+      console.log(response.data);
+      if (Array.isArray(await response.data.news)) {
+        console.log('if')
+        return response.data
+      } else if (typeof await  response.data?.news === "object") {
+        console.log("else if");
+        const newObj = {
+          connections: response.data?.connections,
+          hobbies: response.data?.hobbies,
+          news: response.data?.news?.news,
+        };
+        return newObj;
+      }
 
-      return response.data;
+      // else {
+      // }
     },
   });
 

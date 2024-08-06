@@ -3,11 +3,14 @@ import useMeetings from "../hooks/useMeetings";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Meeting } from "../types";
+import { useAuth } from "@frontegg/react";
 
 const UpcomingMeetings = () => {
-  const { meetings } = useMeetings("TestOwner");
+  const { user } = useAuth();
+  const { meetings } = useMeetings(user?.tenantId!);
 
   const upcomingMeeting = meetings?.find((meeting: Meeting) =>
+    // meeting.subject ==='Test'
     moment(meeting.start_time).isAfter(moment())
   );
 
@@ -30,19 +33,19 @@ const UpcomingMeetings = () => {
                   : "capitalize text-[14px] font-normal"
               }`}>
               {upcomingMeeting
-                ? `Upcoming - ${moment(
-                    upcomingMeeting?.start_time
-                  ).fromNow()}`
-                : "🔥 You have reached a perfect day!"}
+                ? `Upcoming - ${moment(upcomingMeeting?.start_time).fromNow()}`
+                : null}
             </p>
           </div>
 
           {upcomingMeeting ? (
-            <div className="flex gap-4 z-[12]">
-              <p className="text-white text-[24px] font-medium text-center">
-                {upcomingMeeting?.subject}{" "}
-              </p>
-              <Link to={upcomingMeeting?.link as string} target="_blank">
+            <Link
+              to={`/meeting/${upcomingMeeting.uuid}?name=${upcomingMeeting?.subject}`}>
+              <div className="flex gap-4 z-[12]">
+                <p className="text-white text-[24px] font-medium text-center">
+                  {upcomingMeeting?.subject}{" "}
+                </p>
+                {/* {upcomingMeeting?.link ? ( */}
                 <Box
                   sx={{
                     margin: "0px",
@@ -61,12 +64,13 @@ const UpcomingMeetings = () => {
                   }}>
                   ↩
                 </Box>
-              </Link>
-            </div>
+                {/* ) : null} */}
+              </div>
+            </Link>
           ) : null}
         </div>
 
-        {upcomingMeeting ? (
+        {upcomingMeeting?.start_time ? (
           <div className="space-y-2">
             <p
               style={{
