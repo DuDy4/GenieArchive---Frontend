@@ -111,7 +111,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
                   <Link
                     to={`/meeting/${uuid}?name=${title}`}
                     key={index}
-                    className="text-sm underline  transition-colors">
+                    className="text-sm underline transition-colors">
                     <li className="list-decimal list-inside">{name}</li>
                   </Link>
                 ))}
@@ -134,9 +134,9 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
           )
         ) : (
           <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
-            <div class="icon-container">
-                <img src="/images/logo.png" alt="Genie AI" class="icon" />
-                <div class="loading-circle"></div>
+            <div className="icon-container">
+                <img src="/images/logo.png" alt="Genie AI" className="icon" />
+                <div className="loading-circle"></div>
             </div>
           </div>
         )}
