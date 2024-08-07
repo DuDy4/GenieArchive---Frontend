@@ -1,4 +1,3 @@
-import LinkedIcon from "/images/linkedin-icon.svg";
 import XIcon from "/images/twitter-icon.svg";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
@@ -17,6 +16,14 @@ import { isArray } from "chart.js/helpers";
 interface ProfilesDetailsProps {
   name: string;
   uuid: string;
+}
+
+const iconRoutes = {
+    "twitter": "/public/images/twitter-icon.svg",
+    "linkedin": "/public/images/linkedin-icon.svg",
+    "facebook": "/public/images/facebook-icon.png",
+    "crunchbase": "/public/images/crunchbase-icon.png",
+    "angelist": "/public/images/angelist-icon.png",
 }
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
@@ -89,7 +96,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       to={url.includes("https") ? url : `https://${url}`}
                       target="_blank">
                       <img
-                        src={LinkedIcon}
+                        src={iconRoutes[platform]}
                         className="min-w-[27px] max-w-[27px]"
                         alt="linkedin icon"
                       />
