@@ -83,7 +83,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="flex gap-[4px]">
               {attendeeInfo?.social_media_links.map(
-                ({ url, plateform }: AttendeeInfoSocials, index: number) => (
+                ({ url, platform }: AttendeeInfoSocials, index: number) => (
                   <div key={index}>
                     <Link
                       to={url.includes("https") ? url : `https://${url}`}
@@ -94,7 +94,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                         alt="linkedin icon"
                       />
                     </Link>
-                    {plateform === "X" && (
+                    {platform === "X" && (
                       <Link to="https://www.twitter.com/" target="_blank">
                         <img
                           src={XIcon}

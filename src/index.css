@@ -18,7 +18,7 @@ html {
 }
 
 .background {
-  background-image: url("/images/background-image-2.jpeg");
+  background-image: url("/images/background-image-3.jpeg");
   display: flex;
   -moz-box-pack: center;
   justify-content: center;
@@ -41,10 +41,18 @@ html {
   height: 100%;
   width: 100%;
   background-image: linear-gradient(
-    rgba(0, 0, 0, 0.43) 100%,
+    rgba(0, 0, 0, 0.23) 100%,
     rgba(255, 255, 255, 0.17) 95%
   );
   z-index: 1;
+  filter: brightness(1.4) contrast(1.4);
+}
+
+.remove-background-effect{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  filter: none;
 }
 
 .box {
