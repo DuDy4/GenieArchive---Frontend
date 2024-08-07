@@ -19,11 +19,11 @@ interface ProfilesDetailsProps {
 }
 
 const iconRoutes = {
-    "twitter": "/public/images/twitter-icon.svg",
-    "linkedin": "/public/images/linkedin-icon.svg",
-    "facebook": "/public/images/facebook-icon.png",
-    "crunchbase": "/public/images/crunchbase-icon.png",
-    "angelist": "/public/images/angelist-icon.png",
+    "twitter": "/images/twitter-icon.svg",
+    "linkedin": "/images/linkedin-icon.svg",
+    "facebook": "/images/facebook-icon.png",
+    "crunchbase": "/images/crunchbase-icon.png",
+    "angelist": "/images/angelist-icon.png",
 }
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {

@@ -92,7 +92,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
 
         <div className="flex p-[8px] mb-[8px] w-full max-h-[56px]">
           <input
-            placeholder="Search notes, summaries, attendees emails..."
+            placeholder="Search for profiles you're meeting up with..."
             className="border-none outline-none bg-[#E6E8EB] rounded-[4px] text-[12px] font-normal py-[10px] px-[14px] max-h-[56px] w-full"
             value={searchTerm}
             onChange={(e) => handleSearch(e)}
@@ -120,7 +120,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
           ) : (
             <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
               <p className="text-[14px] leading-[24px] font-normal text-[rgb(17, 24, 28)]">
-                No events match the search term
+                Couldn't find any profile to match your search
               </p>
               <p
                 className="text-[12px] font-normal"
@@ -134,17 +134,10 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
           )
         ) : (
           <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
-            <p className="text-[14px] leading-[24px] font-normal text-[rgb(17, 24, 28)]">
-              You have no recent events with notes or summaries
-            </p>
-            <p
-              className="text-[12px] font-normal"
-              style={{
-                color: "rgb(136, 144, 150)",
-              }}>
-              You can add notes and summaries to your events from the event
-              dialog
-            </p>
+            <div class="icon-container">
+                <img src="/images/logo.png" alt="Genie AI" class="icon" />
+                <div class="loading-circle"></div>
+            </div>
           </div>
         )}
       </div>
