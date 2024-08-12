@@ -24,9 +24,9 @@ const customLabelPlugin = {
         const angle =
           (index / chartInstance.data.labels.length) * (2 * Math.PI) -
           Math.PI / 2;
-        const basePositionOffset = 100;
+        const basePositionOffset = index===0? 60 : 80;
         const iconSize = 35;
-        const textOffset = 10; // Space between icon and text
+        const textOffset = 0; // Space between icon and text
         const totalHeight = iconSize + textOffset; // Total height for icon and text
         const x =
           centerX +
@@ -92,7 +92,7 @@ Chart.register(customLabelPlugin);
 const options = {
   layout: {
     padding: {
-      top: 80,
+      top: 50,
       bottom: 30,
       left: 90,
       right: 90,
@@ -225,8 +225,8 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
       {
         data: data?.map((item) => item.score),
         fill: true,
-        backgroundColor: "rgb(255 203 0 / 0.2)",
-        borderColor: "#FFCB00",
+        backgroundColor: "rgba(0, 115, 234, 0.35)",
+        borderColor: "#0073EA",
         pointImages: data?.map((item) => item.image), // Custom property for images
         pointRadius: 0,
       },

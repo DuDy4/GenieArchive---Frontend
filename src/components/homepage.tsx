@@ -18,7 +18,7 @@ const Home = () => {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated } = useAuth();
-  
+
   useEffect(() => {
     const removeCodeParam = () => {
       let params = new URLSearchParams(searchParams);
@@ -42,7 +42,8 @@ const Home = () => {
           right: "22px",
           top: "23px",
           zIndex: "12",
-        }}>
+        }}
+      >
         <Box
           sx={{
             borderRadius: "8px",
@@ -56,7 +57,8 @@ const Home = () => {
               backgroundColor: "rgba(255, 255, 255, 0.32)",
             },
             width: { xs: "auto", sm: "100%" },
-          }}>
+          }}
+        >
           <InputBase
             placeholder="Search notes"
             disabled={openSearchBar}
@@ -96,7 +98,8 @@ const Home = () => {
           onClick={() => {
             setOpenCalendar((openCalendar) => !openCalendar);
             setOpenSearchBar(false);
-          }}>
+          }}
+        >
           <CalendarTodayOutlinedIcon fontSize="small" />
           <Typography>Calendar</Typography>
         </div>
@@ -104,7 +107,8 @@ const Home = () => {
         {!isAuthenticated && (
           <Link
             className="box"
-            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app">
+            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app"
+          >
             <Typography>Login</Typography>
           </Link>
         )}
@@ -135,7 +139,8 @@ const Home = () => {
           width: "5rem",
           height: "5rem",
         }}
-        onMouseEnter={() => setOpenCalendar(true)}>
+        onMouseEnter={() => setOpenCalendar(true)}
+      >
         <Box
           sx={{
             borderRadius: "8px",
@@ -152,7 +157,8 @@ const Home = () => {
             top: "calc(50% - 30px)",
             transform: "translateX(-16px) translateZ(0px)",
             transition: "transform 0.2s ease-in-out",
-          }}></Box>
+          }}
+        ></Box>
       </div>
 
       <Calendar
@@ -160,11 +166,12 @@ const Home = () => {
         openCalendar={openCalendar}
         setOpenCalendar={setOpenCalendar}
       />
-
-      <SearchAttendes
-        openSearchBar={openSearchBar}
-        setOpenSearchBar={setOpenSearchBar}
-      />
+      {openSearchBar ? (
+        <SearchAttendes
+          openSearchBar={openSearchBar}
+          setOpenSearchBar={setOpenSearchBar}
+        />
+      ) : null}
       <Preferences />
     </main>
   );

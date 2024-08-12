@@ -5,8 +5,8 @@ interface Profile {
 
 interface News {
   news_icon: string;
-  news_title: string;
-  news_url: string;
+  title: string;
+  link: string;
 }
 
 interface Hobby {
@@ -16,8 +16,8 @@ interface Hobby {
 
 interface Connection {
   name: string;
-  picture_url: string;
-  linkedin: string;
+  image_url: string;
+  linkedin_url: string;
   uuid: string;
 }
 
