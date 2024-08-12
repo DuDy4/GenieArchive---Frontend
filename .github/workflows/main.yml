@@ -43,7 +43,7 @@ jobs:
       - name: Get version from project.toml
         id: get_version
         run: |
-          if [ -f pyproject.toml ]; then
+          if [ -f project.toml ]; then
             version=$(grep -m1 version pyproject.toml | cut -d '"' -f2)
             current_time=$(date +%H.%M)
             tag="${version}.${current_time}"
