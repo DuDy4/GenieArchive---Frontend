@@ -213,11 +213,11 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   const { user } = useAuth();
   const strengths = useStrengths(user?.tenantId!, uuid);
   // console.log(strengths)
-  const data = strengths?.map((strength: Strength) => ({
+  const data = Array.isArray(strengths) ? strengths?.map((strength: Strength) => ({
     name: strength.strength_name || strength.strengths_name,
     image: icons[strength.strengths_name || strength.strength_name] || icons.Default,
     score: strength.score,
-  }));
+  })) : [];
 
   const chartData = {
     labels: data?.map((item) => item.name),

@@ -8,12 +8,13 @@ import Home from "./components/homepage";
 import Meeting from "./components/meeting";
 
 function App() {
+    const selfUrl = import.meta.env.VITE_SELF_URL;
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (!isAuthenticated) {
       window.location.href =
-        "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app";
+        "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=${selfUrl}";
     }
   }, [isAuthenticated]);
 

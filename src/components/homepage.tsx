@@ -13,7 +13,11 @@ import Preferences from "./preferences";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
 
+const selfUrl = import.meta.env.VITE_SELF_URL;
+console.log(selfUrl);
+
 const Home = () => {
+
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();

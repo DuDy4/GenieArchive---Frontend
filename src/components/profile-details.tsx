@@ -44,6 +44,28 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   console.log(goodToKnow);
   const strengths = useStrengths(user?.tenantId!, uuid);
 
+  console.log("AttendeeInfoSocials: ", attendeeInfo);
+    console.log("goodToKnow: ", goodToKnow);
+    console.log("getToKnow: ", getToKnow);
+    console.log("workExperience: ", workExperience);
+    console.log("strengths: ", strengths);
+
+    if (
+        attendeeInfo?.error === "Profile not found under this tenant" &&
+        goodToKnow?.error === "Profile not found under this tenant" &&
+        getToKnow?.error === "Profile not found under this tenant" &&
+        workExperience?.error === "Profile not found under this tenant" &&
+        strengths?.error === "Profile not found under this tenant"
+    ) {
+        return (
+            <div className="w-full h-full flex justify-center items-center">
+                <p className="text-[18px] text-[#9F9F9F]">
+                    An error occurred. It seems you do not have access to this profile.
+                </p>
+            </div>
+        );
+    }
+
   if (
     isLoadingAttendeeInfo ||
     isLoadingGoodToKnow ||
@@ -89,7 +111,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             </div>
 
             <div className="flex gap-[4px]">
-              {attendeeInfo?.social_media_links.map(
+              {attendeeInfo?.social_media_links && attendeeInfo?.social_media_links.map(
                 ({ url, platform }: AttendeeInfoSocials, index: number) => (
                   <div key={index}>
                     <Link
@@ -145,7 +167,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
-              {workExperience?.map(
+              {workExperience && Array.isArray(getToKnow.workExperience) && workExperience?.map(
                 ({ title, end_date, start_date, company }, index) => (
                   <div
                     className={`primary-text flex items-start gap-4 before:content-[''] before:absolute before:w-[2.5px] before:h-full before:left-1.5 before:top-0 relative before:overflow-hidden ${
@@ -203,7 +225,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h4>
 
               <div className="flex gap-2">
-                {goodToKnow?.connections?.map(
+                {goodToKnow.connections && Array.isArray(goodToKnow.connections) && goodToKnow?.connections?.map(
                   ({ name, image_url, linkedin_url, uuid }: Connection) => (
                     <Link to={linkedin_url} target="_blank" key={uuid}>
                       <Tooltip title={name} arrow placement="top">
@@ -227,7 +249,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h4>
 
               <div className="flex gap-2">
-                {goodToKnow?.hobbies?.map(
+                {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow?.hobbies?.map(
                   ({ hobby_name, icon_url }: Hobby, index: number) => (
                     <Tooltip
                       arrow
@@ -253,7 +275,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h4>
 
               <div className="flex flex-col gap-4">
-                {goodToKnow?.news?.map(
+                {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow?.news?.map(
                   ({ news_icon, title, link }: News, index: number) => (
                     <Link
                       to={link}
@@ -287,7 +309,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h3>
 
               <div className="flex gap-2">
-                {strengths?.map(({ strengths_name }) =>
+                {strengths && (strengths instanceof Array) && strengths?.map(({ strengths_name }) =>
                   icons[strengths_name] ? (
                     <Tooltip arrow placement="top" title={strengths_name}>
                       <img
@@ -314,7 +336,8 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
               <div className="flex flex-col gap-4">
                 {/* {} */}
-                {getToKnow["best_practices"]?.map(
+                {getToKnow && getToKnow.best_practices && Array.isArray(getToKnow.best_practices)
+                    && getToKnow["best_practices"]?.map(
                   ({ reasoning, phrase_text }: any, index: number) => (
                     <div className="flex gap-1" key={index}>
                       <TickIcon />
@@ -338,7 +361,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </h3>
 
               <div className="flex flex-col gap-4">
-                {getToKnow?.phrases_to_use?.map(
+                {getToKnow.phrases_to_use && Array.isArray(getToKnow.phrases_to_use) && getToKnow?.phrases_to_use?.map(
                   ({ reasoning, phrase_text }: string, index: number) => (
                     <div className="flex gap-1" key={index}>
                       <TickIcon />
@@ -360,7 +383,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               <h3 className="font-medium text-[16px] text-heading">Avoid</h3>
 
               <div className="flex flex-col gap-4">
-                {getToKnow?.avoid?.map(
+                {getToKnow.avoid && Array.isArray(getToKnow.avoid) && getToKnow?.avoid?.map(
                   ({ reasoning, phrase_text }, index: number) => (
                     <div className="flex gap-1 items-start" key={index}>
                       <CrossIcon />

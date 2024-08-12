@@ -14,6 +14,11 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
       );
       // return response.data;
       console.log(response.data);
+      if (response.data && response.data?.error) {
+        console.log("error");
+        return await response.data;
+      }
+
       if (Array.isArray(await response.data.news)) {
         console.log('if')
         return response.data

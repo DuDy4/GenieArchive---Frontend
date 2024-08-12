@@ -19,7 +19,10 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [meetings, setMeetings] = useState<Meeting[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState<Boolean>(false);
   const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
+  const [filteredEmails, setFilteredEmails] = useState<string[]>([]);
+  const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -30,6 +33,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   }, [openSearchBar]);
 
   useEffect(() => {
+    setLoading(true);
     const fetchMeetings = async () => {
       const meetingsResponse = await axios.get(
         `${import.meta.env.VITE_API_URL}/${user?.tenantId}/meetings`
@@ -56,7 +60,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
 
       // Wait for all promises to resolve
       const allProfiles = await Promise.all(profilePromises);
-      console.log(allProfiles);
+      console.log("All profiles", allProfiles);
       setLoading(false);
       // Combine all profiles into one array
       const combinedProfiles = [].concat(...allProfiles);
@@ -81,7 +85,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
 
     const filteredEmails = filteredData.map((profile) => profile.email);
 
-    console.log(filteredEmails);
+    console.log(" Filtered emails: ", filteredEmails);
     setFilteredEmails(filteredEmails);
 
     const filteredMeetings = meetings?.filter((meeting) => {
@@ -90,7 +94,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       );
     });
 
-    console.log(filteredMeetings);
+    console.log("Filtered meetings: ",filteredMeetings);
     const sortedMeetings = filteredMeetings?.sort((a, b) => {
       return a.start_time - b.start_time;
     })

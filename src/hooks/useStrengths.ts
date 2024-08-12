@@ -17,9 +17,12 @@ const useStrengths = (tenant_id: string, uuid: string) => {
 
         return response.data;
       }
-     else if ( response.data instanceof Object){
+     else if ( response.data instanceof Object && response.data?.strengths) {
         return response.data.strengths
-      } 
+      }
+     else {
+        return {"error": "Profile not found under this tenant"};
+      }
     },
   });
   
