@@ -22,6 +22,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [loading, setLoading] = useState<Boolean>(false);
   const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
   const [filteredEmails, setFilteredEmails] = useState<string[]>([]);
+  const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth();
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -88,6 +89,10 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
     console.log(" Filtered emails: ", filteredEmails);
     setFilteredEmails(filteredEmails);
 
+    const filteredParticipants = filteredData.map((profile) => {
+
+        });
+
     const filteredMeetings = meetings?.filter((meeting) => {
       return meeting.participants_emails.some((email) =>
         filteredEmails.includes(email.email.toLowerCase())
@@ -147,11 +152,19 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
                       </div>
 
                     </li>
-                    <li className="list-inside">
-                        Attendee: {meeting.participants_emails.filter((email) =>
-                          filteredEmails.includes(email.email.toLowerCase())
-                        ).join(", ")}
-                      </li>
+                    <li className="list-inside" key={meeting.uuid}>
+                      Attendee: {
+                        meeting.participants_emails
+                          .filter(emailObj =>
+                            filteredEmails.includes(emailObj.email.toLowerCase())
+                          )
+                          .map(emailObj => {
+                            const profile = profiles?.find(profile => profile.email === emailObj.email);
+                            return profile ? profile.name : emailObj.email;
+                          })
+                          .join(", ")
+                      }
+                    </li>
                   </Link>
                 ))}
               </ul>
@@ -167,8 +180,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
                   color: "rgb(136, 144, 150)",
                 }}
               >
-                You can search for words in notes, summaries, attendees emails
-                and event titles
+                You can search for words in any name of an attendee
               </p>
             </div>
           )

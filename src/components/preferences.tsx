@@ -294,7 +294,7 @@ const Preferences = () => {
                 }}>
                 {user?.email}
               </p>
-              <Tooltip arrow placement="top" title="Logout">
+              <Tooltip arrow placement="top" title="Log Out">
                 <div onClick={logout}>
                   <FiLogOut className="logout-icon" />
                 </div>

@@ -598,5 +598,14 @@ element {
     display: flex;
     direction: row;
     justify-content: space-between;
+}
 
+.h-full {
+    align-self: center;
+    max-height: inherit;
+    border-radius: 50%;
+}
+
+.align-start {
+  align-self: flex-start;
 }
