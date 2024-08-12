@@ -98,7 +98,6 @@ const Meeting = () => {
                     width: "100%",
                     flexFlow: "wrap",
                     justifyContent: "space-between",
-                    whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                     gap: "16px",
                   }}
