@@ -44,13 +44,13 @@ jobs:
         id: get_version
         run: |
           if [ -f project.toml ]; then
-            version=$(grep -m1 version pyproject.toml | cut -d '"' -f2)
+            version=$(grep -m1 version project.toml | cut -d '"' -f2)
             current_time=$(date +%H.%M)
             tag="${version}.${current_time}"
             echo "Tag: $tag"
             echo "tag=$tag" >> $GITHUB_OUTPUT
           else
-            echo "pyproject.toml not found. Using fallback version."
+            echo "project.toml not found. Using fallback version."
             fallback_tag="fallback-$(date +%Y%m%d%H%M%S)"
             echo "tag=$fallback_tag" >> $GITHUB_OUTPUT
           fi
