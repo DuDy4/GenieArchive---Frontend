@@ -539,9 +539,8 @@ element {
     height: 100%;
     display: block;
     position: relative;
-    z-index: 1;
+    z-index: 999;
     background: none; /* Ensure no background in the image */
-    pointer-events: none; /* Disable mouse events on the image */
 }
 
 
