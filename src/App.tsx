@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     if (!isAuthenticated) {
       window.location.href =
-        "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app";
+        "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai";
     }
   }, [isAuthenticated]);
 

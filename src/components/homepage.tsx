@@ -107,17 +107,12 @@ const Home = () => {
         {!isAuthenticated && (
           <Link
             className="box"
-            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app"
+            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai"
           >
             <Typography>Login</Typography>
           </Link>
         )}
 
-        {/* <Link
-          className="box"
-          to="https://app-ulb15oyg6a4d.frontegg.com/oauth/account/sign-in?redirectUrl=https://smashcode-genie-ai.netlify.app">
-          <Typography>Login</Typography>
-        </Link> */}
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">
