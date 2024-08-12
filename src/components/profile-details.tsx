@@ -41,7 +41,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     user?.tenantId!,
     uuid
   );
-  console.log(goodToKnow);
+  console.log("GoodToKnow: ", goodToKnow);
   const strengths = useStrengths(user?.tenantId!, uuid);
 
   console.log("AttendeeInfoSocials: ", attendeeInfo);
@@ -167,7 +167,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
-              {workExperience && Array.isArray(getToKnow.workExperience) && workExperience?.map(
+              {workExperience && Array.isArray(workExperience) && workExperience?.map(
                 ({ title, end_date, start_date, company }, index) => (
                   <div
                     className={`primary-text flex items-start gap-4 before:content-[''] before:absolute before:w-[2.5px] before:h-full before:left-1.5 before:top-0 relative before:overflow-hidden ${
