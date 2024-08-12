@@ -101,15 +101,6 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                         alt="linkedin icon"
                       />
                     </Link>
-                    {platform === "X" && (
-                      <Link to="https://www.twitter.com/" target="_blank">
-                        <img
-                          src={XIcon}
-                          className="min-w-[27px]"
-                          alt="x icon"
-                        />
-                      </Link>
-                    )}
                   </div>
                 )
               )}

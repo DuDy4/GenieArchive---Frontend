@@ -562,3 +562,42 @@ element {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.meeting-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  border-bottom: 1px solid #eceeef;
+}
+
+.meeting-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.meeting-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meeting-subject {
+  font-weight: bold;
+}
+
+.meeting-time {
+  font-size: 12px;
+  color: #888;
+}
+
+.meeting-person {
+  font-size: 12px;
+  color: #555;
+}
+
+.date-time{
+    display: flex;
+    direction: row;
+    justify-content: space-between;
+
+}

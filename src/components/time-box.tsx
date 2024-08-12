@@ -64,7 +64,7 @@ const TimeBox = () => {
             textAlign: "center",
             textTransform: "capitalize"
           }}>
-          {getGreeting()}, {user?.name}!
+          {getGreeting()}, {user?.name? user?.name.split(' ')[0] : ''}!
         </Typography>
       </Box>
     </Box>

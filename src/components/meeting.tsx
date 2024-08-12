@@ -56,12 +56,9 @@ const Meeting = () => {
               : "translateY(100%) translateZ(0px)",
           }}
         >
-          <Link to="/">
+          <Link to="/" style={{ position: "absolute", left: "1rem", top: "1rem" }}>
             <CloseIcon
               sx={{
-                position: "absolute",
-                left: "1rem",
-                top: "1rem",
                 width: "24px",
                 height: "24px",
                 cursor: "pointer",
@@ -199,7 +196,6 @@ const Meeting = () => {
                 )}
               </Box>
             </Box>
-            {/* {value === uuid && <ProfileDetails name="Joe Johnsan" />} */}
             {allProfiles?.length > 0
               ? allProfiles?.map(({ name, uuid }: Profile, index: number) => {
                   return (
