@@ -13,7 +13,7 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
         }/${tenant_id}/profiles/${uuid}/good-to-know`
       );
       // return response.data;
-      console.log(response.data);
+      console.log("GoodToKnow response data:", response.data);
       if (response.data && response.data?.error) {
         console.log("error");
         return await response.data;
@@ -25,9 +25,9 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
       } else if (typeof await  response.data?.news === "object") {
         console.log("else if");
         const newObj = {
-          connections: response.data?.connections,
-          hobbies: response.data?.hobbies,
-          news: response.data?.news?.news,
+          connections: response.data?.connections ? response.data?.connections : [],
+          hobbies: response.data?.hobbies ? response.data?.hobbies : [],
+          news: response.data?.news?.news ? response.data?.news?.news : [],
         };
         return newObj;
       }
