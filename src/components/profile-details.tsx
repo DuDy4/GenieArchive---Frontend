@@ -213,12 +213,12 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
               <div className="flex gap-2">
                 {goodToKnow?.connections?.map(
-                  ({ name, picture_url, linkedin, uuid }: Connection) => (
-                    <Link to={linkedin} target="_blank" key={uuid}>
+                  ({ name, image_url, linkedin_url, uuid }: Connection) => (
+                    <Link to={linkedin_url} target="_blank" key={uuid}>
                       <Tooltip title={name} arrow placement="top">
                         <div className="w-[48px] rounded-full">
                           <img
-                            src={picture_url || "/images/anonymous-user-8.png"}
+                            src={image_url || "/images/anonymous-user-8.png"}
                             alt="connection image"
                             className="rounded-full max-w-full"
                           />

@@ -19,6 +19,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [meetings, setMeetings] = useState<Meeting[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState<Boolean>(false);
   const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
   const { user } = useAuth();
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   }, [openSearchBar]);
 
   useEffect(() => {
+    setLoading(true);
     const fetchMeetings = async () => {
       const meetingsResponse = await axios.get(
         `${import.meta.env.VITE_API_URL}/${user?.tenantId}/meetings`
@@ -52,11 +54,12 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
           }));
           return enhancedProfiles;
         }
-    );
+      );
 
       // Wait for all promises to resolve
       const allProfiles = await Promise.all(profilePromises);
-      // console.log(allProfiles)
+      console.log(allProfiles);
+      setLoading(false);
       // Combine all profiles into one array
       const combinedProfiles = [].concat(...allProfiles);
 
@@ -97,9 +100,64 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
             value={searchTerm}
             onChange={(e) => handleSearch(e)}
             ref={searchInputRef}
+            readOnly={loading}
           />
         </div>
 
+        {!loading ? (
+          searchTerm ? (
+            filteredData ? (
+              <div className="px-[12px]">
+                <Typography variant="h6" className="text-[14px]  font-normal">
+                  Search results
+                </Typography>
+                <ul className="mt-3 flex gap-y-2 flex-col">
+                  {filteredData?.map(({ name, uuid, title }, index) => (
+                    <Link
+                      to={`/meeting/${uuid}?name=${title}`}
+                      key={index}
+                      className="text-sm transition-colors w-full bg-gray-100 px-2 rounded-md py-2"
+                    >
+                      <li className="list-inside font-bold">{title}</li>
+                      <li className=" list-inside">{name}</li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
+                <p className="text-[14px] leading-[24px] font-normal text-[rgb(17, 24, 28)]">
+                    Couldn't find any profile to match your search
+                </p>
+                <p
+                  className="text-[12px] font-normal"
+                  style={{
+                    color: "rgb(136, 144, 150)",
+                  }}
+                >
+                  You can search for words in notes, summaries, attendees emails
+                  and event titles
+                </p>
+              </div>
+            )
+          ) : (
+            <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
+              <p className="text-[14px] leading-[24px] font-normal text-[rgb(17, 24, 28)]">
+                You have no recent events with notes or summaries
+              </p>
+              <p
+                className="text-[12px] font-normal"
+                style={{
+                  color: "rgb(136, 144, 150)",
+                }}
+              >
+                You can add notes and summaries to your events from the event
+                dialog
+              </p>
+            </div>
+          )
+        ) : (
+          <div className="text-[12px] font-normal text-center">Searching...</div>
         {searchTerm ? (
           filteredData ? (
             <div className="px-[12px]">
