@@ -67,3 +67,44 @@ jobs:
           echo "Event name: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
 
+      - name: Checkout genie-chart repository
+        uses: actions/checkout@v3
+        with:
+          repository: thegenieai/genieai-helm-charts
+          path: genie-chart
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Update genie-chart values
+        run: |
+          cd genie-chart/genie-chart/genie-chart
+          echo "Current directory: $(pwd)"
+          echo "Content of values.yaml before change:"
+          cat values.yaml
+    
+          # Use awk to update the specific tag
+          awk '
+          /services:/ {in_services=1}
+          in_services && /- name: frontend/ {in_frontend=1}
+          in_frontend && /image:/ {in_image=1}
+          in_image && /tag:/ {
+          sub(/tag: .*/, "tag: ${{ steps.get_version.outputs.tag }}")
+          in_image=0
+          in_frontend=0
+          }
+          {print}
+          ' values.yaml > values.yaml.tmp && mv values.yaml.tmp values.yaml
+    
+          echo "Content of values.yaml after change:"
+          cat values.yaml
+    
+          # Check if any changes were made
+          if git diff --exit-code values.yaml; then
+          echo "No changes were made to values.yaml"
+          exit 1
+          else
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add values.yaml
+          git commit -m "Update frontend image tag to ${{ steps.get_version.outputs.tag }}"
+          git push
+          fi
