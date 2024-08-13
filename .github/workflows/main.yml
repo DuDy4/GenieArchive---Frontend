@@ -77,9 +77,24 @@ jobs:
       - name: Update genie-chart values
         run: |
           cd genie-chart/genie-chart/genie-chart
-          sed -i '0,/tag:/{n;0,/tag:/{s/tag: .*/tag: ${{ steps.get_version.outputs.tag }}/}}' values.yaml
+          echo "Current directory: $(pwd)"
+          echo "Content of values.yaml before change:"
+          cat values.yaml
+    
+    
+          sed -i '0,/[Tt][Aa][Gg]:/{n;0,/[Tt][Aa][Gg]:/{s/[Tt][Aa][Gg]:[[:space:]]*.*/tag: ${{ steps.get_version.outputs.tag }}/}}' values.yaml
+    
+          echo "Content of values.yaml after change:"
+          cat values.yaml
+    
+          # Check if any changes were made
+          if git diff --exit-code values.yaml; then
+          echo "No changes were made to values.yaml"
+          exit 1
+          else
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add values.yaml
           git commit -m "Update second image tag to ${{ steps.get_version.outputs.tag }}"
           git push
+          fi
