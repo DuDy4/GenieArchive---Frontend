@@ -35,9 +35,9 @@ const Home = () => {
 
   return (
     <main className="background">
-      <Link to="/" className="w-[70px] z-[20] absolute top-4 left-8">
-        <img src="/images/logo.png" alt="logo" className="max-w-full" />
-      </Link>
+      <div className="w-[70px] z-[20] absolute top-4 left-8">
+        <img src="/images/image9.png" alt="logo" className="max-w-full" />
+      </div>
       <Box
         sx={{
           display: "flex",
