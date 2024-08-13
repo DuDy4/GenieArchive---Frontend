@@ -81,8 +81,19 @@ jobs:
           echo "Content of values.yaml before change:"
           cat values.yaml
     
+          # Use awk to update the specific tag
+          awk '
+          /services:/ {in_services=1}
+          in_services && /- name: frontend/ {in_frontend=1}
+          in_frontend && /image:/ {in_image=1}
+          in_image && /tag:/ {
+          sub(/tag: .*/, "tag: ${{ steps.get_version.outputs.tag }}")
+          in_image=0
+          in_frontend=0
+          }
+          {print}
+          ' values.yaml > values.yaml.tmp && mv values.yaml.tmp values.yaml
     
-          sed -i '/services:/,/- name: frontend/,/image:/,/tag:/{s/tag: .*/tag: ${{ steps.get_version.outputs.tag }}/}' values.yaml    
           echo "Content of values.yaml after change:"
           cat values.yaml
     
@@ -94,6 +105,6 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add values.yaml
-          git commit -m "Update second image tag to ${{ steps.get_version.outputs.tag }}"
+          git commit -m "Update frontend image tag to ${{ steps.get_version.outputs.tag }}"
           git push
           fi
