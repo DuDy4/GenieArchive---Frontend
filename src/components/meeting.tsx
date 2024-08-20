@@ -169,6 +169,8 @@ const Meeting = () => {
                         },
                       }}
                     >
+                    # need more work
+                    <Tab key="all" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
                       {allProfiles?.map(
                         ({ name, uuid }: Profile, index: number) => (
                           <Tab
