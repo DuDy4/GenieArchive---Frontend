@@ -15,6 +15,8 @@ import UpcomingMeetings from "./upcoming-meetings";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
 console.log(selfUrl);
+const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
+console.log(fronteggUrl);
 
 const Home = () => {
 
@@ -111,7 +113,7 @@ const Home = () => {
         {!isAuthenticated && (
           <Link
             className="box"
-            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai"
+            to={`${fronteggUrl}/oauth/account/sign-in?redirectUrl=${selfUrl}`}
           >
             <Typography>Login</Typography>
           </Link>
