@@ -9,12 +9,14 @@ import Meeting from "./components/meeting";
 
 function App() {
     const selfUrl = import.meta.env.VITE_SELF_URL;
+    const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      window.location.href =
-        "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai";
+        const url = `${fronteggUrl}/oauth/account/sign-in?redirectUrl=${selfUrl}`;
+        console.log(url);
+        window.location.href = url;
     }
   }, [isAuthenticated]);
 
