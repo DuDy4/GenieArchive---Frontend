@@ -8,6 +8,9 @@ const useMeetings = (tenant_id: string) => {
 
     queryFn: async ({ queryKey }) => {
       const [_key, tenant_id] = queryKey;
+      if (!tenant_id) {
+        return [];
+      }
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/${tenant_id}/meetings`
       );
