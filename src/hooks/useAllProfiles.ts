@@ -17,7 +17,7 @@ const useAllProfiles = (tenant_id: string, meeting_id: string) => {
     },
   });
 
-  return {allProfiles,isLoading};
+  return {allProfiles};
 };
 
 export default useAllProfiles;

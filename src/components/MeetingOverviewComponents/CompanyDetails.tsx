@@ -1,6 +1,12 @@
 // CompanyDetails.tsx
 import React from 'react';
 
+interface SocialMediaLink {
+  url: string;
+  platform: string;
+}
+
+
 const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
   return (
     <div className="company-details">

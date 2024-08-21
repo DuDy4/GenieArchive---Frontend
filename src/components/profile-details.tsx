@@ -12,19 +12,13 @@ import useStrengths from "../hooks/useStrengths";
 import moment from "moment";
 import { useAuth } from "@frontegg/react";
 import { isArray } from "chart.js/helpers";
+import iconRoutes from "../utils/iconRoutes.json";
 
 interface ProfilesDetailsProps {
   name: string;
   uuid: string;
 }
 
-const iconRoutes = {
-    "twitter": "/images/twitter-icon.svg",
-    "linkedin": "/images/linkedin-icon.svg",
-    "facebook": "/images/facebook-icon.png",
-    "crunchbase": "/images/crunchbase-icon.png",
-    "angelist": "/images/angelist-icon.png",
-}
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth();

@@ -41,7 +41,7 @@ const Meeting = () => {
         <Box
           sx={{
             color: "rgb(17, 24, 28)",
-            backgroundColor: "rgb(251, 252, 253)",
+            backgroundColor: "#F8F9FA",
             width: "calc(95%)",
             left: "2.5%",
             zIndex: "2",

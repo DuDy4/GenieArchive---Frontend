@@ -528,12 +528,17 @@ element {
   line-height: 24px;
 }
 
+.meeting-details{
+    max-width: 1050px;
+}
+
 .icon-container {
     position: relative;
     width: 150px;
     height: 150px;
     display: flex;
     align-items: center;
+    justify-content: center;
     justify-content: center;
 }
 
@@ -631,6 +636,20 @@ element {
     height: 100%; /* Ensure it takes the full height of the parent */
 }
 
+.right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    padding: 0 16px;
+    height: 100%;
+}
+
 .align-start {
   align-self: flex-start;
+}
+
+.company-overview{
+    max-width: 70%;
 }
