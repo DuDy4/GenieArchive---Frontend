@@ -622,6 +622,13 @@ element {
 .h-full-meeting {
     align-self: center;
     max-height: inherit;
+     display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items at the top */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    position: relative;
+    z-index: 10;
+    height: 100%; /* Ensure it takes the full height of the parent */
 }
 
 .align-start {

@@ -18,7 +18,7 @@ const MeetingOverview = ({tenantId}) => {
 
         return (
             <div className="flex justify-center items-center h-screen w-screen">
-                <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+                <div className="w-full h-full-meeting flex justify-center items-center overflow-visible">
                     <div className="icon-container">
                         <img src="/images/logo.png" alt="Genie AI" className="icon" />
                         <div className="loading-circle"></div>
