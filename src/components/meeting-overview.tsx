@@ -1,21 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import useMeetingDetails from '../hooks/useMeetingOverview';
+import useMeetingOverview from '../hooks/useMeetingOverview';
 import MeetingDetails from './MeetingOverviewComponents/MeetingDetails';
 
-const MeetingOverview = () => {
-  const { tenantId, meeting_uuid } = useParams();
-  console.log(tenantId, meeting_uuid);
-  const { data, loading } = useMeetingDetails(tenantId!, meeting_uuid!);
+const MeetingOverview = ({tenantId}) => {
+    const [currentTenantId, setCurrentTenantId] = useState(tenantId);
+    const { id } = useParams();
+    const meeting_uuid = id;
+    console.log(tenantId, meeting_uuid);
+    const { data, loading } = useMeetingOverview(tenantId!, meeting_uuid!);
+
+    useEffect(() => {
+        setCurrentTenantId(tenantId);
+    }, [tenantId]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      {data ? <MeetingDetails data={data} /> : <div>Meeting not found</div>}
-    </div>
+      <div className="w-full h-full-meeting flex justify-center items-center overflow-auto ">
+        {data ? <MeetingDetails data={data} /> : <div>Meeting not found</div>}
+      </div>
   );
 };
 

@@ -606,6 +606,11 @@ element {
     border-radius: 50%;
 }
 
+.h-full-meeting {
+    align-self: center;
+    max-height: inherit;
+}
+
 .align-start {
   align-self: flex-start;
 }

@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CompanyOverview from './CompanyOverview';
 import Participants from './Participants';
 import MeetingGuidelines from './MeetingGuidelines';
 import CompanyDetails from './CompanyDetails';
-// Assume you have the data imported or passed as props
+import NewsSection from './NewsSection'; // Import the NewsSection component
 
 const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
-
-    const meeting: Object = data.meeting;
-    const company: Object = data.company;
-    const participants: Object = data.participants;
-    const guidelines: Array[Object] = data.meeting.guidelines.guidelines;
-
-    console.log("meeting: ", meeting);
-    console.log("company: ", company);
-    console.log("participants: ", participants);
-    console.log("guidelines: ", guidelines);
-
+  const { meeting, company, participants} = data;
+  const guidelinesObject = data.meeting.guidelines;
+    const news = company.news; // Get the news data from the company object
 
   return (
-    <div className="meeting-details">
-      <h2>{meeting.subject}</h2>
-      <div className="content">
-        <div className="left-column">
+    <div className="meeting-details p-6">
+      <h2 className="text-3xl font-bold mb-6">{meeting.subject}</h2>
+
+      <div className="flex justify-between">
+        <div className="flex-1 mr-8">
           <CompanyOverview overview={company.overview} />
           <CompanyDetails details={company} />
-          {/* Add more components here as needed */}
         </div>
-        <div className="right-column">
+
+        <div className="flex-1">
           <Participants participants={participants} />
-          <MeetingGuidelines guidelines={guidelines} />
-          {/* Add more components here as needed */}
+          <MeetingGuidelines guidelinesObject={guidelinesObject} />
+
+          {/* Add the NewsSection here */}
+          <NewsSection news={news} />
         </div>
       </div>
     </div>

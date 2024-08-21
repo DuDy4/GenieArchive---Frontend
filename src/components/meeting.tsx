@@ -14,7 +14,8 @@ const Meeting = () => {
   const [value, setValue] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const { user } = useAuth();
-  const { allProfiles, isLoading } = useAllProfiles(user?.tenantId!, id!);
+  const tenantId = user?.tenantId;
+  const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
   const name = searchParams.get("name");
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -34,6 +35,7 @@ const Meeting = () => {
           width: "100%",
           height: "100%",
           zIndex: 2,
+
         }}
       >
         <Box
@@ -194,7 +196,7 @@ const Meeting = () => {
 
             {/* Render content based on the selected tab */}
             {value === 0 ? (
-              <MeetingOverview />
+              <MeetingOverview tenantId={tenantId} />
             ) : (
               allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                 value === index + 1 && (
