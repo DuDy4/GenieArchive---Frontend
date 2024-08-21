@@ -38,7 +38,7 @@ const Meeting = () => {
 
         }}
       >
-        <Box
+        <Box className="meeting-container"
           sx={{
             color: "rgb(17, 24, 28)",
             backgroundColor: "#F8F9FA",

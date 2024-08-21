@@ -18,8 +18,8 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
       <h2 className="text-3xl font-bold mb-6">{meeting.subject}</h2>
 
       <div className="flex justify-between">
-        {company ? <div className="flex-1 mr-8">
-          <div className="flex flex-row space-x-20">
+        {company ? <div className="flex-1 mr-2">
+          <div className="flex flex-row space-x-5">
               <CompanyOverview overview={company.overview} />
               {participants ? <Participants participants={participants} /> : null}
             </div>
