@@ -2,6 +2,7 @@ import { Box, Tabs, Tab } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProfileDetails from "./profile-details";
+import MeetingOverview from "./meeting-overview";
 import { useEffect, useState } from "react";
 import useAllProfiles from "../hooks/useAllProfiles";
 import { Profile } from "../types";
@@ -154,7 +155,7 @@ const Meeting = () => {
                 }}
               >
                 {!isLoading ? (
-                  allProfiles?.length > 0 ? (
+                  <>
                     <Tabs
                       value={value}
                       onChange={handleChange}
@@ -169,43 +170,38 @@ const Meeting = () => {
                         },
                       }}
                     >
-                    # need more work
-                    <Tab key="all" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
+                      {/* The 'Meeting Overview' tab at index 0 */}
+                      <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
+
+                      {/* Profile tabs starting from index 1 */}
                       {allProfiles?.map(
                         ({ name, uuid }: Profile, index: number) => (
                           <Tab
-                            key={index}
-                            onClick={() => {
-                              setValue(index);
-                            }}
+                            key={uuid}
+                            onClick={() => setValue(index + 1)}
                             label={name}
-                            value={index}
+                            value={index + 1}
                           />
                         )
                       )}
                     </Tabs>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <p className="text-lg">
-                        This meeting does not yet include any
-                        available profiles!
-                      </p>
-                    </div>
-                  )
+                  </>
                 ) : (
                   <div className="text-center">loading...</div>
                 )}
               </Box>
             </Box>
-            {allProfiles?.length > 0
-              ? allProfiles?.map(({ name, uuid }: Profile, index: number) => {
-                  return (
-                    value === index && (
-                      <ProfileDetails key={uuid} name={name} uuid={uuid} />
-                    )
-                  );
-                })
-              : null}
+
+            {/* Render content based on the selected tab */}
+            {value === 0 ? (
+              <MeetingOverview />
+            ) : (
+              allProfiles?.map(({ name, uuid }: Profile, index: number) => (
+                value === index + 1 && (
+                  <ProfileDetails key={uuid} name={name} uuid={uuid} />
+                )
+              ))
+            )}
           </Box>
         </Box>
       </div>
