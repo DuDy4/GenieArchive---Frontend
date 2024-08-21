@@ -6,6 +6,7 @@ import CompanyDetails from './CompanyDetails';
 import NewsSection from './NewsSection'; // Import the NewsSection component
 
 const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
+    if (!data) return null;
   const { meeting, company, participants} = data;
   const guidelinesObject = data.meeting.guidelines;
     const news = company ? company.news : undefined;
