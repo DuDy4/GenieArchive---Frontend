@@ -12,6 +12,7 @@ const queryClient = new QueryClient();
 const contextOptions = {
   baseUrl: import.meta.env.VITE_FRONTEGG_URL,
   clientId: import.meta.env.VITE_FRONTEGG_CLIENT,
+  appId: import.meta.env.VITE_FRONTEGG_APP_ID,
 };
 
 // const contextOptions = {
