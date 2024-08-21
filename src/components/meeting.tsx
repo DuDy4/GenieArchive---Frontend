@@ -189,7 +189,7 @@ const Meeting = () => {
                     </Tabs>
                   </>
                 ) : (
-                  <div className="text-center">loading...</div>
+                  <div className="text-center">Fetching data...</div>
                 )}
               </Box>
             </Box>

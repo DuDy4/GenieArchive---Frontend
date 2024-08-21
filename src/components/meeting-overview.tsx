@@ -14,13 +14,28 @@ const MeetingOverview = ({tenantId}) => {
         setCurrentTenantId(tenantId);
     }, [tenantId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    return (
+        <div className="flex justify-center items-center h-screen w-screen">
+            <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+                <div className="icon-container">
+                    <img src="/images/logo.png" alt="Genie AI" className="icon" />
+                    <div className="loading-circle"></div>
+                </div>
+            </div>
+        </div>
+        )
+
 
   return (
       <div className="w-full h-full-meeting flex justify-center items-center overflow-auto ">
-        {data ? <MeetingDetails data={data} /> : <div>Meeting not found</div>}
+        {data ? <MeetingDetails data={data} /> :
+        (
+                  <div className="flex justify-center items-center h-screen w-screen">
+                    <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+                      Meeting not found
+                    </div>
+                  </div>
+                )}
       </div>
   );
 };
