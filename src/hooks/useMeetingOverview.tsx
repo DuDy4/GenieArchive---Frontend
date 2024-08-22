@@ -12,7 +12,7 @@ const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/${tenantId}/meeting-overview-mock/${meeting_uuid}`);
+        const response = await fetch(`${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`);
         const result = await response.json();
         setData(result);
       } catch (error) {
