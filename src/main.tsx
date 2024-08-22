@@ -21,7 +21,7 @@ const contextOptions = {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false}>
+    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={true}>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <App />
