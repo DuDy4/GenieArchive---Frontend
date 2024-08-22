@@ -19,9 +19,15 @@ const contextOptions = {
 //   clientId: "8e5b416d-85a9-4e58-86e4-3bd89412e8fd",
 // };
 
+const authOptions = {
+  keepSessionAlive: true 
+ };
+ 
+ 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false}>
+    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false} authOptions={authOptions}>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <App />
