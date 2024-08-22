@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const contextOptions = {
   baseUrl: "https://genie.us.frontegg.com",
-  clientId: "8d9dcc48-2b1c-4f5e-906b-6d496284ca5e",
+  clientId: "341780bd-0300-4f11-8157-3231337acbec",
 };
 
 // const contextOptions = {
