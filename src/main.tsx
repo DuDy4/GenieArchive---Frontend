@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const contextOptions = {
   baseUrl: "https://genie.us.frontegg.com",
-  clientId: "8d9dcc48-2b1c-4f5e-906b-6d496284ca5e",
+  clientId: "341780bd-0300-4f11-8157-3231337acbec",
 };
 
 // const contextOptions = {
@@ -19,9 +19,15 @@ const contextOptions = {
 //   clientId: "8e5b416d-85a9-4e58-86e4-3bd89412e8fd",
 // };
 
+const authOptions = {
+  keepSessionAlive: true
+ };
+
+
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={true}>
+    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false} authOptions={authOptions}>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <App />

@@ -113,7 +113,7 @@ const Home = () => {
         {!isAuthenticated && (
           <Link
             className="box"
-            to={`${fronteggUrl}/oauth/account/sign-in?redirectUrl=${selfUrl}`}
+            to="https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai"
           >
             <Typography>Login</Typography>
           </Link>
