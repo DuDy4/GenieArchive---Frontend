@@ -48,10 +48,11 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
                     ) : null
             }
 
-        {details.last_raised_at ? (
+        {details.funding_rounds ? (
             <div className="p-4 bg-gray-100 rounded">
                         <p className="text-sm font-bold">Last Raised At:</p>
-                        <p>{details.last_raised_at}</p>
+                        <p>{Array.isArray(details.funding_rounds) && details.funding_rounds.length > 0 ? (
+                           details.funding_rounds[0].date ? details.funding_rounds[0].date.split("-").reverse().join("-") : null) : null}</p>
                         </div>
                         ) : null
             }
