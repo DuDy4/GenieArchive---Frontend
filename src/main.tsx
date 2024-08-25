@@ -10,8 +10,8 @@ import { FronteggProvider } from "@frontegg/react";
 const queryClient = new QueryClient();
 
 const contextOptions = {
-  baseUrl: "https://genie.us.frontegg.com",
-  clientId: "341780bd-0300-4f11-8157-3231337acbec",
+  baseUrl: import.meta.env.VITE_FRONTEGG_URL,
+  clientId: import.meta.env.VITE_FRONTEGG_CLIENT,
 };
 
 // const contextOptions = {

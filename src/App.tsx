@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        const url = "https://genie.us.frontegg.com/oauth/account/sign-in?redirectUrl=https://alpha.genieai.ai";
+        const url = `${fronteggUrl}/oauth/account/sign-in?redirectUrl=${selfUrl}`;
         console.log(url);
         window.location.href = url;
     }
