@@ -6,21 +6,28 @@ import MeetingGuidelines from './MeetingGuidelines';
 import CompanyDetails from './CompanyDetails';
 import NewsSection from './NewsSection';
 
+function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
     if (!data) return null;
   const { meeting, company, participants} = data;
-  const guidelinesObject = data.meeting.guidelines;
+  const guidelinesObject = meeting ? meeting.guidelines : undefined;
     const news = company ? company.news : undefined;
-    const link = meeting.video_link;
+    const link = meeting ? meeting.video_link : undefined;
 
   return (
     <div className="meeting-details p-6">
-      <h2 className="text-3xl font-bold mb-6">{meeting.subject}</h2>
+        <div className="flex flex start space-x-5">
+        {company.logo ? <img className="company-logo" src={company.logo} alt="Company Logo" /> : null}
+        <h2 className="text-3xl font-bold mb-6">{meeting ? meeting.subject : "Got no meeting info"}</h2>
+        </div>
 
       <div className="flex justify-between">
         {company ? <div className="flex-1 mr-2">
           <div className="flex flex-row space-x-5">
-              <CompanyOverview overview={company.overview} />
+              <CompanyOverview overview={capitalizeFirstLetter(company.description ? company.description : company.overview)} />
               {participants ? <Participants participants={participants} /> : null}
             </div>
           <CompanyDetails details={company} />
