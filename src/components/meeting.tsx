@@ -176,7 +176,7 @@ const Meeting = () => {
                       <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
 
                       {/* Profile tabs starting from index 1 */}
-                      {allProfiles?.map(
+                      {allProfiles && Array.isArray(allProfiles) &&  allProfiles?.map(
                         ({ name, uuid }: Profile, index: number) => (
                           <Tab
                             key={uuid}
@@ -198,7 +198,7 @@ const Meeting = () => {
             {value === 0 ? (
               <MeetingOverview tenantId={tenantId} />
             ) : (
-              allProfiles?.map(({ name, uuid }: Profile, index: number) => (
+              allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                 value === index + 1 && (
                   <ProfileDetails key={uuid} name={name} uuid={uuid} />
                 )

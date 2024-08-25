@@ -2,7 +2,7 @@
 import React from 'react';
 
 const MeetingGuidelines: React.FC<{ guidelinesObject: { guidelines: Array<{ text: string, duration: string }>, total_duration: string } }> = ({ guidelinesObject }) => {
-  const guidelines = guidelinesObject.guidelines;
+  const guidelines = guidelinesObject.guidelines || [];
   const totalDuration = guidelinesObject.total_duration;
 
   return (
