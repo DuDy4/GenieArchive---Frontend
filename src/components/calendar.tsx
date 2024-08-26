@@ -10,7 +10,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Event, momentLocalizer } from "react-big-calendar";
 
-import { AiOutlineSync } from "react-icons/ai";
+import { AiOutlineSync, AiOutlineCloudDownload } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
@@ -25,7 +25,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useAuth } from "@frontegg/react";
 
 interface MeetingsCalendarProps {
-  // events: Event[];
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
   openCalendar: boolean;
 }
@@ -33,7 +32,6 @@ interface MeetingsCalendarProps {
 const localizer = momentLocalizer(moment);
 
 const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
-  // events,
   openCalendar,
   setOpenCalendar,
 }) => {
@@ -41,10 +39,10 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
   const { user } = useAuth();
-  const { meetings, refetch, isRefetching } = useMeetings(user?.tenantId!);
+  const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 
-  // refetching events data 
+  // Refetching events data
   const handleRefreshEvents = () => {
     refetch()
       .then((res) => {
@@ -55,6 +53,19 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
         console.log(err);
       });
   };
+
+    const handleImportEvents = () => {
+      reImport(undefined, {
+        onSuccess: (data) => {
+          console.log(isImportingMeetings); // Logs the state at the time of the callback
+          setToast(true);
+        },
+        onError: (err) => {
+          console.error(err);
+        },
+      });
+    };
+
   const handleClose = () => {
     setToast(false);
   };
@@ -67,7 +78,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   }));
 
   const handleSelectEvent = useCallback((event: Event) => {
-    // const eventSlug = slugify(event.title as string);
     navigate(`/meeting/${event!.id}?name=${event.title}`);
   }, []);
 
@@ -247,6 +257,21 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   color: "black",
                 }}
               >
+              {isImportingMeetings ? (
+                <div>
+                  <CircularProgress size={20} color="inherit" />
+                </div>
+              ) : (
+                <Tooltip arrow title="Import meetings">
+                  <button
+                    className="border-none outline-none"
+                    onClick={handleImportEvents}
+                  >
+                    <AiOutlineCloudDownload size={20} className="icon" />
+                  </button>
+                </Tooltip>
+              )}
+
                 {isRefetching ? (
                   <div>
                     <CircularProgress size={20} color="inherit" />
