@@ -641,7 +641,6 @@ element {
     max-height: inherit;
      display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align items at the top */
     overflow-y: auto; /* Enable scrolling if content overflows */
     position: relative;
     z-index: 10;

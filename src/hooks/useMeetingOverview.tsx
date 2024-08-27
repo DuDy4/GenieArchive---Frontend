@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
   const [data, setData] = useState<any>(null);
@@ -12,9 +13,9 @@ const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`);
-        const result = await response.json();
-        setData(result);
+        const response = await axios.get(`${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`);
+        console.log("useMeetingOverview response: ", response.data); // Access the data directly
+        setData(response.data);
       } catch (error) {
         console.error(error);
       } finally {
