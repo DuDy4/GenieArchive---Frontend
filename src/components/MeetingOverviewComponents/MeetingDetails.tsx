@@ -14,7 +14,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
   if (!data) return null;
 
   const { meeting, company, participants } = data;
-  const agendaItems = meeting ? meeting.agenda : undefined;
+  const agendaItems = meeting ? meeting.agenda : [];
   const news = company ? company.news : undefined;
   const link = meeting ? meeting.video_link : undefined;
 
@@ -34,11 +34,11 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
               />
               {participants && <Participants participants={participants} />}
             </div>
-            <CompanyDetails details={company} />
+            {agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} duration={meeting.duration}/> : <CompanyDetails details={company} />}
           </div>
         )}
 
-          <div className="flex-1 right-column items-between" style={{ paddingTop: '2%' }}>
+          <div className="flex-1 right-column items-between" style={{ paddingTop: '1.6%' }}>
             <div className="video-link-container p-[10px] rounded-[16px] border border-[#dddddd] w-full">
               {link && (
                 <div className="flex flex-col justify-center">
@@ -52,8 +52,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
               )}
           </div>
           <div className="participants-guidelines">
-            {agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} /> : null}
-            {agendaItems}
+            {agendaItems.length > 0 ? <CompanyDetails details={company} /> : null}
 
           </div>
           {news && <NewsSection news={news} />}

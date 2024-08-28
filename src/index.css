@@ -534,6 +534,14 @@ element {
 
 .meeting-details{
     max-width: 1050px;
+    height: inherit
+}
+
+.duration {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: darkgray;
 }
 
 
@@ -649,6 +657,7 @@ element {
 
 .right-column {
     display: flex;
+    gap: 16px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
