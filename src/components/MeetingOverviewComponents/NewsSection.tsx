@@ -15,7 +15,7 @@ interface NewsSectionProps {
 
 const NewsSection: React.FC<NewsSectionProps> = ({ news }) => {
   return (
-    <div className="space-y-4 mt-8 p-[10px] rounded-[16px] border border-[#dddddd]">
+    <div className="space-y-4  p-[10px] rounded-[16px] border border-[#dddddd]">
       <h4 className="uppercase text-heading font-bold text-[14px]">
         Top news
       </h4>

@@ -34,7 +34,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
               />
               {participants && <Participants participants={participants} />}
             </div>
-            {agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} duration={meeting.duration}/> : <CompanyDetails details={company} />}
+            {agendaItems && agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} duration={meeting.duration}/> : <CompanyDetails details={company} />}
           </div>
         )}
 
@@ -51,10 +51,12 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 </div>
               )}
           </div>
+          {agendaItems && agendaItems.length > 0 ?
           <div className="participants-guidelines">
-            {agendaItems.length > 0 ? <CompanyDetails details={company} /> : null}
+             <CompanyDetails details={company} />
 
           </div>
+           : null}
           {news && <NewsSection news={news} />}
         </div>
       </div>
