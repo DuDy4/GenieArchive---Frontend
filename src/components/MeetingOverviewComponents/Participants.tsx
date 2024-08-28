@@ -2,7 +2,7 @@ import React from 'react';
 
 const Participants: React.FC<{ participants: Array<{ name: string, profile_picture: string }> }> = ({ participants }) => {
   return (
-    <div className="participants my-4 w-full">
+    <div className="participants my-4 w-full p-[10px] rounded-[16px] border border-[#dddddd]" style={{ height: 'fit-content' }}>
       <h3 className="text-lg font-bold mb-2">Participants</h3>
       <div className="grid grid-cols-2 gap-4">
         {participants.map((participant, index) => (

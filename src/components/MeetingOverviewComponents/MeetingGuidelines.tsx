@@ -1,27 +1,50 @@
 // MeetingGuidelines.tsx
-import React from 'react';
+import React, {useState} from 'react';
 
-const MeetingGuidelines: React.FC<{ guidelinesObject: { guidelines: Array<{ text: string, duration: string }>, total_duration: string } }> = ({ guidelinesObject }) => {
-  const guidelines = guidelinesObject.guidelines || [];
-  const totalDuration = guidelinesObject.total_duration;
+interface GuidelinesProps {
+  timing: string;
+  reasoning: string;
+  execution: string;
+  phrases: string[];
+}
+
+interface AgendaItemProps {
+  goal: string;
+  guidelines: GuidelinesProps;
+  duration: number;  // Assuming this is provided or calculated
+}
+
+const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[] }> = ({ agendaItems }) => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
 
   return (
     <div className="meeting-guidelines p-4 bg-gray-100 rounded">
       <h3 className="text-lg font-bold mb-4">Meeting Guidelines</h3>
-      <div className="mb-4">
-        <div className="p-2 bg-blue-100 rounded text-blue-800 text-center">
-          Total Duration: {totalDuration}
-        </div>
-      </div>
       <ul className="relative pl-8 list-none">
-        {guidelines.map((guideline, index) => (
-          <li key={index} className="mb-4 flex items-start">
-            <span className="w-4 h-4 bg-blue-500 rounded-full mt-1 mr-4 relative">
-              {index < guidelines.length - 1 && (
-                <span className="absolute h-full w-0.5 bg-blue-300 left-1/2 top-full"></span>
-              )}
-            </span>
-            <span>{guideline.text} - {guideline.duration}</span>
+        {agendaItems.map((item, index) => (
+          <li key={index} className="mb-4">
+            <div
+              className="flex items-center cursor-pointer"
+              onClick={() => toggleExpand(index)}
+            >
+              <span className="font-bold mr-2">{item.goal}</span>
+              <span className="text-gray-600">({item.duration} min)</span>
+              <span className="ml-4">
+                {expandedIndex === index ? '▲' : '▼'}
+              </span>
+            </div>
+            {expandedIndex === index && (
+              <div className="ml-8 mt-2">
+                <p><strong>Timing:</strong> {item.guidelines.timing}</p>
+                <p><strong>Reasoning:</strong> {item.guidelines.reasoning}</p>
+                <p><strong>Execution:</strong> {item.guidelines.execution}</p>
+                <p><strong>Phrases:</strong> {item.guidelines.phrases.join(', ')}</p>
+              </div>
+            )}
           </li>
         ))}
       </ul>
