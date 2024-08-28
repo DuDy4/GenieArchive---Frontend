@@ -1,5 +1,7 @@
 // CompanyDetails.tsx
 import React, {useState} from 'react';
+import iconRoutes from "../../utils/iconRoutes.json";
+
 
 interface SocialMediaLink {
   url: string;
@@ -11,9 +13,22 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
 
     const [showTooltip, setShowTooltip] = useState(false);
 
+    console.log(details);
+
   return (
     <div className="company-details">
-      <h3 className="text-lg font-bold mb-4">Company Details</h3>
+        <div className="flex justify-between">
+        <h3 className="text-lg font-bold mb-4">Company Details</h3>
+        <div className="flex space-x-2">
+            {details.social_links ? (
+                details.social_links.map((link: SocialMediaLink, index: number) => (
+                    <a key={index} href={link.url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+                        <img src={iconRoutes[link.platform]} alt={link.platform} className="w-6 h-6" />
+                    </a>
+                ))
+            ) : null}
+        </div>
+        </div>
       <div className="grid grid-cols-2 gap-4">
         {details.industry ? (
             <div className="p-4 bg-gray-100 rounded">
