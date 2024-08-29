@@ -1,5 +1,4 @@
-// MeetingGuidelines.tsx
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 interface GuidelinesProps {
   timing: string;
@@ -14,7 +13,7 @@ interface AgendaItemProps {
   duration: number;  // Assuming this is provided or calculated
 }
 
-const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[] }> = ({ agendaItems, duration}) => {
+const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[], duration: string }> = ({ agendaItems, duration }) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const toggleExpand = (index: number) => {
@@ -30,35 +29,42 @@ const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[] }> = ({ agend
   const durationInMinutes = convertDurationToMinutes(duration);
 
   return (
-    <div className="meeting-guidelines p-4 bg-gray-100 rounded">
-        <div className="flex justify-between">
-            <h3 className="text-lg font-bold mb-4">Meeting Guidelines</h3>
-            <h3 className="text-lg font-bold mb-4 duration">Total duration: {durationInMinutes}</h3>
-        </div>
-      <ul className="relative pl-4 list-none">
+    <div className="meeting-guidelines p-6 bg-white rounded-lg shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold text-gray-800">Meeting Guidelines</h3>
+        <h3 className="text-lg font-semibold text-gray-500 duration">Total duration: {durationInMinutes}</h3>
+      </div>
+      <ul className="space-y-4">
         {agendaItems.map((item, index) => (
-          <li key={index} className="mb-4">
+          <li key={index} className="bg-gray-50 p-4 rounded-lg shadow hover:bg-gray-100 transition">
             <div
-              className="flex items-center cursor-pointer"
+              className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleExpand(index)}
             >
-              <span className="font-bold mr-2">{item.goal}</span>
-              <span className="text-gray-600">({item.guidelines.timing})</span>
-              <span className="ml-4">
+              <div className="flex flex-col">
+                <span className="font-semibold text-gray-700">{item.goal}</span>
+                <span className="text-sm text-gray-500">({item.guidelines.timing})</span>
+              </div>
+              <span className="text-gray-500 ml-4">
                 {expandedIndex === index ? '▲' : '▼'}
               </span>
             </div>
             {expandedIndex === index && (
-              <div className="ml-8 mt-2 pr-4">
-                <p><strong>Execution:</strong> {item.guidelines.execution}</p>
-                <p><strong>Reasoning:</strong> {item.guidelines.reasoning}</p>
-                <p><strong>Phrases:</strong> {
-                    <ul>
-                        {item.guidelines.phrases.map((phrase, index) => (
-                            <li key={index} className="pl-4 ">{phrase}</li>
-                        ))}
-                    </ul>}
-                    </p>
+              <div className="mt-4 pl-4">
+                <div className="mb-2">
+                  <strong>Execution:</strong> <span className="text-gray-600">{item.guidelines.execution}</span>
+                </div>
+                <div className="mb-2">
+                  <strong>Reasoning:</strong> <span className="text-gray-600">{item.guidelines.reasoning}</span>
+                </div>
+                <div>
+                  <strong>Phrases:</strong>
+                  <ul className="list-disc pl-6 mt-1 text-gray-600">
+                    {item.guidelines.phrases.map((phrase, index) => (
+                      <li key={index}>{phrase}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
           </li>
