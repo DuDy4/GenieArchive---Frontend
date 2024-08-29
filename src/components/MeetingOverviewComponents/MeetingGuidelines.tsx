@@ -43,7 +43,7 @@ const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[] }> = ({ agend
               onClick={() => toggleExpand(index)}
             >
               <span className="font-bold mr-2">{item.goal}</span>
-              <span className="text-gray-600">({item.guidelines.timing} min)</span>
+              <span className="text-gray-600">({item.guidelines.timing})</span>
               <span className="ml-4">
                 {expandedIndex === index ? '▲' : '▼'}
               </span>
