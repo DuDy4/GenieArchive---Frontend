@@ -14,7 +14,9 @@ import { AiOutlineSync, AiOutlineCloudDownload } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
-import { Alert, Box, Snackbar, Tooltip, Typography } from "@mui/material";
+import { Alert, Box, Button, Snackbar, Tooltip, Typography } from "@mui/material";
+import { ContextHolder } from "@frontegg/react";
+import { FiLogOut, FiUser } from "react-icons/fi";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Meeting } from "../types";
@@ -38,21 +40,22 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
+  const [importErrorToast, setImportErrorToast] = useState(false); // This will help us know why the import fails
   const { user } = useAuth();
-  const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
+  const { meetings, refetch, isRefetching, reImport, isImportingMeetings, error } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 
-  // Refetching events data
-  const handleRefreshEvents = () => {
-    refetch()
-      .then((res) => {
-        console.log(isRefetching);
-        setToast(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+//   // Refetching events data
+//   const handleRefreshEvents = () => {
+//     refetch()
+//       .then((res) => {
+//         console.log(isRefetching);
+//         setToast(true);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
 
     const handleImportEvents = () => {
       reImport(undefined, {
@@ -62,13 +65,29 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
         },
         onError: (err) => {
           console.error(err);
+          setImportErrorToast(true);
+          refetch()
+            .then(() => {
+              console.log(isRefetching); // Logs the state at the time of the callback
+              setToast(true);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         },
       });
     };
 
+
   const handleClose = () => {
     setToast(false);
+    setImportErrorToast(false); // Close error toast
   };
+
+    const logout = () => {
+      const baseUrl = ContextHolder.getContext().baseUrl;
+      window.location.href = `${baseUrl}/oauth/logout?post_logout_redirect_uri=${window.location}`;
+    };
 
   const events = meetings?.map((meeting: Meeting) => ({
     id: meeting.uuid,
@@ -92,21 +111,51 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   return (
     <>
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={toastShow}
-        onClose={handleClose}
-        autoHideDuration={2000}
-      >
-        <Alert
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={toastShow}
           onClose={handleClose}
-          severity="success"
-          variant="standard"
-          sx={{ width: "100%" }}
+          autoHideDuration={2000}
         >
-          Completed events sync
-        </Alert>
-      </Snackbar>
-      <CustomDrawer open={openCalendar} expand={expandCalendar}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="standard"
+            sx={{ width: "100%" }}
+          >
+            Completed events sync
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }} // Adjust position to under the button
+          open={importErrorToast}
+          onClose={handleClose}
+          autoHideDuration={10000} // Display the error for 5 seconds
+          action={
+            <Button color="inherit" size="small" onClick={logout}>
+              Re-login
+            </Button>
+          }
+        >
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            variant="standard"
+            sx={{ width: "100%" }}
+          >
+            {error || "An error occurred"}
+            <br/>
+            <br/>
+            <div className="flex flex-row justify-center items-center">
+              <Tooltip arrow placement="top" title="Log Out">
+                <div onClick={logout} className="flex flex-row items-center cursor-pointer">
+                  <span className="mr-1">Re-Login</span>
+                  <FiLogOut className="logout-icon" />
+                </div>
+              </Tooltip>
+            </div>
+          </Alert>
+        </Snackbar>
+        <CustomDrawer open={openCalendar} expand={expandCalendar}>
         <Box
           sx={{
             display: "flex",
@@ -257,20 +306,8 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   color: "black",
                 }}
               >
-              {isImportingMeetings ? (
-                <div>
-                  <CircularProgress size={20} color="inherit" />
-                </div>
-              ) : (
-                <Tooltip arrow title="Import meetings">
-                  <button
-                    className="border-none outline-none"
-                    onClick={handleImportEvents}
-                  >
-                    <AiOutlineCloudDownload size={20} className="icon" />
-                  </button>
-                </Tooltip>
-              )}
+
+
 
                 {isRefetching ? (
                   <div>
@@ -280,7 +317,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   <Tooltip arrow title="Sync calendar">
                     <button
                       className="border-none outline-none"
-                      onClick={handleRefreshEvents}
+                      onClick={handleImportEvents}
                     >
                       <AiOutlineSync size={20} className="icon" />
                     </button>

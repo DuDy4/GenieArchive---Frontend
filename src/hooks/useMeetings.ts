@@ -4,8 +4,8 @@ import axios from "axios";
 import { Meeting } from "../types";
 
 const useMeetings = (tenant_id: string) => {
-    const [isImportingMeetings, setIsImportingMeetings] = useState(false);
-
+  const [isImportingMeetings, setIsImportingMeetings] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     data: meetings,
@@ -32,13 +32,23 @@ const useMeetings = (tenant_id: string) => {
         throw new Error("TenantId is required to import meetings");
       }
       setIsImportingMeetings(true);
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/google/import-meetings/${tenant_id}`
-      );
-      return response.data;
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/google/import-meetings/${tenant_id}`
+        );
+        return response.data;
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.status === 401) {
+          setError("Token is no longer valid. Please re-authenticate.");
+        } else {
+          setError("An error occurred during import.");
+        }
+        throw err;
+      }
     },
     onSuccess: () => {
       refetch(); // Refetch meetings after successful import
+      setError(null); // Clear error on success
     },
     onSettled: () => {
       setIsImportingMeetings(false); // Reset the importing state
@@ -52,6 +62,7 @@ const useMeetings = (tenant_id: string) => {
     isRefetching,
     reImport: reImport.mutate,
     isImportingMeetings,
+    error,
   };
 };
 
