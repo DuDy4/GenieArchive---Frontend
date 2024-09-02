@@ -2,11 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { getGreeting } from "../utils/helpers";
-import { useAuth } from "@frontegg/react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 const TimeBox = () => {
   const [time, setTime] = useState(new Date());
-  const { user } = useAuth();
+  const { user } = useAuth0();
 
   useEffect(() => {
     setInterval(() => {

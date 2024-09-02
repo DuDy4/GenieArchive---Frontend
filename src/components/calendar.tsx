@@ -22,7 +22,8 @@ import CustomDrawer from "./ui/drawer";
 import useMeetings from "../hooks/useMeetings";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useAuth } from "@frontegg/react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 interface MeetingsCalendarProps {
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
@@ -38,7 +39,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 
