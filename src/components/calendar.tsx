@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
 import { Alert, Box, Button, Snackbar, Tooltip, Typography } from "@mui/material";
-import { ContextHolder } from "@frontegg/react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -24,7 +23,7 @@ import CustomDrawer from "./ui/drawer";
 import useMeetings from "../hooks/useMeetings";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface MeetingsCalendarProps {
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
@@ -41,7 +40,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
   const [importErrorToast, setImportErrorToast] = useState(false); // This will help us know why the import fails
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const { meetings, refetch, isRefetching, reImport, isImportingMeetings, error } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 

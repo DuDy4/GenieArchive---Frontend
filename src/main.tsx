@@ -1,38 +1,66 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { ReactDOM ,createRoot} from "react-dom/client";
+import { BrowserRouter } from 'react-router-dom';
 import App from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { FronteggProvider } from "@frontegg/react";
+import { Auth0Provider } from '@auth0/auth0-react';
 
 const queryClient = new QueryClient();
 
-const contextOptions = {
-  baseUrl: import.meta.env.VITE_FRONTEGG_URL,
-  clientId: import.meta.env.VITE_FRONTEGG_CLIENT,
-};
+const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
+const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+const redirectUri = window.location.origin;
 
-// const contextOptions = {
-//   baseUrl: "https://app-ulb15oyg6a4d.frontegg.com",
-//   clientId: "8e5b416d-85a9-4e58-86e4-3bd89412e8fd",
-// };
+// ReactDOM.createRoot(document.getElementById("root")!).render(
+//   <React.StrictMode>
+//     <BrowserRouter>
+//       <Auth0Provider
+//         domain={auth0Domain}
+//         clientId={auth0ClientId}
+//         authorizationParams={{
+//           redirect_uri: redirectUri,
+//         }}
+//         cacheLocation="localstorage"
+//       >
+//         <ThemeProvider theme={theme}>
+//           <QueryClientProvider client={queryClient}>
+//             <App />
+//           </QueryClientProvider>
+//         </ThemeProvider>
+//       </Auth0Provider>
+//     </BrowserRouter>
+//   </React.StrictMode>
+// );
 
-const authOptions = {
-  keepSessionAlive: true
- };
+const root = createRoot(document.getElementById('root')!);
 
-
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <FronteggProvider contextOptions={contextOptions} hostedLoginBox={false} authOptions={authOptions}>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </FronteggProvider>
+root.render(
+<React.StrictMode>
+  <BrowserRouter>
+<Auth0Provider
+    domain="genie-qa.us.auth0.com"
+    clientId="giCCKqx5jI2ESz2AC1JPRHXiKu18DRMY"
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+      connection: 'google-oauth2',
+      connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
+      scope: 'openid profile',
+      accessType: 'offline',
+      approvalPrompt: 'force'
+      // scope: "openid profile email offline_access",
+      // accessType: 'offline',
+      // connection: 'google-oauth2',
+      // connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
+      // approvalPrompt: "force"
+    }}
+  >
+    <QueryClientProvider client={queryClient}>
+             <App />
+           </QueryClientProvider>
+  </Auth0Provider>,
+  </BrowserRouter>
   </React.StrictMode>
 );

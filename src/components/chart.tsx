@@ -4,7 +4,7 @@ import { Chart } from "chart.js";
 import useStrengths from "../hooks/useStrengths";
 import { Strength } from "../types";
 import LeaderImage from "../../public/images/command-image.png";
-import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const customLabelPlugin = {
   id: "customLabelPlugin",
@@ -210,7 +210,7 @@ export const icons = {
 };
 
 const RadarChart = ({ uuid }: { uuid: string }) => {
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const strengths = useStrengths(user?.tenantId!, uuid);
   // console.log(strengths)
   const data = Array.isArray(strengths) ? strengths?.map((strength: Strength) => ({

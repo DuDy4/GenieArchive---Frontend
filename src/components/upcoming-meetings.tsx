@@ -3,10 +3,10 @@ import useMeetings from "../hooks/useMeetings";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Meeting } from "../types";
-import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const UpcomingMeetings = () => {
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const { meetings } = useMeetings(user?.tenantId!);
 
   const upcomingMeeting = meetings?.find((meeting: Meeting) =>

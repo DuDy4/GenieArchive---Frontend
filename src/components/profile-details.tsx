@@ -10,7 +10,7 @@ import useGetToKnow from "../hooks/useGetToKnow";
 import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import moment from "moment";
-import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { isArray } from "chart.js/helpers";
 import iconRoutes from "../utils/iconRoutes.json";
 
@@ -21,7 +21,7 @@ interface ProfilesDetailsProps {
 
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
     user?.tenantId!,
     uuid

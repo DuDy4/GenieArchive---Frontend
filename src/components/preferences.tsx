@@ -16,7 +16,7 @@ import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarSwitch from "./calendar-switch";
-import { ContextHolder, useAuth } from "@frontegg/react";
+import { ContextHolder, useAuth0 } from "@auth0/auth0-react";
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -33,7 +33,7 @@ const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
 const Preferences = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { user } = useAuth();
+  const { user } = useAuth0();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

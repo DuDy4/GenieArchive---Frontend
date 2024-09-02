@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { CiSearch } from "react-icons/ci";
-import { useAuth, useLoginWithRedirect } from "@frontegg/react";
+import { useAuth0, useLoginWithRedirect } from "@auth0/auth0-react";
 import { Box, InputBase, Typography } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 
@@ -15,15 +15,15 @@ import UpcomingMeetings from "./upcoming-meetings";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
 console.log(selfUrl);
-const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
-console.log(fronteggUrl);
+// const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
+// console.log(fronteggUrl);
 
 const Home = () => {
 
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth0();
 
   useEffect(() => {
     const removeCodeParam = () => {
@@ -110,14 +110,7 @@ const Home = () => {
           <Typography>Calendar</Typography>
         </div>
 
-        {!isAuthenticated && (
-          <Link
-            className="box"
-            to={`${fronteggUrl}/oauth/account/sign-in?redirectUrl${selfUrl}`}
-          >
-            <Typography>Login</Typography>
-          </Link>
-        )}
+
 
       </Box>
 
