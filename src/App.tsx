@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
 import Meeting from "./components/meeting";
+import LoadingGenie from "./components/ui/loading-genie";
 
 function App() {
     const { loginWithRedirect, getAccessTokenSilently, user, isAuthenticated, isLoading, error } = useAuth0();
@@ -18,7 +19,8 @@ function App() {
         if (isLoading) {
             console.log("Auth0 is still loading...");
         } else if (isAuthenticated) {
-            console.log("User is authenticated:", user?.name);
+//             console.log("User is authenticated:", user?.name);
+            console.log("User is authenticated:", user);
         } else {
             console.log("getAccessTokenSilently", getAccessTokenSilently());
             console.log("User is NOT authenticated");
@@ -33,11 +35,20 @@ function App() {
     }
 
     return (
-        <Routes>
-            <Route path="/" index element={<Home />} />
-            <Route path="/meeting/:id" element={<Meeting />} />
-        </Routes>
+        <>
+            {isAuthenticated ? (
+                <>
+                    <Routes>
+                        <Route path="/" index element={<Home />} />
+                        <Route path="/meeting/:id" element={<Meeting />} />
+                    </Routes>
+                </>
+            ) : (
+                <LoadingGenie />
+            )}
+        </>
     );
+
 }
 
 export default App;

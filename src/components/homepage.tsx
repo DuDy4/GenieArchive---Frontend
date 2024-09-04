@@ -124,7 +124,7 @@ const Home = () => {
             {/* <button onClick={() => loginWithRedirect()}>Login</button> */}
           </>
         )}
-        <button onClick={() => loginWithRedirect()}>Login</button>
+        {!isAuthenticated && <button onClick={() => loginWithRedirect()}>Login</button>}
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">
