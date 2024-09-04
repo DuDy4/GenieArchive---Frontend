@@ -40,6 +40,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [importErrorToast, setImportErrorToast] = useState(false);
   const { user } = useAuth0();
   const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
@@ -66,15 +67,16 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
         onError: (err) => {
           console.error(err);
           setImportErrorToast(true);
+          setError("An error occurred during the import. Please try again.");
           refetch()
             .then(() => {
-              console.log(isRefetching); // Logs the state at the time of the callback
+              console.log(isRefetching);
               setToast(true);
             })
             .catch((err) => {
               console.error(err);
             });
-        },
+        }
       });
     };
 
