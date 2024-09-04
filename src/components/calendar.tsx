@@ -40,6 +40,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
+  const [importErrorToast, setImportErrorToast] = useState(false);
   const { user } = useAuth0();
   const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
@@ -128,7 +129,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
           anchorOrigin={{ vertical: "top", horizontal: "center" }} // Adjust position to under the button
           open={importErrorToast}
           onClose={handleClose}
-          autoHideDuration={10000} // Display the error for 5 seconds
+          autoHideDuration={10000}
           action={
             <Button color="inherit" size="small" onClick={logout}>
               Re-login
