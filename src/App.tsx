@@ -33,10 +33,19 @@ function App() {
       console.log("error", error);
       return <div>Oops... {error.message}</div>;
     }
+//
+//     return (
+//         <>
+//             <Routes>
+//                 <Route path="/" index element={<Home />} />
+//                 <Route path="/meeting/:id" element={<Meeting />} />
+//             </Routes>
+//         </>
+//     );
 
     return (
         <>
-            {isAuthenticated ? (
+            {!isLoading ? (
                 <>
                     <Routes>
                         <Route path="/" index element={<Home />} />

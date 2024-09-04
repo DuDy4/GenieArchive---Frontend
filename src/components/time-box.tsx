@@ -65,7 +65,15 @@ const TimeBox = () => {
             textAlign: "center",
             textTransform: "capitalize"
           }}>
-          {getGreeting()}, {user?.name? user?.name.split(' ')[0] : ''}!
+            {user ? (
+              <>
+                {getGreeting()}
+                {user?.name ? user.name.split(' ')[0] : ''}!
+              </>
+            ) : (
+              "You're not logged in!"
+            )}
+
         </Typography>
       </Box>
     </Box>
