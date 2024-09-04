@@ -23,7 +23,7 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
             {details.social_links ? (
                 details.social_links.map((link: SocialMediaLink, index: number) => (
                     <a key={index} href={link.url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
-                        <img src={iconRoutes[link.platform]} alt={link.platform} className="w-6 h-6" />
+                        <img src={iconRoutes[link.platform.toLowerCase()]} alt={link.platform} className="w-6 h-6" />
                     </a>
                 ))
             ) : null}

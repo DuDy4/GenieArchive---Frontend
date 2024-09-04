@@ -4,5 +4,10 @@
   "facebook": "/images/facebook-icon.png",
   "crunchbase": "/images/crunchbase-icon.png",
   "angelist": "/images/angelist-icon.png",
-  "instagram": "/images/instagram-icon.png"
+  "instagram": "/images/instagram-icon.png",
+  "youtube": "https://img.icons8.com/color/48/youtube-play.png",
+  "github": "https://img.icons8.com/?size=100&id=62856&format=png&color=000000",
+  "pinterest": "https://img.icons8.com/?size=100&id=XErM9A1xNUK5&format=png&color=000000",
+  "flicker": "https://img.icons8.com/?size=100&id=20896&format=png&color=000000",
+  "quora": "https://img.icons8.com/?size=100&id=vdjBxpNLkxCY&format=png&color=000000"
 }
