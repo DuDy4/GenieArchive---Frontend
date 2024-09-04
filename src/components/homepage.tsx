@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { CiSearch } from "react-icons/ci";
-import { useAuth0, useLoginWithRedirect } from "@auth0/auth0-react";
+// import { useAuth, useLoginWithRedirect } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 import { Box, InputBase, Typography } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 
@@ -15,15 +16,15 @@ import UpcomingMeetings from "./upcoming-meetings";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
 console.log(selfUrl);
-// const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
-// console.log(fronteggUrl);
+const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
+console.log(auth0Domain);
 
 const Home = () => {
 
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
     const removeCodeParam = () => {
@@ -110,8 +111,20 @@ const Home = () => {
           <Typography>Calendar</Typography>
         </div>
 
-
-
+        {!isAuthenticated && (
+          // <Link
+          //   className="box"
+          //   // to={`${fronteggUrl}/oauth/account/sign-in?redirectUrl${selfUrl}`}
+          //   to={`${auth0Domain}/authorize?redirectUrl${selfUrl}`}
+          // >
+          //   <Typography>Login</Typography>
+          // </Link>
+          <>
+            {console.log("Homepage - Not authenticated. Redirecting to login.")}
+            {/* <button onClick={() => loginWithRedirect()}>Login</button> */}
+          </>
+        )}
+        <button onClick={() => loginWithRedirect()}>Login</button>
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">

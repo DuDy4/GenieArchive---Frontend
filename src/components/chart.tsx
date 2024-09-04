@@ -4,7 +4,8 @@ import { Chart } from "chart.js";
 import useStrengths from "../hooks/useStrengths";
 import { Strength } from "../types";
 import LeaderImage from "../../public/images/command-image.png";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 const customLabelPlugin = {
   id: "customLabelPlugin",

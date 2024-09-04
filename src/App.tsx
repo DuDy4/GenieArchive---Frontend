@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { Route, Routes } from "react-router-dom";
 
-// import { useAuth } from "@auth0/auth0-react";
+// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
@@ -33,19 +33,11 @@ function App() {
     }
 
     return (
-            <div>
-                {isAuthenticated ? (
-                    <div>
-                        <h2>Welcome, {user?.name}</h2>
-                    </div>
-                ) : (
-                    <div>
-                        <h2>Please login to access the app</h2>
-                        <button onClick={loginWithRedirect}>Login</button>
-                    </div>
-                )}
-            </div>
-        );
-    }
+        <Routes>
+            <Route path="/" index element={<Home />} />
+            <Route path="/meeting/:id" element={<Meeting />} />
+        </Routes>
+    );
+}
 
 export default App;

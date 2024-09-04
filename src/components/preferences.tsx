@@ -16,7 +16,8 @@ import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarSwitch from "./calendar-switch";
-import { ContextHolder, useAuth0 } from "@auth0/auth0-react";
+// import { ContextHolder, useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -45,8 +46,10 @@ const Preferences = () => {
   const [openCalendarModal, setOpenCalendarModal] = useState(false);
 
   const logout = () => {
-    const baseUrl = ContextHolder.getContext().baseUrl;
-    window.location.href = `${baseUrl}/oauth/logout?post_logout_redirect_uri=${window.location}`;
+    // const baseUrl = ContextHolder.getContext().baseUrl;
+    const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
+    // const baseUrl = "https://dev-456789.oktapreview.com";
+    window.location.href = `${auth0Domain}/logout?post_logout_redirect_uri=${window.location.origin}`;
   };
 
   return (

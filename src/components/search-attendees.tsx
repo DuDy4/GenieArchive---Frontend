@@ -5,7 +5,8 @@ import { Meeting, Profile } from "../types";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
-// import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -24,7 +25,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [filteredEmails, setFilteredEmails] = useState<string[]>([]);
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
-//   const { user } = useAuth0();
+  const { user } = useAuth0();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

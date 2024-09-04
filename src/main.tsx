@@ -41,15 +41,17 @@ root.render(
 <React.StrictMode>
   <BrowserRouter>
 <Auth0Provider
-    domain="genie-qa.us.auth0.com"
-    clientId="giCCKqx5jI2ESz2AC1JPRHXiKu18DRMY"
+    domain={auth0Domain}
+    clientId={auth0ClientId}
     authorizationParams={{
-      redirect_uri: window.location.origin,
+      redirect_uri: redirectUri,
       connection: 'google-oauth2',
       connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
       scope: 'openid profile',
-      accessType: 'offline',
-      approvalPrompt: 'force'
+      // accessType: 'offline',
+      access_type: 'offline',
+      approvalPrompt: 'force',
+      prompt: 'consent'
       // scope: "openid profile email offline_access",
       // accessType: 'offline',
       // connection: 'google-oauth2',
