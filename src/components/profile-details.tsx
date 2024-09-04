@@ -107,27 +107,30 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             />
           </div>
 
-          <div className="flex items-center justify-between w-full">
+          <div className="flex flex-wrap items-center justify-between w-full">
             <div className="font-semibold text-heading text-[18px] leading-[27px]">
               {name}
             </div>
 
-            <div className="flex gap-[4px]">
-              {attendeeInfo?.social_media_links && attendeeInfo?.social_media_links.map(
-                ({ url, platform }: AttendeeInfoSocials, index: number) => (
-                  <div key={index}>
-                    <Link
-                      to={url.includes("https") ? url : `https://${url}`}
-                      target="_blank">
-                      <img
-                        src={iconRoutes[platform]}
-                        className="min-w-[27px] max-w-[27px]"
-                        alt="linkedin icon"
-                      />
-                    </Link>
-                  </div>
-                )
-              )}
+            <div className="flex flex-wrap gap-[4px]">
+              {attendeeInfo?.social_media_links &&
+                attendeeInfo?.social_media_links.map(
+                  ({ url, platform }: AttendeeInfoSocials, index: number) =>
+                    iconRoutes[platform] && (
+                      <div key={index}>
+                        <Link
+                          to={url.includes("https") ? url : `https://${url}`}
+                          target="_blank">
+                          <img
+                            src={iconRoutes[platform]}
+                            className="min-w-[27px] max-w-[27px]"
+                            title={platform}
+                            alt={`${platform} icon`} // Dynamically set the alt text based on the platform
+                          />
+                        </Link>
+                      </div>
+                    )
+                )}
             </div>
           </div>
 
@@ -220,6 +223,8 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             <h3 className="font-semibold !text-[16px] text-heading">
               Good to know
             </h3>
+            {goodToKnow && goodToKnow.connections && Array.isArray(goodToKnow.connections)
+                && goodToKnow.connections.length > 0 && (
 
             <div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
@@ -243,8 +248,9 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                   )
                 )}
               </div>
-            </div>
+            </div>)}
 
+            {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
             <div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Interest in
@@ -269,7 +275,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                   )
                 )}
               </div>
-            </div>
+            </div>)}
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
