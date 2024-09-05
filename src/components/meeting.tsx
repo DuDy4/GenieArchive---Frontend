@@ -17,9 +17,9 @@ const Meeting = () => {
   const { user } = useAuth0();
   const tenantId = user?.tenantId;
   const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
-  const profiles = allProfiles.profiles;
-  const personsWithoutProfile = allProfiles.persons
   const name = searchParams.get("name");
+
+  console.log("All profiles: ", allProfiles);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -179,7 +179,7 @@ const Meeting = () => {
                       <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
 
                       {/* Profile tabs starting from index 1 */}
-                      {profiles && Array.isArray(profiles) &&  profiles?.map(
+                      {allProfiles && Array.isArray(allProfiles) &&  allProfiles?.map(
                         ({ name, uuid }: Profile, index: number) => (
                           <Tab
                             key={uuid}
@@ -201,7 +201,7 @@ const Meeting = () => {
             {value === 0 ? (
               <MeetingOverview tenantId={tenantId} />
             ) : (
-              profiles && Array.isArray(profiles) && profiles?.map(({ name, uuid }: Profile, index: number) => (
+              allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                 value === index + 1 && (
                   <ProfileDetails key={uuid} name={name} uuid={uuid} />
                 )

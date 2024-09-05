@@ -121,7 +121,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       to={url.includes("https") ? url : `https://${url}`}
                       target="_blank">
                       <img
-                        src={iconRoutes[platform]}
+                        src={iconRoutes[platform.toLowerCase()]}
                         className="min-w-[27px] max-w-[27px]"
                         alt="linkedin icon"
                       />
@@ -222,7 +222,8 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               Good to know
             </h3>
 
-            <div>
+            {goodToKnow.connections && Array.isArray(goodToKnow.connections) && goodToKnow.connections
+                && goodToKnow.connections.length > 0 && (<div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Relevant connections
               </h4>
@@ -244,9 +245,9 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                   )
                 )}
               </div>
-            </div>
+            </div>)}
 
-            <div>
+            {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow) && goodToKnow.hobbies.length > 0 && (<div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Interest in
               </h4>
@@ -270,7 +271,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                   )
                 )}
               </div>
-            </div>
+            </div>)}
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
