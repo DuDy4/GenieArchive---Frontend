@@ -50,7 +50,6 @@ root.render(
       connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
       scope: 'openid profile',
       access_type: 'offline',
-      approvalPrompt: 'force',
       prompt: 'consent'
     }}
   >

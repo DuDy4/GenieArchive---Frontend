@@ -45,13 +45,6 @@ const Preferences = () => {
 
   const [openCalendarModal, setOpenCalendarModal] = useState(false);
 
-//   const logout = () => {
-//     // const baseUrl = ContextHolder.getContext().baseUrl;
-//     const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
-//     // const baseUrl = "https://dev-456789.oktapreview.com";
-//     window.location.href = `${auth0Domain}/v2/logout?returnTo=${window.location.origin}`;
-//   };
-
   return (
     <>
       <ButtonBase
@@ -295,7 +288,7 @@ const Preferences = () => {
                   margin: "0px",
                   fontWeight: "400",
                 }}>
-                {user?.email}
+                {user?.user_email}
               </p>
               <Tooltip arrow placement="top" title="Log Out">
                 <div onClick={logout}>
