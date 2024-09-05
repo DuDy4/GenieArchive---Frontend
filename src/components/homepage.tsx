@@ -15,9 +15,7 @@ import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
-console.log(selfUrl);
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
-console.log(auth0Domain);
 
 const Home = () => {
 
