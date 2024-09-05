@@ -34,7 +34,7 @@ const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
 const Preferences = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,7 +45,7 @@ const Preferences = () => {
 
   const [openCalendarModal, setOpenCalendarModal] = useState(false);
 
-  const logout = () => {
+  const logout2 = () => {
     // const baseUrl = ContextHolder.getContext().baseUrl;
     const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
     // const baseUrl = "https://dev-456789.oktapreview.com";
@@ -295,10 +295,10 @@ const Preferences = () => {
                   margin: "0px",
                   fontWeight: "400",
                 }}>
-                {user?.email}
+                {user?.user_email}
               </p>
               <Tooltip arrow placement="top" title="Log Out">
-                <div onClick={logout}>
+                <div onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
                   <FiLogOut className="logout-icon" />
                 </div>
               </Tooltip>
