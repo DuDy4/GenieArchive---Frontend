@@ -18,7 +18,7 @@ function App() {
             console.log("Auth0 is still loading...");
         } else if (isAuthenticated) {
             console.log("User is authenticated:", user?.name);
-//             console.log("User is authenticated:", user);
+            console.log("User is authenticated:", user);
         } else {
             console.log("getAccessTokenSilently", getAccessTokenSilently());
             console.log("User is NOT authenticated");
