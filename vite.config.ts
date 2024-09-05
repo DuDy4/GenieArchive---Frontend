@@ -3,10 +3,20 @@ import react from "@vitejs/plugin-react";
 import * as fs from 'fs';
 import * as path from 'path';
 
-// const useHttps = process.env.VITE_USE_HTTPS === 'true';
-const useHttps = true;
+const useHttps = process.env.USE_HTTPS === 'true';
+console.log("useHttps: ", useHttps);
 
-// Vite configuration
+const keyPath = path.resolve(__dirname, 'key.pem');
+const certPath = path.resolve(__dirname, 'cert.pem');
+
+const httpsConfig = useHttps && fs.existsSync(keyPath) && fs.existsSync(certPath)
+  ? {
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath),
+    }
+  : undefined;
+
+// https://vitejs.dev/config/
 export default defineConfig({
   build: {
     rollupOptions: {
@@ -15,12 +25,7 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
-    https: useHttps
-      ? {
-          key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
-          cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
-        }
-      : undefined,
+    https: httpsConfig,
     port: 5173,
   },
 });
