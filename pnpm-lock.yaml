@@ -17,7 +17,7 @@ importers:
       '@fontsource/poppins':
         specifier: ^5.0.14
         version: 5.0.14
-      '@frontegg/react':
+      '@auth0/auth0-react':
         specifier: ^6.0.48
         version: 6.0.48(react-dom@18.3.1(react@18.3.1))(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router-dom@6.25.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@frontegg/rest-api':
@@ -456,10 +456,10 @@ packages:
   '@frontegg/js@6.207.0':
     resolution: {integrity: sha512-rmRu7w6r6mvfLB9sttTsDJ0k8+5tu3NPNX1zwuXWFutdGdzUqG+iqgQMA8sv8wLvMy7E9pz9rmamXWsN5iqgnA==}
 
-  '@frontegg/react-hooks@6.207.0':
+  '@auth0/auth0-react-hooks@6.207.0':
     resolution: {integrity: sha512-v2v1/aeDKBFzjr9NPMpMYcP6p1YlD1TBsPIFYh3MuVFx6iUSsYuSc/81TWlLhtsHSlnnI5c9A/6wSViN3RZSTQ==}
 
-  '@frontegg/react@6.0.48':
+  '@auth0/auth0-react@6.0.48':
     resolution: {integrity: sha512-qWLZxjOIPXHoaG/e9vluH0rUrkV7fn5a45yhTmYxxBa9+h19w1i/fCNpPDlJkDNtBkpT9kB34CQ1RDcXk9ikmw==}
     peerDependencies:
       react: '>16.9.0'
@@ -2358,7 +2358,7 @@ snapshots:
       - react
       - react-redux
 
-  '@frontegg/react-hooks@6.207.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@auth0/auth0-react-hooks@6.207.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.25.0
       '@frontegg/redux-store': 6.207.0(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -2371,10 +2371,10 @@ snapshots:
       - react-dom
       - react-native
 
-  '@frontegg/react@6.0.48(react-dom@18.3.1(react@18.3.1))(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router-dom@6.25.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@auth0/auth0-react@6.0.48(react-dom@18.3.1(react@18.3.1))(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router-dom@6.25.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@frontegg/js': 6.207.0(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      '@frontegg/react-hooks': 6.207.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@auth0/auth0-react-hooks': 6.207.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-router-dom: 6.25.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

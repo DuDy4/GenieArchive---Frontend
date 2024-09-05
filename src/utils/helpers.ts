@@ -5,11 +5,11 @@ const getGreeting = () => {
   let greeting;
 
   if (now >= 5 && now < 12) {
-    greeting = "Good Morning";
+    greeting = "Good Morning ";
   } else if (now >= 12 && now < 18) {
-    greeting = "🌞 Good Afternoon";
+    greeting = "🌞 Good Afternoon ";
   } else {
-    greeting = "🌙 Good Evening";
+    greeting = "🌙 Good Evening ";
   }
 
   return greeting;

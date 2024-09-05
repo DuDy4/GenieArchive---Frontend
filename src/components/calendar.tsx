@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
 import { Alert, Box, Button, Snackbar, Tooltip, Typography } from "@mui/material";
-import { ContextHolder } from "@frontegg/react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -24,7 +23,8 @@ import CustomDrawer from "./ui/drawer";
 import useMeetings from "../hooks/useMeetings";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useAuth } from "@frontegg/react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 interface MeetingsCalendarProps {
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
@@ -40,9 +40,10 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [expandCalendar, setExpandCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [toastShow, setToast] = useState(false);
-  const [importErrorToast, setImportErrorToast] = useState(false); // This will help us know why the import fails
-  const { user } = useAuth();
-  const { meetings, refetch, isRefetching, reImport, isImportingMeetings, error } = useMeetings(user?.tenantId!, user?.email!);
+  const [error, setError] = useState<string | null>(null);
+  const [importErrorToast, setImportErrorToast] = useState(false);
+  const { user } = useAuth0();
+  const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 
 //   // Refetching events data
@@ -66,15 +67,16 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
         onError: (err) => {
           console.error(err);
           setImportErrorToast(true);
+          setError("An error occurred during the import. Please try again.");
           refetch()
             .then(() => {
-              console.log(isRefetching); // Logs the state at the time of the callback
+              console.log(isRefetching);
               setToast(true);
             })
             .catch((err) => {
               console.error(err);
             });
-        },
+        }
       });
     };
 
@@ -129,7 +131,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
           anchorOrigin={{ vertical: "top", horizontal: "center" }} // Adjust position to under the button
           open={importErrorToast}
           onClose={handleClose}
-          autoHideDuration={10000} // Display the error for 5 seconds
+          autoHideDuration={10000}
           action={
             <Button color="inherit" size="small" onClick={logout}>
               Re-login

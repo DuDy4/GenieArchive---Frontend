@@ -6,17 +6,20 @@ import MeetingOverview from "./meeting-overview";
 import { useEffect, useState } from "react";
 import useAllProfiles from "../hooks/useAllProfiles";
 import { Profile } from "../types";
-import { useAuth } from "@frontegg/react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 
 const Meeting = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const [value, setValue] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const tenantId = user?.tenantId;
   const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
   const name = searchParams.get("name");
+
+  console.log("All profiles: ", allProfiles);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

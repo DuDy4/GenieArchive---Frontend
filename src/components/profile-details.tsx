@@ -10,7 +10,8 @@ import useGetToKnow from "../hooks/useGetToKnow";
 import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import moment from "moment";
-import { useAuth } from "@frontegg/react";
+// import { useAuth } from "@frontegg/react";
+import { useAuth0 } from "@auth0/auth0-react"
 import { isArray } from "chart.js/helpers";
 import iconRoutes from "../utils/iconRoutes.json";
 
@@ -21,7 +22,7 @@ interface ProfilesDetailsProps {
 
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
-  const { user } = useAuth();
+  const { user } = useAuth0();
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
     user?.tenantId!,
     uuid
@@ -112,25 +113,23 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               {name}
             </div>
 
-            <div className="flex flex-wrap gap-[4px]">
-              {attendeeInfo?.social_media_links &&
-                attendeeInfo?.social_media_links.map(
-                  ({ url, platform }: AttendeeInfoSocials, index: number) =>
-                    iconRoutes[platform] && (
-                      <div key={index}>
-                        <Link
-                          to={url.includes("https") ? url : `https://${url}`}
-                          target="_blank">
-                          <img
-                            src={iconRoutes[platform]}
-                            className="min-w-[27px] max-w-[27px]"
-                            title={platform}
-                            alt={`${platform} icon`} // Dynamically set the alt text based on the platform
-                          />
-                        </Link>
-                      </div>
-                    )
-                )}
+            <div className="flex gap-[4px]">
+              {attendeeInfo?.social_media_links && attendeeInfo?.social_media_links.map(
+                ({ url, platform }: AttendeeInfoSocials, index: number) => (
+                  <div key={index}>
+                    <Link
+                      to={url.includes("https") ? url : `https://${url}`}
+                      target="_blank">
+                      <img
+                        src={iconRoutes[platform.toLowerCase()]}
+                        className="min-w-[27px] max-w-[27px]"
+                        title={platform}
+                        alt={`${platform} icon`} // Dynamically set the alt text based on the platform
+                      />
+                    </Link>
+                  </div>
+                )
+              )}
             </div>
           </div>
 
