@@ -4,8 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 
-// const useHttps = process.env.USE_HTTPS === 'true';
-const useHttps = true
+const useHttps = process.env.USE_HTTPS === 'true';
 console.log("useHttps: ", useHttps);
 // https://vitejs.dev/config/
 export default defineConfig({

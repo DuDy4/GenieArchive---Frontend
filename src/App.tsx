@@ -12,8 +12,6 @@ import LoadingGenie from "./components/ui/loading-genie";
 function App() {
     const { loginWithRedirect, getAccessTokenSilently, user, isAuthenticated, isLoading, error } = useAuth0();
     // const selfUrl = import.meta.env.VITE_SELF_URL;
-    // const fronteggUrl = import.meta.env.VITE_FRONTEGG_URL;
-    // const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
 
     useEffect(() => {
         if (isLoading) {

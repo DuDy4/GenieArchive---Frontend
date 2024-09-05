@@ -12,6 +12,7 @@ const queryClient = new QueryClient();
 
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+const defaultOrgId = import.meta.env.VITE_DEFAULT_ORG_ID;
 const redirectUri = window.location.origin;
 
 // ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -35,8 +36,8 @@ const redirectUri = window.location.origin;
 //   </React.StrictMode>
 // );
 
-const root = createRoot(document.getElementById('root')!);
 
+const root = createRoot(document.getElementById('root')!);
 root.render(
 <React.StrictMode>
   <BrowserRouter>
@@ -48,15 +49,9 @@ root.render(
       connection: 'google-oauth2',
       connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
       scope: 'openid profile',
-      // accessType: 'offline',
       access_type: 'offline',
       approvalPrompt: 'force',
       prompt: 'consent'
-      // scope: "openid profile email offline_access",
-      // accessType: 'offline',
-      // connection: 'google-oauth2',
-      // connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
-      // approvalPrompt: "force"
     }}
   >
     <QueryClientProvider client={queryClient}>
