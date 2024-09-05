@@ -51,7 +51,7 @@ function App() {
                     </Routes>
                 </>
             ) : (
-                <LoadingGenie />
+                <LoadingGenie withLoadingCircle={true}/>
             )}
         </>
     );

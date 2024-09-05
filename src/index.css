@@ -735,8 +735,8 @@ element {
 
 .sparkle3 {
   position: absolute;
-  top: 5px;
-  right: 24px;
+  top: 0px;
+  right: 29px;
   animation-delay: 0.8s;
 }
 
