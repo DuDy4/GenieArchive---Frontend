@@ -142,10 +142,10 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             <div className="h-[30px] mx-6 w-[1px] bg-[#DDDDDD]"></div>
 
             <div className="flex-1 flex flex-col gap-2 justify-center align-start">
-              <div className="font-regular text-[12px] text-[#9F9F9F] text-right">
+              <div className="font-regular text-[12px] text-[#9F9F9F]">
                 Position
               </div>
-              <div className="font-bold text-[#37455C] text-[14px] text-right">
+              <div className="font-bold text-[#37455C] text-[14px]">
                 {attendeeInfo?.position}
               </div>
             </div>
