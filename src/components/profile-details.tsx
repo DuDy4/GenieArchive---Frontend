@@ -270,6 +270,8 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>)}
 
+            {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
+
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Top news
@@ -296,7 +298,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                   )
                 )}
               </div>
-            </div>
+            </div>)}
           </div>
         </div>
 
