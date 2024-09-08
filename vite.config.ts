@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import * as fs from 'fs';
 import * as path from 'path';
 
-const useHttps = process.env.USE_HTTPS === 'true';
+const useHttps = 'true';
 console.log("useHttps: ", useHttps);
 
 const keyPath = path.resolve(__dirname, 'key.pem');

@@ -115,21 +115,24 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="flex gap-[4px]">
               {attendeeInfo?.social_media_links && attendeeInfo?.social_media_links.map(
-                ({ url, platform }: AttendeeInfoSocials, index: number) => (
-                  <div key={index}>
-                    <Link
-                      to={url.includes("https") ? url : `https://${url}`}
-                      target="_blank">
-                      <img
-                        src={iconRoutes[platform.toLowerCase()]}
-                        className="min-w-[27px] max-w-[27px]"
-                        title={platform}
-                        alt={`${platform} icon`} // Dynamically set the alt text based on the platform
-                      />
-                    </Link>
-                  </div>
-                )
-              )}
+                  ({ url, platform }: AttendeeInfoSocials, index: number) => {
+                    return iconRoutes[platform.toLowerCase()] ? (
+                      <div key={index}>
+                        <Link
+                          to={url.includes("https") ? url : `https://${url}`}
+                          target="_blank"
+                        >
+                          <img
+                            src={iconRoutes[platform.toLowerCase()]}
+                            className="min-w-[27px] max-w-[27px]"
+                            title={platform}
+                            alt={`${platform} icon`} // Dynamically set the alt text based on the platform
+                          />
+                        </Link>
+                      </div>
+                    ) : null;
+                  }
+                )}
             </div>
           </div>
 

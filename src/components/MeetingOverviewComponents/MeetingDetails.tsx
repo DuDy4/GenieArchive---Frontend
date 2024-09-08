@@ -27,6 +27,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
           <div className="flex-1 mr-2">
             <div className="flex flex-row space-x-5">
               <CompanyOverview
+                name={company.name}
                 overview={
                   company.description ? capitalizeFirstLetter(company.description) : company.overview
                 }

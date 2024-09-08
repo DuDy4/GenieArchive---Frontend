@@ -8,6 +8,15 @@ interface SocialMediaLink {
   platform: string;
 }
 
+const formatNumber = (value) => {
+  const sizeLetter = value.slice(-1); // Get the last letter (e.g., "M", "B")
+  const numberPart = parseFloat(value.slice(0, -1)); // Extract and convert the number part
+
+  if (isNaN(numberPart)) return value; // Return original value if it can't be parsed
+
+  return `${Math.round(numberPart)}${sizeLetter}`; // Round the number part and reattach the letter
+};
+
 
 const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
 
@@ -54,14 +63,14 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
         {details.annual_revenue ? (
             <div className="p-4 bg-gray-100 rounded">
                       <p className="text-sm font-bold">Annual Revenue:</p>
-                      <p>{details.annual_revenue}</p>
+                      <p>${formatNumber(details.annual_revenue)}</p>
                     </div>
                     ) : null
             }
         {details.total_funding ? (
             <div className="p-4 bg-gray-100 rounded">
                       <p className="text-sm font-bold">Total Funding:</p>
-                      <p>{details.total_funding}</p>
+                      <p>${formatNumber(details.total_funding)}</p>
                     </div>
                     ) : null
             }
