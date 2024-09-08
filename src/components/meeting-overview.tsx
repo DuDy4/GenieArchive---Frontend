@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import useMeetingOverview from '../hooks/useMeetingOverview';
+import LoadingGenie from './ui/loading-genie';
 import MeetingDetails from './MeetingOverviewComponents/MeetingDetails';
 
 const MeetingOverview = ({tenantId}) => {
@@ -17,14 +18,7 @@ const MeetingOverview = ({tenantId}) => {
     if (loading){
 
         return (
-            <div className="flex justify-center items-center h-screen w-screen">
-                <div className="w-full h-full-meeting flex justify-center items-center overflow-visible">
-                    <div className="icon-container">
-                        <img src="/images/logo.png" alt="Genie AI" className="icon" />
-                        <div className="loading-circle"></div>
-                    </div>
-                </div>
-            </div>
+                <LoadingGenie withLoadingCircle={true} />
             )
     }
 
