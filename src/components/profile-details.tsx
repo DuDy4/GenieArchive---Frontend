@@ -134,7 +134,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               <div className="font-medium text-[12px] leading-[18px] text-[#9F9F9F]">
                 Company Name
               </div>
-              <div className="font-semibold whitespace-nowrap text-[#37455C] text-[14px] leading-[21px]">
+              <div className="font-semibold text-[#37455C] text-[14px] leading-[21px]">
                 {attendeeInfo?.company}
               </div>
             </div>
