@@ -17,6 +17,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
   const agendaItems = meeting ? meeting.agenda : [];
   const news = company ? company.news : undefined;
   const link = meeting ? meeting.video_link : undefined;
+  const classification = meeting ? meeting.classification : undefined;
 
   return (
     <div className="meeting-details p-6">
@@ -28,9 +29,7 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
             <div className="flex flex-row space-x-5">
               <CompanyOverview
                 name={company.name}
-                overview={
-                  company.description ? capitalizeFirstLetter(company.description) : company.overview
-                }
+                overview={company.description ? capitalizeFirstLetter(company.description) : company.overview}
                 logo={company.logo}
               />
               {participants && <Participants participants={participants} />}
