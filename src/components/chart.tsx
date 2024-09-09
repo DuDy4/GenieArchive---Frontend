@@ -108,19 +108,21 @@ const options = {
   responsive: true,
   scales: {
     r: {
-      angleLines: {
-        color: "#505050",
+        min: 70,  // Set minimum value for the scale
+        max: 100, // Optional: Set a maximum value if you want
+        angleLines: {
+          color: "#ccc",  // Lighter angle lines
+        },
+        grid: {
+          color: "#ccc",  // Lighter grid lines
+        },
+        ticks: {
+          display: false,  // Hide tick labels (optional)
+        },
+        pointLabels: {
+          display: false,  // Hide point labels (optional)
+        },
       },
-      ticks: {
-        display: false,
-      },
-      grid: {
-        color: "#505050",
-      },
-      pointLabels: {
-        display: false,
-      },
-    },
   },
   plugins: {
     legend: {
@@ -213,12 +215,17 @@ export const icons = {
 const RadarChart = ({ uuid }: { uuid: string }) => {
   const { user } = useAuth0();
   const strengths = useStrengths(user?.tenantId!, uuid);
-  // console.log(strengths)
-  const data = Array.isArray(strengths) ? strengths?.map((strength: Strength) => ({
-    name: strength.strength_name || strength.strengths_name,
-    image: icons[strength.strengths_name || strength.strength_name] || icons.Default,
-    score: strength.score,
-  })) : [];
+
+  // Ensure data includes all strength scores, including "Learner"
+  const data = Array.isArray(strengths)
+    ? strengths?.map((strength: Strength) => ({
+        name: strength.strength_name || strength.strengths_name,
+        image: icons[strength.strengths_name || strength.strength_name] || icons.Default,
+        score: strength.score ?? 0, // Fallback to 0 if no score
+      }))
+    : [];
+
+  console.log("Chart Data", data); // Debugging output
 
   const chartData = {
     labels: data?.map((item) => item.name),
@@ -235,20 +242,14 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   };
 
   return (
-    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20">
-      <h3 className="text-heading font-semibold text-[16px]">
-        Top personality
-      </h3>
-
+    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]">
+      <h3 className="text-heading font-semibold text-[16px]">Top personality</h3>
       <div className="-mt-3">
         <Radar
           data={chartData}
           options={options}
           height="320px"
-          style={{
-            width: "100%",
-            height: "320px",
-          }}
+          style={{ width: "100%", height: "320px" }}
         />
       </div>
     </div>
