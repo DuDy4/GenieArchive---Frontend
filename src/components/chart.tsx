@@ -108,7 +108,7 @@ const options = {
   responsive: true,
   scales: {
     r: {
-        min: 70,  // Set minimum value for the scale
+        min: 50,  // Set minimum value for the scale
         max: 100, // Optional: Set a maximum value if you want
         angleLines: {
           color: "#ccc",  // Lighter angle lines

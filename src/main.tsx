@@ -14,27 +14,7 @@ const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const defaultOrgId = import.meta.env.VITE_DEFAULT_ORG_ID;
 const redirectUri = window.location.origin;
-
-// ReactDOM.createRoot(document.getElementById("root")!).render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <Auth0Provider
-//         domain={auth0Domain}
-//         clientId={auth0ClientId}
-//         authorizationParams={{
-//           redirect_uri: redirectUri,
-//         }}
-//         cacheLocation="localstorage"
-//       >
-//         <ThemeProvider theme={theme}>
-//           <QueryClientProvider client={queryClient}>
-//             <App />
-//           </QueryClientProvider>
-//         </ThemeProvider>
-//       </Auth0Provider>
-//     </BrowserRouter>
-//   </React.StrictMode>
-// );
+const auth0Audience = auth0Domain + "/api/v2/"
 
 
 const root = createRoot(document.getElementById('root')!);
@@ -50,12 +30,15 @@ root.render(
       connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
       scope: 'openid profile',
       access_type: 'offline',
+      audience: auth0Audience,
       prompt: 'consent'
     }}
   >
     <QueryClientProvider client={queryClient}>
-             <App />
-           </QueryClientProvider>
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
+    </QueryClientProvider>
   </Auth0Provider>,
   </BrowserRouter>
   </React.StrictMode>
