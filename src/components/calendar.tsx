@@ -30,6 +30,34 @@ interface MeetingsCalendarProps {
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
   openCalendar: boolean;
 }
+// Function to handle dynamic event styles
+const eventPropGetter = (event: Event, start: Date, end: Date, isSelected: boolean) => {
+  let style: CSSProperties = {};
+
+  if (event.classification === "internal") {
+    style = {
+//       backgroundColor: "darkgrey",
+//       color: "white",
+      border: "none",
+      opacity: 1,
+    };
+  } else if (event.classification === "private") {
+    style = {
+      backgroundColor: "orange",
+      color: "black",
+      border: "none",
+      opacity: 0.5,
+    };
+  } else {
+    style = {
+        backgroundColor: "#90EE90",
+        color: "black",
+        border: "none",
+    };
+  }
+
+  return { style };
+};
 
 const localizer = momentLocalizer(moment);
 
@@ -96,6 +124,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     title: meeting.subject,
     start: new Date(meeting.start_time),
     end: new Date(meeting.end_time),
+    classification: meeting.classification || "external",
   }));
 
   const handleSelectEvent = useCallback((event: Event) => {
@@ -397,6 +426,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                 }}
                 onSelectEvent={handleSelectEvent}
                 className="hide-scrollbar"
+                eventPropGetter={eventPropGetter}
               />
             </Box>
           </Box>
