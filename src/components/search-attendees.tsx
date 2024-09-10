@@ -8,6 +8,7 @@ import { Typography } from "@mui/material";
 // import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingGenie from "./ui/loading-genie";
+import { useToken } from "../providers/TokenProvider";
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -27,6 +28,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
+  const token = useToken();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -46,10 +48,21 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       // Map each meeting to a promise that resolves with the profiles data
       const profilePromises = meetingsResponse.data?.map(
         async (meeting: Meeting) => {
+            if (!user?.tenantId) {
+                throw new Error("Tenant ID not available");
+            }
+            if (!token) {
+                throw new Error("Token not available");
+            }
           const response = await axios.get(
             `${import.meta.env.VITE_API_URL}/${user?.tenantId}/${
               meeting.uuid
-            }/profiles`
+            }/profiles`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
 
           const enhancedProfiles = response.data.map((profile: Profile) => ({
