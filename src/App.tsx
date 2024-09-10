@@ -23,7 +23,7 @@ function App() {
             console.log("getAccessTokenSilently", getAccessTokenSilently());
             console.log("User is NOT authenticated");
             // Uncomment the next line if you want to redirect to login automatically
-            loginWithRedirect();
+//             loginWithRedirect();
         }
     }, [isAuthenticated, isLoading, user]);
 
