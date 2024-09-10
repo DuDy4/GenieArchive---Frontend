@@ -65,8 +65,16 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   openCalendar,
   setOpenCalendar,
 }) => {
-  const [expandCalendar, setExpandCalendar] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [expandCalendar, setExpandCalendar] = useState(() => {
+    // Check localStorage for expandCalendar state
+    const storedExpand = localStorage.getItem("expandCalendar");
+    return storedExpand === "true" || false;
+  });
+  const [selectedDate, setSelectedDate] = useState(() => {
+    // Check localStorage for selectedDate state
+    const storedDate = localStorage.getItem("selectedDate");
+    return storedDate ? new Date(storedDate) : new Date();
+  });
   const [toastShow, setToast] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [importErrorToast, setImportErrorToast] = useState(false);
@@ -107,6 +115,14 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
         }
       });
     };
+
+    useEffect(() => {
+      localStorage.setItem("selectedDate", selectedDate.toISOString());
+    }, [selectedDate]);
+
+    useEffect(() => {
+      localStorage.setItem("expandCalendar", expandCalendar.toString());
+    }, [expandCalendar]);
 
 
   const handleClose = () => {
