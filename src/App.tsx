@@ -23,7 +23,7 @@ function App() {
             console.log("getAccessTokenSilently", getAccessTokenSilently());
             console.log("User is NOT authenticated");
             // Uncomment the next line if you want to redirect to login automatically
-            // loginWithRedirect();
+            loginWithRedirect();
         }
     }, [isAuthenticated, isLoading, user]);
 
@@ -31,15 +31,6 @@ function App() {
       console.log("error", error);
       return <div>Oops... {error.message}</div>;
     }
-//
-//     return (
-//         <>
-//             <Routes>
-//                 <Route path="/" index element={<Home />} />
-//                 <Route path="/meeting/:id" element={<Meeting />} />
-//             </Routes>
-//         </>
-//     );
 
     return (
         <>
