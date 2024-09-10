@@ -66,12 +66,10 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   setOpenCalendar,
 }) => {
   const [expandCalendar, setExpandCalendar] = useState(() => {
-    // Check localStorage for expandCalendar state
     const storedExpand = localStorage.getItem("expandCalendar");
     return storedExpand === "true" || false;
   });
   const [selectedDate, setSelectedDate] = useState(() => {
-    // Check localStorage for selectedDate state
     const storedDate = localStorage.getItem("selectedDate");
     return storedDate ? new Date(storedDate) : new Date();
   });

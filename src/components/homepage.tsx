@@ -25,6 +25,11 @@ const Home = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
+          const storedOpenCalendar = localStorage.getItem("openCalendar");
+          setOpenCalendar( storedOpenCalendar === "true" || false);
+    }, []);
+
+  useEffect(() => {
     const removeCodeParam = () => {
       let params = new URLSearchParams(searchParams);
       params.delete("code");

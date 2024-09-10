@@ -28,7 +28,10 @@ const Meeting = () => {
   useEffect(() => {
     setIsMounted(true);
 
-    return () => setIsMounted(false);
+    return () => {
+        setIsMounted(false)
+        localStorage.setItem("openCalendar", JSON.stringify(true)); // or false
+        };
   }, []);
 
   return (
