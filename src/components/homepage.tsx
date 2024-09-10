@@ -103,7 +103,7 @@ const Home = () => {
             }}
           />
         </Box>
-        <div
+        {isAuthenticated && <div
           className="box"
           onClick={() => {
             setOpenCalendar((openCalendar) => !openCalendar);
@@ -112,7 +112,7 @@ const Home = () => {
         >
           <CalendarTodayOutlinedIcon fontSize="small" />
           <Typography>Calendar</Typography>
-        </div>
+        </div>}
 
         {!isAuthenticated && (
           // <Link
@@ -171,11 +171,11 @@ const Home = () => {
         ></Box>
       </div>
 
-      <Calendar
+      {isAuthenticated && <Calendar
         // events={events}
         openCalendar={openCalendar}
         setOpenCalendar={setOpenCalendar}
-      />
+      />}
       {openSearchBar ? (
         <SearchAttendes
           openSearchBar={openSearchBar}

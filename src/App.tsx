@@ -9,9 +9,12 @@ import Home from "./components/homepage";
 import Meeting from "./components/meeting";
 import LoadingGenie from "./components/ui/loading-genie";
 
+import {TokenProvider} from "./providers/TokenProvider";
+
 function App() {
     const { loginWithRedirect, getAccessTokenSilently, user, isAuthenticated, isLoading, error } = useAuth0();
     // const selfUrl = import.meta.env.VITE_SELF_URL;
+
 
     useEffect(() => {
         if (isLoading) {
@@ -36,10 +39,12 @@ function App() {
         <>
             {!isLoading ? (
                 <>
-                    <Routes>
-                        <Route path="/" index element={<Home />} />
-                        <Route path="/meeting/:id" element={<Meeting />} />
-                    </Routes>
+                    <TokenProvider >
+                        <Routes>
+                            <Route path="/" index element={<Home />} />
+                            <Route path="/meeting/:id" element={<Meeting />} />
+                        </Routes>
+                    </TokenProvider>
                 </>
             ) : (
                 <LoadingGenie withLoadingCircle={true}/>

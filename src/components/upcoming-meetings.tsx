@@ -11,8 +11,9 @@ const UpcomingMeetings = () => {
   const { meetings } = useMeetings(user?.tenantId!);
 
   const upcomingMeeting = meetings?.find((meeting: Meeting) =>
-    meeting.classification === 'external' &&
-    moment(meeting.start_time).isAfter(moment())
+
+    moment(meeting.start_time).isAfter(moment()) &&
+        meeting.classification === 'external'
   );
 
   return (

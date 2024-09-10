@@ -1,21 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-// interface QueryParams {
-//   tenant_id: string;
-//   uuid: string;
-// }
+import { useToken } from "../providers/TokenProvider";
 
 const useWorkExperience = (tenant_id: string, uuid: string) => {
+    const token = useToken();
   const { data: workExperience, isLoading: isLoadingWorkExperience } = useQuery(
     {
       queryKey: ["work-experience", tenant_id, uuid],
       queryFn: async ({ queryKey }) => {
         const [_key, tenant_id, uuid] = queryKey;
+        if (!token) {
+          throw new Error("Token not available");
+        }
+
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_API_URL
-          }/${tenant_id}/profiles/${uuid}/work-experience`
+          `${import.meta.env.VITE_API_URL}/${tenant_id}/profiles/${uuid}/work-experience`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         return response.data;

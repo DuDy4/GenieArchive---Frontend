@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { useToken } from '../providers/TokenProvider';
 
 const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const token = useToken();
   const apiUrl = import.meta.env.VITE_API_URL;
 
   console.log("useMeetingOverview apiUrl: ", apiUrl);
@@ -14,7 +17,17 @@ const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`);
+        if (!token) {
+          throw new Error('Token not available');
+        }
+        const response = await axios.get(
+            `${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`,
+        {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log("useMeetingOverview response: ", response.data); // Access the data directly
         setData(response.data);
         setError(null); // Clear any previous error

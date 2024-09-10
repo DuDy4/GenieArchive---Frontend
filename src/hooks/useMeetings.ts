@@ -2,10 +2,12 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import { Meeting } from "../types";
+import { useToken } from "../providers/TokenProvider";
 
 const useMeetings = (tenant_id: string) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
+    const token = useToken();
 
   const {
     data: meetings,
@@ -19,8 +21,16 @@ const useMeetings = (tenant_id: string) => {
       if (!tenant_id) {
         return [];
       }
+        if (!token) {
+            throw new Error("Token not available");
+        }
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/${tenant_id}/meetings`
+        `${import.meta.env.VITE_API_URL}/${tenant_id}/meetings`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       return response.data as Meeting[];
     },
@@ -33,8 +43,16 @@ const useMeetings = (tenant_id: string) => {
       }
       setIsImportingMeetings(true);
       try {
+        if (!token) {
+          throw new Error("Token not available");
+        }
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/google/import-meetings/${tenant_id}`
+          `${import.meta.env.VITE_API_URL}/google/import-meetings/${tenant_id}`,
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
         );
         return response.data;
       } catch (err) {
