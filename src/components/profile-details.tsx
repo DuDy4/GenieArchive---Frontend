@@ -231,7 +231,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       <Tooltip title={name} arrow placement="top">
                         <div className="w-[48px] rounded-full">
                           <img
-                            src={image_url || "/images/anonymous-user-8.png"}
+                            src={image_url || "/images/anonymous-user-8.svg"}
                             alt="connection image"
                             className="rounded-full max-w-full"
                           />

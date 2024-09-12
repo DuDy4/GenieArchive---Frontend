@@ -10,7 +10,7 @@ function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
+const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
   if (!data) return null;
 
   const { meeting, company, participants } = data;
@@ -64,4 +64,4 @@ const MeetingDetails: React.FC<{ data: any }> = ({ data }) => {
   );
 };
 
-export default MeetingDetails;
+export default ExternalMeetingDetails;
