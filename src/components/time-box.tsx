@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 const TimeBox = () => {
   const [time, setTime] = useState(new Date());
-  const { user } = useAuth0();
+  const { user, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
     setInterval(() => {
@@ -71,7 +71,17 @@ const TimeBox = () => {
                 {user?.name ? user.name.split(' ')[0] : ''}!
               </>
             ) : (
-              "You're not logged in!"
+                <div className="">
+                  <button
+                    onClick={() => loginWithRedirect()}
+                        className="text-white bg-[#2ca1f9] rounded-lg font-bold py-1 px-2 shadow transition-all duration-300 ease-in-out hover:scale-105"
+                  >
+                  <div className="flex items-center justify-center gap-1">
+                    <img src="https://img.icons8.com/color/48/google-logo.png" alt="Google-login" className="w-6 h-6 inline-block" />
+                    Login to continue
+                    </div>
+                  </button>
+                </div>
             )}
 
         </Typography>

@@ -114,20 +114,6 @@ const Home = () => {
           <Typography>Calendar</Typography>
         </div>}
 
-        {!isAuthenticated && (
-          // <Link
-          //   className="box"
-          //   // to={`${fronteggUrl}/oauth/account/sign-in?redirectUrl${selfUrl}`}
-          //   to={`${auth0Domain}/authorize?redirectUrl${selfUrl}`}
-          // >
-          //   <Typography>Login</Typography>
-          // </Link>
-          <>
-            {console.log("Homepage - Not authenticated. Redirecting to login.")}
-            {/* <button onClick={() => loginWithRedirect()}>Login</button> */}
-          </>
-        )}
-        {!isAuthenticated && <button onClick={() => loginWithRedirect()}>Login</button>}
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">
