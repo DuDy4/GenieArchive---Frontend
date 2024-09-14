@@ -8,16 +8,17 @@ import {
   MenuList,
   MenuProps,
   Typography,
+  TextField,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
-import CalendarSwitch from "./calendar-switch";
-// import { ContextHolder, useAuth } from "@frontegg/react";
-import { useAuth0 } from "@auth0/auth0-react"
+import { useAuth0 } from "@auth0/auth0-react";
+import { createZendeskTicket } from './zendesk/zendeskService'; // Assuming you have this service to create tickets
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -43,7 +44,58 @@ const Preferences = () => {
     setAnchorEl(null);
   };
 
-  const [openCalendarModal, setOpenCalendarModal] = useState(false);
+  const [openContactModal, setOpenContactModal] = useState(false);
+  const [ticketData, setTicketData] = useState({
+    subject: '',
+    description: '',
+    name: user?.name || '',
+    email: user?.user_email || '',
+    priority: 'normal',
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    setTicketData((prevData) => ({
+      ...prevData,
+      name: user?.name || '',
+      email: user?.user_email || '',
+    }));
+  }, [user]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTicketData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(''); // Clear previous messages
+    try {
+      const result = await createZendeskTicket(ticketData);
+      setMessage('Ticket created successfully!');
+      console.log('Created Ticket:', result);
+
+      // Reset form on success
+      setTicketData({
+        subject: '',
+        description: '',
+        name: user?.name || '',
+        email: user?.user_email || '',
+        priority: 'normal',
+      });
+      setOpenContactModal(false);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setMessage(`Error creating ticket: ${error.response.data.error}`);
+      } else {
+        setMessage('Error creating ticket. Please try again later.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -89,7 +141,6 @@ const Preferences = () => {
             paddingRight: "0px",
             position: "relative",
             outline: "0px",
-            // width: "26rem !important",
             width: "calc(100% + 1px)",
             overflow: "hidden",
           }}>
@@ -120,6 +171,7 @@ const Preferences = () => {
 
           <hr className="separator" />
 
+          {/* Contact Us MenuItem */}
           <MenuItem
             sx={{
               display: "flex",
@@ -133,7 +185,7 @@ const Preferences = () => {
             }}
             disableRipple
             disableTouchRipple
-            onClick={() => setOpenCalendarModal(true)}>
+            onClick={() => setOpenContactModal(true)}>
             <Box
               sx={{
                 display: "flex",
@@ -147,7 +199,7 @@ const Preferences = () => {
                   lineHeight: 24,
                   margin: 0,
                 }}>
-                Calendar
+                Contact Us
               </Typography>
             </Box>
 
@@ -160,24 +212,24 @@ const Preferences = () => {
                 fontSize: "1.5rem",
                 width: "16px",
                 height: "16px",
-                // fill: "none",
                 stroke: "rgb(17, 24, 28)",
               }}
               size={25}
             />
           </MenuItem>
 
+          {/* Contact Us Modal */}
           <Dialog
-            open={openCalendarModal}
-            onClose={() => setOpenCalendarModal(false)}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description">
+            open={openContactModal}
+            onClose={() => setOpenContactModal(false)}
+            aria-labelledby="contact-modal-title"
+            aria-describedby="contact-modal-description">
             <Box
               sx={{
                 backgroundColor: "white",
                 borderRadius: "12px",
                 width: "23rem",
-                maxHeight: "40%",
+                maxHeight: "60%",
                 padding: "20px",
                 position: "relative",
                 overflowY: "auto",
@@ -199,8 +251,9 @@ const Preferences = () => {
                   },
                   borderRadius: "5px",
                 }}
-                onClick={() => setOpenCalendarModal(false)}
+                onClick={() => setOpenContactModal(false)}
               />
+
               <Typography
                 sx={{
                   margin: "0px",
@@ -209,37 +262,89 @@ const Preferences = () => {
                   fontWeight: "500",
                   marginBottom: "10px",
                 }}>
-                Calendar
+                Contact Us
               </Typography>
 
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                width="100%"
-                alignItems="center">
-                <p
-                  style={{
-                    margin: "0px",
-                    fontWeight: "400",
-                  }}>
-                  {user ? user?.email : ""}
-                </p>
+              {/* Contact Form */}
+              <form onSubmit={handleFormSubmit}>
 
-                <div className="flex gap-1 items-center">
-                  <Box
-                    sx={{
-                      width: "16px",
-                      height: "16px",
-                      borderRadius: "50%",
-                      marginRight: "8px",
-                      border: "2px solid white",
-                      boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px",
-                      backgroundColor: "rgb(132, 205, 218)",
-                    }}></Box>
-
-                  <CalendarSwitch />
-                </div>
-              </Box>
+                <TextField
+                  fullWidth
+                  label="Name"
+                  margin="normal"
+                  name="name"
+                  value={ticketData.name}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  required
+                  disabled={!!user?.name} // Disable if name exists from Auth0
+                />
+                <TextField
+                  fullWidth
+                  label="Email"
+                  margin="normal"
+                  name="email"
+                  value={ticketData.email}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  required
+                  type="email"
+                  disabled={!!user?.user_email} // Disable if email exists from Auth0
+                />
+                <TextField
+                  fullWidth
+                  label="Subject"
+                  margin="normal"
+                  name="subject"
+                  value={ticketData.subject}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Description"
+                  margin="normal"
+                  name="description"
+                  value={ticketData.description}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  required
+                />
+                <TextField
+                  fullWidth
+                  label="Priority"
+                  select
+                  name="priority"
+                  value={ticketData.priority}
+                  onChange={handleInputChange}
+                  margin="normal"
+                  SelectProps={{
+                    native: true,
+                  }}
+                  variant="outlined"
+                  required>
+                  <option value="low">Low</option>
+                  <option value="normal">Normal</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </TextField>
+                <Button
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  disabled={loading}>
+                  {loading ? 'Sending...' : 'Send'}
+                </Button>
+              </form>
+            {message && (
+              <Typography sx={{ color: message.includes('Error') ? 'red' : 'green', mt: 2 }}>
+                {message}
+              </Typography>
+            )}
             </Box>
           </Dialog>
 
@@ -254,7 +359,6 @@ const Preferences = () => {
               lineHeight: "16px",
               letterSpacing: "0.48px",
               width: "100%",
-              //   marginX: 0,
               padding: 0,
               ":hover": {
                 backgroundColor: "transparent",
@@ -288,7 +392,7 @@ const Preferences = () => {
                   margin: "0px",
                   fontWeight: "400",
                 }}>
-                {user?.user_email}
+                {user?.email}
               </p>
               <Tooltip arrow placement="top" title="Log Out">
                 <div onClick={logout}>
