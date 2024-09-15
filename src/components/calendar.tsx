@@ -252,7 +252,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   >
                     <Typography
                       sx={{
-                        color: "rgb(17, 24, 28)",
+                        color: moment(selectedDate).isSame(moment(), 'day') ? "red" : "rgb(17, 24, 28)",
                         fontWeight: 500,
                         fontSize: "14px",
                         cursor: "pointer",
