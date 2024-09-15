@@ -156,7 +156,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               <div className="font-medium text-[12px] text-[#9F9F9F]">
                 Position
               </div>
-              <div className="font-bold text-[#37455C] text-[14px]">
+              <div className="font-semibold text-[#37455C] text-[14px]">
                 {attendeeInfo?.position}
               </div>
             </div>

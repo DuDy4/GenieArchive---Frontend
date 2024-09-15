@@ -25,7 +25,7 @@ const TimeBox = () => {
         flexGrow: "1",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh", // Ensure it takes the full viewport height
+        height: "10vh",
       }}>
 
       {/* Background Circle */}
