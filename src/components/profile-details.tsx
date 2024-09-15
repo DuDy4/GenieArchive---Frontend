@@ -1,4 +1,5 @@
 import XIcon from "/images/twitter-icon.svg";
+import { useState } from "react";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
 import Chart, { icons } from "./chart";
@@ -24,6 +25,10 @@ interface ProfilesDetailsProps {
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth0();
+  const [practicesExpandedIndex, setPracticesExpandedIndex] = useState<number | null>(null);
+    const [phrasesExpandedIndex, setPhrasesExpandedIndex] = useState<number | null>(null);
+    const [avoidExpandedIndex, setAvoidExpandedIndex] = useState<number | null>(null);
+
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
     user?.tenantId!,
     uuid
@@ -40,11 +45,17 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   console.log("GoodToKnow: ", goodToKnow);
   const strengths = useStrengths(user?.tenantId!, uuid);
 
-  console.log("AttendeeInfoSocials: ", attendeeInfo);
-    console.log("goodToKnow: ", goodToKnow);
-    console.log("getToKnow: ", getToKnow);
-    console.log("workExperience: ", workExperience);
-    console.log("strengths: ", strengths);
+      const toggleExpandPractices = (index: number) => {
+        setPracticesExpandedIndex(practicesExpandedIndex === index ? null : index);
+      };
+
+        const toggleExpandPhrases = (index: number) => {
+            setPhrasesExpandedIndex(phrasesExpandedIndex === index ? null : index);
+        };
+
+        const toggleExpandAvoid = (index: number) => {
+            setAvoidExpandedIndex(avoidExpandedIndex === index ? null : index);
+        };
 
     if (
         attendeeInfo?.error === "Profile not found under this tenant" &&
@@ -246,7 +257,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
             <div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                Interest in
+                {name} "Icebreakers"
               </h4>
 
               <div className="flex gap-2">
@@ -311,102 +322,105 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                 Get to know {name.split(" ")[0]}
               </h3>
 
-              <div className="flex gap-2">
-                {strengths && (strengths instanceof Array) && strengths?.map(({ strengths_name }) =>
-                  icons[strengths_name] ? (
-                    <Tooltip arrow placement="top" title={strengths_name}>
-                      <img
-                        src={icons[strengths_name]}
-                        alt="good to know image"
-                        className="w-[22px] cursor-pointer"
-                      />
-                    </Tooltip>
-                  ) : null
-                )}
-              </div>
-            </div>
 
             <div className="primary-text !text-[12px] !font-medium">
-              {getToKnow?.title}
+                  {getToKnow?.title}
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="border rounded-[16px] border-primary-border py-[12px] px-[14px] space-y-4">
-              <h3 className="font-medium text-[16px] text-heading">
-                Best practices
-              </h3>
+          {/* Best Practices Drawer */}
+                    <div className="border rounded-[16px] border-primary-border py-[12px] px-[14px] space-y-4">
+                      <h3 className="font-medium text-[16px] text-heading">
+                        Best practices
+                      </h3>
 
-              <div className="flex flex-col gap-4">
-                {/* {} */}
-                {getToKnow && getToKnow.best_practices && Array.isArray(getToKnow.best_practices)
-                    && getToKnow["best_practices"]?.map(
-                  ({ reasoning, phrase_text }: any, index: number) => (
-                    <div className="flex gap-1" key={index}>
-                      <TickIcon />
-                      <div>
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {reasoning}
-                        </p>
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {phrase_text}
-                        </p>
+                      {getToKnow.best_practices && Array.isArray(getToKnow.best_practices) && getToKnow.best_practices.map(
+                        ({ reasoning, phrase_text }: any, index: number) => (
+                          <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                            <div
+                              className="flex justify-between items-center cursor-pointer gap-2"
+                              onClick={() => toggleExpandPractices(index)}
+                            >
+                            <div className="flex flex-row gap-3">
+                              <TickIcon />
+                              <span className="font-semibold text-gray-700">{phrase_text}</span>
+                            </div>
+                              <span className="text-gray-500 ml-4">
+                                {practicesExpandedIndex === index ? '▲' : '▼'}
+                              </span>
+                            </div>
+                            {practicesExpandedIndex === index && (
+                              <div className="mt-4 pl-4">
+                                <strong>Reasoning:</strong> <span className="text-gray-600">{reasoning}</span>
+                              </div>
+                            )}
+                          </div>
+                        )
+                      )}
                       </div>
                     </div>
-                  )
-                )}
-              </div>
-            </div>
 
-            <div className="border rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
-              <h3 className="font-medium text-[16px] text-heading">
-                Phrases to use:
-              </h3>
 
-              <div className="flex flex-col gap-4">
-                {getToKnow.phrases_to_use && Array.isArray(getToKnow.phrases_to_use) && getToKnow?.phrases_to_use?.map(
-                  ({ reasoning, phrase_text }: string, index: number) => (
-                    <div className="flex gap-1" key={index}>
-                      <TickIcon />
-                      <div>
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {phrase_text}
-                        </p>
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {reasoning}
-                        </p>
+            {/* Phrases to Use Drawer */}
+                      <div className="border rounded-[16px] border-primary-border py-[12px] px-[14px] space-y-4">
+                        <h3 className="font-medium text-[16px] text-heading">
+                          Phrases to use
+                        </h3>
+                        {getToKnow.phrases_to_use && Array.isArray(getToKnow.phrases_to_use) && getToKnow.phrases_to_use.map(
+                          ({ reasoning, phrase_text }: any, index: number) => (
+                            <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                              <div
+                                    className="flex justify-between items-center cursor-pointer gap-2"
+                                    onClick={() => toggleExpandPhrases(index)}
+                                  >
+                                    <div className="flex flex-row gap-3">
+                                        <TickIcon />
+                                        <span className="font-semibold text-gray-700">{phrase_text}</span>
+                                    </div>
+                                    <span className="text-gray-500 ml-4">
+                                  {phrasesExpandedIndex === index ? '▲' : '▼'}
+                                </span>
+                              </div>
+                              {phrasesExpandedIndex === index && (
+                                <div className="mt-4 pl-4">
+                                  <strong>Reasoning:</strong> <span className="text-gray-600">{reasoning}</span>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        )}
                       </div>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
 
-            <div className="border rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
-              <h3 className="font-medium text-[16px] text-heading">Avoid</h3>
-
-              <div className="flex flex-col gap-4">
-                {getToKnow.avoid && Array.isArray(getToKnow.avoid) && getToKnow?.avoid?.map(
-                  ({ reasoning, phrase_text }, index: number) => (
-                    <div className="flex gap-1 items-start" key={index}>
-                      <CrossIcon />
-                      <div className="flex flex-col items-start">
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {reasoning}
-                        </p>
-                        <p className="primary-text !text-[12px] !font-medium">
-                          {phrase_text}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
+            {/* Avoid Drawer */}
+                      <div className="border rounded-[16px] border-primary-border py-[12px] px-[14px] space-y-4">
+                        <h3 className="font-medium text-[16px] text-heading">Avoid</h3>
+                        {getToKnow.avoid && Array.isArray(getToKnow.avoid) && getToKnow.avoid.map(
+                          ({ reasoning, phrase_text }: any, index: number) => (
+                            <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                              <div
+                                    className="flex justify-between items-start cursor-pointer gap-2"
+                                    onClick={() => toggleExpandAvoid(index)}
+                                  >
+                                  <div className="flex flex-row gap-3">
+                                    <CrossIcon />
+                                    <span className="font-semibold text-gray-900">"{phrase_text.replace(/\./g, '')}"</span>
+                                  </div>
+                                    <span className="text-gray-500 ml-4">
+                                  {avoidExpandedIndex === index ? '▲' : '▼'}
+                                </span>
+                              </div>
+                              {avoidExpandedIndex === index && (
+                                <div className="mt-4 pl-4">
+                                  <strong>Reasoning:</strong> <span className="text-gray-600">{reasoning}</span>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        )}
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
   );
 };
 

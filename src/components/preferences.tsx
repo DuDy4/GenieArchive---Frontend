@@ -223,7 +223,8 @@ const Preferences = () => {
             open={openContactModal}
             onClose={() => setOpenContactModal(false)}
             aria-labelledby="contact-modal-title"
-            aria-describedby="contact-modal-description">
+            aria-describedby="contact-modal-description"
+            disableEnforceFocus>
             <Box
               sx={{
                 backgroundColor: "white",
