@@ -12,7 +12,6 @@ class ApiClient {
   // Method to make a request
   async request(method: Method, url: string, accessToken: string, isAdmin: boolean, fakeTenantId: string | null, data?: any) {
     // Append fakeTenantId to the URL if the user is an admin
-    console.log('About to send request with admin:', isAdmin, 'and fakeTenantId:', fakeTenantId);
     if (isAdmin && fakeTenantId) {
       const separator = url.includes('?') ? '&' : '?';
       url += `${separator}impersonate_tenant_id=${fakeTenantId}`;

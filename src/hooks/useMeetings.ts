@@ -1,15 +1,15 @@
+import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import axios from "axios";
 import { Meeting } from "../types";
-import { useToken } from "../providers/TokenProvider";
 import { useApiClient } from "../utils/AxiosMiddleware";
+import { useToken } from "../providers/TokenProvider";
 
 const useMeetings = (tenant_id: string) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { makeRequest } = useApiClient();
-  const token = useToken();
+    const { token } = useToken();
 
   const {
     data: meetings,

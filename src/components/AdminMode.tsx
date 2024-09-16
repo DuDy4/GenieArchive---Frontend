@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Typography, Box, Button, Dialog, List, ListItem, ListItemText } from "@mui/material";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Typography, Box, Button, Dialog, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToken } from "../providers/TokenProvider";
 import { useApiClient } from "../utils/AxiosMiddleware";
@@ -30,13 +29,15 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
             alignItems: "center",
             borderRadius: "8px",
             textAlign: "center",
-          }}>
+          }}
+        >
           <Typography
             variant="h5"
             sx={{
               fontWeight: 600,
               marginBottom: "16px",
-            }}>
+            }}
+          >
             You are not authorized to access this feature
           </Typography>
           <Typography
@@ -44,13 +45,15 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
             sx={{
               color: "gray",
               marginBottom: "24px",
-            }}>
+            }}
+          >
             Please contact your administrator for more information.
           </Typography>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => {/* Add your login function here */}}>
+            onClick={() => {/* Add your login function here */}}
+          >
             Log in
           </Button>
         </Box>
@@ -61,13 +64,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   const fetchTenants = async () => {
     try {
       const response = await makeRequest('GET', `/admin/tenants`);
-//       fetch(`${import.meta.env.VITE_API_URL}/verify-admin/${user.user_email}`, {
-//         method: 'GET',
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-        console.log('response:', response);
+      console.log('response:', response);
       const data = response;
       const admin = data.admin;
       const tenants = data.tenants;
@@ -85,6 +82,11 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
 
   const handleTenantClick = (tenant: any) => {
     updateFakeTenantId(tenant.tenant_id);
+    onClose();
+  };
+
+  const handleRemoveTenantClick = () => {
+    updateFakeTenantId(null); // Set the fakeTenantId to null to remove it
     onClose();
   };
 
@@ -109,49 +111,51 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
       >
         Select a Tenant
       </Typography>
-      <List
-        sx={{
-          backgroundColor: "#f9f9f9",
-          borderRadius: "8px",
-          maxHeight: "300px",
-          overflowY: "auto",
-        }}
-      >
-        {tenants.length > 0 ? (
-          <TableContainer component={Paper} sx={{ marginTop: "16px" }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>TenantID</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
+      {tenants.length > 0 ? (
+        <TableContainer component={Paper} sx={{ marginTop: "16px" }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>TenantID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tenants.map((tenant) => (
+                <TableRow
+                  key={tenant.uuid}
+                  hover
+                  onClick={() => handleTenantClick(tenant)}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <TableCell>{tenant.tenant_id}</TableCell>
+                  <TableCell>{tenant.name}</TableCell>
+                  <TableCell>{tenant.email}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {tenants.map((tenant) => (
-                  <TableRow
-                    key={tenant.uuid}
-                    hover
-                    onClick={() => handleTenantClick(tenant)}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell>{tenant.tenant_id}</TableCell>
-                    <TableCell>{tenant.name}</TableCell>
-                    <TableCell>{tenant.email}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <Typography
-            variant="body1"
-            sx={{ padding: "16px", textAlign: "center", color: "gray" }}
-          >
-            No tenants available
-          </Typography>
-        )}
-      </List>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Typography
+          variant="body1"
+          sx={{ padding: "16px", textAlign: "center", color: "gray" }}
+        >
+          No tenants available
+        </Typography>
+      )}
+
+      {/* Remove Tenant Button */}
+      <Box sx={{ textAlign: "center", marginTop: "16px" }}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleRemoveTenantClick}
+        >
+          Remove Tenant
+        </Button>
+      </Box>
     </Box>
   );
 };

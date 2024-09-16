@@ -37,6 +37,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     user?.tenantId!,
     uuid
   );
+
   const { getToKnow, isLoadingGetToKnow } = useGetToKnow(user?.tenantId!, uuid);
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(
     user?.tenantId!,
@@ -254,7 +255,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>)}
 
-            {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
+            {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
             <div>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 {name} "Icebreakers"
@@ -281,7 +282,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>)}
 
-            {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
+            {goodToKnow && goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
@@ -313,7 +314,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
           </div>
         </div>
 
-        <div className="border space-y-6 border-primary-border py-[20px] px-[12px] rounded-2xl">
+        {getToKnow && <div className="border space-y-6 border-primary-border py-[20px] px-[12px] rounded-2xl">
           <div className="space-y-3">
             <div className="flex gap-4 items-center">
               <h3
@@ -418,7 +419,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                           )
                         )}
             </div>
-          </div>
+          </div> }
         </div>
         </div>
   );
