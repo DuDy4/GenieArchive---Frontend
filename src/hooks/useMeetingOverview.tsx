@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useToken } from '../providers/TokenProvider';
 
 const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
-  const token = useToken();
+  const { token } = useToken();
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const { data, error, isLoading } = useQuery({

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Typography, Box, Button, Dialog, List, ListItem, ListItemText } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToken } from "../providers/TokenProvider";
 import { useApiClient } from "../utils/AxiosMiddleware";
+
 
 interface TicketFormProps {
   onClose: () => void;
@@ -58,7 +60,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
 
   const fetchTenants = async () => {
     try {
-      const response = await makeRequest('GET', `/verify-admin/${user?.user_email}`);
+      const response = await makeRequest('GET', `/admin/tenants`);
 //       fetch(`${import.meta.env.VITE_API_URL}/verify-admin/${user.user_email}`, {
 //         method: 'GET',
 //         headers: {
@@ -82,7 +84,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   }, []);
 
   const handleTenantClick = (tenant: any) => {
-    updateFakeTenantId(tenant);
+    updateFakeTenantId(tenant.tenant_id);
     onClose();
   };
 
@@ -93,7 +95,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         backgroundColor: "#fff",
         borderRadius: "8px",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        maxWidth: "400px",
+        minWidth: "400px",
         margin: "auto",
       }}
     >
@@ -116,22 +118,31 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         }}
       >
         {tenants.length > 0 ? (
-          tenants.map((tenant) => (
-            <ListItem
-              key={tenant}
-              button
-              onClick={() => handleTenantClick(tenant)}
-              sx={{
-                padding: "12px",
-                borderBottom: "1px solid #ddd",
-                "&:hover": {
-                  backgroundColor: "#e0f7fa",
-                },
-              }}
-            >
-              <ListItemText primary={tenant} />
-            </ListItem>
-          ))
+          <TableContainer component={Paper} sx={{ marginTop: "16px" }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>TenantID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Email</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tenants.map((tenant) => (
+                  <TableRow
+                    key={tenant.uuid}
+                    hover
+                    onClick={() => handleTenantClick(tenant)}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell>{tenant.tenant_id}</TableCell>
+                    <TableCell>{tenant.name}</TableCell>
+                    <TableCell>{tenant.email}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         ) : (
           <Typography
             variant="body1"

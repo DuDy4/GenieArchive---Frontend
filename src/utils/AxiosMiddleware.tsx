@@ -10,7 +10,7 @@ class ApiClient {
   }
 
   // Method to make a request
-  async request(method: Method, url: string, accessToken: string, userEmail: string | null, isAdmin: boolean, fakeTenantId: string | null, data?: any) {
+  async request(method: Method, url: string, accessToken: string, isAdmin: boolean, fakeTenantId: string | null, data?: any) {
     // Append fakeTenantId to the URL if the user is an admin
     console.log('About to send request with admin:', isAdmin, 'and fakeTenantId:', fakeTenantId);
     if (isAdmin && fakeTenantId) {
@@ -25,7 +25,6 @@ class ApiClient {
         url: `${this.baseURL}${url}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'X-User-Email': userEmail || '',
         },
         data: data || null,
       });
@@ -39,21 +38,18 @@ class ApiClient {
 // Hook to use the ApiClient
 export const useApiClient = () => {
   const { isAdmin, fakeTenantId, token: accessToken } = useToken();
-  const { user } = useAuth0();
-  const userEmail = user?.user_email;
 //   console.log('isAdmin:', isAdmin);
 //     console.log('fakeTenantId:', fakeTenantId);
 //     console.log('accessToken:', accessToken);
 
   const apiClient = new ApiClient(import.meta.env.VITE_API_URL);
-  console.log('apiUrl:', apiClient.baseURL);
 
   // Return a function to make requests with explicit arguments
   const makeRequest = (method: Method, url: string, data?: any) => {
     if (!accessToken) {
       throw new Error('AccessToken is missing');
     }
-    return apiClient.request(method, url, accessToken, userEmail, isAdmin, fakeTenantId, data);
+    return apiClient.request(method, url, accessToken, isAdmin, fakeTenantId, data);
   };
 
   return { makeRequest };
