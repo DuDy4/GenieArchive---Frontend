@@ -1,11 +1,13 @@
 import { SettingsOutlined } from "@mui/icons-material";
-import { Box, Button, ButtonBase, Dialog, Menu, MenuItem, MenuList, MenuProps, Tooltip, Typography } from "@mui/material";
+import { Box, ButtonBase, Button, Dialog, Menu, MenuItem, MenuList, MenuProps, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa6";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useToken } from "../providers/TokenProvider";
 import TicketForm from './TicketForm'; // Import the new TicketForm component
+import AdminMode from './AdminMode'; // Import AdminMode
 
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
@@ -22,7 +24,9 @@ const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
 const Preferences = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openContactModal, setOpenContactModal] = useState(false);
+  const [openAdminMode, setOpenAdminMode] = useState(false); // State for opening AdminMode
   const { user, logout } = useAuth0();
+  const { isAdmin, token } = useToken();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -88,92 +92,135 @@ const Preferences = () => {
           <hr className="separator" />
 
           {/* Contact Us MenuItem */}
-          <MenuItem
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center", // Ensure alignment is centered vertically
-              padding: "0.75rem 0.5rem", // Adjust padding to be smaller
-              minHeight: "48px", // Set a fixed height
-              maxHeight: "48px", // Set a fixed height
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-            disableRipple
-            disableTouchRipple
-            onClick={() => setOpenContactModal(true)}>
-            <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              <Typography sx={{ fontWeight: 400, fontSize: 14, lineHeight: 24, margin: 0 }}>
-                Contact Us
-              </Typography>
-            </Box>
-            <FaChevronRight
+          <div className="flex flex-row cursor-pointer" onClick={() => setOpenContactModal(true)}>
+            <div
               style={{
-                userSelect: "none",
-                display: "inline-block",
-                flexShrink: "0",
-                transition: "fill 200ms cubic-bezier(0.4, 0, 0.2, 1)",
-                fontSize: "1.5rem",
-                width: "16px",
-                height: "16px",
-                stroke: "rgb(17, 24, 28)",
-              }}
-              size={25}
-            />
-          </MenuItem>
-
-          { user ?
-          <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
-            <TicketForm onClose={() => setOpenContactModal(false)} />
-          </Dialog>
-          :
-          <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
-            <Box
-              sx={{
-                backgroundColor: "#f5f5f5",  // Light gray background for more contrast
-                padding: "32px",             // Increase padding for more space
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                border: "3px solid rgb(230, 232, 235)",
+                backgroundColor: "white",
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
                 alignItems: "center",
-                borderRadius: "8px",         // Add border radius for a softer look
-                textAlign: "center",
-              }}>
-              <Typography
-                variant="h5"
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src="/images/genie-support-icon.jpg"
+                alt="support"
+                label="support"
+                style={{
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "50%",
+                }}
+              />
+            </div>
+            <MenuItem
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "25px",
+                alignItems: "center",
+                minHeight: "48px",
+                maxHeight: "48px",
+                borderRadius: "4px",
+                cursor: "pointer",
+                width: "-webkit-fill-available"
+              }}
+              disableRipple
+              disableTouchRipple
+              onClick={() => setOpenContactModal(true)}>
+              <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                <Typography sx={{ fontWeight: 500, fontSize: 16, lineHeight: 24, margin: 0 }}>
+                  Contact Us
+                </Typography>
+              </Box>
+              <FaChevronRight
+                style={{
+                  userSelect: "none",
+                  display: "inline-block",
+                  flexShrink: "0",
+                  fontSize: "1.5rem",
+                  width: "16px",
+                  height: "16px",
+                }}
+                size={25}
+              />
+            </MenuItem>
+          </div>
+
+          {user ? (
+            <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
+              <TicketForm onClose={() => setOpenContactModal(false)} />
+            </Dialog>
+          ) : (
+            <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
+              <Box
                 sx={{
-                  fontWeight: 600,           // Bolder font weight
-                  marginBottom: "16px",      // Space between text and button
+                  backgroundColor: "#f5f5f5",
+                  padding: "32px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "8px",
+                  textAlign: "center",
                 }}>
-                Please log in to contact us
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: "gray",
-                  marginBottom: "24px",      // Space between text and button
-                }}>
-                You need to be logged in to submit a support ticket. Please log in and try again.
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {/* Add your login function here */}}>
-                Log in
-              </Button>
-            </Box>
-          </Dialog>
-          }
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 600,
+                    marginBottom: "16px",
+                  }}>
+                  Please log in to contact us
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "gray",
+                    marginBottom: "24px",
+                  }}>
+                  You need to be logged in to submit a support ticket. Please log in and try again.
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {/* Add your login function here */ }}>
+                  Log in
+                </Button>
+              </Box>
+            </Dialog>
+          )}
+
+          {isAdmin && (
+            <MenuItem
+              sx={{ display: "flex", justifyContent: "space-between" }}
+              disableRipple
+              disableTouchRipple
+              onClick={() => setOpenAdminMode(true)} // Open AdminMode dialog
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Typography sx={{ fontWeight: 500, fontSize: 16 }}>
+                  Admin Mode
+                </Typography>
+              </Box>
+              <FaChevronRight />
+            </MenuItem>
+          )}
+
+          {isAdmin && (
+            <Dialog open={openAdminMode} onClose={() => setOpenAdminMode(false)}>
+              <AdminMode onClose={() => setOpenAdminMode(false)} />
+            </Dialog>
+          )}
 
           <hr className="separator" />
 
           {/* Account MenuItem */}
           <MenuItem sx={{ display: "flex", justifyContent: "space-between" }} disableRipple disableTouchRipple>
-            <Box onClick={handleClose} sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <FiUser /> Account
-            </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <p style={{ margin: "0px", fontWeight: "400" }}>{user?.email}</p>
+              <p style={{ margin: "0px", fontWeight: "400", color: "grey" }}>{user?.email}</p>
               <Tooltip arrow placement="top" title="Log Out">
                 <div onClick={() => logout()}>
                   <FiLogOut className="logout-icon" />

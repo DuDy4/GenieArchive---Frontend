@@ -20,6 +20,30 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const muiInputStyles = {
+    '& .MuiInputLabel-root': {
+      color: '#333333',  // Dark gray for label text to contrast nicely
+    },
+    '& .MuiOutlinedInput-root': {
+      '& input': {
+        color: '#333333',  // Dark gray for input text for readability
+      },
+      '& fieldset': {
+        borderColor: '#4A4A4A',  // Darker gray for input borders
+        borderWidth: '2px',
+      },
+      '&:hover fieldset': {
+        borderColor: '#FFC107',  // Gold on hover to provide some interactivity
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#FFA500',  // Darker gold on focus
+      },
+      '&.Mui-disabled fieldset': {
+        borderColor: '#BDBDBD',  // Light gray for disabled fields
+      },
+    },
+  };
+
   useEffect(() => {
     setTicketData((prevData) => ({
       ...prevData,
@@ -63,10 +87,9 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
   };
 
   return (
-
     <Box
       sx={{
-        backgroundColor: "white",
+        backgroundColor: "#A8D2F3",  // Light blue for the form background
         borderRadius: "24px",
         width: "26rem",
         maxHeight: "60%",
@@ -101,6 +124,7 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           fontSize: "20px",
           fontWeight: "500",
           marginBottom: "10px",
+          color: "#333333",  // Darker text for contrast
         }}>
         Contact Us
       </Typography>
@@ -116,7 +140,8 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           variant="outlined"
           required
           onKeyDown={(e) => e.stopPropagation()}
-          disabled={!!user?.name} // Disable if name exists from Auth0
+          disabled={!!user?.name}
+          sx={muiInputStyles}
         />
         <TextField
           fullWidth
@@ -129,7 +154,8 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           required
           type="email"
           onKeyDown={(e) => e.stopPropagation()}
-          disabled={!!user?.user_email} // Disable if email exists from Auth0
+          disabled={!!user?.user_email}
+          sx={muiInputStyles}
         />
         <TextField
           fullWidth
@@ -139,8 +165,9 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           value={ticketData.subject}
           onChange={handleInputChange}
           variant="outlined"
-          onKeyDown={(e) => e.stopPropagation()}
           required
+          onKeyDown={(e) => e.stopPropagation()}
+          sx={muiInputStyles}
         />
         <TextField
           fullWidth
@@ -152,8 +179,9 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           variant="outlined"
           multiline
           rows={4}
-          onKeyDown={(e) => e.stopPropagation()}
           required
+          onKeyDown={(e) => e.stopPropagation()}
+          sx={muiInputStyles}
         />
         <TextField
           fullWidth
@@ -168,7 +196,9 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
             native: true,
           }}
           variant="outlined"
-          required>
+          required
+          sx={muiInputStyles}
+        >
           <option value="low">Low</option>
           <option value="normal">Normal</option>
           <option value="high">High</option>
@@ -178,7 +208,14 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           fullWidth
           type="submit"
           variant="contained"
-          sx={{ mt: 2 }}
+          sx={{
+            mt: 2,
+            backgroundColor: "blueish",  // Gold background for button
+            color: "white",
+            '&:hover': {
+              backgroundColor: "blueish",  // Darker gold on hover
+            },
+          }}
           disabled={loading}>
           {loading ? 'Sending...' : 'Send'}
         </Button>
