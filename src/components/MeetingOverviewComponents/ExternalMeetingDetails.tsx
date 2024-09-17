@@ -39,8 +39,8 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
         )}
 
           <div className="flex-1 right-column items-between" style={{ paddingTop: '1.6%' }}>
+            {link && (
             <div className="video-link-container p-[10px] rounded-[16px] border border-[#dddddd] w-full">
-              {link && (
                 <div className="flex flex-col justify-center">
                   <div className="meeting-link mt-2 flex items-center justify-center space-x-8">
                     <h3 className="text-lg font-bold mb-0">Meeting Link</h3>
@@ -49,8 +49,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                     </Link>
                   </div>
                 </div>
-              )}
-          </div>
+            </div>)}
           {agendaItems && agendaItems.length > 0 ?
           <div className="participants-guidelines">
              <CompanyDetails details={company} />
