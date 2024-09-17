@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 interface TokenContextProps {
   token: string | null;
   isAdmin: boolean;
-  updateFakeTenantId: (tenantId: string) => void;
+  updateFakeTenantId: (tenantId: string | null) => void;
   fakeTenantId: string | null;
 }
 
@@ -20,6 +20,12 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [fakeTenantId, setFakeTenantId] = useState<string | null>(null);
 
   useEffect(() => {
+    // Load fakeTenantId from localStorage on mount
+    const savedTenantId = localStorage.getItem('fakeTenantId');
+    if (savedTenantId) {
+      setFakeTenantId(savedTenantId);
+    }
+
     const fetchToken = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
@@ -42,16 +48,20 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     console.log("email_verified:", email_verified);
     console.log("email_verification:", email_verification);
     if (email_verified && email_verified.includes(email_verification)) {
-
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
     }
   }, [getAccessTokenSilently, getAccessTokenWithPopup, user, email_verification]);
 
-  const updateFakeTenantId = (tenantId: string) => {
+  const updateFakeTenantId = (tenantId: string | null) => {
     setFakeTenantId(tenantId);
-  }
+    if (tenantId) {
+      localStorage.setItem('fakeTenantId', tenantId);
+    } else {
+      localStorage.removeItem('fakeTenantId');
+    }
+  };
 
   return (
     <TokenContext.Provider value={{ token, isAdmin, updateFakeTenantId, fakeTenantId }}>

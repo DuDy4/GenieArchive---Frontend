@@ -82,11 +82,13 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
 
   const handleTenantClick = (tenant: any) => {
     updateFakeTenantId(tenant.tenant_id);
+    localStorage.setItem('fakeTenantId', tenant.tenant_id);
     onClose();
   };
 
   const handleRemoveTenantClick = () => {
-    updateFakeTenantId(null); // Set the fakeTenantId to null to remove it
+    updateFakeTenantId(null);
+    localStorage.removeItem('fakeTenantId');
     onClose();
   };
 
