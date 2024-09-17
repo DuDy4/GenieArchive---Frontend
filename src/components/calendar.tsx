@@ -20,8 +20,8 @@ import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Meeting } from "../types";
 import CustomDrawer from "./ui/drawer";
-import useMeetings from "../hooks/useMeetings";
-
+// import useMeetings from "../hooks/useMeetings";
+import { useMeetingsContext } from "../providers/MeetingsProvider";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 // import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
@@ -77,23 +77,12 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [importErrorToast, setImportErrorToast] = useState(false);
   const { user } = useAuth0();
-  const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
+  const { meetings, getMeetings, isGettingMeetings, reImportMeetings, isImportingMeetings } = useMeetingsContext();
+//   const { meetings, refetch, isRefetching, reImport, isImportingMeetings } = useMeetings(user?.tenantId!, user?.email!);
   const navigate = useNavigate();
 
-//   // Refetching events data
-//   const handleRefreshEvents = () => {
-//     refetch()
-//       .then((res) => {
-//         console.log(isRefetching);
-//         setToast(true);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
     const handleImportEvents = () => {
-      reImport(undefined, {
+      reImportMeetings(undefined, {
         onSuccess: (data) => {
           console.log(isImportingMeetings); // Logs the state at the time of the callback
           setToast(true);
@@ -102,9 +91,9 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
           console.error(err);
           setImportErrorToast(true);
           setError("An error occurred during the import. Please try again.");
-          refetch()
+          getMeetings()
             .then(() => {
-              console.log(isRefetching);
+              console.log(isGettingMeetings);
               setToast(true);
             })
             .catch((err) => {
@@ -354,7 +343,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
 
 
 
-                {isRefetching ? (
+                {isGettingMeetings ? (
                   <div>
                     <CircularProgress size={20} color="inherit" />
                   </div>

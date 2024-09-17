@@ -218,9 +218,9 @@ const Preferences = () => {
           <hr className="separator" />
 
           {/* Account MenuItem */}
-          <MenuItem sx={{ display: "flex", justifyContent: "space-between" }} disableRipple disableTouchRipple>
+          <MenuItem sx={{ display: "flex", justifyContent: "end" }} disableRipple disableTouchRipple>
             <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <p style={{ margin: "0px", fontWeight: "400", color: "grey" }}>{user?.email}</p>
+              <p style={{ margin: "0px", fontWeight: "400", color: "grey" }}>{user?.user_email}</p>
               <Tooltip arrow placement="top" title="Log Out">
                 <div onClick={() => logout()}>
                   <FiLogOut className="logout-icon" />
