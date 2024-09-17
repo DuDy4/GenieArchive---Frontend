@@ -8,6 +8,7 @@ import { Typography } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingGenie from "./ui/loading-genie";
 import { useApiClient } from "../utils/AxiosMiddleware";
+import { useMeetingContext } from "../providers/MeetingsProvider";
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -19,7 +20,6 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   setOpenSearchBar,
 }) => {
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
-  const [meetings, setMeetings] = useState<Meeting[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState<Boolean>(false);
   const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
@@ -27,6 +27,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
+  const { meetings } = useMeetingContext();
   const searchInputRef = useRef<HTMLInputElement>(null);
     const { makeRequest } = useApiClient();
 
@@ -69,7 +70,6 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
         console.log("Combined profiles", combinedProfiles);
       // Update the profiles state with the combined data
       setProfiles(combinedProfiles);
-      setMeetings(meetingsResponse);
     };
 
     fetchMeetings();
