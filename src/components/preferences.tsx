@@ -211,7 +211,10 @@ const Preferences = () => {
 
           {isAdmin && (
             <Dialog open={openAdminMode} onClose={() => setOpenAdminMode(false)}>
-              <AdminMode onClose={() => setOpenAdminMode(false)} />
+              <AdminMode onClose={() => {
+                  setOpenAdminMode(false)
+                  handleClose()
+                  }} />
             </Dialog>
           )}
 
