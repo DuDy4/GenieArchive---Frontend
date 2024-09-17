@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Meeting, Profile } from "../types";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingGenie from "./ui/loading-genie";
 import { useApiClient } from "../utils/AxiosMiddleware";
