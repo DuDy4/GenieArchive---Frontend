@@ -153,7 +153,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
           color="secondary"
           onClick={handleRemoveTenantClick}
         >
-          Remove Tenant
+          Finish Impersonation
         </Button>
       </Box>
     </Box>
