@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingGenie from "./ui/loading-genie";
 import { useApiClient } from "../utils/AxiosMiddleware";
-import { useMeetingContext } from "../providers/MeetingsProvider";
+import { useMeetingsContext } from "../providers/MeetingsProvider";
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -26,7 +26,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
-  const { meetings } = useMeetingContext();
+  const { meetings } = useMeetingsContext();
   const searchInputRef = useRef<HTMLInputElement>(null);
     const { makeRequest } = useApiClient();
 
