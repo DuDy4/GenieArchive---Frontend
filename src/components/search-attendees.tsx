@@ -2,13 +2,12 @@ import CustomDrawer from "./ui/drawer";
 import { IoIosClose } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
 import { Meeting, Profile } from "../types";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 // import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingGenie from "./ui/loading-genie";
-import { useToken } from "../providers/TokenProvider";
+import { useApiClient } from "../utils/AxiosMiddleware";
 
 interface SearchAttendesProps {
   openSearchBar: boolean;
@@ -28,8 +27,8 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
-  const token = useToken();
   const searchInputRef = useRef<HTMLInputElement>(null);
+    const { makeRequest } = useApiClient();
 
   useEffect(() => {
     if (openSearchBar && searchInputRef.current) {
@@ -40,36 +39,23 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   useEffect(() => {
     setLoading(true);
     const fetchMeetings = async () => {
-      const meetingsResponse = await axios.get(
-        `${import.meta.env.VITE_API_URL}/${user?.tenantId}/meetings`
-      );
+      const meetingsResponse = await makeRequest('GET', `/${user?.tenantId}/meetings`);
       // console.log(meetingsResponse?.data)
 
       // Map each meeting to a promise that resolves with the profiles data
-      const profilePromises = meetingsResponse.data?.map(
+      const profilePromises = meetingsResponse.map(
         async (meeting: Meeting) => {
             if (!user?.tenantId) {
                 throw new Error("Tenant ID not available");
             }
-            if (!token) {
-                throw new Error("Token not available");
-            }
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/${user?.tenantId}/${
-              meeting.uuid
-            }/profiles`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await makeRequest('GET', `/${user?.tenantId}/${meeting.uuid}/profiles`);
 
-          const enhancedProfiles = response.data.map((profile: Profile) => ({
+          const enhancedProfiles = response.map((profile: Profile) => ({
             ...profile,
             uuid: meeting?.uuid,
             title: meeting?.subject,
           }));
+            console.log("Enhanced profiles", enhancedProfiles);
           return enhancedProfiles;
         }
     );
@@ -80,10 +66,10 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       setLoading(false);
       // Combine all profiles into one array
       const combinedProfiles = [].concat(...allProfiles);
-
+        console.log("Combined profiles", combinedProfiles);
       // Update the profiles state with the combined data
       setProfiles(combinedProfiles);
-      setMeetings(meetingsResponse.data);
+      setMeetings(meetingsResponse);
     };
 
     fetchMeetings();
@@ -92,34 +78,34 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
 
-
+    // Filter profiles by name
     const filteredData = profiles?.filter((profile) => {
       return profile.name.toLowerCase().includes(e.target.value.toLowerCase());
     });
 
-    console.log("Filtered data: ", filteredData);
-
-    const filteredEmails = filteredData.map((profile) => profile.email);
-
-    console.log(" Filtered emails: ", filteredEmails);
+    const filteredEmails = filteredData?.map((profile) => profile.email) || [];
     setFilteredEmails(filteredEmails);
 
-    const filteredParticipants = filteredData.map((profile) => {
-
-        });
-
+    // Filter meetings by participants' emails OR subject
     const filteredMeetings = meetings?.filter((meeting) => {
-      return meeting.participants_emails.some((email) =>
+      const matchesParticipants = meeting.participants_emails.some((email) =>
         filteredEmails.includes(email.email.toLowerCase())
       );
+
+      const matchesSubject = meeting.subject
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase());
+
+      return matchesParticipants || matchesSubject;  // Match if either participants or subject match
     });
 
-    console.log("Filtered meetings: ",filteredMeetings);
     const sortedMeetings = filteredMeetings?.sort((a, b) => {
-      return a.start_time - b.start_time;
-    })
+      return new Date(a.start_time).getTime() - new Date(b.start_time).getTime();
+    });
+    console.log("Sorted meetings", sortedMeetings);
     setFilteredMeetings(sortedMeetings);
   };
+
 
   return (
     <CustomDrawer open={openSearchBar} expand={false}>
@@ -168,7 +154,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
 
                     </li>
                     <li className="list-inside" key={meeting.uuid}>
-                      Attendee: {
+                      Attendees with matched name: {
                         meeting.participants_emails
                           .filter(emailObj =>
                             filteredEmails.includes(emailObj.email.toLowerCase())

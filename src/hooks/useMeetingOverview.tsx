@@ -1,55 +1,24 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { useToken } from '../providers/TokenProvider';
+import { useApiClient } from '../utils/AxiosMiddleware';
 
 const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
-  const [data, setData] = useState<any>(null);
-  const [error, setError] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const token = useToken();
-  const apiUrl = import.meta.env.VITE_API_URL;
+    const { makeRequest } = useApiClient()
 
-  console.log("useMeetingOverview apiUrl: ", apiUrl);
-    console.log("useMeetingOverview tenantId: ", tenantId);
-    console.log("useMeetingOverview meeting_uuid: ", meeting_uuid);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["meeting-overview", tenantId, meeting_uuid],  // Giving a name to this query
+    queryFn: async () => {
+        const response = await makeRequest('GET', `/${tenantId}/${meeting_uuid}/meeting-overview`);
+        console.log("Meeting Overview", response);
+        return response;
+    },
+    enabled: !!meeting_uuid && !!tenantId,  // Ensure the query runs only when these values are available
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!token) {
-          throw new Error('Token not available');
-        }
-        const response = await axios.get(
-            `${apiUrl}/${tenantId}/meeting-overview/${meeting_uuid}`,
-        {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("useMeetingOverview response: ", response.data); // Access the data directly
-        setData(response.data);
-        setError(null); // Clear any previous error
-      } catch (error: any) {
-        console.error("useMeetingOverview error: ", error);
-
-        // Check if the error is a response error (i.e., the server responded with a non-2xx status code)
-        if (error.response) {
-          const { data } = error.response;
-          console.log("useMeetingOverview response: ", error.response);
-          setError(data ? data.error : 'An unexpected error occurred');
-          setData(null);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [meeting_uuid, tenantId]);
-
-  return { data, loading, error };
+  return {
+    data,
+    error,
+    isLoading,
+  };
 };
 
 export default useMeetingOverview;

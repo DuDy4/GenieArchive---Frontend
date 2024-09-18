@@ -8,11 +8,12 @@ const Participants: React.FC<{ participants: Array<{ name: string, profile_pictu
         {participants.map((participant, index) => (
           <div key={index} className="flex flex-col items-center justify-center">
             <img
-              src={participant.profile_picture}
-              alt={participant.name}
+              src={participant.profile_picture ? participant.profile_picture : '/images/anonymous-user-8.svg'}
+              alt={participant.name ? participant.name : participant.email}
+              title={participant.name ? participant.name : participant.email}
               className="h-12 rounded-full mb-2"
             />
-            <p className="text-center text-sm">{participant.name}</p>
+            <p className="text-center text-sm">{participant.name ? participant.name : participant.email}</p>
           </div>
         ))}
       </div>

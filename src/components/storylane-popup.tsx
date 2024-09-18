@@ -29,7 +29,7 @@ const StorylanePopup = () => {
       console.log("User is authenticated:", user?.name);
 
       // Check if the popup has already been shown for this user
-      const launched = localStorage.getItem(`storylanePopupLaunched_${user?.sub}`);
+      const launched = localStorage.getItem(`guidedOnBoardingLaunched_${user?.sub}`);
       
       if (!launched && !isLaunched) {
         handlePopup();
@@ -53,7 +53,7 @@ const StorylanePopup = () => {
 
       // Set state and save in localStorage
       setIsLaunched(true);
-      localStorage.setItem(`storylanePopupLaunched_${user?.sub}`, 'true');
+      localStorage.setItem(`guidedOnBoardingLaunched_${user?.sub}`, 'true');
     } else {
       console.log("Storylane is not available on window.");
     }
