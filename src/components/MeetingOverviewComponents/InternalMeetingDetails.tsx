@@ -14,33 +14,6 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
     console.log("Participants", participants);
 
     // Mock participants data (for now)
-    if (!participants){
-        participants = [
-        {
-            "uuid": "724398e7-a513-405a-b785-9e12a019d9e3",
-            "name": "Alon Lifshitz",
-            "email": "alon@hanacovc.com",
-            "profile_picture": "https://monomousumi.com/wp-content/uploads/anonymous-user-8.png"
-        },
-        {
-            "uuid": "ad71b0b7-9a2e-4b97-bb04-9a6d8b0d369a",
-            "name": "Dafna Parag",
-            "email": "dafna@hanacovc.com",
-            "profile_picture": "https://monomousumi.com/wp-content/uploads/anonymous-user-8.png"
-        },
-        {
-            "uuid": "47ffa6b4-1c22-41cd-9724-e62d04701a6a",
-            "name": "Gadi Fisher",
-            "email": "gadi@hanacovc.com",
-            "profile_picture": "https://media.licdn.com/dms/image/v2/C4E03AQEweMMib62gzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1616088958371?e=2147483647&v=beta&t=dCMl3AZPDZcB8dIWUyH_NvUTdM7P9Ov44YjpUGMDI4Q"
-        },
-        {
-            "uuid": "f1636476-e405-4684-8d2a-5e670e1ba86f",
-            "name": "Nativ Or",
-            "email": "nativ@hanacovc.com",
-            "profile_picture": "https://monomousumi.com/wp-content/uploads/anonymous-user-8.png"
-        }
-    ]}
 
     const link = meeting ? meeting.video_link : undefined;
     const duration = meeting ? meeting.duration : 'Unknown Duration';
@@ -60,8 +33,10 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
     };
 
     return (
-        <div className="internal-meeting-details p-6 rounded-lg shadow max-w-4xl mx-auto width-auto">
-
+        <div
+          className="internal-meeting-details p-6 rounded-lg shadow max-w-4xl mx-auto width-auto"
+          style={{ height: '-webkit-fill-available' }}
+        >
             <div className="meeting-info mb-6 p-4 bg-gray-100 rounded-md shadow-sm">
                 <div className="meeting-details-info rounded-lg flex justify-between items-center">
                      <div className="flex flex-col">
@@ -92,7 +67,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 {/* Participants */}
                 {participants && (
                     <div className="participants-section flex-1 mr-4">
-                        <Participants participants={participants} />
+                        <Participants participants={{"profiles": participants}} />
                     </div>
                 )}
             </div>
