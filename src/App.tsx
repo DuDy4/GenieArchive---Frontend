@@ -10,7 +10,8 @@ import Meeting from "./components/meeting";
 import NewTicketForm from "./components/zendesk/zendeskTicketForm";
 import LoadingGenie from "./components/ui/loading-genie";
 
-import {TokenProvider} from "./providers/TokenProvider";
+import { TokenProvider } from "./providers/TokenProvider";
+import { MeetingsProvider } from "./providers/MeetingsProvider";
 
 function App() {
     const { loginWithRedirect, getAccessTokenSilently, user, isAuthenticated, isLoading, error } = useAuth0();
@@ -41,10 +42,12 @@ function App() {
             {!isLoading ? (
                 <>
                     <TokenProvider >
-                        <Routes>
-                            <Route path="/" index element={<Home />} />
-                            <Route path="/meeting/:id" element={<Meeting />} />
-                        </Routes>
+                        <MeetingsProvider>
+                            <Routes>
+                                <Route path="/" index element={<Home />} />
+                                <Route path="/meeting/:id" element={<Meeting />} />
+                            </Routes>
+                        </MeetingsProvider>
                     </TokenProvider>
                 </>
             ) : (

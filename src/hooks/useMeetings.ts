@@ -9,7 +9,6 @@ const useMeetings = (tenant_id: string) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { makeRequest } = useApiClient();
-    const { token } = useToken();
 
   const {
     data: meetings,
@@ -23,9 +22,6 @@ const useMeetings = (tenant_id: string) => {
       if (!tenant_id) {
         return [];
       }
-        if (!token) {
-            throw new Error("Token not available");
-        }
       const response = await makeRequest('GET', `/${tenant_id}/meetings`);
       return response as Meeting[];
     },
@@ -38,9 +34,6 @@ const useMeetings = (tenant_id: string) => {
       }
       setIsImportingMeetings(true);
       try {
-        if (!token) {
-          throw new Error("Token not available");
-        }
           const response = await makeRequest('GET', `/google/import-meetings/${tenant_id}`);
           return response;
       } catch (err) {

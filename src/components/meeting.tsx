@@ -169,6 +169,8 @@ const Meeting = () => {
                       onChange={handleChange}
                       textColor="primary"
                       indicatorColor="primary"
+                      variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
+                      scrollButtons="auto"
                       sx={{
                         "& .Mui-selected": {
                           borderBottom: "1px solid #000",
@@ -176,13 +178,15 @@ const Meeting = () => {
                         "& .Mui-focusVisible": {
                           borderBottom: "1px solid #000",
                         },
+                        maxWidth: "1050px", // Set a max width for scroll
+                        overflow: "hidden", // Ensure tabs overflow
                       }}
                     >
                       {/* The 'Meeting Overview' tab at index 0 */}
                       <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
 
                       {/* Profile tabs starting from index 1 */}
-                      {allProfiles && Array.isArray(allProfiles) &&  allProfiles?.map(
+                      {allProfiles && Array.isArray(allProfiles) && allProfiles?.map(
                         ({ name, uuid }: Profile, index: number) => (
                           <Tab
                             key={uuid}

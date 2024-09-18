@@ -3,7 +3,7 @@ import { Typography, Box, Button, Dialog, Table, TableBody, TableCell, TableCont
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToken } from "../providers/TokenProvider";
 import { useApiClient } from "../utils/AxiosMiddleware";
-
+import { useMeetingsContext } from "../providers/MeetingsProvider";
 
 interface TicketFormProps {
   onClose: () => void;
@@ -15,6 +15,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   const [tenants, setTenants] = useState<string[]>([]);
   const { token, isAdmin, updateFakeTenantId } = useToken();
   const { makeRequest } = useApiClient();
+  const { getMeetings } = useMeetingsContext();
 
   if (!isAdmin || user?.email !== adminEmail) {
     return (
@@ -82,12 +83,20 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
 
   const handleTenantClick = (tenant: any) => {
     updateFakeTenantId(tenant.tenant_id);
+    localStorage.setItem('fakeTenantId', tenant.tenant_id);
+    getMeetings();
     onClose();
   };
 
   const handleRemoveTenantClick = () => {
-    updateFakeTenantId(null); // Set the fakeTenantId to null to remove it
+    updateFakeTenantId(null);
+    localStorage.removeItem('fakeTenantId');
+    getMeetings();
     onClose();
+  };
+
+  const handleRefetchMeetings = () => {
+    refetchMeetings(); // This triggers the refetch of meetings from the backend
   };
 
   return (
@@ -153,7 +162,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
           color="secondary"
           onClick={handleRemoveTenantClick}
         >
-          Remove Tenant
+          Finish Impersonation
         </Button>
       </Box>
     </Box>
