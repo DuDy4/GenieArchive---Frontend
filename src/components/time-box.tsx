@@ -28,19 +28,6 @@ const TimeBox = () => {
         height: "10vh",
       }}>
 
-      {/* Background Circle */}
-      <Box
-        sx={{
-          position: "absolute",
-          width: "600px", // Adjust the size to your preference
-          height: "600px",
-          borderRadius: "50%",
-          backgroundColor: "rgba(255, 255, 255, 0.1)", // A subtle white-transparent background
-          filter: "blur(10px)", // To give it a soft, glowing look
-          zIndex: "1", // Behind the content
-        }}
-      />
-
       {/* Content */}
       <Box
         sx={{
