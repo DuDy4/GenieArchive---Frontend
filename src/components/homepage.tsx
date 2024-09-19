@@ -13,6 +13,7 @@ import Calendar from "./calendar";
 import Preferences from "./preferences";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
+import StorylanePopup from "./storylane-popup";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -103,6 +104,7 @@ const Home = () => {
             }}
           />
         </Box>
+        
         {isAuthenticated && <div
           className="box"
           onClick={() => {
@@ -112,8 +114,9 @@ const Home = () => {
         >
           <CalendarTodayOutlinedIcon fontSize="small" />
           <Typography>Calendar</Typography>
+          
         </div>}
-
+        <StorylanePopup />
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">
