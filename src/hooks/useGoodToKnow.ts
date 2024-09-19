@@ -17,17 +17,14 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
 
 
       // return response;
-      console.log("GoodToKnow response data:", data);
       if (response && response?.error) {
         console.log("error");
         return await response;
       }
 
       if (Array.isArray(await data.news)) {
-        console.log('if')
         return data
       } else if (typeof await  data?.news === "object") {
-        console.log("else if");
         const newObj = {
           connections: response?.connections ? response?.connections : [],
           hobbies: response?.hobbies ? response?.hobbies : [],
