@@ -12,7 +12,6 @@ import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import LoadingGenie from "./ui/loading-genie";
 import moment from "moment";
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 import { isArray } from "chart.js/helpers";
 import iconRoutes from "../utils/iconRoutes.json";

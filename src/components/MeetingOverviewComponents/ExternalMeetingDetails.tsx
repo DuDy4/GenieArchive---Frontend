@@ -51,9 +51,8 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 </div>
             </div>)}
           {agendaItems && agendaItems.length > 0 ?
-          <div className="participants-guidelines">
+          <div className="participants-guidelines w-full">
              <CompanyDetails details={company} />
-
           </div>
            : null}
           {news && news.length > 0 && <NewsSection news={news} />}
