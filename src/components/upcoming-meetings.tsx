@@ -1,9 +1,7 @@
 import { Box } from "@mui/material";
-// import useMeetings from "../hooks/useMeetings";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Meeting } from "../types";
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 import { useMeetingsContext } from "../providers/MeetingsProvider";
 

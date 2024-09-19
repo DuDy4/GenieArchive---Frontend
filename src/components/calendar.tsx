@@ -23,7 +23,6 @@ import CustomDrawer from "./ui/drawer";
 // import useMeetings from "../hooks/useMeetings";
 import { useMeetingsContext } from "../providers/MeetingsProvider";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 
 interface MeetingsCalendarProps {

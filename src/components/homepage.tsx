@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { CiSearch } from "react-icons/ci";
-// import { useAuth, useLoginWithRedirect } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 import { Box, InputBase, Typography } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";

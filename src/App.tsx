@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import { Route, Routes } from "react-router-dom";
 
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
