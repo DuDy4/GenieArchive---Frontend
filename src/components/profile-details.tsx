@@ -285,7 +285,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                Top news
+                Top news {attendeeInfo?.company ? `about ${attendeeInfo?.company}` : ""}
               </h4>
 
               <div className="flex flex-col gap-4">

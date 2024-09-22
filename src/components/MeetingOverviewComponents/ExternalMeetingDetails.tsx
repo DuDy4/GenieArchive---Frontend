@@ -55,7 +55,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
              <CompanyDetails details={company} />
           </div>
            : null}
-          {news && news.length > 0 && <NewsSection news={news} />}
+          {news && news.length > 0 && <NewsSection news={news} company_name={company.name} />}
         </div>
       </div>
     </div>
