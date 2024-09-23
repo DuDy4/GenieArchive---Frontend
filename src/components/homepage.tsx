@@ -9,7 +9,10 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 
 import TimeBox from "./time-box";
 import Calendar from "./calendar";
+import Footer from "./footer";
 import Preferences from "./preferences";
+import ContactUs from "./ContactUs";
+import Logout from "./Logout";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
 import StorylanePopup from "./storylane-popup";
@@ -170,7 +173,7 @@ const Home = () => {
           setOpenSearchBar={setOpenSearchBar}
         />
       ) : null}
-      <Preferences />
+        <Footer  />
     </main>
   );
 };
