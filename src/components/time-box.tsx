@@ -34,7 +34,7 @@ const TimeBox = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "4px",
+          gap: "24px",
           zIndex: "10", // Ensure it stays above the circle
         }}>
 
@@ -81,13 +81,17 @@ const TimeBox = () => {
             <div>
               <button
                 onClick={() => loginWithRedirect()}
-                className="text-white bg-[#2ca1f9] rounded-lg font-bold py-1 px-2 shadow transition-all duration-300 ease-in-out hover:scale-105"
+                className="bg-white border border-gray-300 rounded-lg py-2 px-4 shadow-md text-gray-500
+                 transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2"
               >
-                <div className="flex items-center justify-center gap-1">
-                  <img src="/images/google-icon.png" alt="Google-login" className="w-6 h-6 inline-block" />
-                  Login to continue
-                </div>
+                <img
+                  src="/images/google-icon.png"
+                  alt="Google-login"
+                  className="w-5 h-5 inline-block"
+                />
+                <span className="text-black">Sign in with Google</span>
               </button>
+
             </div>
           )}
         </Typography>
