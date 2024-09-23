@@ -5,13 +5,14 @@ import { styled } from "@mui/material/styles";
 const StyledMenu = styled((props: MenuProps) => <Menu {...props} />)(() => ({
   "& .MuiPaper-root": {
     padding: "8px 16px",
-    width: "15rem", // Adjusted to be narrower like the reference
+    minWidth: "15rem", // Adjusted to be narrower like the reference
+    width: "max-content",
     border: "1px solid rgb(150, 150, 150)",
     boxShadow: "rgba(0, 0, 0, 0.2) 0px 12px 32px -5px",
     backgroundColor: "rgb(251, 252, 253)",
-    borderRadius: "12px",
+    borderRadius: "12px 12px 12px 1px",
     marginLeft: "25px",
-    marginTop: "-30px",
+    marginTop: "-40px",
   },
   "& .MuiMenuItem-root": {
     display: 'flex',

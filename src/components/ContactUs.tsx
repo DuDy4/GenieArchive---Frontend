@@ -12,7 +12,7 @@ const ContactUs = ({ open, onClose }) => {  // Add `onClose` prop
       ) : (
         <Box
           sx={{
-            backgroundColor: "#f5f5f5",
+            backgroundColor: "white",
             padding: "32px",
             display: "flex",
             flexDirection: "column",
@@ -23,7 +23,7 @@ const ContactUs = ({ open, onClose }) => {  // Add `onClose` prop
           }}
         >
           <Typography variant="h5" sx={{ fontWeight: 600, marginBottom: "16px" }}>
-            Please log in to contact us
+            Please log in to share your feedback
           </Typography>
           <Typography variant="body1" sx={{ color: "gray", marginBottom: "24px" }}>
             You need to be logged in to submit a support ticket. Please log in and try again.

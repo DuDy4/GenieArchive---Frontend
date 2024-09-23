@@ -51,13 +51,16 @@ const Preferences = () => {
           </Box>
 
           {isAdmin && (
-            <MenuItem onClick={() => setOpenAdminMode(true)}>
+            <MenuItem
+              onClick={() => setOpenAdminMode(true)}
+              sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
+            >
               <Typography sx={{ fontWeight: 500 }}>Admin Mode</Typography>
               <FaChevronRight />
             </MenuItem>
           )}
 
-          <MenuItem sx={{ display: "flex", justifyContent: "space-between" }}>
+          <MenuItem sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
             <Typography>{user?.email}</Typography>
             <FiLogOut onClick={() => logout()} />
           </MenuItem>

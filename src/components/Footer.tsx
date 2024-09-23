@@ -71,7 +71,10 @@ const Footer: React.FC = () => {
           <hr className="separator" />
 
           {isAdmin && (
-            <MenuItem onClick={() => setOpenAdminMode(true)}>
+            <MenuItem
+              onClick={() => setOpenAdminMode(true)}
+              sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
+            >
               <Typography sx={{ fontWeight: 500 }}>Admin Mode</Typography>
               <FaChevronRight />
             </MenuItem>
@@ -79,7 +82,7 @@ const Footer: React.FC = () => {
 
           {/* Logout */}
           <MenuItem sx={{ display: "flex", justifyContent: "end", gap: "10px" }}>
-            <Typography>{user ? user?.email : "Log out"}</Typography>
+            <Typography>{user ? user?.user_email : "Log out"}</Typography>
             <FiLogOut onClick={() => logout()} />
           </MenuItem>
         </CustomStyledMenu>
@@ -92,7 +95,7 @@ const Footer: React.FC = () => {
 
         {/* Contact Us Button */}
         <ButtonBase onClick={handleClickContact} sx={{ color: "white" }}>
-          <Tooltip arrow title="Contact Us" placement="top">
+          <Tooltip arrow title="Share Feedback" placement="top">
             <ContactSupportOutlined />
           </Tooltip>
         </ButtonBase>
@@ -118,14 +121,16 @@ const Footer: React.FC = () => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "center",
+            gap: "12px",
+//             alignItems: "center",
             maxHeight: "50px",
             backgroundColor: "#fff",
           }}>
             {/* Greeting */}
-            <Typography variant="h6" sx={{ marginBottom: "8px" }}>
+            <Typography variant="h6" sx={{ marginBottom: "8px", fontSize: "19px" }}>
               Hi {user ? user.name.split(' ')[0] : 'hello'} 👋
             </Typography>
+
 
             {/* Avatar Container */}
             <div style={{
@@ -150,14 +155,29 @@ const Footer: React.FC = () => {
 
           <hr className="separator" />
 
-          <MenuItem onClick={handleContactUsClick}>
-            <ContactSupportOutlined sx={{ marginRight: "8px" }} />
-            Messages
+          <MenuItem
+            onClick={handleContactUsClick}
+            sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+            <div>
+              <ContactSupportOutlined sx={{ marginRight: "8px" }} />
+              Messages
+            </div>
+            <div>
+              <FaChevronRight />
+            </div>
           </MenuItem>
-          <MenuItem onClick={handleContactUsClick}>
-            <ContactSupportOutlined sx={{ marginRight: "8px" }} />
-            Ask a question
-          </MenuItem>
+
+          <MenuItem
+              onClick={handleContactUsClick}
+              sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+              <div>
+                <ContactSupportOutlined sx={{ marginRight: "8px" }} />
+                Ask a question
+              </div>
+              <div>
+                <FaChevronRight />
+              </div>
+            </MenuItem>
         </CustomStyledMenu>
       </div>
 

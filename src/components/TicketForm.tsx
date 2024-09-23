@@ -89,7 +89,7 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
   return (
     <Box
       sx={{
-        backgroundColor: "#A8D2F3",  // Light blue for the form background
+        backgroundColor: "white",  // Light blue for the form background
         borderRadius: "24px",
         width: "26rem",
         maxHeight: "60%",
@@ -126,7 +126,7 @@ const TicketForm = ({ onClose }: TicketFormProps) => {
           marginBottom: "10px",
           color: "#333333",  // Darker text for contrast
         }}>
-        Contact Us
+        Share your feedback
       </Typography>
 
       <form onSubmit={handleFormSubmit}>
