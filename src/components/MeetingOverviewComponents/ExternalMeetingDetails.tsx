@@ -40,16 +40,20 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
           <div className="flex-1 right-column items-between" style={{ paddingTop: '1.6%' }}>
             {link && (
-            <div className="video-link-container p-[10px] rounded-[16px] border border-[#dddddd] w-full">
+              <div className="video-link-container p-[10px] rounded-[16px] w-full">
                 <div className="flex flex-col justify-center">
-                  <div className="meeting-link mt-2 flex items-center justify-center space-x-8">
-                    <h3 className="text-lg font-bold mb-0">Meeting Link</h3>
-                    <Link to={link} target="_blank" className="text-blue-500 underline">
-                      <img src="/images/video-conference-icon.png" title="Link to meeting" />
-                    </Link>
+                  <div className="meeting-link mt-2 flex items-center justify-center space-x-8 w-full">
+                    <button
+                      className="bg-blue-500 text-white font-bold py-4 px-6 text-xl rounded-lg hover:bg-blue-700"
+                      style={{ width: '-webkit-fill-available' }} // Add this style
+                      onClick={() => window.open(link, "_blank")}
+                    >
+                      Join the meeting
+                    </button>
                   </div>
                 </div>
-            </div>)}
+              </div>
+            )}
           {agendaItems && agendaItems.length > 0 ?
           <div className="participants-guidelines w-full">
              <CompanyDetails details={company} />
