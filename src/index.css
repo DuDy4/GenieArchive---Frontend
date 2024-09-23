@@ -758,13 +758,13 @@ element {
 
 .footer {
   position: fixed;
-  bottom: 12px;
-  left: 12px;
+  bottom: 2%;
+  left: 1.5%;
   display: flex;
   z-index: 100;
   padding: 10px;
   display: flex;
-    gap: 10px;
+  gap: 20px;
 }
 
 .footer.icon {
