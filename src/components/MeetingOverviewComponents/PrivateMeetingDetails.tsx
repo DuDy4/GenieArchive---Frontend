@@ -7,7 +7,7 @@ const PrivateMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
     <div className="flex justify-center items-center">
       <div
         className="meeting-details bg-white rounded-full shadow-lg flex flex-col justify-center items-center"
-        style={{ width: '600px', height: '500px', padding: '25px'}} // Increased circle size
+        style={{ width: '400px', height: '400px', padding: '25px'}} // Increased circle size
       >
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Private Meeting</h1>
         <h2 className="text-lg font-semibold text-gray-500 text-center">
