@@ -27,7 +27,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <div
-          className="internal-meeting-details p-6 rounded-lg shadow max-w-4xl mx-auto width-auto"
+          className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto"
           style={{ height: '-webkit-fill-available' }}
         >
             <div className="meeting-info mb-6 p-4 rounded-md shadow-sm">
@@ -80,9 +80,9 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 <br/>
                 <div className="relative flex justify-start items-end mb-4">
                     {/* Speech Bubble */}
-                    <div className="speech-bubble relative bg-blue-100 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-bold text-blue-700 mb-3">Tip for Sales Reps:</h3>
-                        <p className="text-blue-600 text-lg mb-4">{randomTip}</p>
+                    <div className="speech-bubble relative p-6 rounded-lg shadow-md border">
+                        <h3 className="text-xl font-bold text-700 mb-3">Tip for Sales Reps:</h3>
+                        <p className="text-600 text-lg mb-4">{randomTip}</p>
                         <button
                             onClick={regenerateTip}
                             className="bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600 transition"
