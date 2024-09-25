@@ -13,7 +13,6 @@ const StorylanePopup = () => {
     script.async = true;
     script.onload = () => {
       setIsStorylaneLoaded(true); // Script loaded
-      console.log("Storylane script loaded successfully.");
     };
     document.body.appendChild(script);
 
