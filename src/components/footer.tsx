@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AdminMode from './AdminMode';
 import { useToken } from "../providers/TokenProvider";
 import ContactUs from './ContactUs';
+import FileUpload from './file-upload';
 import CustomStyledMenu from './Menus/StyledMenu';
 
 const Footer: React.FC = () => {
@@ -14,6 +15,7 @@ const Footer: React.FC = () => {
   const [anchorElContact, setAnchorElContact] = useState<null | HTMLElement>(null);
   const [openContactModal, setOpenContactModal] = useState(false);
   const [openAdminMode, setOpenAdminMode] = useState(false);
+  const [openFileUpload, setOpenFileUpload] = useState(false); 
   const { user, logout } = useAuth0();
   const { isAdmin } = useToken();
 
@@ -79,6 +81,26 @@ const Footer: React.FC = () => {
               <FaChevronRight />
             </MenuItem>
           )}
+
+          {/* File Upload MenuItem */}
+          <MenuItem
+            sx={{ display: "flex", justifyContent: "space-between" }}
+            disableRipple
+            disableTouchRipple
+            onClick={() => setOpenFileUpload(true)} // Open the file upload dialog
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Typography sx={{ fontWeight: 500, fontSize: 16 }}>
+                Upload Files
+              </Typography>
+            </Box>
+            <FaChevronRight />
+          </MenuItem>
+
+          {/* File Upload Dialog */}
+          <Dialog open={openFileUpload} onClose={() => setOpenFileUpload(false)}>
+            <FileUpload />
+          </Dialog>
 
           {/* Logout */}
           <MenuItem sx={{ display: "flex", justifyContent: "end", gap: "10px" }}>
