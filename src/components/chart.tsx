@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Radar } from "react-chartjs-2";
 import "chart.js/auto";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -55,25 +55,36 @@ const options = {
   maintainAspectRatio: false,
 };
 
-const iconPositions = [
-  { top: "30%", left: "50%" },  // Top center (Strategic)
-  { top: "48%", right: "0%" },  // Right middle (Activator)
-  { bottom: "2%", left: "34%" },  // Bottom center (Command)
-  { bottom: "2%", right: "13%" },  // Right bottom (Learner)
-  { top: "48%", left: "20%" },  // Left middle (Connectedness)
+// Function to calculate icon positions based on the canvas size
+const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
+  const radians = (angle * Math.PI) / 180;
+  const x = canvasWidth / 2 + radius * Math.cos(radians);
+  const y = canvasHeight / 2 + radius * Math.sin(radians);
+  return { x, y };
+};
+
+const iconData = [
+  { angle: -80, radius: 0.15 },     // Top center
+  { angle: 61, radius: 0.45 },       // Bottom right
+  { angle: 112, radius: 0.43 }, // Bottom left
+  { angle: 8, radius: 0.35 },    // Top right
+  { angle: 168, radius: 0.30 },      // Top left
 ];
 
-export const icons = StrengthsIcons
+export const icons = StrengthsIcons;
 
 const RadarChart = ({ uuid }: { uuid: string }) => {
   const { user } = useAuth0();
   const strengths = useStrengths(user?.tenantId!, uuid);
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const canvasRef = useRef(null);
 
-  // Ensure data includes all strength scores, including "Learner"
+  // Ensure data includes all strength scores
   const data = Array.isArray(strengths)
     ? strengths?.map((strength: Strength) => ({
         name: strength.strength_name || strength.strengths_name,
         image: icons[strength.strengths_name || strength.strength_name]["image"] || icons.Default,
+        description: icons[strength.strengths_name || strength.strength_name]["description"] || "",
         score: strength.score ?? 0, // Fallback to 0 if no score
       }))
     : [];
@@ -91,33 +102,57 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
     ],
   };
 
+  // Effect to update the canvas size dynamically
+  useEffect(() => {
+    const updateCanvasSize = () => {
+      if (canvasRef.current) {
+        const canvasElement = canvasRef.current;
+        setCanvasSize({
+          width: canvasElement.clientWidth,
+          height: canvasElement.clientHeight,
+        });
+      }
+    };
+
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize); // Handle resize events
+
+    return () => window.removeEventListener('resize', updateCanvasSize); // Cleanup
+  }, []);
+
   return (
     <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]">
       <h3 className="text-heading font-semibold text-[16px]">Top personality</h3>
-      <div className="-mt-3">
-        <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "320px" }} />
+      <div ref={canvasRef}>
+        <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "auto" }} />
       </div>
 
       {/* Render the icons and labels */}
-      {data.slice(0, 5).map((item, index) => (
-        <div
-          key={item.name}
-          title={StrengthsIcons[item.name]["description"]}
-          style={{
-            position: "absolute",
-            ...iconPositions[index],
-            transform: "translate(-50%, -50%)",  // Center icon and text at the position
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "4px",
-          }}
-        >
-          <img src={item.image} alt={item.name} style={{ width: "35px", height: "35px", marginBottom: "4px" }} />
-          <p style={{ marginTop: "-10px", fontSize: "12px", fontWeight: "bold" }}>{item.name}</p>
-        </div>
-      ))}
+      {iconData.map((item, index) => {
+        const { x, y } = calculateIconPosition(item.angle, item.radius * canvasSize.width, canvasSize.width, canvasSize.height);
+        const currentStrength = data[index];  // Get the corresponding strength
+
+        return (
+          <div
+            key={currentStrength.name}
+            title={currentStrength.description}
+            style={{
+              position: "absolute",
+              left: `${x}px`,
+              top: `${y}px`,
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <img src={currentStrength.image} alt={currentStrength.name} style={{ width: "35px", height: "35px", marginBottom: "4px" }} />
+            <p style={{ marginTop: "-10px", fontSize: "12px", fontWeight: "bold" }}>{currentStrength.name}</p>
+          </div>
+        );
+      })}
     </div>
   );
 };
