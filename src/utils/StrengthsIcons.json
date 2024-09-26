@@ -1,0 +1,146 @@
+{
+  "Achiever": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/sport-and-awards/champion-winner-trophy-icon.png",
+    "description": "Achievers have a great deal of stamina and work hard to reach their goals. They take satisfaction from being productive."
+  },
+  "Activator": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/head-idea-icon.png",
+    "description": "Activators can make things happen by turning thoughts into action. They are often impatient for results."
+  },
+  "Adaptability": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/controller-and-music/control-panel-icon.png",
+    "description": "People strong in Adaptability prefer to go with the flow. They tend to be flexible and stay in the moment."
+  },
+  "Analytical": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/audit-icon.png",
+    "description": "Analytical individuals search for reasons and causes. They have the ability to think about all the factors that might affect a situation."
+  },
+  "Arranger": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/dependency-icon.png",
+    "description": "Arrangers can organize, but they also have a flexibility that complements this ability. They like to figure out how all of the pieces and resources can be arranged for maximum productivity."
+  },
+  "Belief": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/relationship-love/care-icon.png",
+    "description": "People with strong Belief have certain core values that are unchanging. Out of these values emerges a defined purpose for their lives."
+  },
+  "Command": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/tools-equipment-construction/tools-icon.png",
+    "description": "Command individuals have presence. They can take control of a situation and make decisions."
+  },
+  "Communication": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/speaking-bubbles-line-icon.png",
+    "description": "People with strong Communication generally find it easy to put their thoughts into words. They are good conversationalists and presenters."
+  },
+  "Competition": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/sport-and-awards/first-medal-icon.png",
+    "description": "People with Competition are best motivated by performance. They strive to win first place and revel in contests."
+  },
+  "Connectedness": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/medical-science-lab/atom-laboratory-science-icon.png",
+    "description": "Connectedness individuals believe in the links among all things. They believe there are few coincidences and that almost every event has a reason."
+  },
+  "Consistency": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/weather/water-wave-icon.png",
+    "description": "People with strong Consistency are keen to treat people the same by setting up clear rules and adhering to them."
+  },
+  "Context": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/location-travel-map/globe-line-icon.png",
+    "description": "Context individuals enjoy thinking about the past. They understand the present by researching its history."
+  },
+  "Deliberative": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/distribution-icon.png",
+    "description": "Deliberative people are careful and vigilant. They anticipate the obstacles."
+  },
+  "Developer": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/toys-childhood/toy-block-icon.png",
+    "description": "People with Developer recognize and cultivate the potential in others. They spot the signs of each small improvement and derive satisfaction from these improvements."
+  },
+  "Discipline": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/time-and-date/quick-icon.svg",
+    "description": "People with Discipline enjoy routine and structure. Their world is best described by the order they create."
+  },
+  "Empathy": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/relationship-love/hobbies-like-icon.png",
+    "description": "Empathy individuals can sense the feelings of other people by imagining themselves in others' lives or situations."
+  },
+  "Focus": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/seo-marketing/target-line-icon.png",
+    "description": "People with Focus can take direction, follow through, and make the corrections necessary to stay on track. They prioritize, then act."
+  },
+  "Futuristic": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/bulb-exclamation-mark-icon.png",
+    "description": "People with Futuristic are inspired by the future and what could be. They energize others with their visions of the future."
+  },
+  "Harmony": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/earth-environment-care-icon.png",
+    "description": "Harmony individuals look for consensus. They don’t enjoy conflict and prefer to seek areas of agreement."
+  },
+  "Ideation": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/idea-icon.png",
+    "description": "People with Ideation are fascinated by ideas. They are able to find connections between seemingly disparate phenomena."
+  },
+  "Includer": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/four-corners-arrows-line-icon.png",
+    "description": "Includers accept others. They show awareness of those who feel left out and make an effort to include them."
+  },
+  "Individualization": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/crime-security-military-law/evidence-icon.png",
+    "description": "People with Individualization are intrigued by the unique qualities of each person. They have a gift for figuring out how people who are different can work together productively."
+  },
+  "Input": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/user-interface/underlined-check-line-icon.png",
+    "description": "People with Input have a craving to know more. Often they like to collect and archive all kinds of information."
+  },
+  "Intellection": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/psychology-icon.png",
+    "description": "Intellection individuals are characterized by their intellectual activity. They are introspective and appreciate intellectual discussions."
+  },
+  "Learner": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/education-school/knowledge-icon.png",
+    "description": "Learners have a great desire to learn and continuously improve. The process, more than the outcome, excites them."
+  },
+  "Maximizer": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/household-and-furniture/stair-up-icon.png",
+    "description": "Maximizers focus on strengths as a way to stimulate personal and group excellence. They seek to transform something strong into something superb."
+  },
+  "Positivity": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/pinch-easy-icon.png",
+    "description": "People with Positivity have an enthusiasm that is contagious. They are upbeat and can get others excited about what they are going to do."
+  },
+  "Relator": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/teamwork-together-icon.png",
+    "description": "Relators enjoy close relationships with others. They find deep satisfaction in working hard with friends to achieve a goal."
+  },
+  "Responsibility": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/internet-network-technology/digital-icon.png",
+    "description": "People with Responsibility take psychological ownership of what they say they will do. They are committed to stable values such as honesty and loyalty."
+  },
+  "Restorative": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/product-launch-release-icon.png",
+    "description": "Restorative individuals are adept at dealing with problems. They are good at figuring out what is wrong and resolving it."
+  },
+  "Self-Assurance": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/person-insurance-icon.png",
+    "description": "People with Self-Assurance feel confident in their ability to manage their own lives. They possess an inner compass that gives them confidence in their decisions."
+  },
+  "Significance": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/clothes-and-accessories/diamond-gem-icon.png",
+    "description": "Significance individuals want to make a big impact. They are independent and prioritize projects based on how much influence they will have on their organization or people around them."
+  },
+  "Strategic": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/hand-shake-icon.png",
+    "description": "Strategic people create alternative ways to proceed. Faced with any given scenario, they can quickly spot the relevant patterns and issues."
+  },
+  "Woo": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/clap-icon.svg",
+    "description": "Woo stands for Winning Others Over. People with this strength love the challenge of meeting new people and getting them to like them."
+  },
+  "Default": {
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/tools-equipment-construction/setting-line-icon.png",
+    "description": "This is a default icon for unassigned strengths."
+  },
+  "Leadership": {
+    "image": "/path/to/your/LeaderImage.png",
+    "description": "Leadership individuals are skilled at influencing others and guiding groups toward goals."
+  }
+}
