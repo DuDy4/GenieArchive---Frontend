@@ -169,11 +169,6 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
           </div>
 
           <div className="relative">
-            {/* <img
-              src="/images/Group 71.png"
-              alt="timeline"
-              className="absolute left-4  h-full mt-5 pb-7 overflow-hidden w-[2.5px]"
-            /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
               {workExperience && Array.isArray(workExperience) && workExperience?.map(
