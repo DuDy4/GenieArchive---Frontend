@@ -92,7 +92,6 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                     </div>
 
                     {/* Tail of the speech bubble */}
-                    <div className="bubble-tail absolute bottom-0 left-[50px] w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-blue-100 border-r-[20px] border-r-transparent"></div>
 
                     {/* Genie Avatar */}
                     <img
