@@ -137,15 +137,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     setSelectedDate(date);
   }, []);
 
-  const EventComponent = ({ event }) => {
-    const eventTitle = event.title || "No Subject";  // Handle no subject case
-    return (
-      <div style={{ whiteSpace: 'wrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {eventTitle}
-      </div>
-    );
-  };
-
   const TimeComponent = () => {
     return null; // Return null to hide the time completely
   };
@@ -392,10 +383,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   onSelectEvent={handleSelectEvent}
                   className="hide-scrollbar"
                   eventPropGetter={eventPropGetter}
-                  components={{
-                    event: EventComponent, // Custom event rendering
-                    time: TimeComponent, // Custom time rendering (removes the time)
-                  }}
                 />
             </Box>
           </Box>
