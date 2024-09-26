@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { CiSearch } from "react-icons/ci";
-// import { useAuth, useLoginWithRedirect } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 import { Box, InputBase, Typography } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 
 import TimeBox from "./time-box";
 import Calendar from "./calendar";
+import Footer from "./footer";
 import Preferences from "./preferences";
+import ContactUs from "./ContactUs";
+import Logout from "./Logout";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
 import StorylanePopup from "./storylane-popup";
@@ -171,7 +173,7 @@ const Home = () => {
           setOpenSearchBar={setOpenSearchBar}
         />
       ) : null}
-      <Preferences />
+        <Footer  />
     </main>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Button, Typography, LinearProgress, IconButton } from "@mui/material";
 import { PictureAsPdf, InsertDriveFile, Close } from "@mui/icons-material";

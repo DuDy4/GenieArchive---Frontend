@@ -12,7 +12,6 @@ import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import LoadingGenie from "./ui/loading-genie";
 import moment from "moment";
-// import { useAuth } from "@frontegg/react";
 import { useAuth0 } from "@auth0/auth0-react"
 import { isArray } from "chart.js/helpers";
 import iconRoutes from "../utils/iconRoutes.json";
@@ -286,7 +285,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                Top news
+                Top news {attendeeInfo?.company ? `about ${attendeeInfo?.company}` : ""}
               </h4>
 
               <div className="flex flex-col gap-4">
