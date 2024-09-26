@@ -95,7 +95,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
                     {/* Genie Avatar */}
                     <img
-                        src="/images/image9.png"
+                        src="/images/image10.png"
                         alt="Genie"
                         className="absolute left-[-40px] bottom-[-30px] w-20 h-20"
                     />
