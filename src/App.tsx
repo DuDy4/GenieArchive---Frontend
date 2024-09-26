@@ -24,7 +24,6 @@ function App() {
             console.log("User is authenticated:", user?.name);
             console.log("User is authenticated:", user);
         } else {
-            console.log("getAccessTokenSilently", getAccessTokenSilently());
             console.log("User is NOT authenticated");
             // Uncomment the next line if you want to redirect to login automatically
 //             loginWithRedirect();
