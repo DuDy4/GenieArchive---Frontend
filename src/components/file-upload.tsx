@@ -1,23 +1,23 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Button, Typography, LinearProgress, IconButton } from "@mui/material";
+import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid } from "@mui/material";
 import { PictureAsPdf, InsertDriveFile, Close } from "@mui/icons-material";
 import axios from "axios";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
-const FileUpload = ({ onClose }) => {
-    const [file, setFile] = useState<File | null>(null);
+interface FileUploadProps {
+    onClose: () => void; // Assuming onClose is always provided
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
+    const [files, setFiles] = useState<File[]>([]);
+    const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
     const [uploading, setUploading] = useState<boolean>(false);
-    const [uploadProgress, setUploadProgress] = useState<number>(0);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
     const { makeRequest } = useApiClient();
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        const selectedFile = acceptedFiles[0];
-        setFile(selectedFile);
-        setSuccessMessage(null);
-        setErrorMessage(null);
+        setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
     }, []);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -29,98 +29,138 @@ const FileUpload = ({ onClose }) => {
             "application/vnd.openxmlformats-officedocument.presentationml.presentation": [".pptx"],
             "application/vnd.ms-powerpoint": [".ppt"],
         },
-        maxFiles: 1,
     });
 
-    const uploadFile = async () => {
-        if (!file) {
-            setErrorMessage("Please select a file.");
-            return;
-        }
-
-        setErrorMessage(null);
-        setSuccessMessage(null);
+    const uploadFile = async (file: File) => {
         setUploading(true);
-        setUploadProgress(0);
-
+        setUploadProgress((prev) => ({ ...prev, [file.name]: 0 }));
         try {
             const response = await makeRequest('POST', "/generate-upload-url", { file_name: file.name });
             const fileUploadUrl = response.upload_url;
 
             await axios.put(fileUploadUrl, file, {
-                headers: {
-                    "x-ms-blob-type": "BlockBlob",
-                },
-                onUploadProgress: (progressEvent) => {
-                    const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    setUploadProgress(progress);
+                headers: { "x-ms-blob-type": "BlockBlob" },
+                onUploadProgress: (event) => {
+                    const progress = Math.round((event.loaded * 100) / event.total);
+                    setUploadProgress((prev) => ({ ...prev, [file.name]: progress }));
                 },
             });
 
-            setSuccessMessage("File uploaded successfully!");
+            setErrorMessages((prev) => ({ ...prev, [file.name]: "" }));
         } catch (error) {
-            console.error("Error uploading file:", error);
-            setErrorMessage("Upload failed. Please try again.");
+            setErrorMessages((prev) => ({ ...prev, [file.name]: "Upload failed. Please try again." }));
         } finally {
             setUploading(false);
         }
     };
 
+    const uploadAllFiles = async () => {
+        for (const file of files) {
+            if (!uploadProgress[file.name]) {
+                await uploadFile(file);
+            }
+        }
+    };
+
+    const removeFile = (fileName: string) => {
+        setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+        setUploadProgress((prevProgress) => {
+            const { [fileName]: _, ...rest } = prevProgress;
+            return rest;
+        });
+        setErrorMessages((prevMessages) => {
+            const { [fileName]: _, ...rest } = prevMessages;
+            return rest;
+        });
+    };
+
     return (
-        <Box
-            sx={{
-                position: 'relative', // Needed for the absolute positioning of the close button
-                border: "2px dashed #aaa",
-                borderRadius: "8px",
-                padding: "16px",
-                textAlign: "center",
-                backgroundColor: isDragActive ? "#f0f0f0" : "white",
-                "&:hover": {
-                    borderColor: "#4a90e2",
-                },
-            }}
-        >
-            {/* X button (this is independent of the file drop area) */}
-            <IconButton
-                onClick={onClose} // Call the onClose prop when the button is clicked
-                sx={{ position: 'absolute', top: 8, right: 8, color: 'gray' }}
+        <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, backgroundColor: '#e3f2fd', position: 'relative' }}>
+            {/* <IconButton
+                onClick={onClose}
+                sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    color: '#1565c0',
+                    backgroundColor: '#ffffff',
+                    '&:hover': {
+                        backgroundColor: '#f0f0f0',
+                    },
+                    boxShadow: 2,
+                }}
             >
                 <Close />
-            </IconButton>
-
-            {/* Only the file drop area should trigger the file selection popup */}
+            </IconButton> */}
             <Box
                 {...getRootProps()}
                 sx={{
-                    padding: "16px",
-                    backgroundColor: "#fafafa",
-                    border: "2px dashed #ddd",
+                    border: "2px dashed #90caf9",
                     borderRadius: "8px",
+                    padding: "20px",
+                    textAlign: "center",
+                    backgroundColor: isDragActive ? "#bbdefb" : "#e3f2fd",
                     cursor: "pointer",
-                    "&:hover": { borderColor: "#4a90e2" }
+                    "&:hover": { borderColor: "#64b5f6" },
                 }}
             >
                 <input {...getInputProps()} />
-                <Typography variant="h6" sx={{ marginBottom: "8px" }}>
-                    {file ? "Change File" : "Drag and drop files here"}
+                <Typography variant="h6" sx={{ color: '#1565c0' }}>
+                    {isDragActive ? "Drop files here..." : "Drag & drop files here, or click to select files"}
                 </Typography>
-                {!file && <Button variant="contained" sx={{ mt: 2 }}>Browse files</Button>}
-                {file && <Box sx={{ mt: 2, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {file.type === "application/pdf" ? <PictureAsPdf sx={{ fontSize: "48px", color: "#e74c3c" }} /> : <InsertDriveFile sx={{ fontSize: "48px", color: "#3498db" }} />}
-                    <Box sx={{ ml: 2 }}>
-                        <Typography>{file.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">{(file.size / (1024 * 1024)).toFixed(2)} MB</Typography>
-                    </Box>
-                </Box>}
+                <Button variant="contained" sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white' }}>Browse Files</Button>
             </Box>
 
-            {file && <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={uploadFile} disabled={uploading || uploadProgress > 0}>
-                {uploadProgress > 0 ? `Uploading (${uploadProgress}%)...` : "Upload"}
-            </Button>}
-            {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress} sx={{ mt: 2 }} />}
-            {successMessage && <Typography variant="body1" color="success.main" sx={{ mt: 2 }}>{successMessage}</Typography>}
-            {errorMessage && <Typography variant="body1" color="error" sx={{ mt: 2 }}>{errorMessage}</Typography>}
-        </Box>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+                {files.map((file) => (
+                    <Grid item xs={12} key={file.name}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                {file.type === "application/pdf" ? (
+                                    <PictureAsPdf sx={{ fontSize: 40, color: "#e74c3c", mr: 2 }} />
+                                ) : (
+                                    <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
+                                )}
+                                <Box>
+                                    <Typography variant="body1">{file.name}</Typography>
+                                    <Typography variant="body2" color="textSecondary">{(file.size / (1024 * 1024)).toFixed(2)} MB</Typography>
+                                    {uploadProgress[file.name] >= 0 && (
+                                        <LinearProgress variant="determinate" value={uploadProgress[file.name]} sx={{ mt: 1, width: '100%' }} />
+                                    )}
+                                    {errorMessages[file.name] && (
+                                        <Typography variant="body2" color="error" sx={{ mt: 1 }}>{errorMessages[file.name]}</Typography>
+                                    )}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => uploadFile(file)}
+                                    disabled={uploading || uploadProgress[file.name] > 0}
+                                    sx={{ backgroundColor: '#42a5f5', color: 'white', mr: 1 }}
+                                >
+                                    {uploadProgress[file.name] > 0 ? `Uploading (${uploadProgress[file.name]}%)` : "Upload"}
+                                </Button>
+                                <IconButton onClick={() => removeFile(file.name)}>
+                                    <Close />
+                                </IconButton>
+                            </Box>
+                        </Box>
+                    </Grid>
+                ))}
+            </Grid>
+
+            {files.length > 1 && (
+                <Button
+                    variant="contained"
+                    onClick={uploadAllFiles}
+                    disabled={uploading}
+                    sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white', width: '100%' }}
+                >
+                    Upload All
+                </Button>
+            )}
+        </Paper>
     );
 };
 
