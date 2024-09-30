@@ -15,7 +15,7 @@ const TokenContext = createContext<TokenContextProps | undefined>(undefined);
 export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const { user, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const email_verification = import.meta.env.VITE_EMAIL_VERIFICATION;
   const [fakeTenantId, setFakeTenantId] = useState<string | null>(null);
 
@@ -31,12 +31,8 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         const accessToken = await getAccessTokenSilently();
         setToken(accessToken);
       } catch (e: any) { // Added 'any' to handle error types
-        if (e.error === 'login_required') {
-          const popupToken = await getAccessTokenWithPopup();
-          setToken(popupToken);
-        } else {
           console.error(e);
-        }
+
       }
     };
 
@@ -45,14 +41,12 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       return;
     }
     const email_verified = user?.user_email;
-    console.log("email_verified:", email_verified);
-    console.log("email_verification:", email_verification);
     if (email_verified && email_verified.includes(email_verification)) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
     }
-  }, [getAccessTokenSilently, getAccessTokenWithPopup, user, email_verification]);
+  }, [getAccessTokenSilently, user, email_verification]);
 
   const updateFakeTenantId = (tenantId: string | null) => {
     setFakeTenantId(tenantId);
