@@ -61,7 +61,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
           </div>
            : null}
           {news && news.length > 0 && <NewsSection news={news} company_name={company.name} />}
-          <h1 className="text-2xl font-bold text-gray-700 mt-4">No company found for the meeting</h1>
+          {!company && <h1 className="text-2xl font-bold text-gray-700 mt-4">No company found for the meeting</h1>}
         </div>
       </div>
     </div>
