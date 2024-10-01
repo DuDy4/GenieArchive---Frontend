@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useState,
+  useRef,
 } from "react";
 
 import moment from "moment";
@@ -24,6 +25,8 @@ import { useMeetingsContext } from "../providers/MeetingsProvider";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const localizer = momentLocalizer(moment);
+
 interface MeetingsCalendarProps {
   setOpenCalendar: Dispatch<SetStateAction<boolean>>;
   openCalendar: boolean;
@@ -35,8 +38,8 @@ const eventPropGetter = (event: Event, start: Date, end: Date, isSelected: boole
 
   if (event.classification === "internal") {
     style = {
-        color: "rgb(12, 119, 146)",
-        backgroundColor: "rgb(231, 249, 251)",
+      color: "rgb(12, 119, 146)",
+      backgroundColor: "rgb(231, 249, 251)",
       border: "1px solid rgb(196, 234, 239)",
       opacity: 1,
     };
@@ -58,7 +61,15 @@ const eventPropGetter = (event: Event, start: Date, end: Date, isSelected: boole
   return { style };
 };
 
-const localizer = momentLocalizer(moment);
+// Custom component to render events without the time
+const EventComponent = ({ event }) => {
+  const eventTitle = event.title || "No Subject"; // Default if no title is provided
+  return (
+    <div style={{ whiteSpace: 'wrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      {eventTitle}
+    </div>
+  );
+};
 
 const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   openCalendar,
@@ -99,6 +110,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     });
   };
 
+  const calendarRef = useRef<Calendar | null>(null);
 
   useEffect(() => {
     localStorage.setItem("selectedDate", selectedDate.toISOString());
@@ -117,6 +129,14 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     setImportErrorToast(false);
   };
 
+  useEffect(() => {
+    if (calendarRef.current) {
+      const now = new Date();
+      calendarRef.current.scrollToTime(now);
+    }
+  }, []);
+
+  // Define the list of events to be displayed
   const events = meetings?.map((meeting: Meeting) => ({
     id: meeting.uuid,
     title: meeting.subject,
@@ -285,27 +305,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                     </button>
                   </Tooltip>
                 )}
-                <Tooltip arrow title={is24HourView ? "Show 7 AM - 9 PM" : "Show 24-hour view"}>
-                  <div>
-                    {is24HourView ? (
-                      <RiCollapseDiagonalLine
-                        size={20}
-                        onClick={() => setIs24HourView(false)}
-                        className="icon"
-                        style={{ transform: "rotate(135deg)" }}
-                      />
-                    ) : (
-                      <CgArrowsExpandRight
-                        size={20}
-                        onClick={() => setIs24HourView(true)}
-                        className="icon"
-                        style={{ transform: "rotate(135deg)" }}
-                      />
-                    )}
-                  </div>
-                </Tooltip>
-
-
                 {expandCalendar ? (
                   <Tooltip arrow title="Day view">
                     <div>
@@ -313,7 +312,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                         size={20}
                         onClick={() => setExpandCalendar(false)}
                         className="icon"
-                        style={{ transform: "rotate(45deg)" }}
                       />
                     </div>
                   </Tooltip>
@@ -324,7 +322,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                         size={20}
                         onClick={() => setExpandCalendar(true)}
                         className="icon"
-                        style={{ transform: "rotate(45deg)" }}
                       />
                     </div>
                   </Tooltip>
@@ -372,9 +369,8 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   toolbar={false}
                   timeslots={1} // Show one hour per slot
                   step={60} // Each slot represents 60 minutes
-                  min={is24HourView ? new Date(0, 0, 0, 0, 0, 0) : new Date(0, 0, 0, 7, 0, 0)} // Start at 00:00 if 24-hour view
-                  max={is24HourView ? new Date(0, 0, 0, 23, 59, 59) : new Date(0, 0, 0, 21, 0, 0)} // End at 23:59 if 24-hour view
-                  selectable={true}
+                  scrollToTime={new Date()} // Set default scroll position to "now"
+                  defaultDate={new Date()} // Set the default date to "today"
                   date={selectedDate}
                   onNavigate={handleNavigate}
                   formats={{
@@ -383,7 +379,11 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   onSelectEvent={handleSelectEvent}
                   className="hide-scrollbar"
                   eventPropGetter={eventPropGetter}
+                  components={{
+                    event: EventComponent, // Custom event rendering
+                  }}
                 />
+
             </Box>
           </Box>
         </Box>
@@ -391,4 +391,5 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     </>
   );
 };
+
 export default MeetingsCalendar;
