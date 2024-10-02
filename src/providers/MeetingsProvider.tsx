@@ -35,8 +35,21 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId: string 
         }
         else{
             setTenantId(user?.tenantId);
-            }
+        }
     }, [fakeTenantId]);
+
+   const deleteMeeting = useMutation({
+    mutationFn: async (meetingId: string) => {
+      if (!tenantId) {
+        throw new Error("TenantId is required to delete a meeting");
+      }
+      const response = await makeRequest('DELETE', `/${tenantId}/${meetingId}`);
+      return response;
+    },
+    onSettled: () => {
+      refetchMeetings();
+    },
+  });
 
 
   const {
@@ -90,6 +103,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId: string 
         reImportMeetings: reImport.mutate,
         isImportingMeetings,
         error,
+        deleteMeeting: deleteMeeting.mutate,
       }}
     >
       {children}
