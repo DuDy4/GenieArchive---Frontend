@@ -128,6 +128,25 @@ const Meeting = () => {
                   >
                     {name}
                   </Box>
+                  <Box
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "end",
+                        flexDirection: "column",
+                        position: "relative",
+                        minWidth: "0px",
+                        padding: "0px",
+                        margin: "0px",
+                        border: "0px",
+                        verticalAlign: "top",
+                        flex: "1 1 0%",
+                        fontWeight: 600,
+                        fontSize: "28px",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      {name}
+                    </Box>
                 </Box>
 
                 <Box
