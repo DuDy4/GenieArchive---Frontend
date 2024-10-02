@@ -16,6 +16,7 @@ import Logout from "./Logout";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
 import StorylanePopup from "./storylane-popup";
+import { useMeetingsContext } from "../providers/MeetingsProvider";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -26,6 +27,7 @@ const Home = () => {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { getMeetings } = useMeetingsContext();
 
   useEffect(() => {
           const storedOpenCalendar = localStorage.getItem("openCalendar");
@@ -41,6 +43,12 @@ const Home = () => {
 
     removeCodeParam();
   }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getMeetings();
+    }
+  }, [isAuthenticated]);
 
   return (
     <main className="background">

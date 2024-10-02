@@ -5,6 +5,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProfileDetails from "./profile-details";
 import MeetingOverview from "./meeting-overview";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAllProfiles from "../hooks/useAllProfiles";
 import { useMeetingsContext } from "../providers/MeetingsProvider";
 import { Profile } from "../types";
@@ -20,6 +21,7 @@ const Meeting = () => {
   const tenantId = user?.tenantId;
   const { deleteMeeting } = useMeetingsContext();
   const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
+  const navigate = useNavigate();
   const name = searchParams.get("name");
 
   console.log("All profiles: ", allProfiles);
@@ -33,6 +35,7 @@ const Meeting = () => {
     deleteMeeting(id!); // Delete the meeting
     setIsDialogOpen(false); // Close the dialog
     console.log("Meeting deleted!");
+    navigate("/");
   };
 
   const handleOpenDialog = () => {
@@ -130,35 +133,41 @@ const Meeting = () => {
                     }}
                   >
                     <Box
-                                        sx={{
-                                          display: "inline-flex",
-                                          flexDirection: "column",
-                                          position: "relative",
-                                          minWidth: "0px",
-                                          padding: "0px",
-                                          margin: "0px",
-                                          border: "0px",
-                                          verticalAlign: "top",
-                                          flex: "1 1 0%",
-                                          fontWeight: 600,
-                                          fontSize: "28px",
-                                          marginBottom: "8px",
-                                        }}
-                                      >
-                                        {name}
-                                      </Box>{/* The updated Box with the Delete Meeting button */}
+                        sx={{
+                          display: "inline-flex",
+                          flexDirection: "column",
+                          position: "relative",
+                          minWidth: "0px",
+                          padding: "0px",
+                          margin: "0px",
+                          border: "0px",
+                          verticalAlign: "top",
+                          flex: "1 1 0%",
+                          fontWeight: 600,
+                          fontSize: "28px",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {name}
+                      </Box>{/* The updated Box with the Delete Meeting button */}
                     <Button
                       variant="contained"
                       color="error"
-                      startIcon={<DeleteIcon />} // Trash can icon
-                      onClick={handleOpenDialog} // Open dialog on click
+                      title="Delete Meeting"
+                      onClick={handleOpenDialog}
                       sx={{
-                        fontWeight: 600,
-                        fontSize: "16px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "0",
+                        minWidth: "40px",
+                        height: "40px",
                       }}
                     >
-                      Delete Meeting
+                      <DeleteIcon sx={{ fontSize: "20px" }} /> {/* Adjust the size of the icon if necessary */}
                     </Button>
+
+
                   </Box>
 
                   <Box
