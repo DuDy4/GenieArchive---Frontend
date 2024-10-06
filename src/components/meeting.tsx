@@ -270,7 +270,8 @@ const Meeting = () => {
             <DialogTitle id="alert-dialog-title">{"Is this meeting not relevant anymore?"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Deleted meetings cannot be undeleted. Are you sure you want to delete this meeting?
+                Are you sure you want to delete this meeting?{<br/>}{<br/>}
+                This action cannot be undone.
               </DialogContentText>
             </DialogContent>
             <DialogActions
