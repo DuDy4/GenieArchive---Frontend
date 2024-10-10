@@ -150,23 +150,6 @@ const Meeting = () => {
                       >
                         {name}
                       </Box>{/* The updated Box with the Delete Meeting button */}
-                    <Button
-                      variant="contained"
-                      color="error"
-                      title="Delete Meeting"
-                      onClick={handleOpenDialog}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "0",
-                        minWidth: "40px",
-                        height: "40px",
-                      }}
-                    >
-                      <DeleteIcon sx={{ fontSize: "20px" }} /> {/* Adjust the size of the icon if necessary */}
-                    </Button>
-
 
                   </Box>
 
@@ -256,38 +239,7 @@ const Meeting = () => {
             </Box>
           </Box>
 
-          {/* Warning dialog */}
-          <Dialog
-            open={isDialogOpen}
-            onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              style: { backdropFilter: "blur(4px)" }, // Add background blur effect
-            }}
-          >
-            <DialogTitle id="alert-dialog-title">{"Is this meeting not relevant anymore?"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Are you sure you want to delete this meeting?{<br/>}{<br/>}
-                This action cannot be undone.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions
-              sx={{
-                display: "flex",
-                justifyContent: "space-around", // Spacing around the buttons
-              }}
-            >
-              <Button onClick={handleCloseDialog} color="primary">
-                Go Back
-              </Button>
-              <Button onClick={handleDeleteMeeting} color="error" variant="contained" autoFocus>
-                I'm Sure - Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
+
         </div>
       </main>
     );
