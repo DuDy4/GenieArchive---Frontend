@@ -47,7 +47,6 @@ const MeetingOverview = ({tenantId}) => {
         ) : (
           <div className="flex justify-center items-center h-screen w-screen">
             <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
-
                 {error ?
                     <h2 className="text-3xl font-semibold text-gray-700 text-center leading-relaxed">{error.response?.data?.detail}</h2>
                     : <LoadingGenie withLoadingCircle={true} />}
