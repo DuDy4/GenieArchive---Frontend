@@ -285,26 +285,34 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="space-y-2">
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                Top news {attendeeInfo?.company ? `about ${attendeeInfo?.company}` : ""}
+                Top news
               </h4>
 
               <div className="flex flex-col gap-4">
                 {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow?.news?.map(
-                  ({ news_icon, title, link }: News, index: number) => (
+                  ({ media, title, link }: News, index: number) => (
                     <Link
                       to={link}
                       target="_blank"
                       key={index}
                       className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-                      {news_icon ? (
-                        <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
-                          <img src={news_icon} alt="news icon" />
-                        </div>
-                      ) : null}
 
-                      <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                        {title}{" "}
-                      </p>
+                      <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                          <div
+                            className="flex justify-between items-center cursor-pointer gap-2"
+                          >
+                          {iconRoutes[media.toLowerCase()] ? (
+                              <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
+                                <img src={iconRoutes[media.toLowerCase()]} alt="news icon" />
+                              </div>
+                            ) : null}
+
+                            <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
+                              {title}{" "}
+                            </p>
+
+                          </div>
+                        </div>
                     </Link>
                   )
                 )}

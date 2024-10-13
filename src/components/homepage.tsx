@@ -26,7 +26,7 @@ const Home = () => {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const { getMeetings } = useMeetingsContext();
 
   useEffect(() => {
