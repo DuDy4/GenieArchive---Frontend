@@ -31,14 +31,14 @@ const StorylanePopup = () => {
       const launched = localStorage.getItem(`guidedOnBoardingLaunched_${user?.sub}`);
       
       if (!launched && !isLaunched) {
-        handlePopup();
+        handleGuidedOnBoardingPopup();
       }
     } else if (!isAuthenticated) {
       console.log("User is NOT authenticated");
     }
   }, [isAuthenticated, isLoading, user, isStorylaneLoaded]);
 
-  const handlePopup = () => {
+  const handleGuidedOnBoardingPopup = () => {
     if (window.Storylane) {
       window.Storylane.Play({
         type: 'popup',
@@ -60,5 +60,6 @@ const StorylanePopup = () => {
 
   return null; // No need to display anything, just triggering the popup
 };
+
 
 export default StorylanePopup;
