@@ -65,7 +65,7 @@ const eventPropGetter = (event: Event, start: Date, end: Date, isSelected: boole
 const EventComponent = ({ event }) => {
   const eventTitle = event.title || "No Subject"; // Default if no title is provided
   return (
-    <div style={{ whiteSpace: 'wrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+    <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
       {eventTitle}
     </div>
   );
@@ -351,7 +351,9 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
             <Box
               sx={{
                 border: "none",
-                height: "100%",
+                minHeight: "calc(100% - 56px)",
+                maxHeight: "calc(100% - 56px)",
+                width: "100%",
                 marginTop: "0",
                 overflow: "auto",
                 overflowX: "hidden",
@@ -367,10 +369,12 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   defaultView="week"
                   events={events}
                   toolbar={false}
-                  timeslots={1} // Show one hour per slot
-                  step={60} // Each slot represents 60 minutes
-                  scrollToTime={new Date()} // Set default scroll position to "now"
-                  defaultDate={new Date()} // Set the default date to "today"
+                  min={new Date(0, 0, 0, 0, 0, 0)} // Default to 7 AM
+                  max={new Date(0, 0, 0, 23, 0, 0)} // Default to 9 PM
+                  timeslots={1}
+                  step={60}
+                  scrollToTime={new Date()}
+                  defaultDate={new Date()}
                   date={selectedDate}
                   onNavigate={handleNavigate}
                   formats={{
