@@ -1,6 +1,6 @@
 import axios, { Method } from 'axios';
 import { useToken } from '../providers/TokenProvider';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useCallback } from 'react';  
 
 class ApiClient {
   private baseURL: string;
@@ -34,22 +34,19 @@ class ApiClient {
   }
 }
 
-// Hook to use the ApiClient
+
 export const useApiClient = () => {
   const { isAdmin, fakeTenantId, token: accessToken } = useToken();
-//   console.log('isAdmin:', isAdmin);
-//     console.log('fakeTenantId:', fakeTenantId);
-//     console.log('accessToken:', accessToken);
 
   const apiClient = new ApiClient(import.meta.env.VITE_API_URL);
 
-  // Return a function to make requests with explicit arguments
-  const makeRequest = (method: Method, url: string, data?: any) => {
+  // Memoize the makeRequest function using useCallback
+  const makeRequest = useCallback((method: Method, url: string, data?: any) => {
     if (!accessToken) {
       throw new Error('AccessToken is missing');
     }
     return apiClient.request(method, url, accessToken, isAdmin, fakeTenantId, data);
-  };
+  }, [accessToken, isAdmin, fakeTenantId, apiClient]);
 
   return { makeRequest };
 };

@@ -6,7 +6,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
 import Meeting from "./components/meeting";
-import NewTicketForm from "./components/zendesk/zendeskTicketForm";
 import LoadingGenie from "./components/ui/loading-genie";
 
 import { TokenProvider } from "./providers/TokenProvider";
