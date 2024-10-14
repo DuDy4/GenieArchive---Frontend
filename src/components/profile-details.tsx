@@ -290,7 +290,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
               <div className="flex flex-col gap-4">
                 {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow?.news?.map(
-                  ({ media, title, link }: News, index: number) => (
+                  ({ media, title, summary, link }: News, index: number) => (
                     <Link
                       to={link}
                       target="_blank"
@@ -308,7 +308,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                             ) : null}
 
                             <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                              {title}{" "}
+                              {summary ? summary : title}{" "}
                             </p>
 
                           </div>
