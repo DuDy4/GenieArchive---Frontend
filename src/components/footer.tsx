@@ -106,14 +106,12 @@ const Footer: React.FC = () => {
           </Tooltip>
         </ButtonBase>
 
-        {isAdmin && (
         <FooterIcon
           Icon={EmojiEventsOutlined}
           showNotification={false}
           tooltipTitle="Challenges"
           onClick={() => setOpenBadges(true)}
         />
-        )}
 
 
         <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
