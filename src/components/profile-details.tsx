@@ -3,7 +3,8 @@ import { useState } from "react";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
 import Chart, { icons } from "./chart";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import useGoodToKnow from "../hooks/useGoodToKnow";
 import useAttendeeInfo from "../hooks/useAttendeeInfo";
 import { AttendeeInfoSocials, Connection, Hobby, News } from "../types";
@@ -11,6 +12,7 @@ import useGetToKnow from "../hooks/useGetToKnow";
 import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import LoadingGenie from "./ui/loading-genie";
+import SocialMediaFeed from "./SocialMediaFeed";
 import moment from "moment";
 import { useAuth0 } from "@auth0/auth0-react"
 import { isArray } from "chart.js/helpers";
@@ -44,6 +46,10 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   );
   console.log("GoodToKnow: ", goodToKnow);
   const strengths = useStrengths(user?.tenantId!, uuid);
+    const [isDialogOpen, setDialogOpen] = useState(false);
+
+    const handleDialogOpen = () => setDialogOpen(true);
+    const handleDialogClose = () => setDialogOpen(false);
 
       const toggleExpandPractices = (index: number) => {
         setPracticesExpandedIndex(practicesExpandedIndex === index ? null : index);
@@ -283,42 +289,58 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             {goodToKnow && goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
 
-            <div className="space-y-2">
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
+            <div className="space-y-2 cursor-pointer">
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Top news
               </h4>
 
-              <div className="flex flex-col gap-4">
-                {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow?.news?.map(
-                  ({ media, title, summary, link }: News, index: number) => (
-                    <Link
-                      to={link}
-                      target="_blank"
-                      key={index}
-                      className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-
-                      <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
-                          <div
-                            className="flex justify-between items-center cursor-pointer gap-2"
-                          >
-                          {iconRoutes[media.toLowerCase()] ? (
+              <div className="flex flex-col">
+                {goodToKnow.news && Array.isArray(goodToKnow.news) &&
+                  goodToKnow.news.slice(0, 2).map(
+                    ({ media, title, summary, link }: News, index: number) => (
+                      <Link
+                        to={link}
+                        target="_blank"
+                        key={index}
+                        className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1"
+                      >
+                        <div className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                          <div className="flex justify-between items-center cursor-pointer gap-2">
+                            {iconRoutes[media.toLowerCase()] ? (
                               <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
                                 <img src={iconRoutes[media.toLowerCase()]} alt="news icon" />
                               </div>
                             ) : null}
 
                             <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                              {summary ? summary : title}{" "}
+                              {summary && summary.length < 80 ? summary : `${title}...`}
                             </p>
-
                           </div>
                         </div>
-                    </Link>
-                  )
-                )}
+                      </Link>
+                    )
+                  )}
               </div>
+            </div>
             </div>)}
           </div>
+          {/* Dialog for Social Media Feed */}
+                <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md" fullWidth>
+                  <DialogTitle>
+                    Social Media Feed
+                    <IconButton
+                      aria-label="close"
+                      onClick={handleDialogClose}
+                      sx={{ position: 'absolute', right: 8, top: 8 }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </DialogTitle>
+                  <DialogContent dividers>
+                    <SocialMediaFeed news={goodToKnow?.news || []} name={name} />
+                  </DialogContent>
+                </Dialog>
         </div>
 
         {getToKnow && <div className="border space-y-6 border-primary-border py-[20px] px-[12px] rounded-2xl">

@@ -17,7 +17,7 @@ const Meeting = () => {
   const [value, setValue] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control dialog visibility
-  const { user } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   const tenantId = user?.tenantId;
   const { deleteMeeting } = useMeetingsContext();
   const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
@@ -54,6 +54,12 @@ const Meeting = () => {
         localStorage.setItem("openCalendar", JSON.stringify(true)); // or false
         };
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+    }, [isAuthenticated]);
 
    return (
       <main className="background">
