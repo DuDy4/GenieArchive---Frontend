@@ -6,12 +6,10 @@ import {
   Typography,
   Link,
   Tooltip,
-  Dialog,
-  IconButton
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import { Launch } from '@mui/icons-material';
 import iconRoutes from '../utils/iconRoutes.json';
+import ImageGalleryDialog from './ImageGalleryDialog'; // Import the new component
 
 interface NewsItem {
   date: string;
@@ -32,29 +30,19 @@ interface SocialMediaFeedProps {
 
 const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [initialIndex, setInitialIndex] = useState(0);
 
-  const handleOpen = (image: string) => {
-    setSelectedImage(image);
+  const handleOpen = (images: string[], index: number) => {
+    setSelectedImages(images);
+    setInitialIndex(index);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedImage(null);
-  };
-
-  const parseText = (text: string | null) => {
-    if (!text) return null;
-    return text
-      .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') // Remove URLs
-      .split('\n')
-      .map((sentence, index) => (
-        <span key={index}>
-          {sentence}
-          <br />
-        </span>
-      ));
+    setSelectedImages([]);
+    setInitialIndex(0);
   };
 
   return (
@@ -101,91 +89,56 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
 
             {(post.text || post.title) && (
               <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-                {parseText(post.text || post.title)}
+                {post.text || post.title}
               </Typography>
             )}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                gap: '5px',
-              }}
-            >
-              {post.images &&
-                post.images.slice(0, 4).map((image, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      flex: '1 1 calc(25% - 10px)', // Ensures each image takes up a quarter of the row with some spacing
-                      height: '150px',
-                      position: 'relative',
-                      cursor: 'pointer',
-                      overflow: 'hidden',
-                    }}
-                    onClick={() => handleOpen(post.images!, idx)}
-                  >
-                    <img
-                      src={image}
-                      alt="post"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                    {post.images.length > 4 && idx === 3 && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                          color: 'white',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '24px',
-                        }}
-                      >
-                        +{post.images.length - 4}
-                      </div>
-                    )}
-                  </div>
-                ))}
-            </div>
 
-            {/* Dialog for Image Display */}
-            <Dialog
+            {post.images && (
+              <div style={{ display: 'flex', gap: '5px', marginTop: '10px' }}>
+                {post.images.slice(0, 2).map((image, idx) => (
+                  <img
+                    key={idx}
+                    src={image}
+                    alt="post"
+                    style={{ width: '24%', cursor: 'pointer' }}
+                    onClick={() => handleOpen(post.images!, idx)}
+                  />
+                ))}
+                {post.images.length > 2 && post.images.slice(2, 3).map((image, idx) => (
+                     <img
+                       key={idx}
+                       src={image}
+                       alt="post"
+                       style={{ width: '24%', cursor: 'pointer' }}
+                       onClick={() => handleOpen(post.images!, idx)}
+                     />
+                   ))}
+                {post.images.length > 4 && (
+                  <div
+                    style={{
+                      width: '24%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#00000099',
+                      color: 'white',
+                      fontSize: '24px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleOpen(post.images!, 4)}
+                  >
+                    +{post.images.length - 4}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <ImageGalleryDialog
+              images={selectedImages}
               open={open}
+              initialIndex={initialIndex}
               onClose={handleClose}
-              maxWidth="md"
-              fullWidth
-              sx={{
-                '& .MuiDialog-paper': {
-                  backgroundColor: 'transparent',
-                  boxShadow: 'none',
-                  padding: 0,
-                },
-              }}
-            >
-              <IconButton
-                aria-label="close"
-                onClick={handleClose}
-                sx={{ position: 'absolute', right: 8, top: 8, color: 'white' }}
-              >
-                <CloseIcon />
-              </IconButton>
-              {selectedImage && (
-                <img
-                  src={selectedImage}
-                  alt="Selected post"
-                  style={{ width: '100%', objectFit: 'contain' }}
-                />
-              )}
-            </Dialog>
+            />
           </CardContent>
 
           <hr style={{ border: '0.5px solid #e0e0e0', margin: '5px 0' }} />
