@@ -331,9 +331,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             </div>)}
           </div>
           {/* Dialog for Social Media Feed */}
-                <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md" fullWidth>
-                  <DialogTitle>
-                    Social Media Feed
+                <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md"  sx={{padding: "0"}}>
                     <IconButton
                       aria-label="close"
                       onClick={handleDialogClose}
@@ -341,8 +339,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                     >
                       <CloseIcon />
                     </IconButton>
-                  </DialogTitle>
-                  <DialogContent dividers>
+                  <DialogContent dividers sx={{  maxWidth: '800px', padding: '0', paddingTop: "20px", backgroundColor: "#f5f5f5"}}>
                     <SocialMediaFeed news={goodToKnow?.news || []} name={name} />
                   </DialogContent>
                 </Dialog>
