@@ -1,6 +1,8 @@
 // SocialMediaFeed.tsx
-import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button, Link, Tooltip } from '@mui/material';
+import React, {useState} from 'react';
+import { Card, CardContent, CardActions, Typography, Button, Link, Tooltip, Dialog, DialogContent, DialogTitle,
+    IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { Launch } from '@mui/icons-material';
 import iconRoutes from '../utils/iconRoutes.json';
 
@@ -18,6 +20,19 @@ interface SocialMediaFeedProps {
 }
 
 const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
+
+    const [open, setOpen] = useState(false);
+      const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+      const handleOpen = (image: string) => {
+        setSelectedImage(image);
+        setOpen(true);
+      };
+
+      const handleClose = () => {
+        setOpen(false);
+        setSelectedImage(null);
+      };
 
     const parseText = (text: string) => {
       return text
@@ -52,9 +67,33 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
             <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
               {parseText(post.text)}
             </Typography>
-            {post.images && post.images.map((image, index) => (
-              <img key={index} src={image} alt="post" style={{ width: '100%', marginTop: '10px' }} />
-            ))}
+            {post.images && post.images.map((image, idx) => (
+                <img
+                  key={idx}
+                  src={image}
+                  alt="post"
+                  style={{ width: '100%', marginTop: '10px', cursor: 'pointer' }}
+                  onClick={() => handleOpen(image)}
+                />
+              ))}
+
+              {/* Dialog for Image Display */}
+              <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+                  <IconButton
+                    aria-label="close"
+                    onClick={handleClose}
+                    sx={{ position: 'absolute', right: 8, top: 8 }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  {selectedImage && (
+                    <img
+                      src={selectedImage}
+                      alt="Selected post"
+                      style={{ width: '100%' }}
+                    />
+                  )}
+              </Dialog>
           </CardContent>
           <hr style={{ border: '0.5px solid #e0e0e0', margin: '5px 0' }} />
 

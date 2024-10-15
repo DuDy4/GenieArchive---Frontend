@@ -291,9 +291,14 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
             <div className="space-y-2 cursor-pointer">
-              <h4 className="uppercase text-heading font-bold text-[12px]">
-                Top news
-              </h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="uppercase text-heading font-bold text-[12px]">
+                    Latest news
+                  </h4>
+                    <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer" onClick={handleDialogOpen}>
+                      See more
+                    </p>
+                </div>
 
               <div className="flex flex-col">
                 {goodToKnow.news && Array.isArray(goodToKnow.news) &&
