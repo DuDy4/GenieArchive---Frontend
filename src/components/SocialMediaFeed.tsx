@@ -76,6 +76,7 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
             boxShadow: 3,
             borderRadius: 2,
             backgroundColor: '#fff',
+            minWidth: '85%',
             maxWidth: '85%',
             alignSelf: 'center',
             padding: '10px',
@@ -98,9 +99,9 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
 
             <hr style={{ border: '1px solid #e0e0e0', margin: '10px 0' }} />
 
-            {post.text && (
+            {(post.text || post.title) && (
               <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-                {parseText(post.text)}
+                {parseText(post.text || post.title)}
               </Typography>
             )}
 
