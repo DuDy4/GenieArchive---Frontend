@@ -34,10 +34,10 @@ const NewsSection: React.FC<NewsSectionProps> = ({ news, company_name }) => {
               </div>
             ) : null}
 
-            <p className="font-normal text-[14px] leading-[20px] underline text-[#0073EA]">
+            <p className="font-bold text-[16px] leading-[20px] bold">
               {title}
             </p>
-            <p className="font-normal text-[12px] leading-[18px] text-[#333]">
+            <p className="font-normal text-[12px] leading-[18px] text-[#777777]">
                 {summary.slice(0, 200)}...
             </p>
           </Link>
