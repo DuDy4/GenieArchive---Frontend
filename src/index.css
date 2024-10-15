@@ -798,3 +798,23 @@ element {
 .preference-menu{
     width: 200px;
 }
+
+.rbc-time-header-cell {
+  padding-right: 13px; /* Adjust based on the scrollbar width */
+  box-sizing: border-box;
+}
+
+/* Ensure the calendar content aligns properly */
+.rbc-time-content {
+  overflow-y: scroll; /* Ensure scroll on the grid */
+}
+
+/* Hide the horizontal scrollbar if unnecessary */
+.rbc-time-content::-webkit-scrollbar {
+  width: 17px; /* Ensure the scrollbar width matches the padding */
+}
+
+.rbc-time-content {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
