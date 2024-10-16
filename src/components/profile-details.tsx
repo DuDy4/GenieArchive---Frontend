@@ -220,7 +220,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
       </div>
 
       <div className="flex flex-col gap-[24px]">
-        <div className="flex gap-[24px] w-full justify-betwee">
+        <div className="flex gap-[24px] w-full justify-between">
           <Chart uuid={uuid} />
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
@@ -241,11 +241,12 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                     <Link to={linkedin_url} target="_blank" key={index}>
                       <Tooltip title={name} arrow placement="top">
                         <div className="w-[48px] rounded-full">
-                          <img
-                            src={image_url || "/images/anonymous-user-8.svg"}
-                            alt="connection image"
-                            className="rounded-full max-w-full"
-                          />
+                            <img
+                              src="https://media.licdn.com/dms/image/D4E03AQH0swQX3ZPnNg/profile-displayphoto-shrink_400_400/0/1700657213394?e=1706140800&v=beta&t=mbB7NfQ7TLR72OR4U5yuzRD91mpdWpomwJ__0ggJXjI"
+                              alt="Profile picture"
+                              className="rounded-full max-w-full"
+                              onError={(e) => (e.currentTarget.src = '/images/anonymous-user-8.svg')}
+                            />
                         </div>
                       </Tooltip>
                     </Link>

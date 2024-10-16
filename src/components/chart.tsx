@@ -241,7 +241,8 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   };
 
   return (
-    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]">
+    <div className="w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]"
+    style={{ height: 'fit-content' }}>
       <h3 className="text-heading font-semibold text-[16px]">Top personality</h3>
       <div className="-mt-3">
         <Radar
