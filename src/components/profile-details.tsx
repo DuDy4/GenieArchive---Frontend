@@ -236,7 +236,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             {goodToKnow && goodToKnow.connections && Array.isArray(goodToKnow.connections)
                 && goodToKnow.connections.length > 0 && (
 
-            <div>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Relevant connections
               </h4>
@@ -262,7 +262,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             </div>)}
 
             {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
-            <div>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 {name} "Icebreakers"
               </h4>
