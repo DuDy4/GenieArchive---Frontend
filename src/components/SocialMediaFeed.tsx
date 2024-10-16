@@ -6,10 +6,8 @@ import {
   Typography,
   Link,
   Tooltip,
-  Dialog,
   IconButton
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import { Launch } from '@mui/icons-material';
 import iconRoutes from '../utils/iconRoutes.json';
 import ImageGalleryDialog from './ProfileDetailsComponents/ImageGalleryDialog';
@@ -33,17 +31,25 @@ interface SocialMediaFeedProps {
 
 const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
-  const handleOpen = (images: [], index: num) => {
-    setSelectedImage(images[index]);
+  const handleOpen = (images: string[], index: number) => {
+    setSelectedImages(images);
+    setSelectedImageIndex(index);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedImage(null);
+  };
+
+  const handlePrevious = () => {
+    setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : selectedImages.length - 1));
+  };
+
+  const handleNext = () => {
+    setSelectedImageIndex((prevIndex) => (prevIndex < selectedImages.length - 1 ? prevIndex + 1 : 0));
   };
 
   const parseText = (text: string | null) => {
@@ -106,6 +112,7 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
                 {parseText(post.text || post.title)}
               </Typography>
             )}
+
             <div
               style={{
                 display: 'flex',
@@ -120,43 +127,11 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
                     key={idx}
                     src={image}
                     alt="post"
-                    style={{ width: post.images.length === 1 ? '100%' : '49%',
-                        cursor: 'pointer',
-                        height: post.images.length === 1 ? '100%' : '49%',
-                        objectFit: 'cover' }}
+                    style={{ width: post.images.length === 1 ? '100%' : '49%', cursor: 'pointer', height: post.images.length === 1 ? '100%' : '49%', objectFit: 'cover' }}
                     onClick={() => handleOpen(post.images!, idx)}
                   />
                 ))}
             </div>
-            {/* Dialog for Image Display */}
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              maxWidth="md"
-              fullWidth
-              sx={{
-                '& .MuiDialog-paper': {
-                  backgroundColor: 'transparent',
-                  boxShadow: 'none',
-                  padding: 0,
-                },
-              }}
-            >
-              <IconButton
-                aria-label="close"
-                onClick={handleClose}
-                sx={{ position: 'absolute', right: 8, top: 8, color: 'white' }}
-              >
-                <CloseIcon />
-              </IconButton>
-              {selectedImage && (
-                <img
-                  src={selectedImage}
-                  alt="Selected post"
-                  style={{ width: '100%', objectFit: 'contain' }}
-                />
-              )}
-            </Dialog>
           </CardContent>
 
           <hr style={{ border: '0.5px solid #e0e0e0', margin: '5px 0' }} />
@@ -179,6 +154,16 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
           </CardActions>
         </Card>
       ))}
+
+      {/* Use the ImageGalleryDialog Component */}
+      <ImageGalleryDialog
+        open={open}
+        images={selectedImages}
+        selectedIndex={selectedImageIndex}
+        onClose={handleClose}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+      />
     </div>
   );
 };
