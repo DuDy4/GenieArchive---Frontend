@@ -25,6 +25,7 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
                 setError("Failed to load badges. Please try again later.");
             } finally {
                 setLoading(false);
+                console.log("Badges fetched successfully!: ", badges);
             }
         };
 
@@ -140,10 +141,16 @@ const BadgeItem: React.FC<{ badge: any }> = ({ badge }) => {
             <Box sx={{ width: "100%" }}>
                 <LinearProgress variant="determinate" value={progressPercentage} sx={{ height: 10, borderRadius: 5 }} />
                 <Typography variant="caption" sx={{ textAlign: "center", display: "block", marginTop: 1, fontWeight: "bold" }}>
-                    {isAchieved ? "Completed" : `${Math.min(badge.progress.count, badge.progress.goal)} / ${badge.progress.goal}`}
+                    {isAchieved ? (
+                        <div className="flex flex-row justify-center gap-1">
+                            <StarIcon sx={{ color: "#ffb300"}} />
+                            <div className="flex flex-column justify-center item-center">
+                                <span className="self-center">Completed</span>
+                            </div>
+                            <StarIcon sx={{ color: "#ffb300"}} />
+                        </div>) : `${Math.min(badge.progress.count, badge.progress.goal)} / ${badge.progress.goal}`}
                 </Typography>
             </Box>
-            {isAchieved && <StarIcon sx={{ color: "#ffb300", marginTop: 1 }} />}
         </Paper>
     );
 };
