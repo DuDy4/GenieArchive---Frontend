@@ -673,11 +673,6 @@ element {
     padding: 220px;
 }
 
-.icon-container {
-  position: relative;
-  width: 150px; /* Adjust based on your image size */
-  height: 150px;
-}
 
 .icon {
   width: 100%;

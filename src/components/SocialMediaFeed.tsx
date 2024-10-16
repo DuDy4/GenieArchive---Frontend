@@ -12,6 +12,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { Launch } from '@mui/icons-material';
 import iconRoutes from '../utils/iconRoutes.json';
+import ImageGalleryDialog from './ProfileDetailsComponents/ImageGalleryDialog';
 
 interface NewsItem {
   date: string;
@@ -33,9 +34,10 @@ interface SocialMediaFeedProps {
 const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
-  const handleOpen = (image: string) => {
-    setSelectedImage(image);
+  const handleOpen = (images: [], index: num) => {
+    setSelectedImage(images[index]);
     setOpen(true);
   };
 
@@ -113,50 +115,19 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
               }}
             >
               {post.images &&
-                post.images.slice(0, 4).map((image, idx) => (
-                  <div
+                post.images.map((image, idx) => (
+                  <img
                     key={idx}
-                    style={{
-                      flex: '1 1 calc(25% - 10px)', // Ensures each image takes up a quarter of the row with some spacing
-                      height: '150px',
-                      position: 'relative',
-                      cursor: 'pointer',
-                      overflow: 'hidden',
-                    }}
+                    src={image}
+                    alt="post"
+                    style={{ width: post.images.length === 1 ? '100%' : '49%',
+                        cursor: 'pointer',
+                        height: post.images.length === 1 ? '100%' : '49%',
+                        objectFit: 'cover' }}
                     onClick={() => handleOpen(post.images!, idx)}
-                  >
-                    <img
-                      src={image}
-                      alt="post"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                    {post.images.length > 4 && idx === 3 && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                          color: 'white',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '24px',
-                        }}
-                      >
-                        +{post.images.length - 4}
-                      </div>
-                    )}
-                  </div>
+                  />
                 ))}
             </div>
-
             {/* Dialog for Image Display */}
             <Dialog
               open={open}

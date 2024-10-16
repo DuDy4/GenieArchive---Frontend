@@ -381,7 +381,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                     timeGutterFormat: "h A",
                   }}
                   onSelectEvent={handleSelectEvent}
-                  className="hide-scrollbar"
                   eventPropGetter={eventPropGetter}
                   components={{
                     event: EventComponent, // Custom event rendering
