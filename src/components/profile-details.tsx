@@ -23,6 +23,13 @@ interface ProfilesDetailsProps {
   uuid: string;
 }
 
+const title = (hobby_name) => {
+    return hobby_name.replace(
+        /\w\S*/g,
+        text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+      );
+}
+
 
 const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth0();
@@ -231,12 +238,12 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
             <h3 className="font-semibold !text-[16px] text-heading">
-              Good to know
+              Ice Breakers
             </h3>
             {goodToKnow && goodToKnow.connections && Array.isArray(goodToKnow.connections)
                 && goodToKnow.connections.length > 0 && (
 
-            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Relevant connections
               </h4>
@@ -264,7 +271,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
             <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                {name} "Icebreakers"
+                {name.split(' ')[0]}'s interests
               </h4>
 
               <div className="flex gap-2">
@@ -274,7 +281,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       arrow
                       placement="top"
                       key={index}
-                      title={hobby_name}>
+                      title={title(hobby_name)}>
                       <div className="w-12 h-12">
                         <img
                           src={icon_url}
