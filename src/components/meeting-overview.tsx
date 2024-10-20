@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useMeetingOverview from '../hooks/useMeetingOverview';
 import LoadingGenie from './ui/loading-genie';
@@ -6,54 +6,67 @@ import ExternalMeetingDetails from './MeetingOverviewComponents/ExternalMeetingD
 import InternalMeetingDetails from './MeetingOverviewComponents/InternalMeetingDetails';
 import PrivateMeetingDetails from './MeetingOverviewComponents/PrivateMeetingDetails';
 
-const MeetingOverview = ({tenantId}) => {
-    const [currentTenantId, setCurrentTenantId] = useState(tenantId);
-    const { id } = useParams();
-    const meeting_uuid = id;
-    console.log(tenantId, meeting_uuid);
-    const { data, loading, error } = useMeetingOverview(tenantId!, meeting_uuid!);
-    const meeting = data?.meeting;
-    const classification = meeting?.classification;
-    console.log("Data",data);
-    console.log("Classification",classification);
+const MeetingOverview = ({ tenantId }) => {
+  const [currentTenantId, setCurrentTenantId] = useState(tenantId);
+  const { id } = useParams();
+  const meeting_uuid = id;
+  const [retryCount, setRetryCount] = useState(0);
+  const [showNotFound, setShowNotFound] = useState(false);
 
-    const renderMeetingDetails = () => {
-            switch (classification) {
-                case 'internal':
-                    return <InternalMeetingDetails data={data} />;
-                case 'private':
-                    return <PrivateMeetingDetails data={data} />;
-                default:
-                    return <ExternalMeetingDetails data={data} />;
-            }
-        };
+  const { data, loading, error } = useMeetingOverview(tenantId!, meeting_uuid!);
+  const meeting = data?.meeting;
+  const classification = data?.meeting?.classification;
 
-    useEffect(() => {
-        setCurrentTenantId(tenantId);
-    }, [tenantId]);
+  console.log('Data', data);
+  console.log('Classification', classification);
 
-    if (loading){
-
-        return (
-                <LoadingGenie withLoadingCircle={true} />
-            )
+  const renderMeetingDetails = () => {
+    switch (classification) {
+      case 'internal':
+        return <InternalMeetingDetails data={data} />;
+      case 'private':
+        return <PrivateMeetingDetails data={data} />;
+      default:
+        return <ExternalMeetingDetails data={data} />;
     }
+  };
 
+  useEffect(() => {
+    setCurrentTenantId(tenantId);
+  }, [tenantId]);
+
+  useEffect(() => {
+    if (!data && retryCount < 3) {
+      // Retry after 5 seconds
+      const retryTimeout = setTimeout(() => {
+        setRetryCount(retryCount + 1);
+      }, 3000);
+      return () => clearTimeout(retryTimeout);
+    } else if (!data && retryCount >= 3) {
+      setShowNotFound(true);
+    }
+  }, [data, loading, retryCount]);
+
+  if (loading || (retryCount < 3 && !data)) {
+    return <LoadingGenie withLoadingCircle={true} />;
+  }
 
   return (
-      <div className="w-full h-full-meeting flex justify-center items-center overflow-auto ">
-        {data ? (
-          renderMeetingDetails()
-        ) : (
-          <div className="flex justify-center items-center h-screen w-screen">
-            <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
-                {error ?
-                    <h2 className="text-3xl font-semibold text-gray-700 text-center leading-relaxed">{error.response?.data?.detail}</h2>
-                    : <LoadingGenie withLoadingCircle={true} />}
-            </div>
+    <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+      {data ? (
+        renderMeetingDetails()
+      ) : showNotFound ? (
+        <div className="flex justify-center items-center h-screen w-screen">
+          <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+            <h2 className="text-3xl font-semibold text-gray-700 text-center leading-relaxed">
+              Meeting-overview not found
+              <br />
+              {error ? <span className="text-lg text-gray-500">{error.message || JSON.stringify(error)}</span> : null}
+            </h2>
           </div>
-        )}
-      </div>
+        </div>
+      ) : null}
+    </div>
   );
 };
 
