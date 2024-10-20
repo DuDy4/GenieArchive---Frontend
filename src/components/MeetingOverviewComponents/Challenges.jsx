@@ -23,14 +23,14 @@ const Challenges = ({ challenges }) => {
             <ul className="text-gray-600 mt-2 flex flex-row gap-1">
                     {challenges.map((challenge, index) => (
                         <li
-                                    key={index}
-                                    className={`p-4 flex rounded-lg shadow transition cursor-pointer ${
-                                      expandedIndex === index
-                                        ? 'bg-blue-100 hover:bg-blue-200'
-                                        : 'bg-gray-50 hover:bg-gray-100'
-                                    }`}
-                                    onClick={() => toggleExpand(index)}
-                                  >
+                            key={index}
+                            className={`p-4 flex rounded-lg shadow transition cursor-pointer ${
+                              expandedIndex === index
+                                ? 'bg-blue-100 hover:bg-blue-200'
+                                : 'bg-gray-50 hover:bg-gray-100'
+                            }`}
+                            onClick={() => toggleExpand(index)}
+                          >
                             <div
                               className="flex justify-between items-center cursor-pointer"
                               onClick={() => toggleExpand(index)}
@@ -49,7 +49,7 @@ const Challenges = ({ challenges }) => {
                     <div className="flex justify-between items-center">
 
                       <p><strong>Reasoning:</strong></p>
-                      <p><strong>Score: {challenges[expandedIndex].score}</strong></p>
+                      <p><strong styles={{color: "gray"}}>Score: {challenges[expandedIndex].score}</strong></p>
                     </div>
                   <div className="text-gray-700 text-[14px] width-1 text-justify">{challenges[expandedIndex].reasoning}</div>
                 </div>
