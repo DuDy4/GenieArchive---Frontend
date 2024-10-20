@@ -20,6 +20,11 @@ const options = {
       borderWidth: 1.5,
       fill: "#000",
     },
+    point: {
+      pointStyle: 'circle',
+      radius: 5,
+      hoverRadius: 7,
+    },
   },
   responsive: true,
   scales: {
@@ -36,7 +41,11 @@ const options = {
         display: false,  // Hide tick labels (optional)
       },
       pointLabels: {
-        display: false,  // Hides the labels
+        font: {
+          size: 14,
+        },
+        display: false,
+        color: '#333', // Adjust point label color
       },
     },
   },
@@ -46,8 +55,8 @@ const options = {
     },
     tooltip: {
       callbacks: {
-        label: function (context: any) {
-          return `${context.label}: ${context.raw}`;
+        label: function (context) {
+          return `Score: ${context.raw}`;
         },
       },
     },
@@ -55,7 +64,6 @@ const options = {
   maintainAspectRatio: false,
 };
 
-// Function to calculate icon positions based on the canvas size
 const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
   const radians = (angle * Math.PI) / 180;
   const x = canvasWidth / 2 + radius * Math.cos(radians);
@@ -64,10 +72,10 @@ const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
 };
 
 const iconData = [
-  { angle: -80, radius: 0.15 },     // Top center
+  { angle: -80, radius: 0.15 },      // Top center
   { angle: 61, radius: 0.45 },       // Bottom right
-  { angle: 112, radius: 0.43 }, // Bottom left
-  { angle: 8, radius: 0.35 },    // Top right
+  { angle: 112, radius: 0.43 },      // Bottom left
+  { angle: 8, radius: 0.35 },        // Top right
   { angle: 168, radius: 0.30 },      // Top left
 ];
 
@@ -79,13 +87,14 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const canvasRef = useRef(null);
 
-  // Ensure data includes all strength scores
+  console.log("Strengths: ", strengths);
+
   const data = Array.isArray(strengths)
     ? strengths?.map((strength: Strength) => ({
         name: strength.strength_name || strength.strengths_name,
         image: icons[strength.strengths_name || strength.strength_name]["image"] || icons.Default,
         description: icons[strength.strengths_name || strength.strength_name]["description"] || "",
-        score: strength.score ?? 0, // Fallback to 0 if no score
+        score: strength.score ?? 0,
       }))
     : [];
 
@@ -97,12 +106,13 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
         fill: true,
         backgroundColor: "rgba(0, 115, 234, 0.35)",
         borderColor: "#0073EA",
-        pointRadius: 0,
+        pointRadius: 5, // Make points visible
+        pointHoverRadius: 7,
+        pointBackgroundColor: "#0073EA", // Point color
       },
     ],
   };
 
-  // Effect to update the canvas size dynamically
   useEffect(() => {
     const updateCanvasSize = () => {
       if (canvasRef.current) {
@@ -122,7 +132,7 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
 
   return (
     <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]">
-      <h3 className="text-heading font-semibold text-[16px]">Top personality</h3>
+      <h3 className="text-heading font-semibold text-[16px]">Top 5 personal strengths</h3>
       <div ref={canvasRef}>
         <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "auto" }} />
       </div>
@@ -130,7 +140,7 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
       {/* Render the icons and labels */}
       {iconData.map((item, index) => {
         const { x, y } = calculateIconPosition(item.angle, item.radius * canvasSize.width, canvasSize.width, canvasSize.height);
-        const currentStrength = data[index];  // Get the corresponding strength
+        const currentStrength = data[index];
 
         return (
           <div
