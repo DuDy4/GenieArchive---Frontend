@@ -1,12 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid } from "@mui/material";
-import { PictureAsPdf, InsertDriveFile, Close } from "@mui/icons-material";
+import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid, Chip, Tooltip } from "@mui/material";
+import { PictureAsPdf, InsertDriveFile, Close, CloudDone, ErrorOutline } from "@mui/icons-material";
 import axios from "axios";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
 interface FileUploadProps {
-    onClose: () => void; // Assuming onClose is always provided
+    onClose: () => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
@@ -14,7 +14,22 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
     const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
     const [uploading, setUploading] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+    const [uploadedFiles, setUploadedFiles] = useState<any[]>([]); // Ensure it's initialized as an empty array
     const { makeRequest } = useApiClient();
+
+    useEffect(() => {
+        // Fetch already uploaded files on mount
+        const fetchUploadedFiles = async () => {
+            try {
+                const response = await makeRequest('GET', "/uploaded-files");
+                setUploadedFiles(response || []); // Safely set as an empty array if response.data is undefined
+            } catch (error) {
+                console.error("Failed to fetch uploaded files.", error);
+                setUploadedFiles([]); // Ensure it stays as an empty array even on error
+            }
+        };
+        fetchUploadedFiles();
+    }, []);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
@@ -76,22 +91,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
 
     return (
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, backgroundColor: '#e3f2fd', position: 'relative' }}>
-            {/* <IconButton
-                onClick={onClose}
-                sx={{
-                    position: 'absolute',
-                    top: 16,
-                    right: 16,
-                    color: '#1565c0',
-                    backgroundColor: '#ffffff',
-                    '&:hover': {
-                        backgroundColor: '#f0f0f0',
-                    },
-                    boxShadow: 2,
-                }}
-            >
-                <Close />
-            </IconButton> */}
             <Box
                 {...getRootProps()}
                 sx={{
@@ -160,6 +159,38 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
                     Upload All
                 </Button>
             )}
+
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h5" sx={{ color: '#1565c0', mb: 2 }}>Uploaded Files</Typography>
+                <Grid container spacing={2}>
+                    {uploadedFiles.length > 0 ? uploadedFiles.map((file) => (
+                        <Grid item xs={12} key={file.uuid}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
+                                    <Box>
+                                        <Typography variant="body1">{file.file_name}</Typography>
+                                        <Box sx={{ mt: 1 }}>
+                                            {file.categories.map((category: string) => (
+                                                <Chip key={category} label={category} sx={{ mr: 1 }} />
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Tooltip title={`Status: ${file.status}`}>
+                                    {file.status === "COMPLETED" ? (
+                                        <CloudDone sx={{ color: "#4caf50", fontSize: 40 }} />
+                                    ) : (
+                                        <ErrorOutline sx={{ color: "#e74c3c", fontSize: 40 }} />
+                                    )}
+                                </Tooltip>
+                            </Box>
+                        </Grid>
+                    )) : (
+                        <Typography variant="body2" color="textSecondary">No uploaded files to display.</Typography>
+                    )}
+                </Grid>
+            </Box>
         </Paper>
     );
 };
