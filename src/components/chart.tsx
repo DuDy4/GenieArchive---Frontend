@@ -24,6 +24,7 @@ const options = {
       pointStyle: 'circle',
       radius: 5,
       hoverRadius: 7,
+
     },
   },
   responsive: true,
@@ -91,9 +92,9 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
 
   const data = Array.isArray(strengths)
     ? strengths?.map((strength: Strength) => ({
-        name: strength.strength_name || strength.strengths_name,
-        image: icons[strength.strengths_name || strength.strength_name]["image"] || icons.Default,
-        description: icons[strength.strengths_name || strength.strength_name]["description"] || "",
+        name: strength.strength_name.split(" ")[0],
+        image: icons[strength.strength_name.split(" ")[0]].image || icons.Default,
+        description: icons[strength.strength_name.split(" ")[0]]["description"] || "",
         score: strength.score ?? 0,
       }))
     : [];
