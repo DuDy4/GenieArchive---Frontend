@@ -91,12 +91,17 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   console.log("Strengths: ", strengths);
 
   const data = Array.isArray(strengths)
-    ? strengths?.map((strength: Strength) => ({
-        name: strength.strength_name.split(" ")[0],
-        image: icons[strength.strength_name.split(" ")[0]].image || icons.Default,
-        description: icons[strength.strength_name.split(" ")[0]]["description"] || "",
-        score: strength.score ?? 0,
-      }))
+    ? strengths?.map((strength: Strength) => {
+        const strengthKey = strength.strength_name ? strength.strength_name.split(" ")[0] : "";
+        const icon = icons[strengthKey] || icons.Default; // Default icon if not found
+
+        return {
+          name: strengthKey,
+          image: icon ? icon.image : "",
+          description: icon ? icon.description : "",
+          score: strength.score ?? 0,
+        };
+      })
     : [];
 
   const chartData = {
@@ -142,6 +147,9 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
       {iconData.map((item, index) => {
         const { x, y } = calculateIconPosition(item.angle, item.radius * canvasSize.width, canvasSize.width, canvasSize.height);
         const currentStrength = data[index];
+
+        // Skip rendering if currentStrength is undefined
+        if (!currentStrength) return null;
 
         return (
           <div
