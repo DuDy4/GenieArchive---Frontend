@@ -41,6 +41,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     user?.tenantId!,
     uuid
   );
+  console.log("Attendee Info: ", attendeeInfo);
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(
     user?.tenantId!,
     uuid
@@ -69,16 +70,18 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             setAvoidExpandedIndex(avoidExpandedIndex === index ? null : index);
         };
 
+    // This is a fallback in case the user does not get any data in all the hooks
     if (
-        attendeeInfo?.error === "Profile not found under this tenant" &&
-        goodToKnow?.error === "Profile not found under this tenant" &&
-        getToKnow?.error === "Profile not found under this tenant" &&
-        workExperience?.error === "Profile not found under this tenant"
+      !isLoadingAttendeeInfo && !attendeeInfo &&
+      !isLoadingGoodToKnow && !goodToKnow &&
+      !isLoadingGetToKnow && !getToKnow &&
+      !isLoadingWorkExperience && !workExperience
     ) {
         return (
             <div className="w-full h-full flex justify-center items-center">
                 <p className="text-[18px] text-[#9F9F9F]">
-                    An error occurred. It seems you do not have access to this profile.
+                    An error occurred.<br/><br/>
+                    It seems you do not have access to this profile.
                 </p>
             </div>
         );
@@ -293,7 +296,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             {goodToKnow && goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
 
-            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
             <div className="space-y-2 cursor-pointer">
                 <div className="flex items-center justify-between">
                   <h4 className="uppercase text-heading font-bold text-[12px]">
