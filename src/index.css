@@ -856,3 +856,18 @@ social-media-feed {
 .news-footer a:hover {
   text-decoration: underline;
 }
+
+.custom-scrollbar {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: auto; /* For Firefox */
+}
+
+/* Webkit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* thumb color */
+  border-radius: 10px; /* rounded edges on the scrollbar */
+}
