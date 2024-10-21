@@ -81,7 +81,8 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             <div className="w-full h-full flex justify-center items-center">
                 <p className="text-[18px] text-[#9F9F9F]">
                     An error occurred.<br/><br/>
-                    It seems you do not have access to this profile.
+                    It seems you do not have access to this profile. <br/><br/>
+                    Please contact your administrator.
                 </p>
             </div>
         );
