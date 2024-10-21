@@ -29,7 +29,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
         {company && (
           <div className="flex-1 mr-2">
             <div className="flex flex-row space-x-5">
-            {company.name !== "Unknown" &&
+            {company.name && company.name !== "Unknown" &&
               <CompanyOverview
                 name={company.name}
                 overview={company.description ? capitalizeFirstLetter(company.description) : company.overview}
@@ -59,9 +59,10 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
               </div>
             )}
           {agendaItems && agendaItems.length > 0 && company.name !== 'Unknown'?
-          <div className="participants-guidelines w-full">
+          (company && company.name && (
+              <div className="participants-guidelines w-full">
              <CompanyDetails details={company} />
-          </div>
+          </div>))
            : null}
           {news && news.length > 0 && <NewsSection news={news} company_name={company.name} />}
           {!company && <h1 className="text-2xl font-bold text-gray-700 mt-4">No company found for the meeting</h1>}
