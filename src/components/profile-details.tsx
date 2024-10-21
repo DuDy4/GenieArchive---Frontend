@@ -269,7 +269,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
 
             {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
-            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 {name.split(' ')[0]}'s interests
               </h4>
@@ -297,29 +297,27 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             {goodToKnow && goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
 
-            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
             <div className="space-y-2 cursor-pointer">
                 <div className="flex items-center justify-between">
                   <h4 className="uppercase text-heading font-bold text-[12px]">
                     Latest news
                   </h4>
-                    <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer" onClick={handleDialogOpen}>
-                      See more
+                    <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer">
+                          See more
                     </p>
                 </div>
 
               <div className="flex flex-col">
                 {goodToKnow.news && Array.isArray(goodToKnow.news) &&
                   goodToKnow.news.slice(0, 2).map(
-                    ({ media, title, summary, link }: News, index: number) => (
-                      <Link
-                        to={link}
-                        target="_blank"
+                    ({ media, title, summary }: News, index: number) => (
+                      <div
                         key={index}
                         className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1"
                       >
                         <div className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
-                          <div className="flex justify-between items-center cursor-pointer gap-2">
+                          <div className="flex justify-between items-center cursor-default gap-2">
                             {iconRoutes[media.toLowerCase()] ? (
                               <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
                                 <img src={iconRoutes[media.toLowerCase()]} alt="news icon" />
@@ -331,7 +329,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                             </p>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     )
                   )}
               </div>
