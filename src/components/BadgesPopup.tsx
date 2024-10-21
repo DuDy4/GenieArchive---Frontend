@@ -25,6 +25,7 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
                 setError("Failed to load badges. Please try again later.");
             } finally {
                 setLoading(false);
+                console.log("Badges fetched successfully!: ", badges);
             }
         };
 
@@ -108,7 +109,9 @@ const BadgeItem: React.FC<{ badge: any }> = ({ badge }) => {
                 padding: 3, 
                 borderRadius: "12px", 
                 display: "flex", 
-                flexDirection: "column", 
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "-webkit-fill-available",
                 alignItems: "center", 
                 backgroundColor: isAchieved ? "#e0f7fa" : "#fff", 
                 boxShadow: "0px 4px 12px rgba(0,0,0,0.1)", 
@@ -116,28 +119,38 @@ const BadgeItem: React.FC<{ badge: any }> = ({ badge }) => {
                 "&:hover": { transform: "scale(1.05)" }
             }}
         >
-            <Tooltip 
-                title={isAchieved ? "Achievement unlocked!" : `${badge.progress.count} / ${badge.progress.goal}`} 
-                arrow
-            >
-                <img 
-                    src={isAchieved 
-                        ? "https://frontedresources.blob.core.windows.net/images/badge-lamp.png" 
-                        : "https://frontedresources.blob.core.windows.net/images/badge-lamp-bw.png"
-                    } 
-                    alt={badge.name} 
-                    style={{ width: 60, height: 60, marginBottom: 12 }} 
-                />
-            </Tooltip>
-            <Typography variant="h6" sx={{ marginBottom: 1, textAlign: "center" }}>{badge.name}</Typography>
-            <Typography variant="body2" sx={{ marginBottom: 2, color: "#666", textAlign: "center" }}>{badge.description}</Typography>
+            <div style={{alignItems: 'center', justifyContent: 'center'}} >
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                    <Tooltip
+                        title={isAchieved ? "Achievement unlocked!" : `${badge.progress.count} / ${badge.progress.goal}`}
+                        arrow
+                    >
+                        <img
+                            src={isAchieved
+                                ? "https://frontedresources.blob.core.windows.net/images/badge-lamp.png"
+                                : "https://frontedresources.blob.core.windows.net/images/badge-lamp-bw.png"
+                            }
+                            alt={badge.name}
+                            style={{ width: 60, height: 60, marginBottom: 12, alignSelf: 'center' }}
+                        />
+                    </Tooltip>
+                </div>
+                <Typography variant="h6" sx={{ marginBottom: 1, textAlign: "center" }}>{badge.name}</Typography>
+                <Typography variant="body2" sx={{ marginBottom: 2, color: "#666", textAlign: "center" }}>{badge.description}</Typography>
+            </div>
             <Box sx={{ width: "100%" }}>
                 <LinearProgress variant="determinate" value={progressPercentage} sx={{ height: 10, borderRadius: 5 }} />
                 <Typography variant="caption" sx={{ textAlign: "center", display: "block", marginTop: 1, fontWeight: "bold" }}>
-                    {isAchieved ? "Completed" : `${Math.min(badge.progress.count, badge.progress.goal)} / ${badge.progress.goal}`}
+                    {isAchieved ? (
+                        <div className="flex flex-row justify-center gap-1">
+                            <StarIcon sx={{ color: "#ffb300"}} />
+                            <div className="flex flex-column justify-center item-center">
+                                <span className="self-center">Completed</span>
+                            </div>
+                            <StarIcon sx={{ color: "#ffb300"}} />
+                        </div>) : `${Math.min(badge.progress.count, badge.progress.goal)} / ${badge.progress.goal}`}
                 </Typography>
             </Box>
-            {isAchieved && <StarIcon sx={{ color: "#ffb300", marginTop: 1 }} />}
         </Paper>
     );
 };

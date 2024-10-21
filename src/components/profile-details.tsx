@@ -3,7 +3,8 @@ import { useState } from "react";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
 import Chart, { icons } from "./chart";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import useGoodToKnow from "../hooks/useGoodToKnow";
 import useAttendeeInfo from "../hooks/useAttendeeInfo";
 import { AttendeeInfoSocials, Connection, Hobby, News } from "../types";
@@ -11,6 +12,7 @@ import useGetToKnow from "../hooks/useGetToKnow";
 import useWorkExperience from "../hooks/useWorkExperience";
 import useStrengths from "../hooks/useStrengths";
 import LoadingGenie from "./ui/loading-genie";
+import SocialMediaFeed from "./SocialMediaFeed";
 import moment from "moment";
 import { useAuth0 } from "@auth0/auth0-react"
 import { isArray } from "chart.js/helpers";
@@ -19,6 +21,13 @@ import iconRoutes from "../utils/iconRoutes.json";
 interface ProfilesDetailsProps {
   name: string;
   uuid: string;
+}
+
+const title = (hobby_name) => {
+    return hobby_name.replace(
+        /\w\S*/g,
+        text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+      );
 }
 
 
@@ -32,6 +41,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     user?.tenantId!,
     uuid
   );
+  console.log("Attendee Info: ", attendeeInfo);
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(
     user?.tenantId!,
     uuid
@@ -43,7 +53,10 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     uuid
   );
   console.log("GoodToKnow: ", goodToKnow);
-  const strengths = useStrengths(user?.tenantId!, uuid);
+    const [isDialogOpen, setDialogOpen] = useState(false);
+
+    const handleDialogOpen = () => setDialogOpen(true);
+    const handleDialogClose = () => setDialogOpen(false);
 
       const toggleExpandPractices = (index: number) => {
         setPracticesExpandedIndex(practicesExpandedIndex === index ? null : index);
@@ -57,17 +70,19 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             setAvoidExpandedIndex(avoidExpandedIndex === index ? null : index);
         };
 
+    // This is a fallback in case the user does not get any data in all the hooks
     if (
-        attendeeInfo?.error === "Profile not found under this tenant" &&
-        goodToKnow?.error === "Profile not found under this tenant" &&
-        getToKnow?.error === "Profile not found under this tenant" &&
-        workExperience?.error === "Profile not found under this tenant" &&
-        strengths?.error === "Profile not found under this tenant"
+      !isLoadingAttendeeInfo && !attendeeInfo &&
+      !isLoadingGoodToKnow && !goodToKnow &&
+      !isLoadingGetToKnow && !getToKnow &&
+      !isLoadingWorkExperience && !workExperience
     ) {
         return (
             <div className="w-full h-full flex justify-center items-center">
                 <p className="text-[18px] text-[#9F9F9F]">
-                    An error occurred. It seems you do not have access to this profile.
+                    An error occurred.<br/><br/>
+                    It seems you do not have access to this profile. <br/><br/>
+                    Please contact your administrator.
                 </p>
             </div>
         );
@@ -169,11 +184,6 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
           </div>
 
           <div className="relative">
-            {/* <img
-              src="/images/Group 71.png"
-              alt="timeline"
-              className="absolute left-4  h-full mt-5 pb-7 overflow-hidden w-[2.5px]"
-            /> */}
 
             <div className="flex ml-[10px] flex-col gap-[20px]">
               {workExperience && Array.isArray(workExperience) && workExperience?.map(
@@ -220,17 +230,18 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
       </div>
 
       <div className="flex flex-col gap-[24px]">
-        <div className="flex gap-[24px] w-full justify-betwee">
+        <div className="flex gap-[24px] w-full justify-between">
+
           <Chart uuid={uuid} />
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
             <h3 className="font-semibold !text-[16px] text-heading">
-              Good to know
+              Ice Breakers
             </h3>
             {goodToKnow && goodToKnow.connections && Array.isArray(goodToKnow.connections)
                 && goodToKnow.connections.length > 0 && (
 
-            <div>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 Relevant connections
               </h4>
@@ -241,11 +252,12 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                     <Link to={linkedin_url} target="_blank" key={index}>
                       <Tooltip title={name} arrow placement="top">
                         <div className="w-[48px] rounded-full">
-                          <img
-                            src={image_url || "/images/anonymous-user-8.svg"}
-                            alt="connection image"
-                            className="rounded-full max-w-full"
-                          />
+                            <img
+                              src="https://media.licdn.com/dms/image/D4E03AQH0swQX3ZPnNg/profile-displayphoto-shrink_400_400/0/1700657213394?e=1706140800&v=beta&t=mbB7NfQ7TLR72OR4U5yuzRD91mpdWpomwJ__0ggJXjI"
+                              alt="Profile picture"
+                              className="rounded-full max-w-full"
+                              onError={(e) => (e.currentTarget.src = '/images/anonymous-user-8.svg')}
+                            />
                         </div>
                       </Tooltip>
                     </Link>
@@ -254,20 +266,22 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>)}
 
+
+
             {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
-            <div>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
               <h4 className="uppercase text-heading font-bold text-[12px]">
-                {name} "Icebreakers"
+                {name.split(' ')[0]}'s interests
               </h4>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap  gap-2">
                 {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow?.hobbies?.map(
                   ({ hobby_name, icon_url }: Hobby, index: number) => (
                     <Tooltip
                       arrow
                       placement="top"
                       key={index}
-                      title={hobby_name}>
+                      title={title(hobby_name)}>
                       <div className="w-12 h-12">
                         <img
                           src={icon_url}
@@ -283,42 +297,61 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
             {goodToKnow && goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
 
-            <div className="space-y-2">
-              <h4 className="uppercase text-heading font-bold text-[12px]">
-                Top news
-              </h4>
+            <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]">
+            <div className="space-y-2 cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <h4 className="uppercase text-heading font-bold text-[12px]">
+                    Latest news
+                  </h4>
+                    <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer" onClick={handleDialogOpen}>
+                      See more
+                    </p>
+                </div>
 
-              <div className="flex flex-col gap-4">
-                {goodToKnow.news && Array.isArray(goodToKnow.news) && goodToKnow?.news?.map(
-                  ({ media, title, link }: News, index: number) => (
-                    <Link
-                      to={link}
-                      target="_blank"
-                      key={index}
-                      className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-
-                      <div key={index} className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
-                          <div
-                            className="flex justify-between items-center cursor-pointer gap-2"
-                          >
-                          {iconRoutes[media.toLowerCase()] ? (
+              <div className="flex flex-col">
+                {goodToKnow.news && Array.isArray(goodToKnow.news) &&
+                  goodToKnow.news.slice(0, 2).map(
+                    ({ media, title, summary, link }: News, index: number) => (
+                      <Link
+                        to={link}
+                        target="_blank"
+                        key={index}
+                        className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1"
+                      >
+                        <div className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
+                          <div className="flex justify-between items-center cursor-pointer gap-2">
+                            {iconRoutes[media.toLowerCase()] ? (
                               <div className="bg-[#0073EA12] rounded-lg px-2 py-1 flex justify-center items-center max-w-[48px]">
                                 <img src={iconRoutes[media.toLowerCase()]} alt="news icon" />
                               </div>
                             ) : null}
 
                             <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                              {title}{" "}
+                              {summary && summary.length < 80 ? summary : `${title}...`}
                             </p>
-
                           </div>
                         </div>
-                    </Link>
-                  )
-                )}
+                      </Link>
+                    )
+                  )}
               </div>
+            </div>
             </div>)}
           </div>
+
+          {/* Dialog for Social Media Feed */}
+                <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md"  sx={{padding: "0"}}>
+                    <IconButton
+                      aria-label="close"
+                      onClick={handleDialogClose}
+                      sx={{ position: 'absolute', right: 8, top: 8 }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  <DialogContent dividers sx={{  maxWidth: '800px', padding: '0', paddingTop: "20px", backgroundColor: "#f5f5f5"}}>
+                    <SocialMediaFeed news={goodToKnow?.news || []} name={name} />
+                  </DialogContent>
+                </Dialog>
         </div>
 
         {getToKnow && <div className="border space-y-6 border-primary-border py-[20px] px-[12px] rounded-2xl">

@@ -4,6 +4,7 @@ import CompanyOverview from './CompanyOverview';
 import Participants from './Participants';
 import MeetingGuidelines from './MeetingGuidelines';
 import CompanyDetails from './CompanyDetails';
+import Challenges from './Challenges';
 import NewsSection from './NewsSection';
 
 function capitalizeFirstLetter(string: string) {
@@ -18,6 +19,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
   const news = company ? company.news : undefined;
   const link = meeting ? meeting.video_link : undefined;
   const classification = meeting ? meeting.classification : undefined;
+  console.log("company: ", company);
 
   return (
     <div className="meeting-details p-6">
@@ -35,6 +37,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
               />}
               {participants && <Participants participants={participants} />}
             </div>
+            {company.challenges && <Challenges challenges={company.challenges} />}
             {agendaItems && agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} duration={meeting.duration}/> : <CompanyDetails details={company} />}
           </div>
         )}

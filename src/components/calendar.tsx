@@ -165,7 +165,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     <>
 
       <CustomDrawer open={openCalendar} expand={expandCalendar}>
-        <Box sx={{ display: "flex", paddingTop: "0px", paddingBottom: "0px", height: "100%" }}>
+        <Box className="custom-calendar" sx={{ display: "flex", paddingTop: "0px", paddingBottom: "0px", height: "100%" }}>
           <Box sx={{ width: "100%", height: "100%", alignItems: "stretch", display: "flex", flexDirection: "column" }}>
             {/* Toolbar */}
             <Box
@@ -355,13 +355,13 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                 maxHeight: "calc(100% - 56px)",
                 width: "100%",
                 marginTop: "0",
-                overflow: "auto",
                 overflowX: "hidden",
                 scrollbarWidth: "none",
               }}
             >
                 <Calendar
                   localizer={localizer}
+                  className="custom-calendar hide-scrollbar"
                   startAccessor="start"
                   endAccessor="end"
                   view={expandCalendar ? "week" : "day"}
@@ -369,8 +369,8 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   defaultView="week"
                   events={events}
                   toolbar={false}
-                  min={new Date(0, 0, 0, 0, 0, 0)} // Default to 7 AM
-                  max={new Date(0, 0, 0, 23, 0, 0)} // Default to 9 PM
+                  min={new Date(0, 0, 0, 0, 0, 0)}
+                  max={new Date(0, 0, 0, 23, 0, 0)}
                   timeslots={1}
                   step={60}
                   scrollToTime={new Date()}
@@ -381,7 +381,6 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                     timeGutterFormat: "h A",
                   }}
                   onSelectEvent={handleSelectEvent}
-                  className="hide-scrollbar"
                   eventPropGetter={eventPropGetter}
                   components={{
                     event: EventComponent, // Custom event rendering
