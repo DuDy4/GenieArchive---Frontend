@@ -73,10 +73,10 @@ const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
 };
 
 const iconData = [
-  { angle: -80, radius: 0.15 },      // Top center
-  { angle: 61, radius: 0.45 },       // Bottom right
-  { angle: 112, radius: 0.43 },      // Bottom left
-  { angle: 8, radius: 0.35 },        // Top right
+  { angle: -82, radius: 0.18 },      // Top center
+  { angle: 8, radius: 0.35 }, // Top right
+ { angle: 61, radius: 0.45 }, // Bottom right
+   { angle: 112, radius: 0.43 },      // Bottom left
   { angle: 168, radius: 0.30 },      // Top left
 ];
 
@@ -132,7 +132,7 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   }, []);
 
   return (
-    <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]">
+    <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]" style={{ height: 'fit-content' }}>
       <h3 className="text-heading font-semibold text-[16px]">Top 5 personal strengths</h3>
       <div ref={canvasRef}>
         <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "auto" }} />

@@ -52,7 +52,6 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
     uuid
   );
   console.log("GoodToKnow: ", goodToKnow);
-  const strengths = useStrengths(user?.tenantId!, uuid);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleDialogOpen = () => setDialogOpen(true);
@@ -74,8 +73,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
         attendeeInfo?.error === "Profile not found under this tenant" &&
         goodToKnow?.error === "Profile not found under this tenant" &&
         getToKnow?.error === "Profile not found under this tenant" &&
-        workExperience?.error === "Profile not found under this tenant" &&
-        strengths?.error === "Profile not found under this tenant"
+        workExperience?.error === "Profile not found under this tenant"
     ) {
         return (
             <div className="w-full h-full flex justify-center items-center">
@@ -229,6 +227,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
       <div className="flex flex-col gap-[24px]">
         <div className="flex gap-[24px] w-full justify-between">
+
           <Chart uuid={uuid} />
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
@@ -263,13 +262,15 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>)}
 
+
+
             {goodToKnow && goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow.hobbies.length > 0 && (
             <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[16px] border border-[#dddddd]" onClick={handleDialogOpen}>
               <h4 className="uppercase text-heading font-bold text-[12px]">
                 {name.split(' ')[0]}'s interests
               </h4>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap  gap-2">
                 {goodToKnow.hobbies && Array.isArray(goodToKnow.hobbies) && goodToKnow?.hobbies?.map(
                   ({ hobby_name, icon_url }: Hobby, index: number) => (
                     <Tooltip
@@ -333,6 +334,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
             </div>
             </div>)}
           </div>
+
           {/* Dialog for Social Media Feed */}
                 <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md"  sx={{padding: "0"}}>
                     <IconButton
