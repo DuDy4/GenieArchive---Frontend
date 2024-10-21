@@ -4,7 +4,7 @@ import "chart.js/auto";
 import { useAuth0 } from "@auth0/auth0-react";
 import useStrengths from "../hooks/useStrengths";
 import { Strength } from "../types";
-import StrengthsIcons from "../utils/strengthsIcons.json";
+import StrengthsIcons from "../utils/StrengthsIcons.json";
 
 const options = {
   layout: {
