@@ -12,7 +12,6 @@ const FileUploadDialog = ({
   const [currentFrame, setCurrentFrame] = useState(0);
 
   useEffect(() => {
-      localStorage.removeItem(`hideFileUploadDialog_${user?.sub}`);
     const dialogPreference = localStorage.getItem(`hideFileUploadDialog_${user?.sub}`);
     if (!dialogPreference && isAuthenticated) {
       setIsDialogVisible(true);
@@ -133,7 +132,8 @@ const FileUploadDialog = ({
               </div>
             )}
             {currentFrame === 1 && (
-              <div>
+              <div className="flex flex-col items-center">
+              <img width="100" height="100" src="https://img.icons8.com/bubbles/100/checked.png" alt="checked"/>
                 <p>
                   <strong>Genie’s results are already impressive, but they can be even better.</strong><br /><br />
                   Genie excels at tailoring the sales process to your customer’s specific needs and preferences. <br /><br />
@@ -152,9 +152,7 @@ const FileUploadDialog = ({
 
           <div className="dialog-footer">
             {currentFrame > 0 && <button onClick={handleSkip}>Skip</button>}
-            <button onClick={handlePreviousFrame} disabled={currentFrame === 0}>
-              Back
-            </button>
+
 
             <button onClick={handleNextFrame}>
               {currentFrame < 2 ? 'Next' : 'Finish'}
