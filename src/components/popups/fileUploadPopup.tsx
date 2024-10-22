@@ -144,13 +144,12 @@ const FileUploadDialog = ({
             {currentFrame === 2 && (
               <div>
                 <p>
-                  In the "File Upload" section, you can upload PDF, PowerPoint or Word documents containing relevant information that you want Genie to consider.
-                </p>
+In the 'File Upload' section, you can upload PDF, PowerPoint, or Word documents with important details about your products, services, or other relevant business information, helping Genie provide more personalized insights and recommendations                </p>
               </div>
             )}
           </div>
 
-          <div className="dialog-footer">
+          <div className="dialog-footer" style={{justifyContent: currentFrame === 0 ? "end" : "space-between"}}>
             {currentFrame > 0 && <button onClick={handleSkip}>Skip</button>}
 
 
