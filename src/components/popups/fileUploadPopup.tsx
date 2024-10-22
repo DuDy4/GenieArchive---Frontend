@@ -33,17 +33,9 @@ const FileUploadDialog = ({
 
     if (isDialogVisible && currentFrame === 1) {
         removeAllAddedStyles();
-      if (preferencesButton) {
-//         preferencesButton.style.padding = '5px';
-        preferencesButton.style.animation = 'gold-ring-animation 1.5s infinite';
-        preferencesButton.addEventListener('click', handleNextFrame);
-      }
-    }
+        const preferencesButton = document.getElementById('preferencesButton');
+          if (preferencesButton) {
 
-    if (isDialogVisible && currentFrame === 2) {
-      removeAllAddedStyles();
-      const preferencesButton = document.getElementById('preferencesButton');
-      if (preferencesButton) {
         handleOpenPreferencesMenu({ currentTarget: preferencesButton });
 
         // Wait for the preferences menu to render before applying the animation
@@ -51,6 +43,8 @@ const FileUploadDialog = ({
           const fileUploadButton = document.getElementById('file-upload-button');
           if (fileUploadButton) {
             console.log('Applying animation to file-upload-button');
+            preferencesButton.style.animation = 'gold-ring-animation 1.5s infinite';
+
             fileUploadButton.style.animation = 'gold-rectangle-animation 1.5s infinite';
           } else {
             console.log('Could not find file-upload-button');
@@ -59,7 +53,7 @@ const FileUploadDialog = ({
       }
     }
 
-    if (isDialogVisible && currentFrame === 3) {
+    if (isDialogVisible && currentFrame === 2) {
       // First close the preferences menu
         setOpenFileUpload(true);
 
@@ -67,6 +61,7 @@ const FileUploadDialog = ({
     }
 
     ;
+
   }, [currentFrame, isDialogVisible]);
 
     const removeAllAddedStyles = () => {
@@ -95,10 +90,11 @@ const FileUploadDialog = ({
   };
 
   const handleNextFrame = () => {
-    if (currentFrame < 3) {
+    if (currentFrame < 2) {
       setCurrentFrame(currentFrame + 1);
     } else {
         localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
+        removeAllAddedStyles();
       handleCloseDialog();
     }
   };
@@ -110,57 +106,49 @@ const FileUploadDialog = ({
     };
 
   const handleCloseDialog = () => {
-    setIsDialogVisible(false);
-    handleClosePreferencesMenu(); // Close preferences menu when the dialog closes
+    handleSkip();
+    setOpenFileUpload(true);
   };
 
   const handleSkip = () => {
     setIsDialogVisible(false);
     removeAllAddedStyles(); // Close preferences menu if skipped
     localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
-
   };
 
   return (
     isDialogVisible && (
-        <div className={`dialog-overlay${currentFrame === 3 ? " bottom" : ""}`}>
+        <div className={`dialog-overlay${currentFrame === 2 ? " bottom" : ""}`}>
         <div className="dialog-content">
           <div className="dialog-body">
-          {currentFrame === 0 && (
+            {currentFrame === 0 && (
               <div className="flex flex-col justify-center items-center gap-4">
-
-                <img src="/images/image9.png" style={{width: "84px", height: "84px"}} /><strong>Hey there!</strong>
-                 <p>To work some real magic, Genie needs a little help from you.
-                 Upload a few sales docs so Genie can get to know your product better.<br/><br/>
-                The more it knows, the smarter it gets – and that means better insights for you. Let’s make your deals shine!
+                <img src="/images/image9.png" style={{ width: "84px", height: "84px" }} alt="Welcome Icon" />
+                <strong>Welcome to Genie!</strong>
+                <p>
+                  You’re logged in and all set to go! <br /><br />
+                  Genie has created a calendar with all your upcoming meetings. Right now, it’s busy preparing detailed profiles for each person you’ll be meeting.
                 </p>
-                </div>)}
+              </div>
+            )}
             {currentFrame === 1 && (
               <div>
                 <p>
-                  Our system specializes in hyper-personalizing your sales and figuring out who you're meeting.
-                  <br />
-                  But it can be better. It could give more precise results, tailor-made to your company.
+                  <strong>Genie’s results are already impressive, but they can be even better.</strong><br /><br />
+                  Genie excels at tailoring the sales process to your customer’s specific needs and preferences. <br /><br />
+                  With a little more context, Genie can highlight the key details that will resonate most with your customer.
                 </p>
               </div>
             )}
             {currentFrame === 2 && (
               <div>
                 <p>
-                  We made it possible for you to upload files about your company, and we will use AI to implement it
-                  into Genie's results.
-                </p>
-              </div>
-            )}
-            {currentFrame === 3 && (
-              <div>
-                <p>
-                  In the file upload section, you can insert PDF, Powerpoint, Word, and other files containing relevant
-                  data you want the Genie to know.
+                  In the "File Upload" section, you can upload PDF, PowerPoint or Word documents containing relevant information that you want Genie to consider.
                 </p>
               </div>
             )}
           </div>
+
           <div className="dialog-footer">
             {currentFrame > 0 && <button onClick={handleSkip}>Skip</button>}
             <button onClick={handlePreviousFrame} disabled={currentFrame === 0}>
@@ -168,7 +156,7 @@ const FileUploadDialog = ({
             </button>
 
             <button onClick={handleNextFrame}>
-              {currentFrame < 3 ? 'Next' : 'Finish'}
+              {currentFrame < 2 ? 'Next' : 'Finish'}
             </button>
           </div>
         </div>
