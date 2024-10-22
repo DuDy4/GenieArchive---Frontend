@@ -35,6 +35,11 @@ const Footer: React.FC = () => {
     setAnchorElPreferences(null);
   };
 
+  const handleCloseFileUpload = () => {
+    setOpenFileUpload(false);
+    handleClosePreferencesMenu();
+  }
+
   // Handlers for Contact Us menu
   const handleClickContact = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElContact(event.currentTarget);
@@ -107,7 +112,7 @@ const Footer: React.FC = () => {
             maxWidth="md" // Sets the max width, you can try "lg" or "xl" as well depending on how wide you want
             sx={{ width: '90%' }} // Use 90% of the screen width
           >
-            <FileUpload />
+            <FileUpload onClose={() => setOpenFileUpload(false)}/>
           </Dialog>
 
           <MenuItem sx={{ display: "flex", justifyContent: "end", gap: "10px" }}>
@@ -135,7 +140,7 @@ const Footer: React.FC = () => {
 
 
         <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
-          <ContactUs open={openContactModal} onClose={() => setOpenContactModal(false)} />
+          <ContactUs open={openContactModal} onClose={() => handleCloseFileUpload()} />
         </Dialog>
 
 

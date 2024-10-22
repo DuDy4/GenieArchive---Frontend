@@ -94,6 +94,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
 
     return (
         <Paper elevation={3} sx={{width: 'fitContent', padding: 3, borderRadius: 2, backgroundColor: '#e3f2fd', position: 'relative', minWidth: 'fitContent'}}>
+
+                  <IconButton
+                    aria-label="close"
+                    onClick={onClose}
+                    sx={{ position: 'absolute', top: 8, right: 8 }}>
+                    <Close />
+                  </IconButton>
+
             <Grid container spacing={2}>
                 <Typography variant="h4" sx={{ color: '#1565c0', padding: '10px' }}>Upload Company Files</Typography>
                 <Typography variant="body2" sx={{ color: '#1565c0', padding: '10px', textAlign: 'center' }}>
