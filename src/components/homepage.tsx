@@ -126,7 +126,6 @@ const Home = () => {
           <Typography>Calendar</Typography>
           
         </div>}
-        <StorylanePopup />
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">

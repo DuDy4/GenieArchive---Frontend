@@ -871,17 +871,19 @@ social-media-feed {
   background-color: rgba(0, 0, 0, 0.3); /* thumb color */
   border-radius: 10px; /* rounded edges on the scrollbar */
 }
+
 .dialog-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Slight transparent black overlay */
+  background: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
+  backdrop-filter: blur(0); /* Blur effect for the background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it stays on top */
+  z-index: 9999;
 }
 
 .dialog-overlay.bottom {
@@ -891,20 +893,19 @@ social-media-feed {
 
 
 .dialog-content {
-  background-color: white; /* Distinct background */
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  z-index: 10000; /* Ensure content is in front of overlay */
-  color: #333; /* Darker text for better contrast */
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  text-align: center;
 }
 
 .dialog-body {
-  margin-bottom: 20px; /* Space between text and footer */
-  font-size: 16px; /* Adjusted for readability */
-  line-height: 1.5; /* Increased line-height for better readability */
-  color: #333; /* Ensure text is dark */
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .dialog-footer {
@@ -915,12 +916,14 @@ social-media-feed {
 }
 
 .dialog-footer button {
-  padding: 8px 16px;
-  background-color: #007BFF;
+  background-color: #007BFF; /* Matches primary button color */
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .dialog-footer button:hover {
@@ -929,7 +932,7 @@ social-media-feed {
 
 .dialog-footer label {
   font-size: 14px;
-  color: #333;
+  color: #666;
 }
 
 /* Preferences Button Styling */

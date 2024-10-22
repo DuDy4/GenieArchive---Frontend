@@ -10,9 +10,9 @@ const FileUploadDialog = ({
     const { isAuthenticated, user } = useAuth0();
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
+      localStorage.removeItem(`hideFileUploadDialog_${user?.sub}`);
     const dialogPreference = localStorage.getItem(`hideFileUploadDialog_${user?.sub}`);
     if (!dialogPreference && isAuthenticated) {
       setIsDialogVisible(true);
@@ -27,7 +27,7 @@ const FileUploadDialog = ({
   useEffect(() => {
     const preferencesButton = document.getElementById('preferencesButton');
 
-    if (isDialogVisible && currentFrame === 0) {
+    if (isDialogVisible && currentFrame === 1) {
         removeAllAddedStyles();
       if (preferencesButton) {
 //         preferencesButton.style.padding = '5px';
@@ -36,7 +36,7 @@ const FileUploadDialog = ({
       }
     }
 
-    if (isDialogVisible && currentFrame === 1) {
+    if (isDialogVisible && currentFrame === 2) {
       removeAllAddedStyles();
       const preferencesButton = document.getElementById('preferencesButton');
       if (preferencesButton) {
@@ -55,7 +55,7 @@ const FileUploadDialog = ({
       }
     }
 
-    if (isDialogVisible && currentFrame === 2) {
+    if (isDialogVisible && currentFrame === 3) {
       // First close the preferences menu
         setOpenFileUpload(true);
 
@@ -91,7 +91,7 @@ const FileUploadDialog = ({
   };
 
   const handleNextFrame = () => {
-    if (currentFrame < 2) {
+    if (currentFrame < 3) {
       setCurrentFrame(currentFrame + 1);
     } else {
         localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
@@ -106,9 +106,6 @@ const FileUploadDialog = ({
     };
 
   const handleCloseDialog = () => {
-    if (dontShowAgain) {
-      localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
-    }
     setIsDialogVisible(false);
     handleClosePreferencesMenu(); // Close preferences menu when the dialog closes
   };
@@ -116,9 +113,8 @@ const FileUploadDialog = ({
   const handleSkip = () => {
     setIsDialogVisible(false);
     removeAllAddedStyles(); // Close preferences menu if skipped
-    if (dontShowAgain) {
-      localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
-    }
+    localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
+
   };
 
   return (
@@ -126,7 +122,16 @@ const FileUploadDialog = ({
         <div className={`dialog-overlay${currentFrame === 2 ? " bottom" : ""}`}>
         <div className="dialog-content">
           <div className="dialog-body">
-            {currentFrame === 0 && (
+          {currentFrame === 0 && (
+              <div className="flex column justify-center items-center gap-4">
+
+                <img src="/images/image9.png" style={{width: "84px", height: "84px"}} /><strong>Hey there!</strong>
+                 <p>To work some real magic, Genie need a little help from you.
+                 Upload a few sales docs so Genie can get to know your product better.<br/><br/>
+                The more it knows, the smarter it gets – and that means better insights for you. Let’s make your deals shine!
+                </p>
+                </div>)}
+            {currentFrame === 1 && (
               <div>
                 <p>
                   Our system specializes in hyper-personalizing your sales and figuring out who you're meeting.
@@ -135,7 +140,7 @@ const FileUploadDialog = ({
                 </p>
               </div>
             )}
-            {currentFrame === 1 && (
+            {currentFrame === 2 && (
               <div>
                 <p>
                   We made it possible for you to upload files about your company, and we will use AI to implement it
@@ -143,7 +148,7 @@ const FileUploadDialog = ({
                 </p>
               </div>
             )}
-            {currentFrame === 2 && (
+            {currentFrame === 3 && (
               <div>
                 <p>
                   In the file upload section, you can insert PDF, Powerpoint, Word, and other files containing relevant
@@ -153,20 +158,13 @@ const FileUploadDialog = ({
             )}
           </div>
           <div className="dialog-footer">
-            <label>
-              <input
-                type="checkbox"
-                checked={dontShowAgain}
-                onChange={(e) => setDontShowAgain(e.target.checked)}
-              />
-              Don't show this again
-            </label>
-            <button onClick={handleSkip}>Skip {dontShowAgain ? '' : "for now"}</button>
-            {currentFrame > 0 && <button onClick={handlePreviousFrame}>
+            {currentFrame > 0 && <button onClick={handleSkip}>Skip</button>}
+            <button onClick={handlePreviousFrame} disabled={currentFrame === 0}>
               Back
-            </button>}
+            </button>
+
             <button onClick={handleNextFrame}>
-              {currentFrame < 2 ? 'Next' : 'Finish'}
+              {currentFrame < 3 ? 'Next' : 'Finish'}
             </button>
           </div>
         </div>
