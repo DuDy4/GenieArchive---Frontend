@@ -11,6 +11,7 @@ import FileUpload from './file-upload';
 import BadgesPopup from './BadgesPopup';
 import FooterIcon from './footer-icon';
 import CustomStyledMenu from './Menus/StyledMenu';
+import FileUploadDialog from './popups/fileUploadPopup';
 
 const Footer: React.FC = () => {
   const [anchorElPreferences, setAnchorElPreferences] = useState<null | HTMLElement>(null);
@@ -25,6 +26,10 @@ const Footer: React.FC = () => {
   const handleClickPreferences = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElPreferences(event.currentTarget);
   };
+
+    const handleOpenPreferencesMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorElPreferences(event.currentTarget); // Open preferences menu
+    };
 
   const handleClosePreferencesMenu = () => {
     setAnchorElPreferences(null);
@@ -44,16 +49,20 @@ const Footer: React.FC = () => {
     setOpenContactModal(true);
   };
 
+
+
+
   return (
     <>
       <div className="footer">
-        <ButtonBase onClick={handleClickPreferences}>
+        <ButtonBase id="preferencesButton" onClick={handleClickPreferences}>
           <Tooltip arrow title="Preferences" placement="top">
             <SettingsOutlined />
           </Tooltip>
         </ButtonBase>
 
         <CustomStyledMenu
+          id="preferences-menu"
           anchorEl={anchorElPreferences}
           open={Boolean(anchorElPreferences)}
           onClose={handleClosePreferencesMenu}
@@ -79,14 +88,25 @@ const Footer: React.FC = () => {
 
 
           <MenuItem
+            id="file-upload-button"
             onClick={() => setOpenFileUpload(true)}
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
             <Typography sx={{ fontWeight: 500, fontSize: 16 }}>Upload Files</Typography>
-            <FaChevronRight />
+
+            {/* Wrap the icon in a div with an ID */}
+            <div>
+              <FaChevronRight />
+            </div>
           </MenuItem>
 
-          <Dialog open={openFileUpload} onClose={() => setOpenFileUpload(false)}>
+          <Dialog
+            open={openFileUpload}
+            onClose={() => setOpenFileUpload(false)}
+            fullWidth // Ensures the dialog uses the maximum available width
+            maxWidth="md" // Sets the max width, you can try "lg" or "xl" as well depending on how wide you want
+            sx={{ width: '90%' }} // Use 90% of the screen width
+          >
             <FileUpload />
           </Dialog>
 
@@ -123,6 +143,14 @@ const Footer: React.FC = () => {
           <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} />
         </Dialog>
       </div>
+      {/* Pass the anchorEl and handlers to the FileUploadDialog */}
+      <FileUploadDialog
+          anchorElPreferences={anchorElPreferences}
+          handleOpenPreferencesMenu={handleClickPreferences}
+          handleClosePreferencesMenu={handleClosePreferencesMenu}
+          setOpenFileUpload={setOpenFileUpload} // Pass the function to open dialog
+        />
+
     </>
   );
 };

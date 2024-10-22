@@ -15,7 +15,7 @@ import ContactUs from "./ContactUs";
 import Logout from "./Logout";
 import SearchAttendes from "./search-attendees";
 import UpcomingMeetings from "./upcoming-meetings";
-import StorylanePopup from "./storylane-popup";
+import StorylanePopup from "./popups/storylane-popup";
 import { useMeetingsContext } from "../providers/MeetingsProvider";
 
 const selfUrl = import.meta.env.VITE_SELF_URL;
@@ -126,7 +126,6 @@ const Home = () => {
           <Typography>Calendar</Typography>
           
         </div>}
-        <StorylanePopup />
       </Box>
 
       <div className="h-full flex flex-col z-[10] absolute items-center w-full">
@@ -151,6 +150,7 @@ const Home = () => {
         onMouseEnter={() => setOpenCalendar(true)}
       >
         <Box
+          id = "calendarBox"
           sx={{
             borderRadius: "8px",
             background: "rgba(255, 255, 255, 0.6)",

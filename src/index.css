@@ -871,3 +871,121 @@ social-media-feed {
   background-color: rgba(0, 0, 0, 0.3); /* thumb color */
   border-radius: 10px; /* rounded edges on the scrollbar */
 }
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
+  backdrop-filter: blur(0); /* Blur effect for the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.dialog-overlay.bottom {
+  align-items: flex-end;
+  padding-bottom: 20px; /* Space between dialog and bottom */
+}
+
+
+.dialog-content {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  text-align: center;
+}
+
+.dialog-body {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.dialog-footer button {
+  background-color: #007bff; /* Primary color for buttons */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-footer button:disabled {
+  background-color: #e0e0e0; /* Disabled state color */
+  color: #999;
+  cursor: not-allowed;
+}
+
+.dialog-footer button:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.dialog-footer button:active {
+  background-color: #003d80; /* Even darker shade when active */
+  transform: translateY(1px); /* Pressed effect */
+}
+
+.dialog-footer label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Preferences Button Styling */
+#preferencesButton {
+  z-index: 10000; /* Keep it in front of the blurred elements */
+  cursor: pointer;
+}
+
+/* Gold circle animation around the preferences button */
+@keyframes gold-ring-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 1); /* Start small */
+    border-radius: 50%;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(255, 215, 0, 0.9); /* Expand the gold circle */
+    border-radius: 50%;
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 1); /* Return to original size */
+    border-radius: 50%;
+    transform: scale(1);
+  }
+}
+
+@keyframes gold-rectangle-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); /* Start small */
+    border-radius: 10px; /* Rounded corners for a rectangle effect */
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(255, 215, 0, 0.5); /* Larger glow at midpoint */
+    border-radius: 10px;
+    transform: scale(1.05); /* Slightly grow */
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); /* Return to initial size */
+    border-radius: 10px;
+    transform: scale(1);
+  }
+}
