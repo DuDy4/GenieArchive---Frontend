@@ -107,6 +107,7 @@ const FileUploadDialog = ({
 
   const handleCloseDialog = () => {
     handleSkip();
+    handleOpenPreferencesMenu({ currentTarget: document.getElementById('preferencesButton') });
     setOpenFileUpload(true);
   };
 
