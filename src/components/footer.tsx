@@ -88,11 +88,16 @@ const Footer: React.FC = () => {
 
 
           <MenuItem
+            id="file-upload-button"
             onClick={() => setOpenFileUpload(true)}
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
             <Typography sx={{ fontWeight: 500, fontSize: 16 }}>Upload Files</Typography>
-            <FaChevronRight />
+
+            {/* Wrap the icon in a div with an ID */}
+            <div>
+              <FaChevronRight />
+            </div>
           </MenuItem>
 
           <Dialog
@@ -140,10 +145,11 @@ const Footer: React.FC = () => {
       </div>
       {/* Pass the anchorEl and handlers to the FileUploadDialog */}
       <FileUploadDialog
-        anchorElPreferences={anchorElPreferences}
-        handleOpenPreferencesMenu={handleOpenPreferencesMenu}
-        handleClosePreferencesMenu={handleClosePreferencesMenu}
-      />
+          anchorElPreferences={anchorElPreferences}
+          handleOpenPreferencesMenu={handleClickPreferences}
+          handleClosePreferencesMenu={handleClosePreferencesMenu}
+          setOpenFileUpload={setOpenFileUpload} // Pass the function to open dialog
+        />
 
     </>
   );

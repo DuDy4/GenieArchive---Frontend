@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const FileUploadDialog = ({ anchorElPreferences, handleOpenPreferencesMenu, handleClosePreferencesMenu }) => {
-  const { isAuthenticated, user } = useAuth0();
+const FileUploadDialog = ({
+  anchorElPreferences,
+  handleOpenPreferencesMenu,
+  handleClosePreferencesMenu,
+  setOpenFileUpload, // Prop from Footer to control FileUpload dialog
+}) => {
+    const { isAuthenticated, user } = useAuth0();
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
   const [dontShowAgain, setDontShowAgain] = useState(false);
@@ -23,35 +28,63 @@ const FileUploadDialog = ({ anchorElPreferences, handleOpenPreferencesMenu, hand
     const preferencesButton = document.getElementById('preferencesButton');
 
     if (isDialogVisible && currentFrame === 0) {
+        removeAllAddedStyles();
       if (preferencesButton) {
-        preferencesButton.style.padding = '5px';
+//         preferencesButton.style.padding = '5px';
         preferencesButton.style.animation = 'gold-ring-animation 1.5s infinite';
         preferencesButton.addEventListener('click', handleNextFrame);
       }
     }
 
     if (isDialogVisible && currentFrame === 1) {
-        removeAllAddedStyles();
+      removeAllAddedStyles();
+      const preferencesButton = document.getElementById('preferencesButton');
       if (preferencesButton) {
         handleOpenPreferencesMenu({ currentTarget: preferencesButton });
+
+        // Wait for the preferences menu to render before applying the animation
+        setTimeout(() => {
+          const fileUploadButton = document.getElementById('file-upload-button');
+          if (fileUploadButton) {
+            console.log('Applying animation to file-upload-button');
+            fileUploadButton.style.animation = 'gold-rectangle-animation 1.5s infinite';
+          } else {
+            console.log('Could not find file-upload-button');
+          }
+        }, 100); // Small delay to ensure the element is rendered
       }
     }
 
-    return () => {
-      if (preferencesButton) {
-        preferencesButton.removeEventListener('click', handleNextFrame);
-      }
-    };
+    if (isDialogVisible && currentFrame === 2) {
+      // First close the preferences menu
+        setOpenFileUpload(true);
+
+
+    }
+
+    ;
   }, [currentFrame, isDialogVisible]);
 
-  const removeAllAddedStyles = () => {
-    const preferencesButton = document.getElementById('preferencesButton');
-    if (preferencesButton) {
-      preferencesButton.style.padding = '0';
-      preferencesButton.style.animation = 'none';
-      preferencesButton.removeEventListener('click', handleNextFrame);
-    }
-  };
+    const removeAllAddedStyles = () => {
+      const preferencesButton = document.getElementById('preferencesButton');
+      if (preferencesButton) {
+        preferencesButton.style.padding = '0';
+        preferencesButton.style.animation = 'none';
+        preferencesButton.removeEventListener('click', handleNextFrame);
+      }
+
+      const fileUploadButton = document.getElementById('file-upload-button');
+      if (fileUploadButton) {
+        fileUploadButton.style.animation = 'none';
+      }
+
+
+      setOpenFileUpload(false); // Close the FileUpload dialog
+      handleClosePreferencesMenu();
+
+      // Don't close preferences unless explicitly requested
+      // handleClosePreferencesMenu();
+    };
 
   const makeSureCalendarIsClosed = () => {
     localStorage.setItem("openCalendar", "false");
@@ -61,9 +94,16 @@ const FileUploadDialog = ({ anchorElPreferences, handleOpenPreferencesMenu, hand
     if (currentFrame < 2) {
       setCurrentFrame(currentFrame + 1);
     } else {
+        localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
       handleCloseDialog();
     }
   };
+
+  const handlePreviousFrame = () => {
+      if (currentFrame > 0) {
+        setCurrentFrame(currentFrame - 1);
+      }
+    };
 
   const handleCloseDialog = () => {
     if (dontShowAgain) {
@@ -75,12 +115,15 @@ const FileUploadDialog = ({ anchorElPreferences, handleOpenPreferencesMenu, hand
 
   const handleSkip = () => {
     setIsDialogVisible(false);
-    handleClosePreferencesMenu(); // Close preferences menu if skipped
+    removeAllAddedStyles(); // Close preferences menu if skipped
+    if (dontShowAgain) {
+      localStorage.setItem(`hideFileUploadDialog_${user?.sub}`, 'true');
+    }
   };
 
   return (
     isDialogVisible && (
-      <div className="dialog-overlay">
+        <div className={`dialog-overlay${currentFrame === 2 ? " bottom" : ""}`}>
         <div className="dialog-content">
           <div className="dialog-body">
             {currentFrame === 0 && (
@@ -118,7 +161,10 @@ const FileUploadDialog = ({ anchorElPreferences, handleOpenPreferencesMenu, hand
               />
               Don't show this again
             </label>
-            <button onClick={handleSkip}>Skip for now</button>
+            <button onClick={handleSkip}>Skip {dontShowAgain ? '' : "for now"}</button>
+            {currentFrame > 0 && <button onClick={handlePreviousFrame}>
+              Back
+            </button>}
             <button onClick={handleNextFrame}>
               {currentFrame < 2 ? 'Next' : 'Finish'}
             </button>
