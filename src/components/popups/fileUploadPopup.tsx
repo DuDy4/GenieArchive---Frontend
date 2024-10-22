@@ -27,6 +27,10 @@ const FileUploadDialog = ({
   useEffect(() => {
     const preferencesButton = document.getElementById('preferencesButton');
 
+    if (isDialogVisible && currentFrame === 0) {
+        removeAllAddedStyles();
+        }
+
     if (isDialogVisible && currentFrame === 1) {
         removeAllAddedStyles();
       if (preferencesButton) {
@@ -119,14 +123,14 @@ const FileUploadDialog = ({
 
   return (
     isDialogVisible && (
-        <div className={`dialog-overlay${currentFrame === 2 ? " bottom" : ""}`}>
+        <div className={`dialog-overlay${currentFrame === 3 ? " bottom" : ""}`}>
         <div className="dialog-content">
           <div className="dialog-body">
           {currentFrame === 0 && (
-              <div className="flex column justify-center items-center gap-4">
+              <div className="flex flex-col justify-center items-center gap-4">
 
                 <img src="/images/image9.png" style={{width: "84px", height: "84px"}} /><strong>Hey there!</strong>
-                 <p>To work some real magic, Genie need a little help from you.
+                 <p>To work some real magic, Genie needs a little help from you.
                  Upload a few sales docs so Genie can get to know your product better.<br/><br/>
                 The more it knows, the smarter it gets – and that means better insights for you. Let’s make your deals shine!
                 </p>

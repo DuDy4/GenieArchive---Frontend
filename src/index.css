@@ -911,23 +911,35 @@ social-media-feed {
 .dialog-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .dialog-footer button {
-  background-color: #007BFF; /* Matches primary button color */
+  background-color: #007bff; /* Primary color for buttons */
   color: white;
-  border: none;
-  border-radius: 6px;
   padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.dialog-footer button:hover {
-  background-color: #0056b3;
+.dialog-footer button:disabled {
+  background-color: #e0e0e0; /* Disabled state color */
+  color: #999;
+  cursor: not-allowed;
+}
+
+.dialog-footer button:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.dialog-footer button:active {
+  background-color: #003d80; /* Even darker shade when active */
+  transform: translateY(1px); /* Pressed effect */
 }
 
 .dialog-footer label {
