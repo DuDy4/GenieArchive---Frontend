@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid, Chip, Tooltip } from "@mui/material";
+import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid, Tooltip } from "@mui/material";
 import { PictureAsPdf, InsertDriveFile, Close, CloudDone, ErrorOutline } from "@mui/icons-material";
 import axios from "axios";
 import { useApiClient } from "../utils/AxiosMiddleware";
@@ -15,6 +15,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
     const [uploading, setUploading] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([]); // Ensure it's initialized as an empty array
+    const [categories, setCategories] = useState<string[]>([]);
     const { makeRequest } = useApiClient();
 
     useEffect(() => {
@@ -22,7 +23,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
         const fetchUploadedFiles = async () => {
             try {
                 const response = await makeRequest('GET', "/uploaded-files");
-                setUploadedFiles(response || []); // Safely set as an empty array if response.data is undefined
+                console.log("Uploaded files:", response);
+                setUploadedFiles(response.files || []); // Safely set as an empty array if response.data is undefined
+                setCategories(response.categories || []);
             } catch (error) {
                 console.error("Failed to fetch uploaded files.", error);
                 setUploadedFiles([]); // Ensure it stays as an empty array even on error
@@ -90,107 +93,153 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
     };
 
     return (
-        <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, backgroundColor: '#e3f2fd', position: 'relative' }}>
-            <Box
-                {...getRootProps()}
-                sx={{
-                    border: "2px dashed #90caf9",
-                    borderRadius: "8px",
-                    padding: "20px",
-                    textAlign: "center",
-                    backgroundColor: isDragActive ? "#bbdefb" : "#e3f2fd",
-                    cursor: "pointer",
-                    "&:hover": { borderColor: "#64b5f6" },
-                }}
-            >
-                <input {...getInputProps()} />
-                <Typography variant="h6" sx={{ color: '#1565c0' }}>
-                    {isDragActive ? "Drop files here..." : "Drag & drop files here, or click to select files"}
+        <Paper elevation={3} sx={{width: 'fitContent', padding: 3, borderRadius: 2, backgroundColor: '#e3f2fd', position: 'relative', minWidth: 'fitContent'}}>
+            <Grid container spacing={2}>
+                <Typography variant="h4" sx={{ color: '#1565c0', padding: '10px' }}>Upload Company Files</Typography>
+                <Typography variant="body2" sx={{ color: '#1565c0', padding: '10px', textAlign: 'center' }}>
+                    Uploading files from the recommended categories helps Genie provide more precise solutions,
+                     aligning your products with your customer's specific pain points.
                 </Typography>
-                <Button variant="contained" sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white' }}>Browse Files</Button>
-            </Box>
 
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-                {files.map((file) => (
-                    <Grid item xs={12} key={file.name}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                {file.type === "application/pdf" ? (
-                                    <PictureAsPdf sx={{ fontSize: 40, color: "#e74c3c", mr: 2 }} />
-                                ) : (
-                                    <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
-                                )}
-                                <Box>
-                                    <Typography variant="body1">{file.name}</Typography>
-                                    <Typography variant="body2" color="textSecondary">{(file.size / (1024 * 1024)).toFixed(2)} MB</Typography>
-                                    {uploadProgress[file.name] >= 0 && (
-                                        <LinearProgress variant="determinate" value={uploadProgress[file.name]} sx={{ mt: 1, width: '100%' }} />
-                                    )}
-                                    {errorMessages[file.name] && (
-                                        <Typography variant="body2" color="error" sx={{ mt: 1 }}>{errorMessages[file.name]}</Typography>
-                                    )}
-                                </Box>
-                            </Box>
-                            <Box>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => uploadFile(file)}
-                                    disabled={uploading || uploadProgress[file.name] > 0}
-                                    sx={{ backgroundColor: '#42a5f5', color: 'white', mr: 1 }}
-                                >
-                                    {uploadProgress[file.name] > 0 ? `Uploading (${uploadProgress[file.name]}%)` : "Upload"}
-                                </Button>
-                                <IconButton onClick={() => removeFile(file.name)}>
-                                    <Close />
-                                </IconButton>
-                            </Box>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+                {/* Left Column: File upload section */}
+                <Grid item xs={9}>
+                    <Box
+                        {...getRootProps()}
+                        sx={{
+                            border: "2px dashed #90caf9",
+                            borderRadius: "8px",
+                            padding: "20px",
+                            textAlign: "center",
+                            backgroundColor: isDragActive ? "#bbdefb" : "#e3f2fd",
+                            cursor: "pointer",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            "&:hover": { borderColor: "#64b5f6" },
+                        }}
+                    >
+                        <input {...getInputProps()} />
+                        <Typography variant="h6" sx={{ color: '#1565c0' }}>
+                            {isDragActive ? "Drop files here..." : "Drag & drop files here, or click to select files"}
+                        </Typography>
+                        <Button variant="contained" sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white' }}>Browse Files</Button>
+                    </Box>
 
-            {files.length > 1 && (
-                <Button
-                    variant="contained"
-                    onClick={uploadAllFiles}
-                    disabled={uploading}
-                    sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white', width: '100%' }}
-                >
-                    Upload All
-                </Button>
-            )}
-
-            <Box sx={{ mt: 4 }}>
-                <Typography variant="h5" sx={{ color: '#1565c0', mb: 2 }}>Uploaded Files</Typography>
-                <Grid container spacing={2}>
-                    {uploadedFiles.length > 0 ? uploadedFiles.map((file) => (
-                        <Grid item xs={12} key={file.uuid}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
-                                    <Box>
-                                        <Typography variant="body1">{file.file_name}</Typography>
-                                        <Box sx={{ mt: 1 }}>
-                                            {file.categories.map((category: string) => (
-                                                <Chip key={category} label={category} sx={{ mr: 1 }} />
-                                            ))}
+                    <Grid container spacing={2} sx={{ mt: 2 }}>
+                        {files.map((file) => (
+                            <Grid item xs={12} key={file.name}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        {file.type === "application/pdf" ? (
+                                            <PictureAsPdf sx={{ fontSize: 40, color: "#e74c3c", mr: 2 }} />
+                                        ) : (
+                                            <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
+                                        )}
+                                        <Box>
+                                            <Typography variant="body1">{file.name}</Typography>
+                                            <Typography variant="body2" color="textSecondary">{(file.size / (1024 * 1024)).toFixed(2)} MB</Typography>
+                                            {uploadProgress[file.name] >= 0 && (
+                                                <LinearProgress variant="determinate" value={uploadProgress[file.name]} sx={{ mt: 1, width: '100%' }} />
+                                            )}
+                                            {errorMessages[file.name] && (
+                                                <Typography variant="body2" color="error" sx={{ mt: 1 }}>{errorMessages[file.name]}</Typography>
+                                            )}
                                         </Box>
                                     </Box>
+                                    <Box>
+                                        <Button
+                                            variant="contained"
+                                            onClick={() => uploadFile(file)}
+                                            disabled={uploading || uploadProgress[file.name] > 0}
+                                            sx={{ backgroundColor: '#42a5f5', color: 'white', mr: 1 }}
+                                        >
+                                            {uploadProgress[file.name] > 0 ? `Uploading (${uploadProgress[file.name]}%)` : "Upload"}
+                                        </Button>
+                                        <IconButton onClick={() => removeFile(file.name)}>
+                                            <Close />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
-                                <Tooltip title={`Status: ${file.status}`}>
-                                    {file.status === "COMPLETED" ? (
-                                        <CloudDone sx={{ color: "#4caf50", fontSize: 40 }} />
-                                    ) : (
-                                        <ErrorOutline sx={{ color: "#e74c3c", fontSize: 40 }} />
-                                    )}
-                                </Tooltip>
-                            </Box>
-                        </Grid>
-                    )) : (
-                        <Typography variant="body2" color="textSecondary">No uploaded files to display.</Typography>
+                            </Grid>
+                        ))}
+                    </Grid>
+
+                    {files.length > 1 && (
+                        <Button
+                            variant="contained"
+                            onClick={uploadAllFiles}
+                            disabled={uploading}
+                            sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white', width: '100%' }}
+                        >
+                            Upload All
+                        </Button>
                     )}
+
+                    <Grid container spacing={2} sx={{ mt: 4 }}>
+                        {uploadedFiles.length > 0 ? uploadedFiles.map((file) => (
+                            <Grid item xs={12} key={file.uuid}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <InsertDriveFile sx={{ fontSize: 40, color: "#3498db", mr: 2 }} />
+                                        <Box>
+                                            <Typography variant="body1">{file.file_name}</Typography>
+                                            <Box sx={{ mt: 1 }}>
+                                                {file.categories.map((category: string) => (
+                                                    <Typography key={category} variant="body2" sx={{ display: 'inline-block', mr: 1, color: '#90caf9' }}>
+                                                        {category}
+                                                    </Typography>
+                                                ))}
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                    <Tooltip title={`Status: ${file.status}`}>
+                                        {file.status === "COMPLETED" ? (
+                                            <CloudDone sx={{ color: "#4caf50", fontSize: 40 }} />
+                                        ) : (
+                                            <ErrorOutline sx={{ color: "#e74c3c", fontSize: 40 }} />
+                                        )}
+                                    </Tooltip>
+                                </Box>
+                            </Grid>
+                        )) : (
+                            null)}
+                    </Grid>
                 </Grid>
-            </Box>
+
+                {/* Right Column: Categories section */}
+                <Grid item xs={3}>
+                    <Box sx={{ ml: 2 }}>
+                        <Typography variant="h6" sx={{ color: '#1565c0', mb: 1 }}>Recommended categories</Typography>
+                        <Grid container spacing={1}>
+                            {categories.map((category) => {
+                                if (category === 'OTHER') return null;
+                                const category_name = category !== 'FAQ' ? category.charAt(0) + category.slice(1).toLowerCase().replace(/_/g, ' ') : category;
+                                const fulfilled = uploadedFiles.some((file) => file.categories.includes(category));
+                                return (
+                                    <Grid item key={category}>
+                                        <Box title={fulfilled ? `Files uploaded under ${category}` : `No files uploaded under ${category}`} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                            {fulfilled && (
+                                                <CloudDone sx={{ fontSize: 20, color: '#4caf50', mr: 1 }} />
+                                            )}
+                                            <Typography
+                                                variant="body1"
+                                                title={fulfilled ? `Files uploaded under ${category}` : `No files uploaded under ${category}`}
+                                                sx={{
+                                                    color: fulfilled ? '#4caf50' : '#b0bec5',
+                                                    fontWeight: fulfilled ? 'bold' : 'normal'
+                                                }}
+                                            >
+                                                {category_name}
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </Box>
+                </Grid>
+            </Grid>
         </Paper>
     );
 };

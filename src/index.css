@@ -871,3 +871,82 @@ social-media-feed {
   background-color: rgba(0, 0, 0, 0.3); /* thumb color */
   border-radius: 10px; /* rounded edges on the scrollbar */
 }
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Slight transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it stays on top */
+}
+
+.dialog-content {
+  background-color: white; /* Distinct background */
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  z-index: 10000; /* Ensure content is in front of overlay */
+  color: #333; /* Darker text for better contrast */
+}
+
+.dialog-body {
+  margin-bottom: 20px; /* Space between text and footer */
+  font-size: 16px; /* Adjusted for readability */
+  line-height: 1.5; /* Increased line-height for better readability */
+  color: #333; /* Ensure text is dark */
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.dialog-footer button {
+  padding: 8px 16px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dialog-footer button:hover {
+  background-color: #0056b3;
+}
+
+.dialog-footer label {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Preferences Button Styling */
+#preferencesButton {
+  z-index: 10000; /* Keep it in front of the blurred elements */
+  cursor: pointer;
+}
+
+/* Gold circle animation around the preferences button */
+@keyframes gold-ring-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); /* Start small */
+    border-radius: 50%;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(255, 215, 0, 0.5); /* Expand the gold circle */
+    border-radius: 50%;
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); /* Return to original size */
+    border-radius: 50%;
+    transform: scale(1);
+  }
+}
