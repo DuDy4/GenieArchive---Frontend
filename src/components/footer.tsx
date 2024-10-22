@@ -86,7 +86,13 @@ const Footer: React.FC = () => {
             <FaChevronRight />
           </MenuItem>
 
-          <Dialog open={openFileUpload} onClose={() => setOpenFileUpload(false)}>
+          <Dialog
+            open={openFileUpload}
+            onClose={() => setOpenFileUpload(false)}
+            fullWidth // Ensures the dialog uses the maximum available width
+            maxWidth="md" // Sets the max width, you can try "lg" or "xl" as well depending on how wide you want
+            sx={{ width: '90%' }} // Use 90% of the screen width
+          >
             <FileUpload />
           </Dialog>
 
