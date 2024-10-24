@@ -54,7 +54,7 @@ const StorylanePopup = () => {
       setIsLaunched(true);
       localStorage.setItem(`guidedOnBoardingLaunched_${user?.sub}`, 'true');
     } else {
-      console.log("Storylane is not available on window.");
+      console.log("Popup - Storylane is not available on window.");
     }
   };
 

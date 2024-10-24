@@ -33,7 +33,10 @@ const TimeBox = () => {
       setIsLaunched(true);
       localStorage.setItem(`GoogleCalendarConsent`, "true");
     } else {
-      console.log("Storylane is not available on window.");
+      setIsLaunched(true);
+      localStorage.setItem(`GoogleCalendarConsent`, "true");
+      console.log("Timebox - Storylane is not available on window.");
+      handleLogin();
     }
   }, []);
 
