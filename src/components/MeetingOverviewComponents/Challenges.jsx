@@ -17,11 +17,11 @@ const Challenges = ({ challenges }) => {
 
     return (
         <div className="company-challenges p-[10px] rounded-[16px] border border-[#dddddd] mb-4 p-5">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-gray-700 ">Company Challenges</h1>
+            <div className="flex justify-between items-center gap-2">
+                <h1 className="text-lg font-bold text-gray-700 ">Company Challenges</h1>
             </div>
-            <ul className="text-gray-600 mt-2 flex flex-row gap-1">
-                    {challenges.map((challenge, index) => (
+            <ul className="text-gray-600 mt-2 text-center flex flex-row gap-4">
+                    {challenges.slice(0,3).map((challenge, index) => (
                         <li
                             key={index}
                             className={`p-4 flex rounded-lg shadow transition cursor-pointer ${
@@ -51,7 +51,7 @@ const Challenges = ({ challenges }) => {
                       <p><strong>Reasoning:</strong></p>
                       <p><strong styles={{color: "gray"}}>Score: {challenges[expandedIndex].score}</strong></p>
                     </div>
-                  <div className="text-gray-700 text-[14px] width-1 text-justify">{challenges[expandedIndex].reasoning}</div>
+                  <div className="text-gray-700 text-[13px] width-1 text-justify">{challenges[expandedIndex].reasoning}</div>
                 </div>
               </div>
             )}
