@@ -17,7 +17,7 @@ const Meeting = () => {
   const [value, setValue] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control dialog visibility
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
   const { deleteMeeting } = useMeetingsContext();
   const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
@@ -57,7 +57,9 @@ const Meeting = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/");
+      loginWithRedirect({
+            appState: { returnTo: `${window.location.pathname}${window.location.search}` },
+        });
     }
     }, [isAuthenticated]);
 
