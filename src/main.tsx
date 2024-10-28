@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Auth0Provider } from '@auth0/auth0-react';
+import Auth0ProviderWithHistory from "./providers/auth0ProviderWithHistory.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,27 +20,13 @@ const auth0Audience = auth0Domain + "/api/v2/"
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-<React.StrictMode>
   <BrowserRouter>
-<Auth0Provider
-    domain={auth0Domain}
-    clientId={auth0ClientId}
-    authorizationParams={{
-      redirect_uri: redirectUri,
-      connection: 'google-oauth2',
-      connection_scope: 'https://www.googleapis.com/auth/calendar.readonly',
-      scope: 'openid profile',
-      access_type: 'offline',
-      audience: auth0Audience,
-      prompt: 'consent'
-    }}
-  >
-    <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-            <App />
-        </ThemeProvider>
-    </QueryClientProvider>
-  </Auth0Provider>,
+    <Auth0ProviderWithHistory>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
+        </QueryClientProvider>
+      </Auth0ProviderWithHistory>,
   </BrowserRouter>
-  </React.StrictMode>
 );
