@@ -29,10 +29,13 @@ interface SocialMediaFeedProps {
   name: string;
 }
 
-const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
+const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinUrls }) => {
   const [open, setOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+  const normalizeUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '');
+
 
   const handleOpen = (images: string[], index: number) => {
     setSelectedImages(images);
@@ -98,7 +101,10 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name }) => {
                   alt={post.media}
                   style={{ height: '20px', width: '20px' }}
                 />
-                {post.reshared ? `${name.split(' ')[0]} reshared this post` : null}
+                {console.log(normalizeUrl(post.reshared))}
+                {(post.reshared && !linkedinUrls.some((url) => normalizeUrl(url) === normalizeUrl(post.reshared)))
+                  ? `${name.split(' ')[0]} reshared this post`
+                  : null}
               </div>
               <Typography variant="caption" color="text.secondary">
                 {new Date(post.date).toLocaleDateString()}
