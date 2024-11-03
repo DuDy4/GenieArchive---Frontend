@@ -7,21 +7,23 @@ interface News {
   title: string;
   link: string;
   summary: string;
+  date?: string;
 }
 
 interface NewsSectionProps {
   news: News[];
+  company_name?: string;
 }
 
 const NewsSection: React.FC<NewsSectionProps> = ({ news, company_name }) => {
   return (
-    <div className="space-y-4  p-[10px] rounded-[16px] border border-[#dddddd]">
+    <div className="space-y-4 p-[10px] rounded-[16px] border border-[#dddddd]">
       <h4 className="uppercase text-heading font-bold text-[14px]">
         Top news {company_name ? `about ${company_name}` : ''}
       </h4>
 
       <div className="flex flex-col gap-4">
-        {news && Array.isArray(news) && news.map(({ news_icon, title, link, summary, media }: News, index: number) => (
+        {news && Array.isArray(news) && news.map(({ news_icon, title, link, summary, media, date }: News, index: number) => (
           <Link
             to={link}
             target="_blank"
@@ -34,12 +36,19 @@ const NewsSection: React.FC<NewsSectionProps> = ({ news, company_name }) => {
               </div>
             ) : null}
 
-            <p className="font-bold text-[16px] leading-[20px] bold">
+            <p className="font-bold text-[16px] leading-[20px]">
               {title}
             </p>
+
             <p className="font-normal text-[12px] leading-[18px] text-[#777777]">
-                {summary.slice(0, 200)}...
+              {summary.slice(0, 200)}...
             </p>
+
+            {date && (
+              <p className="text-[12px] text-[#555555] italic">
+                {new Date(date).toLocaleDateString()}
+              </p>
+            )}
           </Link>
         ))}
       </div>
