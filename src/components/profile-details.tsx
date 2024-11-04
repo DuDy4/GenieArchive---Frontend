@@ -199,7 +199,7 @@ console.log("linkedinUrls: ", linkedinUrls);
                       typeof end_date === "string" ? "before:bg-[#0073EA]" : ""
                     } ${
                       index === workExperience.length - 1
-                        ? "before:-mt-10"
+                        ? "before:-mt-1"
                         : "before:pb-16 before:mt-4"
                     }`}
                     key={index}>
