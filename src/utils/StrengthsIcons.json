@@ -140,7 +140,7 @@
     "description": "This is a default icon for unassigned strengths."
   },
   "Leadership": {
-    "image": "/path/to/your/LeaderImage.png",
+    "image": "https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/team-icon.png",
     "description": "Leadership individuals are skilled at influencing others and guiding groups toward goals."
   }
 }
