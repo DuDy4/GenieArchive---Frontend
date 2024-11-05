@@ -54,6 +54,10 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   );
   console.log("GoodToKnow: ", goodToKnow);
     const [isDialogOpen, setDialogOpen] = useState(false);
+    const linkedinUrls = attendeeInfo?.social_media_links
+      ?.filter((link) => link.platform.toLowerCase() === 'linkedin')
+      .map((link) => link.url);
+console.log("linkedinUrls: ", linkedinUrls);
 
     const handleDialogOpen = () => setDialogOpen(true);
     const handleDialogClose = () => setDialogOpen(false);
@@ -207,7 +211,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       typeof end_date === "string" ? "before:bg-[#0073EA]" : ""
                     } ${
                       index === workExperience.length - 1
-                        ? "before:-mt-10"
+                        ? "before:-mt-1"
                         : "before:pb-16 before:mt-4"
                     }`}
                     key={index}>
@@ -359,7 +363,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                       <CloseIcon />
                     </IconButton>
                   <DialogContent dividers sx={{  maxWidth: '800px', padding: '0', paddingTop: "20px", backgroundColor: "#f5f5f5"}}>
-                    <SocialMediaFeed news={goodToKnow?.news || []} name={name} />
+                    <SocialMediaFeed news={goodToKnow?.news || []} name={name} linkedinUrls={linkedinUrls} />
                   </DialogContent>
                 </Dialog>
         </div>

@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
 import Meeting from "./components/meeting";
+import UnsubscribePage from "./components/UnsubscribePage";
 import LoadingGenie from "./components/ui/loading-genie";
 
 import { TokenProvider } from "./providers/TokenProvider";
@@ -43,6 +44,7 @@ function App() {
                             <Routes>
                                 <Route path="/" index element={<Home />} />
                                 <Route path="/meeting/:id" element={<Meeting />} />
+                                <Route path="/unsubscribe/:tenantId" element={<UnsubscribePage />} />
                             </Routes>
                         </MeetingsProvider>
                     </TokenProvider>
