@@ -176,6 +176,18 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
               </div>
             </div>
           </div>
+
+          <hr className="separator my-4" />
+          {attendeeInfo?.work_history_summary && (
+            <div className="flex-1 flex flex-col gap-2 justify-center align-start mt-4">
+              <div className="font-medium text-[12px] text-[#9F9F9F]">
+                About
+              </div>
+              <div className="font-medium text-[#37455C] text-[14px]">
+                {attendeeInfo.work_history_summary}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="py-[12px] space-y-2 rounded-[16px] px-[12px] border relative border-[#DDDDDD]">
