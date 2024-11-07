@@ -194,39 +194,46 @@ const Meeting = () => {
                 >
                   {!isLoading ? (
                     <>
-                      <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        textColor="primary"
-                        indicatorColor="primary"
-                        variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
-                        scrollButtons="auto"
-                        sx={{
-                          "& .Mui-selected": {
-                            borderBottom: "1px solid #000",
-                          },
-                          "& .Mui-focusVisible": {
-                            borderBottom: "1px solid #000",
-                          },
-                          maxWidth: "1050px", // Set a max width for scroll
-                          overflow: "hidden", // Ensure tabs overflow
-                        }}
-                      >
-                        {/* The 'Meeting Overview' tab at index 0 */}
-                        <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
+<Tabs
+  value={value}
+  onChange={handleChange}
+  textColor="primary"
+  indicatorColor="primary"
+  variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
+  scrollButtons="auto"
+  sx={{
+    "& .Mui-selected": {
+      borderBottom: "1px solid #000",
+    },
+    "& .Mui-focusVisible": {
+      borderBottom: "1px solid #000",
+    },
+    maxWidth: "1050px", // Set a max width for scroll
+    overflow: "hidden", // Ensure tabs overflow
+  }}
+>
+  {/* The 'Meeting Overview' tab at index 0 */}
+  <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
 
-                        {/* Profile tabs starting from index 1 */}
-                        {allProfiles && Array.isArray(allProfiles) && allProfiles?.map(
-                          ({ name, uuid }: Profile, index: number) => (
-                            <Tab
-                              key={uuid}
-                              onClick={() => setValue(index + 1)}
-                              label={name}
-                              value={index + 1}
-                            />
-                          )
-                        )}
-                      </Tabs>
+  {/* Profile tabs starting from index 1 */}
+  {allProfiles && Array.isArray(allProfiles) && allProfiles.map(({ name, uuid, profile_picture }: Profile, index: number) => (
+    <Tab
+      key={uuid}
+      onClick={() => setValue(index + 1)}
+      label={
+        <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <img
+            src={profile_picture ? profile_picture : '/images/anonymous-user-8.svg'}
+            alt={name}
+            className="h-8 w-8 rounded-full" // Adjust size to fit inside the tab
+          />
+          {name}
+        </Box>
+      }
+      value={index + 1}
+    />
+  ))}
+</Tabs>
                     </>
                   ) : (
                     <div className="text-center">Fetching data...</div>

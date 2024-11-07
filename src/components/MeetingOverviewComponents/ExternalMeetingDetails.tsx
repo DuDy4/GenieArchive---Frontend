@@ -35,7 +35,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 overview={(company.description && (company.description.length < 60)) ? capitalizeFirstLetter(company.description) : company.overview}
                 logo={company.logo}
               />}
-              {participants && <Participants participants={participants} />}
+              {/* {participants && <Participants participants={participants} />} */}
             </div>
             {company.challenges && Array.isArray(company.challenges) && company.challenges.length > 0 && <Challenges challenges={company.challenges} />}
             {agendaItems && agendaItems.length > 0 ? <MeetingGuidelines agendaItems={agendaItems} duration={meeting.duration}/> : <CompanyDetails details={company} />}
