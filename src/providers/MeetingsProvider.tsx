@@ -28,6 +28,10 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId: string 
   const { user } = useAuth0();
   const [tenantId, setTenantId ] = useState(isAdmin && fakeTenantId ? fakeTenantId : user?.tenantId)
 
+    const checkSelectedDate = () => {
+        const storedDate = localStorage.getItem("selectedDate");
+        return storedDate ? new Date(storedDate) : new Date();
+    }
 
     useEffect(() => {
         if (isAdmin && fakeTenantId) {
@@ -64,7 +68,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId: string 
       if (!tenantId) {
         return [];
       }
-      const response = await makeRequest('GET', `/${tenantId}/meetings`);
+      const response = await makeRequest('GET', `/${tenantId}/meetings/${checkSelectedDate().toISOString()}`);
       return response as Meeting[];
     },
     enabled: !!tenantId, // Ensure the query runs only if tenantId exists

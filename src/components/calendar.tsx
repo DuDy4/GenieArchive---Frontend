@@ -130,6 +130,16 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   };
 
   useEffect(() => {
+      getMeetings()
+        .then(() => {
+          setToast(true);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, [selectedDate]);
+
+  useEffect(() => {
     if (calendarRef.current) {
       const now = new Date();
       calendarRef.current.scrollToTime(now);

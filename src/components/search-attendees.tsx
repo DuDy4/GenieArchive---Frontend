@@ -43,6 +43,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       // console.log(meetingsResponse?.data)
 
       // Map each meeting to a promise that resolves with the profiles data
+      console.log("Meetings response", meetingsResponse, "Length", meetingsResponse.length);
       const profilePromises = meetingsResponse.map(
         async (meeting: Meeting) => {
             if (!user?.tenantId) {
@@ -65,7 +66,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       console.log("All profiles", allProfiles);
       setLoading(false);
       // Combine all profiles into one array
-      const combinedProfiles = [].concat(...allProfiles);
+      const combinedProfiles = allProfiles.flat();
         console.log("Combined profiles", combinedProfiles);
       // Update the profiles state with the combined data
       setProfiles(combinedProfiles);
@@ -82,21 +83,30 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
       return profile.name.toLowerCase().includes(e.target.value.toLowerCase());
     });
 
-    const filteredEmails = filteredData?.map((profile) => profile.email) || [];
+const filteredEmails = [...new Set(
+  filteredData
+    ?.map((profile) => profile.email && profile.email.toLowerCase())
+    .filter(Boolean)  // This removes any null or undefined values
+)];
     setFilteredEmails(filteredEmails);
+    console.log("Filtered emails", filteredEmails);
 
     // Filter meetings by participants' emails OR subject
     const filteredMeetings = meetings?.filter((meeting) => {
-      const matchesParticipants = meeting.participants_emails.some((email) =>
-        filteredEmails.includes(email.email.toLowerCase())
+      const matchesParticipants = meeting.participants_emails.some((emailObj) =>{
+        console.log("EmailObj", emailObj.email.toLowerCase());
+        filteredEmails.includes(emailObj.email.toLowerCase())
+        }
       );
 
       const matchesSubject = meeting.subject
         .toLowerCase()
         .includes(e.target.value.toLowerCase());
 
-      return matchesParticipants || matchesSubject;  // Match if either participants or subject match
+      return matchesParticipants || matchesSubject;
     });
+
+    console.log("Filtered meetings", filteredMeetings);
 
     const sortedMeetings = filteredMeetings?.sort((a, b) => {
       return new Date(a.start_time).getTime() - new Date(b.start_time).getTime();
@@ -104,6 +114,8 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
     console.log("Sorted meetings", sortedMeetings);
     setFilteredMeetings(sortedMeetings);
   };
+  console.log("Profiles:", profiles); // Check if profiles is populated correctly
+
 
 
   return (
