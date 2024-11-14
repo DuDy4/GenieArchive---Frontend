@@ -26,7 +26,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
-  const { meetings } = useMeetingsContext();
+  const [meetings, setMeetings] = useState<Meeting[] | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
     const { makeRequest } = useApiClient();
 
@@ -40,7 +40,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
     setLoading(true);
     const fetchMeetings = async () => {
       const meetingsResponse = await makeRequest('GET', `/${user?.tenantId}/meetings`);
-      // console.log(meetingsResponse?.data)
+      setMeetings(meetingsResponse);
 
       // Map each meeting to a promise that resolves with the profiles data
       console.log("Meetings response", meetingsResponse, "Length", meetingsResponse.length);
@@ -56,7 +56,6 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
             uuid: meeting?.uuid,
             title: meeting?.subject,
           }));
-            console.log("Enhanced profiles", enhancedProfiles);
           return enhancedProfiles;
         }
     );
@@ -76,7 +75,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value.toLowerCase());
 
     // Filter profiles by name
     const filteredData = profiles?.filter((profile) => {
@@ -89,15 +88,13 @@ const filteredEmails = [...new Set(
     .filter(Boolean)  // This removes any null or undefined values
 )];
     setFilteredEmails(filteredEmails);
-    console.log("Filtered emails", filteredEmails);
 
     // Filter meetings by participants' emails OR subject
     const filteredMeetings = meetings?.filter((meeting) => {
-      const matchesParticipants = meeting.participants_emails.some((emailObj) =>{
-        console.log("EmailObj", emailObj.email.toLowerCase());
+      const matchesParticipants = meeting.participants_emails.some((emailObj) =>
         filteredEmails.includes(emailObj.email.toLowerCase())
-        }
       );
+
 
       const matchesSubject = meeting.subject
         .toLowerCase()
@@ -106,12 +103,10 @@ const filteredEmails = [...new Set(
       return matchesParticipants || matchesSubject;
     });
 
-    console.log("Filtered meetings", filteredMeetings);
 
     const sortedMeetings = filteredMeetings?.sort((a, b) => {
       return new Date(a.start_time).getTime() - new Date(b.start_time).getTime();
     });
-    console.log("Sorted meetings", sortedMeetings);
     setFilteredMeetings(sortedMeetings);
   };
   console.log("Profiles:", profiles); // Check if profiles is populated correctly
@@ -175,6 +170,8 @@ const filteredEmails = [...new Set(
                             return profile ? profile.name : emailObj.email;
                           })
                           .join(", ")
+                          || "No attendees answered the search"
+
                       }
                     </li>
                   </Link>
