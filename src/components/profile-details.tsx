@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CrossIcon, GreenTimelineIcon, TickIcon } from "./icons";
 import { Link } from "react-router-dom";
 import Chart, { icons } from "./chart";
+import ProfileCategory from "./ProfileCategory";
 import { Tooltip, Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import useGoodToKnow from "../hooks/useGoodToKnow";
@@ -36,6 +37,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const [practicesExpandedIndex, setPracticesExpandedIndex] = useState<number | null>(null);
     const [phrasesExpandedIndex, setPhrasesExpandedIndex] = useState<number | null>(null);
     const [avoidExpandedIndex, setAvoidExpandedIndex] = useState<number | null>(null);
+    const hasProfileCategory = false
 
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
     user?.tenantId!,
@@ -247,8 +249,12 @@ console.log("linkedinUrls: ", linkedinUrls);
 
       <div className="flex flex-col gap-[24px]">
         <div className="flex gap-[24px] w-full justify-between">
+            {hasProfileCategory ?
+             (<div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
 
-          <Chart uuid={uuid} />
+                 <ProfileCategory uuid={uuid} tenantId={user?.tenantId} />
+             </div>) :
+                      (<Chart uuid={uuid} />)}
 
           <div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
             <h3 className="font-semibold !text-[16px] text-heading">
