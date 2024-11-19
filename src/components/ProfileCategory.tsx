@@ -31,7 +31,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenant_id, uuid }) =>
               Profile Type
             </h3>
         <div className="flex items-center justify-center">
-            <img src={icon} alt={`${category} Icon`} className="w-24 h-24 mr-3" />
+            <img src={icon} alt={`${category} Icon`} title={`${category}`} className="w-24 h-24 mr-3" />
         </div>
         <div className="flex items-center justify-center">
             <h2 className="text-xl font-semibold">{category}</h2>

@@ -37,7 +37,7 @@ const ProfileDetails: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const [practicesExpandedIndex, setPracticesExpandedIndex] = useState<number | null>(null);
     const [phrasesExpandedIndex, setPhrasesExpandedIndex] = useState<number | null>(null);
     const [avoidExpandedIndex, setAvoidExpandedIndex] = useState<number | null>(null);
-    const hasProfileCategory = false
+    const hasProfileCategory = true
 
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(
     user?.tenantId!,
