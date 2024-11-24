@@ -152,10 +152,12 @@ const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
   }, []);
 
   return (
-    <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]" style={{ height: 'fit-content' }}>
-      <h3 className="text-heading font-semibold text-[16px]">Top 5 personal strengths</h3>
+    <div className="relative border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20] bg-white" style={{ height: '100%' }}>
+      <p className="flex flex-row justify-center">
+        <h3 className="text-heading self-center font-semibold text-[16px]">Top 5 personal strengths</h3>
+      </p>
       <div ref={canvasRef}>
-        <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "auto" }} />
+        <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "100%" }} />
       </div>
 
       {/* Render the icons and labels */}
