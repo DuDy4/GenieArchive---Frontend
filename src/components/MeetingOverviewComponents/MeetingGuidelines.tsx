@@ -29,7 +29,7 @@ const MeetingGuidelines: React.FC<{ agendaItems: AgendaItemProps[], duration: st
   const durationInMinutes = convertDurationToMinutes(duration);
 
   return (
-    <div className="meeting-guidelines p-6 border border-[#dddddd] rounded-lg shadow-sm">
+    <div className="meeting-guidelines p-6 border border-[#dddddd] rounded-lg shadow-sm bg-white">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800">Meeting Guidelines</h3>
         <h3 className="text-lg font-semibold text-gray-500 duration">Total duration: {durationInMinutes}</h3>

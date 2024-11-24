@@ -17,7 +17,7 @@ interface NewsSectionProps {
 
 const NewsSection: React.FC<NewsSectionProps> = ({ news, company_name }) => {
   return (
-    <div className="space-y-4 p-[10px] rounded-[16px] border border-[#dddddd]">
+    <div className="space-y-4 p-[10px] rounded-[16px] border border-[#dddddd] bg-white">
       <h4 className="uppercase text-heading font-bold text-[14px]">
         Top news {company_name ? `about ${company_name}` : ''}
       </h4>

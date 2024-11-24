@@ -3,6 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete"; // Import the trash can icon
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProfileDetails from "./profile-details";
+import ProfilePage from "./ProfilePage";
 import MeetingOverview from "./meeting-overview";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -76,7 +77,7 @@ const Meeting = () => {
             className="meeting-container"
             sx={{
               color: "rgb(17, 24, 28)",
-              backgroundColor: "#F8F9FA",
+              backgroundColor: "#b7c3d8",
               width: "calc(95%)",
               left: "2.5%",
               zIndex: "2",
@@ -92,6 +93,7 @@ const Meeting = () => {
               transform: isMounted
                 ? "translateY(0%) translateZ(0px)"
                 : "translateY(100%) translateZ(0px)",
+
             }}
           >
             <Link to="/" style={{ position: "absolute", left: "1rem", top: "1rem" }}>
@@ -188,52 +190,68 @@ const Meeting = () => {
                     alignItems: "center",
                     gap: "10px",
                     width: "1050px",
-                    borderBottom: "1px solid rgb(236, 238, 240)",
                     minHeight: "unset",
                   }}
                 >
                   {!isLoading ? (
                     <>
-<Tabs
-  value={value}
-  onChange={handleChange}
-  textColor="primary"
-  indicatorColor="primary"
-  variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
-  scrollButtons="auto"
-  sx={{
-    "& .Mui-selected": {
-      borderBottom: "1px solid #000",
-    },
-    "& .Mui-focusVisible": {
-      borderBottom: "1px solid #000",
-    },
-    maxWidth: "1050px", // Set a max width for scroll
-    overflow: "hidden", // Ensure tabs overflow
-  }}
->
-  {/* The 'Meeting Overview' tab at index 0 */}
-  <Tab key="overview" onClick={() => setValue(0)} label="Meeting Overview" value={0} />
-
-  {/* Profile tabs starting from index 1 */}
-  {allProfiles && Array.isArray(allProfiles) && allProfiles.map(({ name, uuid, profile_picture }: Profile, index: number) => (
-    <Tab
-      key={uuid}
-      onClick={() => setValue(index + 1)}
-      label={
-        <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <img
-            src={profile_picture ? profile_picture : '/images/anonymous-user-8.svg'}
-            alt={name}
-            className="h-8 w-8 rounded-full" // Adjust size to fit inside the tab
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="primary"
+          indicatorColor="primary"
+          variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
+          scrollButtons="auto"
+          sx={{
+            "& .Mui-selected": {
+              borderBottom: "1px solid #000",
+            },
+            "& .Mui-focusVisible": {
+              borderBottom: "1px solid #000",
+            },
+            maxWidth: "1050px", // Set a max width for scroll
+            overflow: "hidden", // Ensure tabs overflow
+            borderRadius: "6px", // Ensure the tabs container has rounded corners
+            padding: 0, // Remove default padding to allow for gaps between tabs
+          }}
+        >
+          {/* The 'Meeting Overview' tab at index 0 */}
+          <Tab
+            key="overview"
+            onClick={() => setValue(0)}
+            label="Meeting Overview"
+            value={0}
+            sx={{
+              marginRight: "8px", // Add margin for gap between tabs
+              backgroundColor: "white",
+              borderRadius: "6px", // Apply rounded corners to the individual tab as well
+            }}
           />
-          {name}
-        </Box>
-      }
-      value={index + 1}
-    />
-  ))}
-</Tabs>
+
+          {/* Profile tabs starting from index 1 */}
+          {allProfiles && Array.isArray(allProfiles) && allProfiles.map(({ name, uuid, profile_picture }: Profile, index: number) => (
+            <Tab
+              key={uuid}
+              onClick={() => setValue(index + 1)}
+              label={
+                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <img
+                    src={profile_picture ? profile_picture : '/images/anonymous-user-8.svg'}
+                    alt={name}
+                    className="h-8 w-8 rounded-full" // Adjust size to fit inside the tab
+                  />
+                  {name}
+                </Box>
+              }
+              value={index + 1}
+              sx={{
+                marginRight: "8px", // Add margin for gap between tabs
+                backgroundColor: "white",
+                borderRadius: "6px", // Apply rounded corners to the individual tab as well
+              }}
+            />
+          ))}
+        </Tabs>
                     </>
                   ) : (
                     <div className="text-center">Fetching data...</div>
@@ -247,7 +265,7 @@ const Meeting = () => {
               ) : (
                 allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                   value === index + 1 && (
-                    <ProfileDetails key={uuid} name={name} uuid={uuid} />
+                    <ProfilePage key={uuid} name={name} uuid={uuid} />
                   )
                 ))
               )}
