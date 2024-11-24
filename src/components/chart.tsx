@@ -82,9 +82,24 @@ const iconData = [
 
 export const icons = StrengthsIcons;
 
-const RadarChart = ({ uuid }: { uuid: string }) => {
+interface Strength {
+  strength_name: string;
+  reasoning: string;
+  score: number;
+}
+
+interface RadarChartProps {
+  uuid: string;
+  strengths?: Strength[];
+}
+
+
+
+const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
   const { user } = useAuth0();
-  const strengths = useStrengths(user?.tenantId!, uuid);
+  if (!strengths) {
+    strengths = useStrengths(user?.tenantId!, uuid);
+  }
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const canvasRef = useRef(null);
 
