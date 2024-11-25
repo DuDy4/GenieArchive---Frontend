@@ -71,7 +71,6 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                    borderRadius: '8px',
                    minWidth: '200px',
                    marginTop: '10px',  // Consistent margin-top
-
                  }}>
                 <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>{profile_category.category}</strong></p>
             </div>
@@ -80,7 +79,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                  <p className="text-[24px]" style={{fontFamily: "Montserrat"}}>
                     <strong>What {profile_category.category.split(' ')[1]} profile means</strong>
                  </p>
-                 <span className="font-semibold text-gray-700" style={{marginTop: '10px'}}>{profilesExplanation.characteristics}</span>
+                 <span className="font-semibold text-gray-700" style={{marginTop: '10px'}}>{profile_category.extended_description}</span>
                  <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
                     {strengths && Array.isArray(strengths) && strengths.map(({ strength_name, description }: any, index: number) => (
                       <div key={index} className="flex justify-between items-center cursor-pointer gap-2">
@@ -94,7 +93,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
             </div>
 
           <div className="flex flex-col justify-between gap-4 pr-5 -5"
-          style={{height: "330px", maxHeight: "330px", minHeight: "330px", width: "330px", minWidth: "330px"}}>
+          style={{}}>
             <RadarChart uuid={uuid} strengths={strengths} />
           </div>
             </div>

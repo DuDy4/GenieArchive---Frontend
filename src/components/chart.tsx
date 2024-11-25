@@ -150,8 +150,8 @@ const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
   }, []);
 
   return (
-      <div className="flex flex-col justify-between gap-4 pr-3 pb-3 pl-3 bg-white border border-primary-border rounded-[16px]">
-      <div className="flex flex-col relative items-center justify-between gap-3 pt-[12px] px-2 bg-[#FFCB00/20] bg-white" style={{ height: '100%' }}>
+      <div className="flex flex-col justify-between gap-4 pr-6 pb-3 pl-6 bg-white border border-primary-border rounded-[16px]">
+      <div className="flex flex-col relative items-center justify-between gap-4 pt-[12px] px-2 bg-[#FFCB00/20] bg-white" style={{ height: '100%' }}>
         <p className="flex flex-row justify-center">
           <h3 className="text-heading text-center self-center font-semibold text-[16px]">Top 5 personal strengths</h3>
         </p>
@@ -169,8 +169,8 @@ const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
                   title={currentStrength.description}
                   style={{
                     position: "absolute",
-                    left: `${x + 25}px`,
-                    top: `${y + 30}px`,
+                    left: `${x -8}px`,
+                    top: `${y + 53}px`,
                     transform: "translate(-50%, -50%)",
                     display: "flex",
                     flexDirection: "column",
