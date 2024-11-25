@@ -66,7 +66,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                    display: 'flex',
                    flexDirection: 'column',
                    alignItems: 'center',
-                   backgroundColor: '#FFCC00',
+                   backgroundColor: profile_category.color,
                    maxHeight: '60px',
                    borderRadius: '8px',
                    minWidth: '200px',
@@ -75,10 +75,11 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                  }}>
                 <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>{profile_category.category}</strong></p>
             </div>
-            <div className="flex flex-col  justify-center py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] border border-[#dddddd]"
+            <div className="flex flex-col gap-2 justify-between py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] border border-[#dddddd]"
                     style={{ marginTop: '10px' }}>
                  <p className="text-[24px]" style={{fontFamily: "Montserrat"}}>
-                 <strong>What {profile_category.category.split(' ')[1]} profile means</strong></p>
+                    <strong>What {profile_category.category.split(' ')[1]} profile means</strong>
+                 </p>
                  <span className="font-semibold text-gray-700" style={{marginTop: '10px'}}>{profilesExplanation.characteristics}</span>
                  <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
                     {strengths && Array.isArray(strengths) && strengths.map(({ strength_name, description }: any, index: number) => (
@@ -92,7 +93,8 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
 
             </div>
 
-          <div className="flex flex-col justify-between gap-4 pr-5" style={{height: "430px", maxHeight: "430px", minHeight: "330px", width: "400px", minWidth: "400px"}}>
+          <div className="flex flex-col justify-between gap-4 pr-5 -5"
+          style={{height: "330px", maxHeight: "330px", minHeight: "330px", width: "330px", minWidth: "330px"}}>
             <RadarChart uuid={uuid} strengths={strengths} />
           </div>
             </div>
