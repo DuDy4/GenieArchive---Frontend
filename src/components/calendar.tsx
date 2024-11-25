@@ -146,14 +146,69 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
     }
   }, []);
 
+  // // Define the list of events to be displayed
+  // const events = meetings?.map((meeting: Meeting) => ({
+  //   id: meeting.uuid,
+  //   title: meeting.subject,
+  //   start: new Date(meeting.start_time),
+  //   end: new Date(meeting.end_time),
+  //   classification: meeting.classification || "external",
+  // }));
+
+
   // Define the list of events to be displayed
-  const events = meetings?.map((meeting: Meeting) => ({
+const events = meetings?.flatMap((meeting: Meeting) => {
+  const startTime = new Date(meeting.start_time);
+  const endTime = new Date(meeting.end_time);
+
+  // Check if the meeting crosses midnight
+  if (startTime.getDate() !== endTime.getDate()) {
+    // Split the meeting into two events
+    const firstPart = {
+      id: `${meeting.uuid}-part1`,
+      title: meeting.subject,
+      start: startTime,
+      end: new Date(
+        startTime.getFullYear(),
+        startTime.getMonth(),
+        startTime.getDate(),
+        23,
+        59,
+        59
+      ),
+      classification: meeting.classification || "external",
+    };
+
+    const secondPart = {
+      id: `${meeting.uuid}-part2`,
+      title: meeting.subject,
+      start: new Date(
+        endTime.getFullYear(),
+        endTime.getMonth(),
+        endTime.getDate(),
+        0,
+        0,
+        0
+      ),
+      end: endTime,
+      classification: meeting.classification || "external",
+    };
+
+    return [firstPart, secondPart];
+  }
+
+  // If the meeting doesn't cross midnight, return it as is
+  return {
     id: meeting.uuid,
     title: meeting.subject,
-    start: new Date(meeting.start_time),
-    end: new Date(meeting.end_time),
+    start: startTime,
+    end: endTime,
     classification: meeting.classification || "external",
-  }));
+  };
+});
+
+
+
 
   const handleSelectEvent = useCallback((event: Event) => {
     navigate(`/meeting/${event!.id}?name=${event.title}`);
@@ -380,7 +435,7 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
                   events={events}
                   toolbar={false}
                   min={new Date(0, 0, 0, 0, 0, 0)}
-                  max={new Date(0, 0, 0, 23, 0, 0)}
+                  max={new Date(0, 0, 0, 23, 59, 0)}
                   timeslots={1}
                   step={60}
                   scrollToTime={new Date()}
