@@ -73,11 +73,11 @@ const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
 };
 
 const iconData = [
-  { angle: -82, radius: 0.18 },      // Top center
-  { angle: 8, radius: 0.35 }, // Top right
- { angle: 61, radius: 0.45 }, // Bottom right
-   { angle: 112, radius: 0.43 },      // Bottom left
-  { angle: 168, radius: 0.30 },      // Top left
+  { angle: -82, radius: 0.24 },      // Top center
+  { angle: 5, radius: 0.39 }, // Top right
+ { angle: 61, radius: 0.47 }, // Bottom right
+   { angle: 112, radius: 0.45 },      // Bottom left
+  { angle: 171, radius: 0.33 },      // Top left
 ];
 
 export const icons = StrengthsIcons;
@@ -92,8 +92,6 @@ interface RadarChartProps {
   uuid: string;
   strengths?: Strength[];
 }
-
-
 
 const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
   const { user } = useAuth0();
