@@ -252,7 +252,7 @@ console.log("linkedinUrls: ", linkedinUrls);
             {hasProfileCategory ?
              (<div className="flex flex-col items-center justify-center border w-[50%] rounded-[16px]
                  border-primary-border py-[12px] px-[12px] space-y-4">
-                 <ProfileCategory uuid={uuid} tenantId={user?.tenantId} name={name} />
+                 <ProfileCategory uuid={uuid} tenant_id={user?.tenantId} name={name} />
              </div>) :
                       (<Chart uuid={uuid} />)}
 
