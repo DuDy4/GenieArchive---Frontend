@@ -41,7 +41,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
       </div>
 
       <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md">
-        <DialogContent className="flex flex-col gap-4 p-6 bg-gray-100">
+        <DialogContent className="flex flex-col gap-4 p-6" style={{backgroundColor: '#B2C3DA'}}>
             {/* Close Button */}
               <IconButton
                 aria-label="close"
@@ -61,11 +61,12 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
           <div className="flex flex-row md:flex-row gap-4 justify-between">
 
               <div className="flex flex-col justify-between gap-4 pr-5">
-                <div className="flex flex-row justify-start gap-2 border border-[#dddddd]"
+                <div className="flex flex-row justify-start gap-2 "
                         style={{
                           backgroundColor: profile_category ? profile_category.color : 'white',
                           color: profile_category ? profile_category.font_color : 'black',
                           borderRadius: '8px',
+                          height: '100px',
                         }}>
                     <img src={profile_category.icon} alt={profile_category.category} style={{width: '100px', height: '100px', borderRadius: '18px', padding: '8px'}} />
 
@@ -82,7 +83,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                         <p className="text-[36px]" style={{fontFamily: "Poppins"}}><strong>{profile_category.category}</strong></p>
                     </div>
                 </div>
-                <div className="flex flex-col gap-2 justify-between  space-y-3"
+                <div className="flex flex-col gap-2 justify-between space-y-3"
                         style={{ marginTop: '10px' }}>
                      <div className="flex flex-col gap-2 p-4 rounded-[1px] border border-[#dddddd]  bg-white">
                          <p className="text-[24px]" style={{fontFamily: "Poppins"}}>
