@@ -24,6 +24,13 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
 
     console.log(details);
 
+    if (!details || details.name === 'Unknown') {
+        return (
+            <div className="company-details p-[28px] rounded-[16px] border border-[#dddddd]">
+                <h1 className="text-xl font-bold mb-4">No company details found</h1>
+            </div>
+            )}
+
   return (
     <div className="company-details p-[10px] rounded-[16px] border border-[#dddddd]">
         <div className="flex justify-between">
@@ -86,7 +93,7 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
                         details.funding_rounds[0].date ? details.funding_rounds[0].date.split("-").reverse().slice(1,3).join("-") : null
                     ) : null}</p>
 
-                    {showTooltip && (
+                    {showTooltip && details?.funding_rounds && (
                         <div className="absolute top-0 left-full ml-2 p-3 w-56 bg-black bg-opacity-90 text-white rounded-xl shadow-lg z-10">
                             <div className="mb-2">
                                 <p className="text-xs">Type: {details.funding_rounds[0].type}</p>
@@ -114,10 +121,10 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
 
         {details.main_competitors ? (
             <div className="p-4 bg-gray-100 rounded">
-                        <p className="text-sm font-bold">Main Competitors:</p>
-                        <p>{details.main_competitors}</p>
-                        </div>
-                        ) : null
+                <p className="text-sm font-bold">Main Competitors:</p>
+                <p>{details.main_competitors}</p>
+                </div>
+                ) : null
             }
 
       </div>

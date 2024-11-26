@@ -250,9 +250,9 @@ console.log("linkedinUrls: ", linkedinUrls);
       <div className="flex flex-col gap-[24px]">
         <div className="flex gap-[24px] w-full justify-between">
             {hasProfileCategory ?
-             (<div className="border w-[50%] rounded-[16px] border-primary-border py-[12px] px-[12px] space-y-4">
-
-                 <ProfileCategory uuid={uuid} tenant_id={user?.tenantId} />
+             (<div className="flex flex-col items-center justify-center border w-[50%] rounded-[16px]
+                 border-primary-border py-[12px] px-[12px] space-y-4">
+                 <ProfileCategory uuid={uuid} tenantId={user?.tenantId} name={name} />
              </div>) :
                       (<Chart uuid={uuid} />)}
 

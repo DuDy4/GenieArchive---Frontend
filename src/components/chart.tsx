@@ -9,10 +9,10 @@ import StrengthsIcons from "../utils/StrengthsIcons.json";
 const options = {
   layout: {
     padding: {
-      top: 50,
-      bottom: 30,
-      left: 90,
-      right: 90,
+      top: 10,
+      bottom: 10,
+      left: 40,
+      right: 40,
     },
   },
   elements: {
@@ -73,18 +73,31 @@ const calculateIconPosition = (angle, radius, canvasWidth, canvasHeight) => {
 };
 
 const iconData = [
-  { angle: -82, radius: 0.18 },      // Top center
-  { angle: 8, radius: 0.35 }, // Top right
- { angle: 61, radius: 0.45 }, // Bottom right
-   { angle: 112, radius: 0.43 },      // Bottom left
-  { angle: 168, radius: 0.30 },      // Top left
+  { angle: -76, radius: 0.36 },      // Top center
+  { angle: -7, radius: 0.52 },       // Top right
+  { angle: 55, radius: 0.57 },       // Bottom right
+  { angle: 112, radius: 0.51 },      // Bottom left
+  { angle: 187, radius: 0.39 },      // Top left
 ];
 
 export const icons = StrengthsIcons;
 
-const RadarChart = ({ uuid }: { uuid: string }) => {
+interface Strength {
+  strength_name: string;
+  reasoning: string;
+  score: number;
+}
+
+interface RadarChartProps {
+  uuid: string;
+  strengths?: Strength[];
+}
+
+const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
   const { user } = useAuth0();
-  const strengths = useStrengths(user?.tenantId!, uuid);
+  if (!strengths) {
+    strengths = useStrengths(user?.tenantId!, uuid);
+  }
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const canvasRef = useRef(null);
 
@@ -137,43 +150,46 @@ const RadarChart = ({ uuid }: { uuid: string }) => {
   }, []);
 
   return (
-    <div className="relative w-[50%] border border-primary-border rounded-[16px] pt-[12px] px-2 bg-[#FFCB00/20]" style={{ height: 'fit-content' }}>
-      <h3 className="text-heading font-semibold text-[16px]">Top 5 personal strengths</h3>
-      <div ref={canvasRef}>
-        <Radar data={chartData} options={options} height="320px" style={{ width: "100%", height: "auto" }} />
+      <div className="flex flex-col justify-between gap-4 pr-7 pb-4 pl-7 bg-white border border-primary-border rounded-[16px]">
+      <div className="flex flex-col relative items-center justify-between gap-4 pt-[12px] px-2 bg-[#FFCB00/20] bg-white" style={{ height: '100%' }}>
+        <p className="flex flex-row justify-center">
+          <h3 className="text-heading text-center self-center font-semibold text-[16px]">Top 5 personal strengths</h3>
+        </p>
+        <div ref={canvasRef} className="" style={{ height: "200px", width: "200px" }}>
+          <Radar data={chartData} options={options} height="200px" style={{ width: "100%", height: "100%" }} ></Radar>
+          {iconData.map((item, index) => {
+              const { x, y } = calculateIconPosition(item.angle, item.radius * canvasSize.width, canvasSize.width, canvasSize.height);
+              const currentStrength = data[index];
+
+              if (!currentStrength) return null;
+
+              return (
+                <div
+                  key={currentStrength.name}
+                  title={currentStrength.description}
+                  style={{
+                    position: "absolute",
+                    left: `${x -8}px`,
+                    top: `${y + 53}px`,
+                    transform: "translate(-50%, -50%)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                >
+                  <img src={currentStrength.image} alt={currentStrength.name} style={{ width: "35px", height: "35px", marginBottom: "4px" }} />
+                  <p style={{ marginTop: "-10px", fontSize: "12px", fontWeight: "bold" }}>{currentStrength.name}</p>
+                </div>
+              );})}
+
+        </div>
+        </div>
+
+
       </div>
-
-      {/* Render the icons and labels */}
-      {iconData.map((item, index) => {
-        const { x, y } = calculateIconPosition(item.angle, item.radius * canvasSize.width, canvasSize.width, canvasSize.height);
-        const currentStrength = data[index];
-
-        // Skip rendering if currentStrength is undefined
-        if (!currentStrength) return null;
-
-        return (
-          <div
-            key={currentStrength.name}
-            title={currentStrength.description}
-            style={{
-              position: "absolute",
-              left: `${x}px`,
-              top: `${y}px`,
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "4px",
-            }}
-          >
-            <img src={currentStrength.image} alt={currentStrength.name} style={{ width: "35px", height: "35px", marginBottom: "4px" }} />
-            <p style={{ marginTop: "-10px", fontSize: "12px", fontWeight: "bold" }}>{currentStrength.name}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+    );
+  };
 
 export default RadarChart;

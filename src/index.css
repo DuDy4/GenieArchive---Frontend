@@ -668,6 +668,12 @@ element {
     border-radius: 16px;
 }
 
+.categories-bubble{
+    border-width: 0;
+    border-style: none;
+    border-radius: 16px;
+}
+
 .p-7{
     padding: 220px;
 }
