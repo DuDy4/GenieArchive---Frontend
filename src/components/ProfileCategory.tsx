@@ -60,27 +60,50 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
           {/* First column */}
           <div className="flex flex-row md:flex-row gap-4 justify-between">
 
-          <div className="flex flex-col justify-between gap-4 pr-5">
-            {/* Strengths Drawer */}
-            <div className="flex flex-col items-center justify-center py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] border border-[#dddddd]" style={{
-                   display: 'flex',
-                   flexDirection: 'column',
-                   alignItems: 'center',
-                   backgroundColor: profile_category.color,
-                   maxHeight: '60px',
-                   borderRadius: '8px',
-                   minWidth: '200px',
-                   marginTop: '10px',  // Consistent margin-top
-                 }}>
-                <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>{profile_category.category}</strong></p>
+              <div className="flex flex-col justify-between gap-4 pr-5">
+                <div className="flex flex-row justify-start gap-2 border border-[#dddddd]"
+                        style={{
+                          backgroundColor: profile_category ? profile_category.color : 'white',
+                          color: profile_category ? profile_category.font_color : 'black',
+                          borderRadius: '8px',
+                        }}>
+                    <img src={profile_category.icon} alt={profile_category.category} style={{width: '100px', height: '100px', borderRadius: '18px', padding: '8px'}} />
+
+                    <div className="flex flex-col items-center justify-center self-center py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] " style={{
+                           display: 'flex',
+                           flexDirection: 'column',
+                           alignItems: 'center',
+                           backgroundColor: profile_category.color,
+                           maxHeight: '60px',
+                           borderRadius: '8px',
+                           minWidth: '200px',
+                           width: '100%',
+                         }}>
+                        <p className="text-[36px]" style={{fontFamily: "Poppins"}}><strong>{profile_category.category}</strong></p>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2 justify-between  space-y-3"
+                        style={{ marginTop: '10px' }}>
+                     <div className="flex flex-col gap-2 p-4 rounded-[1px] border border-[#dddddd]  bg-white">
+                         <p className="text-[24px]" style={{fontFamily: "Poppins"}}>
+                            <strong>What does {profile_category.category.split(' ')[1]} profile means</strong>
+                         </p>
+                         <span className="font-semibold text-gray-700" style={{marginTop: '10px'}}>{profile_category.extended_description}</span>
+                     </div>
+
+                </div>
+
+
+              </div>
+
+          <div className="flex flex-col justify-between gap-4 pr-6 -5">
+            <RadarChart uuid={uuid} strengths={strengths} />
+          </div>
             </div>
-            <div className="flex flex-col gap-2 justify-between py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] border border-[#dddddd]"
-                    style={{ marginTop: '10px' }}>
-                 <p className="text-[24px]" style={{fontFamily: "Montserrat"}}>
-                    <strong>What {profile_category.category.split(' ')[1]} profile means</strong>
-                 </p>
-                 <span className="font-semibold text-gray-700" style={{marginTop: '10px'}}>{profile_category.extended_description}</span>
-                 <p className="text-[24px]" style={{fontFamily: "Montserrat"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
+
+            {/* Second column */}
+            <div className="flex flex-col gap-2 justify-between py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[18px] border border-[#dddddd] bg-white">
+                <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
                     {strengths && Array.isArray(strengths) && strengths.map(({ strength_name, description }: any, index: number) => (
                       <div key={index} className="flex justify-between items-center cursor-pointer gap-2">
                         <div className="flex flex-row gap-3">
@@ -88,18 +111,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
                         </div>
                       </div>
                     ))}
-                 </div>
-
             </div>
-
-          <div className="flex flex-col justify-between gap-4 pr-5 -5"
-          style={{}}>
-            <RadarChart uuid={uuid} strengths={strengths} />
-          </div>
-            </div>
-
-            {/* Second column */}
-
         </DialogContent>
       </Dialog>
     </>
