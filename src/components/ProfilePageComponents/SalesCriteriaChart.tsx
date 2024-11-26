@@ -7,18 +7,8 @@ interface SalesCriteriaChartProps {
   uuid: string;
 }
 
-const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ tenantId, uuid }) => {
-  const { data, isLoading, error } = useStrengthsAndCategories(tenantId, uuid);
+const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria }) => {
 
-  if (isLoading) {
-    return <Typography>Loading...</Typography>;
-  }
-
-  if (error) {
-    return <Typography color="error">Error: {error.message}</Typography>;
-  }
-
-  const { sales_criteria } = data;
 
   // Sort criteria DESC by target score
   const sortedCriteria = [...sales_criteria].sort(

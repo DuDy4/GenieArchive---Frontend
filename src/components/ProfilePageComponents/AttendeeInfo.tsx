@@ -8,6 +8,10 @@ interface AttendeeInfoProps {
   name: string;
 }
 
+const titlize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
 const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profileCategory }) => {
   return (
     <div className="space-y-[23.5px] ">
@@ -34,7 +38,7 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
                alignItems: 'center',
                backgroundColor: '#FFCC00',
              }}>
-            <p className="text-[24px]" style={{fontFamily: "Montserrat"}}>{profileCategory}</p>
+            <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>{titlize(profileCategory.replace('The ', ''))}</strong></p>
         </div>
 
         <div className="flex flex-wrap items-center justify-between w-full">
