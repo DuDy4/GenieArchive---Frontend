@@ -98,7 +98,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
               </div>
 
           <div className="flex flex-col justify-between gap-4 pr-6 -5">
-            <RadarChart uuid={uuid} strengths={strengths} />
+            <RadarChart uuid={uuid} strengths={strengths} color={profile_category ? profile_category.color : null} />
           </div>
             </div>
 
