@@ -38,6 +38,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
         <img src={profile_category.icon} alt={profile_category.category} className="w-16 h-16" />
         <h2 className="text-lg font-semibold">{profile_category.category}</h2>
         <p className="text-sm text-center text-gray-600">{profile_category.description}</p>
+        <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer">See more</p>
       </div>
 
       <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md">
@@ -98,7 +99,7 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
               </div>
 
           <div className="flex flex-col justify-between gap-4 pr-6 -5">
-            <RadarChart uuid={uuid} strengths={strengths} />
+            <RadarChart uuid={uuid} strengths={strengths} color={profile_category ? profile_category.color : null} />
           </div>
             </div>
 

@@ -101,10 +101,10 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinU
                   alt={post.media}
                   style={{ height: '20px', width: '20px' }}
                 />
-                {console.log(normalizeUrl(post.reshared))}
-                {(post.reshared && !linkedinUrls.some((url) => normalizeUrl(url) === normalizeUrl(post.reshared)))
-                  ? `${name.split(' ')[0]} reshared this post`
-                  : null}
+                  {console.log(post.reshared ? normalizeUrl(post.reshared) : 'No reshared URL')}
+                  {post.reshared &&
+                    !linkedinUrls.some((url) => normalizeUrl(url) === normalizeUrl(post.reshared)) &&
+                    `${name.split(' ')[0]} reshared this post`}
               </div>
               <Typography variant="caption" color="text.secondary">
                 {new Date(post.date).toLocaleDateString()}

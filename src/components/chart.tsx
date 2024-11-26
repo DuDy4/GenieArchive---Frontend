@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useStrengths from "../hooks/useStrengths";
 import { Strength } from "../types";
 import StrengthsIcons from "../utils/StrengthsIcons.json";
+import { hexToRGBA } from "../utils/colorsUtils";
 
 const options = {
   layout: {
@@ -46,7 +47,7 @@ const options = {
           size: 14,
         },
         display: false,
-        color: '#333', // Adjust point label color
+        color: '#ddd', // Adjust point label color
       },
     },
   },
@@ -93,7 +94,7 @@ interface RadarChartProps {
   strengths?: Strength[];
 }
 
-const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
+const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths, color }) => {
   const { user } = useAuth0();
   if (!strengths) {
     strengths = useStrengths(user?.tenantId!, uuid);
@@ -123,11 +124,11 @@ const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths }) => {
       {
         data: data?.map((item) => item.score),
         fill: true,
-        backgroundColor: "rgba(0, 115, 234, 0.35)",
-        borderColor: "#0073EA",
+        backgroundColor: hexToRGBA(color ? color : "#0073EA", 0.35),
+        borderColor: color ? color : "#0073EA",
         pointRadius: 5, // Make points visible
         pointHoverRadius: 7,
-        pointBackgroundColor: "#0073EA", // Point color
+        pointBackgroundColor: color ? color : "#0073EA", // Point color
       },
     ],
   };
