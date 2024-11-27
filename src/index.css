@@ -1027,8 +1027,29 @@ social-media-feed {
   justify-content: space-between;
   gap: 10px;
   height: 100px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Hover effect */
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #eaf0f8; /* Subtle blue hover background */
+}
+
+/* Clicked effect */
+.kpi-card:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  background-color: #d4e1f4; /* Slightly darker blue for clicked state */
+}
+
+.kpi-card.clicked {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  background-color: #d4e1f4;
+}
 
 .content {
   flex-grow: 1;
@@ -1050,7 +1071,7 @@ social-media-feed {
 .percentage {
   font-size: 1rem;
   font-weight: bold;
-  background-color: #007BFF; /* Light blue */
+  background-color: #309fdb; /* Light blue */
   color: white; /* Dark blue */
   border-radius: 50%;
   width: 70px;
@@ -1059,6 +1080,7 @@ social-media-feed {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffffff; /* Light blue border */
 }
 
 .button-container {
