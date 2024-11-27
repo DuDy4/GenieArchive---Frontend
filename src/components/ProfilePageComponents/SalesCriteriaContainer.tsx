@@ -24,8 +24,7 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, s
         padding: '16px',
         borderRadius: '8px',
         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-        maxWidth: '500px',
-        margin: 'auto',
+        width: '100%',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -44,14 +43,16 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, s
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
+                justifyContent: 'space-between',
                 gap: '16px',
                 width: '100%',
-                padding: '16px',
+
+                textAlign: 'left',
             }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             {name}'s leading sales criteria
           </Typography>
-          <Typography variant="body2" sx={{ color: '#6c6c6c', marginBottom: '16px' }}>
+          <Typography variant="body2" sx={{ color: '#6c6c6c', }}>
             These are {name}'s decision-making criteria, ranked by importance:
           </Typography>
       </Box>

@@ -48,7 +48,7 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria 
         padding: '16px',
         borderRadius: '8px',
         backgroundColor: '#f5f5f5',
-        maxWidth: '400px',
+        width: '100%',
       }}
     >
       {sortedCriteria.map((criterion: any, index: number) => (
@@ -100,7 +100,7 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria 
                       fontSize: '12px',
                     }}
                   >
-                    {`${criterion.score}%`}
+                    {`${(criterion.score > criterion.target_score) ? criterion.target_score : criterion.score}%`}
                   </Typography>
                 )}
               </Box>

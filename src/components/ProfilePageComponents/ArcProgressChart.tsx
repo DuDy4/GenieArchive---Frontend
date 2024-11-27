@@ -31,11 +31,12 @@ const ArcProgress: React.FC<ArcProgressProps> = ({ total_score }) => {
         variant="h6"
         sx={{
           position: 'absolute',
-          top: '20px',
+          top: '50%',
           left: '50%',
           transform: 'translateX(-50%)',
           fontWeight: 600,
           fontSize: '16px',
+          color: '#90caf9',
         }}
       >
         {`${total_score}%`}
