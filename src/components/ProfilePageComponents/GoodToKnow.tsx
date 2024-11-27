@@ -9,6 +9,9 @@ interface GoodToKnowProps {
 }
 
 const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, name }) => {
+
+
+
   return (
     <div className="flex flex-col w-full " >
 
@@ -68,22 +71,12 @@ const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, n
                   <h4 className="uppercase text-heading font-bold text-[12px]">
                     Latest news
                   </h4>
-                  <p className="text-[12px] text-gray-500 hover:text-gray-700 transition-colors cursor-pointer">
-                    See more
-                  </p>
+
                 </div>
                 <div className="flex flex-col">
-                  {goodToKnow.news.slice(0, 2).map(({ media, title, summary }: News, index: number) => (
-                    <div key={index} className="flex items-center gap-2 bg-[#FAFAFA] px-2 py-1">
-                      <div className="p-4 rounded-lg shadow hover:bg-gray-100 transition">
-                        <div className="flex justify-between items-center cursor-default gap-2">
-                          <p className="font-normal text-[12px] leading-[18px] underline text-[#0073EA]">
-                            {summary && summary.length < 80 ? summary : `${title}...`}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  <div class="button-container">
+                    <button class="social-activity-button" onClick={handleDialogOpen}>Social activity</button>
+                  </div>
                 </div>
               </div>
             </div>

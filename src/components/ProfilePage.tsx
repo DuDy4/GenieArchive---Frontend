@@ -16,6 +16,9 @@ import useStrengthsAndCategories from '../hooks/useStrengthsAndCategories';
 import useActionItems from '../hooks/useActionItems';
 import LoadingGenie from './ui/loading-genie';
 import { handleDialogOpen } from '../utils/handleDialogOpen';
+import { Dialog, DialogContent, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import SocialMediaFeed from './SocialMediaFeed';
 
 
 
@@ -30,6 +33,8 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { profile_category } = data ? data : {};
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.tenantId!, uuid);
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const linkedinUrls = attendeeInfo?.social_media_links
+
   const handleDialogOpen = () => setDialogOpen(true);
   const handleDialogClose = () => setDialogOpen(false);
 
@@ -54,7 +59,18 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
         {!isLoadingSalesCriteria && <SalesCriteriaContainer salesCriteria={salesCriteria} name={name.split(' ')[0]} />}
         {!isLoadingActionItems && <KpiContainer kpi={kpi} actionItems={actionItems} />}
       </div>
-
+        <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md"  sx={{padding: "0"}}>
+            <IconButton
+              aria-label="close"
+              onClick={handleDialogClose}
+              sx={{ position: 'absolute', right: 8, top: 8 }}
+            >
+              <CloseIcon />
+            </IconButton>
+          <DialogContent dividers sx={{  maxWidth: '800px', padding: '0', paddingTop: "20px", backgroundColor: "#f5f5f5"}}>
+            <SocialMediaFeed news={goodToKnow?.news || []} name={name} linkedinUrls={linkedinUrls} />
+          </DialogContent>
+        </Dialog>
     </div>
   );
 };
