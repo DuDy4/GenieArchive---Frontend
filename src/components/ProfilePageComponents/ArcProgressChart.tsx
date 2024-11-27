@@ -24,6 +24,7 @@ const ArcProgress: React.FC<ArcProgressProps> = ({ total_score }) => {
           strokeWidth="10"
           strokeDasharray={`${(total_score / 100) * 126} 126`}
           strokeLinecap="round"
+          opacity="0.9" // Use higher opacity for clicked scores
         />
       </svg>
       {/* Score Text */}

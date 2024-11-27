@@ -5,7 +5,8 @@ interface ActionItem {
   icon: string;
   title: string;
   description: string;
-  percentage: string; // Updated to match the example provided
+  percentage: string;
+  criteria: string;
 }
 
 interface ActionItemsResponse {
@@ -36,6 +37,7 @@ const useActionItems = (tenant_id: string, uuid: string) => {
             title: item.title,
             description: item.description,
             percentage: item.percentage,
+            criteria: item.criteria,
           })),
         };
       }

@@ -5,28 +5,29 @@ interface KpiCardProps {
   title: string;
   description: string;
   percentage: string;
-  onClick?: () => void;
+  criteria: string;
 }
 
-const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, onClick }) => {
+const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria, handleHoverScores, handleUnhoverScores, handleClickedScores, handleUnclickedScores }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleCardClick = () => {
-    setIsClicked(!isClicked); // Toggle the clicked state
-    console.log(isClicked ? `Unclicked: ${title}` : `Clicked: ${title}`);
-    if (onClick) onClick();
+    setIsClicked(!isClicked);
+    if (isClicked) {
+      handleUnclickedScores(criteria);
+    } else {
+      handleClickedScores(criteria, parseInt(percentage));
+    }
+
   };
     const handleHoverActionItem = (title: string) => {
-        console.log(`Hovered over: ${title}`);
+        console.log(`Hovered: ${title}`);
+        handleHoverScores(criteria, parseInt(percentage));
     }
 
     const handleUnhoverActionItem = (title: string) => {
         console.log(`Unhovered: ${title}`);
-    }
-
-    const handleClickActionItem = (title: string) => {
-        console.log(`Card clicked: ${title}`);
-        if (onClick) onClick();
+        handleUnhoverScores(criteria, parseInt(percentage));
     }
 
   return (
