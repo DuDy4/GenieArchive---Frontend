@@ -45,6 +45,7 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         cursor: 'pointer',
         transition: 'transform 0.2s, box-shadow 0.2s',
+        width: '100%',
       }}
     >
       <div
