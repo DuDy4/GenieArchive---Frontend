@@ -20,14 +20,24 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, s
   const [hoveredCriterion, setHoveredCriterion] = useState<string | null>(null);
 
   // Calculate the total score dynamically based on hover/click states
-  const calculateTotalScore = () => {
-    let total = salesCriteria.reduce((sum, item) => sum + item.score, 0);
-    if (hoveredCriterion && hoverScores[hoveredCriterion]) {
-      total += hoverScores[hoveredCriterion];
-    }
-    total += Object.values(clickedScores).reduce((sum, score) => sum + score, 0);
-    return total;
-  };
+    const calculateTotalScore = () => {
+      return salesCriteria.reduce((total, item) => {
+        // Get scores for the current criterion
+        const hoverScore = hoverScores[item.criteria] || 0;
+        const clickedScore = clickedScores[item.criteria] || 0;
+
+        // Use the maximum of hoverScore and clickedScore
+        const additionalScore = Math.max(hoverScore, clickedScore);
+
+        // Calculate the combined score
+        const combinedScore = item.score + additionalScore;
+
+        // If combined score exceeds target, use target score
+        const finalScore = combinedScore > item.target_score ? item.target_score : combinedScore;
+
+        return total + finalScore; // Add to total score
+      }, 0);
+    };
 
   const total_score = calculateTotalScore();
 

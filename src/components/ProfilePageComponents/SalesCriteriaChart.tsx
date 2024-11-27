@@ -1,15 +1,19 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material';
-import useStrengthsAndCategories from '../hooks/useStrengthsAndCategories';
+import { Box, Typography } from '@mui/material';
 
 interface SalesCriteriaChartProps {
-  tenantId: string;
-  uuid: string;
+  sales_criteria: any[];
+  hoverScores: { [key: string]: number };
+  clickedScores: { [key: string]: number };
+  setHoveredCriterion: (criteria: string | null) => void;
 }
 
-const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria }) => {
-
-
+const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
+  sales_criteria,
+  hoverScores,
+  clickedScores,
+  setHoveredCriterion,
+}) => {
   // Sort criteria DESC by target score
   const sortedCriteria = [...sales_criteria].sort(
     (a: any, b: any) => b.target_score - a.target_score
@@ -30,16 +34,13 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria 
     return colors[criteria] || '#e0e0e0';
   };
 
-  // Utility function to convert criteria names to Camel Case
-  const formatCriteriaName = (criteria: string): string => {
-    return criteria
+  const formatCriteriaName = (criteria: string): string =>
+    criteria
       .toLowerCase()
       .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-  };
 
-  // Find the maximum target score to calculate relative widths
   const maxTargetScore = Math.max(...sales_criteria.map((criterion: any) => criterion.target_score));
 
   return (
@@ -51,75 +52,117 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({ sales_criteria 
         width: '100%',
       }}
     >
-      {sortedCriteria.map((criterion: any, index: number) => (
-        <Box key={index} sx={{ marginBottom: '16px' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {formatCriteriaName(criterion.criteria)} {/* Convert to Camel Case */}
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-            <Box
-              sx={{
-                position: 'relative',
-                height: '20px',
-                borderRadius: '5px',
-                backgroundColor: '#e0e0e0',
-                overflow: 'hidden',
-                width: `${(criterion.target_score / maxTargetScore) * 100}%`, // Set width based on target score
-              }}
-            >
+      {sortedCriteria.map((criterion: any, index: number) => {
+        const clickedEffect = clickedScores[criterion.criteria] || 0;
+        const hoverEffect = Math.max(hoverScores[criterion.criteria] - clickedEffect, 0) || 0;
+
+        const baseWidth = (criterion.score / criterion.target_score) * 100; // Current score width
+        const clickWidth = (clickedEffect / criterion.target_score) * 100; // Click score width
+        const hoverWidth = (hoverEffect / criterion.target_score) * 100; // Hover score width
+
+        return (
+          <Box
+            key={index}
+            sx={{
+              marginBottom: '16px',
+              position: 'relative',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={() => setHoveredCriterion(criterion.criteria)}
+            onMouseLeave={() => setHoveredCriterion(null)}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                {formatCriteriaName(criterion.criteria)}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
               {/* Target Score Background */}
               <Box
                 sx={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%', // Full width of the bar represents the target score
-                  backgroundColor: `${getColorForCriteria(criterion.criteria)}33`, // Add transparency to the color
-                }}
-              />
-              {/* Actual Score Foreground */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: `${(criterion.score / criterion.target_score) * 100}%`, // Actual score as a percentage of the target
-                  backgroundColor: getColorForCriteria(criterion.criteria),
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  paddingLeft: '5px',
+                  position: 'relative',
+                  height: '20px',
+                  borderRadius: '5px',
+                  backgroundColor: '#e0e0e0',
+                  overflow: 'hidden',
+                  width: `${(criterion.target_score / maxTargetScore) * 100}%`,
                 }}
               >
-                {criterion.score > 0 && ( // Only show score if greater than 0
-                  <Typography
-                    variant="body2"
+                {/* Current Score Foreground */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    height: '100%',
+                    width: `${baseWidth}%`, // Current score width
+                    backgroundColor: getColorForCriteria(criterion.criteria),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    borderRadius: '5px',
+                    paddingLeft: '5px',
+                  }}
+                >
+                  {criterion.score + hoverEffect + clickedEffect > 0 && (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 600,
+                        color: '#fff',
+                        fontSize: '12px',
+                        zIndex: 999,
+                      }}
+                    >
+                         {`${(criterion.score + hoverEffect+ clickedEffect) > criterion.target_score
+                            ? criterion.target_score
+                            : hoverEffect || clickedEffect
+                              ? criterion.score + hoverEffect + clickedEffect
+                              : criterion.score}%`}
+                    </Typography>
+                  )}
+                </Box>
+                {/* Hover Score Overlay */}
+                {hoverEffect > 0 && (
+                  <Box
                     sx={{
-                      fontWeight: 600,
-                      color: '#fff',
-                      fontSize: '12px',
+                      position: 'absolute',
+                      height: '100%',
+                      width: `${baseWidth + hoverWidth}%`, // Add hover width to current width
+                      backgroundColor: getColorForCriteria(criterion.criteria),
+                      borderRadius: '5px',
+                      opacity: 0.5,
                     }}
-                  >
-                    {`${(criterion.score > criterion.target_score) ? criterion.target_score : criterion.score}%`}
-                  </Typography>
+                  />
+                )}
+                {/* Click Score Overlay */}
+                {clickedEffect > 0 && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      height: '100%',
+                      width: `${baseWidth + clickWidth}%`, // Add click width to current width
+                      backgroundColor: getColorForCriteria(criterion.criteria),
+                      borderRadius: '5px',
+                      opacity: 0.6,
+                    }}
+                  />
                 )}
               </Box>
+              {/* Target Score Percentage */}
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 600,
+                  marginLeft: '8px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {`${criterion.target_score}%`}
+              </Typography>
             </Box>
-            {/* Target Score Percentage */}
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                marginLeft: '8px', // Add space between the bar and the target score
-                fontSize: '12px',
-                whiteSpace: 'nowrap', // Ensure it stays on the same line
-              }}
-            >
-              {`${criterion.target_score}%`}
-            </Typography>
           </Box>
-        </Box>
-      ))}
+        );
+      })}
     </Box>
   );
 };
