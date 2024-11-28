@@ -1,7 +1,7 @@
 import React from 'react';
 import KpiCard from './KpiCard';
 
-const kpiContainer = ({kpi, actionItems, handleHoverScores, handleUnhoverScores, handleClickedScores, handleUnclickedScores}) => {
+const kpiContainer = ({kpi, actionItems}) => {
 
   return (
     <div className="kpi-section">
@@ -17,10 +17,6 @@ const kpiContainer = ({kpi, actionItems, handleHoverScores, handleUnhoverScores,
             description={actionItem.description}
             percentage={actionItem.percentage}
             criteria={actionItem.criteria}
-            handleHoverScores={handleHoverScores}
-            handleUnhoverScores={handleUnhoverScores}
-            handleClickedScores={handleClickedScores}
-            handleUnclickedScores={handleUnclickedScores}
           />
         ))}
       </div>

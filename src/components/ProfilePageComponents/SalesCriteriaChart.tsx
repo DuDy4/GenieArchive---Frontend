@@ -1,23 +1,26 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { useSalesCriteria } from "../../providers/SalesCriteriaProvider";
 
 interface SalesCriteriaChartProps {
-  sales_criteria: any[];
-  hoverScores: { [key: string]: number };
-  clickedScores: { [key: string]: number };
-  setHoveredCriterion: (criteria: string | null) => void;
+//   salesCriteria: any[];
+//   hoveredScores: { [key: string]: number };
+//   clickedScores: { [key: string]: number };
+//   setHoveredCriterion: (criteria: string | null) => void;
 }
 
 const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
-  sales_criteria,
-  hoverScores,
-  clickedScores,
-  setHoveredCriterion,
+//   salesCriteria,
+//   hoveredScores,
+//   clickedScores,
+//   setHoveredCriterion,
 }) => {
+
+    const { salesCriteria, hoveredScores, clickedScores } = useSalesCriteria();
   // Sort criteria DESC by target score
-  const sortedCriteria = [...sales_criteria].sort(
+  const sortedCriteria = salesCriteria ? [...salesCriteria].sort(
     (a: any, b: any) => b.target_score - a.target_score
-  );
+  ) : [];
 
   const getColorForCriteria = (criteria: string): string => {
     const colors: { [key: string]: string } = {
@@ -41,7 +44,7 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
-  const maxTargetScore = Math.max(...sales_criteria.map((criterion: any) => criterion.target_score));
+  const maxTargetScore = salesCriteria ? Math.max(...salesCriteria.map((criterion: any) => criterion.target_score)) : 0;
 
   return (
     <Box
@@ -54,7 +57,7 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
     >
       {sortedCriteria.map((criterion: any, index: number) => {
         const clickedEffect = clickedScores[criterion.criteria] || 0;
-        const hoverEffect = Math.max(hoverScores[criterion.criteria] - clickedEffect, 0) || 0;
+        const hoverEffect = Math.max(hoveredScores[criterion.criteria] - clickedEffect, 0) || 0;
 
         const baseWidth = (criterion.score / criterion.target_score) * 100; // Current score width
         const clickWidth = (clickedEffect / criterion.target_score) * 100; // Click score width
@@ -68,8 +71,6 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
               position: 'relative',
               cursor: 'pointer',
             }}
-            onMouseEnter={() => setHoveredCriterion(criterion.criteria)}
-            onMouseLeave={() => setHoveredCriterion(null)}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
               <Typography variant="body2" sx={{ fontWeight: 600 }}>

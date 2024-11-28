@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSalesCriteria }  from '../../../providers/SalesCriteriaProvider';
 
 interface KpiCardProps {
   icon: string;
@@ -8,8 +9,9 @@ interface KpiCardProps {
   criteria: string;
 }
 
-const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria, handleHoverScores, handleUnhoverScores, handleClickedScores, handleUnclickedScores }) => {
+const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const { clickedScores, handleClickedScores, handleUnclickedScores, hoveredScores, handleHoverScores, handleUnhoverScores } = useSalesCriteria();
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
@@ -20,13 +22,11 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
     }
 
   };
-    const handleHoverActionItem = (title: string) => {
-        console.log(`Hovered: ${title}`);
+    const handleHoverActionItem = () => {
         handleHoverScores(criteria, parseInt(percentage));
     }
 
-    const handleUnhoverActionItem = (title: string) => {
-        console.log(`Unhovered: ${title}`);
+    const handleUnhoverActionItem = () => {
         handleUnhoverScores(criteria, parseInt(percentage));
     }
 

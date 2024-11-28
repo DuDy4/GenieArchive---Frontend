@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AttendeeInfo from './ProfilePageComponents/AttendeeInfo';
+import { useSalesCriteria } from '../providers/SalesCriteriaProvider';
 import GoodToKnow from './ProfilePageComponents/GoodToKnow';
 import WorkHistory from './ProfilePageComponents/WorkHistory';
 import AboutSection from './ProfilePageComponents/AboutSection';
@@ -11,7 +12,6 @@ import useAttendeeInfo from '../hooks/useAttendeeInfo';
 import useGoodToKnow from '../hooks/useGoodToKnow';
 import useGetToKnow from '../hooks/useGetToKnow';
 import useWorkExperience from '../hooks/useWorkExperience';
-import useSalesCriteria from '../hooks/useSalesCriteria';
 import useStrengthsAndCategories from '../hooks/useStrengthsAndCategories';
 import useActionItems from '../hooks/useActionItems';
 import LoadingGenie from './ui/loading-genie';
@@ -23,35 +23,17 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth0();
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(user?.tenantId!, uuid);
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.tenantId!, uuid);
-  const { salesCriteria, isLoadingSalesCriteria } = useSalesCriteria(user?.tenantId!, uuid);
   const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.tenantId!, uuid);
   const { kpi, actionItems } = actionItemsResponse ? actionItemsResponse : {};
+  const { isLoadingSalesCriteria } = useSalesCriteria();
   const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
   const { profile_category } = data ? data : {};
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.tenantId!, uuid);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [clickedScores, setClickedScores] = useState<{ [key: string]: number }>({});
-  const [hoveredScores, setHoveredScores] = useState<{ [key: string]: number }>({});
   const linkedinUrls = attendeeInfo?.social_media_links;
 
   const handleDialogOpen = () => setDialogOpen(true);
   const handleDialogClose = () => setDialogOpen(false);
-
-  const handleHoverScores = (criteria: str, score: int) => {
-    setHoveredScores({ ...hoveredScores, [criteria]: score });
-  }
-  const handleUnhoverScores = (criteria: str, score: int) => {
-    setHoveredScores({ ...hoveredScores, [criteria]: 0 });
-  }
-
-  const handleClickedScores = (criteria: str, score: int) => {
-    setClickedScores({ ...clickedScores, [criteria]: score });
-  }
-
-    const handleUnclickedScores = (criteria: str) => {
-        const { [criteria]: _, ...rest } = clickedScores;
-        setClickedScores(rest);
-    }
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -82,24 +64,8 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
         {!isLoadingWorkExperience && <WorkHistory workExperience={workExperience} />}
       </div>
       <div className="flex flex-col justify-start gap-[14px] mr-2">
-        {!isLoadingSalesCriteria && (
-          <SalesCriteriaContainer
-            salesCriteria={salesCriteria}
-            name={name.split(' ')[0]}
-            hoverScores={hoveredScores}
-            clickedScores={clickedScores}
-          />
-        )}
-        {!isLoadingActionItems && (
-          <KpiContainer
-            kpi={kpi}
-            actionItems={actionItems}
-            handleHoverScores={handleHoverScores}
-            handleUnhoverScores={handleUnhoverScores}
-            handleClickedScores={handleClickedScores}
-            handleUnclickedScores={handleUnclickedScores}
-          />
-        )}
+            {!isLoadingSalesCriteria && (<SalesCriteriaContainer name={name.split(' ')[0]}/>)}
+            {!isLoadingActionItems && (<KpiContainer kpi={kpi} actionItems={actionItems}/>)}
       </div>
       <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md" sx={{ padding: '0' }}>
         <IconButton

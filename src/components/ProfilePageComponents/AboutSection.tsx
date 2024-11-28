@@ -6,7 +6,6 @@ import iconRoutes from "../../utils/iconRoutes.json";
 
 const AboutSection: React.FC<AttendeeInfoProps> = ({ profileSummary }) => {
 
-    console.log("profileSummary", profileSummary)
   return (
       <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[8px] border border-[#dddddd] bg-white">
 

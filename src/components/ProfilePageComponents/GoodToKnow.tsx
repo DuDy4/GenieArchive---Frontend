@@ -74,8 +74,8 @@ const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, n
 
                 </div>
                 <div className="flex flex-col">
-                  <div class="button-container">
-                    <button class="social-activity-button" onClick={handleDialogOpen}>Social activity</button>
+                  <div className="button-container">
+                    <button className="social-activity-button" onClick={handleDialogOpen}>Social activity</button>
                   </div>
                 </div>
               </div>

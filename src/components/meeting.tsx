@@ -5,6 +5,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProfileDetails from "./profile-details";
 import ProfilePage from "./ProfilePage";
 import MeetingOverview from "./meeting-overview";
+import { SalesCriteriaProvider } from "../providers/SalesCriteriaProvider";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAllProfiles from "../hooks/useAllProfiles";
@@ -265,7 +266,9 @@ const Meeting = () => {
               ) : (
                 allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                   value === index + 1 && (
-                    <ProfilePage key={uuid} name={name} uuid={uuid} />
+                      <SalesCriteriaProvider tenant_id={tenantId} uuid={uuid}>
+                        <ProfilePage key={uuid} name={name} uuid={uuid} />
+                      </SalesCriteriaProvider>
                   )
                 ))
               )}

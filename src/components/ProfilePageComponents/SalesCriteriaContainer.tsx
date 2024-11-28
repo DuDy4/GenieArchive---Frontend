@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import SalesCriteriaChart from './SalesCriteriaChart'; // Import the bar chart component
 import ArcProgress from './ArcProgressChart'; // Import the arc progress component
+import { useSalesCriteria } from '../../providers/SalesCriteriaProvider'; // Import the context hook
 
 interface SalesCriteria {
   criteria: string;
@@ -11,19 +12,17 @@ interface SalesCriteria {
 
 interface SalesCriteriaContainerProps {
   name: string;
-  salesCriteria: SalesCriteria[];
-  hoverScores: { [key: string]: number }; // Holds criteria and hover scores
-  clickedScores: { [key: string]: number }; // Holds criteria and clicked scores
 }
 
-const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, salesCriteria, hoverScores, clickedScores }) => {
+const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name }) => {
+    const { salesCriteria, hoveredScores, clickedScores } = useSalesCriteria(); // Get sales criteria from context
   const [hoveredCriterion, setHoveredCriterion] = useState<string | null>(null);
 
   // Calculate the total score dynamically based on hover/click states
     const calculateTotalScore = () => {
       return salesCriteria.reduce((total, item) => {
         // Get scores for the current criterion
-        const hoverScore = hoverScores[item.criteria] || 0;
+        const hoverScore = hoveredScores[item.criteria] || 0;
         const clickedScore = clickedScores[item.criteria] || 0;
 
         // Use the maximum of hoverScore and clickedScore
@@ -39,7 +38,7 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, s
       }, 0);
     };
 
-  const total_score = calculateTotalScore();
+  const total_score = salesCriteria ? calculateTotalScore() : 0; // Calculate total score
 
   return (
     <Box
@@ -95,9 +94,6 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, s
       >
         <SalesCriteriaChart
           sales_criteria={salesCriteria}
-          hoverScores={hoverScores}
-          clickedScores={clickedScores}
-          setHoveredCriterion={setHoveredCriterion} // Function to update hover state
         />
       </Box>
     </Box>
