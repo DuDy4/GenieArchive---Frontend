@@ -78,7 +78,7 @@ const Meeting = () => {
             className="meeting-container"
             sx={{
               color: "rgb(17, 24, 28)",
-              backgroundColor: "#b7c3d8",
+              backgroundColor: "#ffffff",
               width: "calc(95%)",
               left: "2.5%",
               zIndex: "2",

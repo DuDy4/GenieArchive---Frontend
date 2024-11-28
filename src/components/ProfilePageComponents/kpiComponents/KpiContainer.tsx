@@ -17,6 +17,7 @@ const kpiContainer = ({kpi, actionItems}) => {
             description={actionItem.action_item}
             percentage={actionItem.score}
             criteria={actionItem.criteria}
+            icon={actionItem.icon}
           />
         ))}
       </div>

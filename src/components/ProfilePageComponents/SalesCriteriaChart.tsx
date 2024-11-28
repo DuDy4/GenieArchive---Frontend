@@ -69,7 +69,6 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
             sx={{
               marginBottom: '16px',
               position: 'relative',
-              cursor: 'pointer',
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
@@ -94,7 +93,7 @@ const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
                     position: 'absolute',
                     height: '100%',
                     width: '100%', // Full width of the bar represents the target score
-                    backgroundColor: `${getColorForCriteria(criterion.criteria)}33`, // Add transparency to the color
+                    backgroundColor: `${getColorForCriteria(criterion.criteria)}44`,
                   }}
                 />
                 {/* Current Score Foreground */}

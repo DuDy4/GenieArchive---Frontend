@@ -67,12 +67,6 @@ const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, n
           {goodToKnow?.news && Array.isArray(goodToKnow.news) && goodToKnow.news.length > 0 && (
             <div className="py-[10px] pb-[20px]" onClick={handleDialogOpen}>
               <div className="cursor-pointer">
-                <div className="flex items-center justify-between">
-                  <h4 className="uppercase text-heading font-bold text-[12px]">
-                    Latest news
-                  </h4>
-
-                </div>
                 <div className="flex flex-col">
                   <div className="button-container">
                     <button className="social-activity-button" onClick={handleDialogOpen}>Social activity</button>

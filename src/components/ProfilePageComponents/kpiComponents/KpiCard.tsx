@@ -9,6 +9,14 @@ interface KpiCardProps {
   criteria: string;
 }
 
+const formatCriteriaName = (criteria: string): string =>
+    criteria
+      .toLowerCase()
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
+
 const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria }) => {
   const [isClicked, setIsClicked] = useState(false);
   const { clickedScores, handleClickedScores, handleUnclickedScores, hoveredScores, handleHoverScores, handleUnhoverScores } = useSalesCriteria();
@@ -33,6 +41,7 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
   return (
     <div
       className={`kpi-card ${isClicked ? 'clicked' : ''}`}
+      title={criteria ? formatCriteriaName(criteria) : ''}
       onClick={handleCardClick}
       onMouseEnter={handleHoverActionItem}
       onMouseLeave={handleUnhoverActionItem}
@@ -55,11 +64,13 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
           height: '48px',
           width: '48px',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
         <img src={icon} alt={`${title} icon`} style={{ height: '100%', width: '100%' }} />
+        <div className="text-center"><strong>{criteria ? formatCriteriaName(criteria) : ''}</strong></div>
       </div>
       <div className="content" style={{ flex: '1', marginLeft: '16px' }}>
         <h3 className="title" style={{ fontSize: '16px', margin: '0 0 8px' }}>{title}</h3>

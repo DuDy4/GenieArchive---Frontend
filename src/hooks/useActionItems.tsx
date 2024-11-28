@@ -7,6 +7,7 @@ interface ActionItem {
   detail_action_item: string;
   status: string;
   score: number;
+  icon?: string;
 }
 
 interface ActionItemsResponse {
@@ -38,6 +39,7 @@ const useActionItems = (tenant_id: string, uuid: string) => {
             detail_action_item: item.detail_action_item,
             status: item.status,
             score: item.score,
+            icon: item.icon,
           })),
         };
       }
