@@ -266,7 +266,7 @@ const Meeting = () => {
               ) : (
                 allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                   value === index + 1 && (
-                      <SalesCriteriaProvider tenant_id={tenantId} uuid={uuid}>
+                      <SalesCriteriaProvider key={uuid} tenant_id={tenantId} uuid={uuid}>
                         <ProfilePage key={uuid} name={name} uuid={uuid} />
                       </SalesCriteriaProvider>
                   )

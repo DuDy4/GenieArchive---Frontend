@@ -25,6 +25,8 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.tenantId!, uuid);
   const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.tenantId!, uuid);
   const { kpi, actionItems } = actionItemsResponse ? actionItemsResponse : {};
+  console.log('kpi', kpi);
+  console.log('actionItems', actionItems);
   const { isLoadingSalesCriteria } = useSalesCriteria();
   const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
   const { profile_category } = data ? data : {};

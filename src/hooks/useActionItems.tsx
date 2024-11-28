@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
 interface ActionItem {
-  icon: string;
-  title: string;
-  description: string;
-  percentage: string;
   criteria: string;
+  action_item: string;
+  detail_action_item: string;
+  status: string;
+  score: number;
 }
 
 interface ActionItemsResponse {
@@ -33,11 +33,11 @@ const useActionItems = (tenant_id: string, uuid: string) => {
         return {
           kpi: response.kpi,
           actionItems: response.action_items.map((item) => ({
-            icon: item.icon,
-            title: item.title,
-            description: item.description,
-            percentage: item.percentage,
             criteria: item.criteria,
+            action_item: item.action_item,
+            detail_action_item: item.detail_action_item,
+            status: item.status,
+            score: item.score,
           })),
         };
       }

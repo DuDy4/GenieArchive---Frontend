@@ -79,7 +79,7 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
           fontSize: '16px',
         }}
       >
-        <span>{percentage}</span>
+        <span>+{percentage}%</span>
       </div>
     </div>
   );
