@@ -29,7 +29,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   console.log('actionItems', actionItems);
   const { isLoadingSalesCriteria } = useSalesCriteria();
   const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
-  const { profile_category } = data ? data : {};
+  const { profile_category, strengths } = data ? data : {};
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.tenantId!, uuid);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const linkedinUrls = attendeeInfo?.social_media_links;
@@ -54,7 +54,8 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
           <AttendeeInfo
             attendeeInfo={attendeeInfo}
             name={name}
-            profileCategory={profile_category?.category}
+            profileCategory={profile_category}
+            strengths={strengths}
           />
         )}
         {!isLoadingAttendeeInfo && (

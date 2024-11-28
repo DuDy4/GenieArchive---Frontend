@@ -90,15 +90,12 @@ interface Strength {
 }
 
 interface RadarChartProps {
-  uuid: string;
+  color: string;
   strengths?: Strength[];
 }
 
-const RadarChart: React.FC<RadarChartProps> = ({ uuid, strengths, color }) => {
+const RadarChart: React.FC<RadarChartProps> = ({ strengths, color }) => {
   const { user } = useAuth0();
-  if (!strengths) {
-    strengths = useStrengths(user?.tenantId!, uuid);
-  }
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const canvasRef = useRef(null);
 

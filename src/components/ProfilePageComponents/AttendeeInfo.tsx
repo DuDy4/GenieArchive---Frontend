@@ -2,17 +2,14 @@ import { AttendeeInfoSocials } from "../types";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import iconRoutes from "../../utils/iconRoutes.json";
+import ProfileCategoryDialog from "./ProfileCategoryDialog";
 
 interface AttendeeInfoProps {
   attendeeInfo: any;
   name: string;
 }
 
-const titlize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profileCategory }) => {
+const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profileCategory, strengths }) => {
   return (
     <div className="space-y-[23.5px] ">
       <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[8px] border border-[#dddddd] bg-white">
@@ -32,14 +29,7 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
           />
         </div>
 
-        <div className="py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] border border-[#dddddd]" style={{
-               display: 'flex',
-               flexDirection: 'column',
-               alignItems: 'center',
-               backgroundColor: '#FFCC00',
-             }}>
-            <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>{titlize(profileCategory.replace('The ', ''))}</strong></p>
-        </div>
+        { profileCategory && strengths && <ProfileCategoryDialog profileCategory={profileCategory} strengths={strengths} /> }
 
         <div className="flex flex-wrap items-center justify-between w-full">
           <div className="font-semibold text-heading text-[18px] leading-[27px]">
