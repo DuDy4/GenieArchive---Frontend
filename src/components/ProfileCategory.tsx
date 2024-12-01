@@ -106,12 +106,12 @@ const ProfileCategory: React.FC<ProfileCategoryProps> = ({ tenantId, uuid, name 
             {/* Second column */}
             <div className="flex flex-col gap-2 justify-between py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[18px] border border-[#dddddd] bg-white">
                 <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
-                    {strengths && Array.isArray(strengths) && strengths.map(({ strength_name, description }: any, index: number) => (
-                      <div key={index} className="flex justify-between items-center cursor-pointer gap-2">
+                    {strengths && Array.isArray(strengths) && strengths.map(({ strength_name }: any, index: number) => (
+                      StrengthsIcons[strength_name] ? (<div key={index} className="flex justify-between items-center cursor-pointer gap-2">
                         <div className="flex flex-row gap-3">
                           <span className="font-semibold text-gray-700"><strong><u>{strength_name}</u></strong>: {StrengthsIcons[strength_name].description}</span>
                         </div>
-                      </div>
+                      </div>) : null
                     ))}
             </div>
         </DialogContent>
