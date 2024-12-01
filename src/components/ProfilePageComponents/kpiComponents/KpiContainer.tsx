@@ -1,7 +1,10 @@
 import React from 'react';
 import KpiCard from './KpiCard';
 
-const kpiContainer = ({kpi, actionItems}) => {
+const KpiContainer: React.FC<KpiContainerProps> = ({ kpi, actionItems }) => {
+  const sortedActionItems = actionItems
+    ? [...actionItems].sort((a, b) => b.score - a.score)
+    : [];
 
   return (
     <div className="kpi-section">
@@ -9,10 +12,9 @@ const kpiContainer = ({kpi, actionItems}) => {
             <p className="kpi-title"><strong>Meeting KPI</strong>: {kpi}</p>
         </div> }
       <div className="kpi-cards">
-        {actionItems && actionItems.map((actionItem, index) => (
+        {sortedActionItems && sortedActionItems.map((actionItem, index) => (
           <KpiCard
             key={index}
-            icon={actionItem.icon}
             title={actionItem.title}
             description={actionItem.action_item}
             percentage={actionItem.score}
