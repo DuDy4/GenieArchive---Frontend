@@ -9,11 +9,13 @@ interface GoodToKnowProps {
 }
 
 const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, name }) => {
+console.log('goodToKnow', goodToKnow)
 
 
 
   return (
-    <div className="flex flex-col w-full " >
+      <>
+     {(goodToKnow.connections.length > 0 || goodToKnow.hobbies.length > 0 || goodToKnow.news.length > 0) && (<div className="flex flex-col w-full " >
 
       <div className="flex w-full justify-between ">
         <div className="border w-full rounded-[8px] border-primary-border py-[12px] px-[12px] bg-white">
@@ -77,7 +79,8 @@ const GoodToKnow: React.FC<GoodToKnowProps> = ({ goodToKnow, handleDialogOpen, n
           )}
         </div>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 };
 
