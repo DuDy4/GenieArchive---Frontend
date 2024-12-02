@@ -16,7 +16,7 @@ const Challenges = ({ challenges }) => {
 
 
     return (
-        <div className="company-challenges p-[10px] rounded-[16px] border border-[#dddddd] mb-4 p-5">
+        <div className="company-challenges p-[10px] rounded-[16px] border border-[#dddddd] mb-4 p-5 bg-white">
             <div className="flex justify-between items-center gap-2">
                 <h1 className="text-lg font-bold text-gray-700 ">Company Challenges</h1>
             </div>

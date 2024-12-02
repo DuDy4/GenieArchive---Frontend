@@ -10,8 +10,6 @@ const useGoodToKnow = (tenant_id: string, uuid: string) => {
       const [_key, tenant_id, uuid] = queryKey;
 
         const response = await makeRequest('GET', `/${tenant_id}/profiles/${uuid}/good-to-know`);
-        console.log("GoodToKnow response data:", response);
-
 
         let data = response;
 

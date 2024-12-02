@@ -32,7 +32,7 @@ const CompanyDetails: React.FC<{ details: any }> = ({ details }) => {
             )}
 
   return (
-    <div className="company-details p-[10px] rounded-[16px] border border-[#dddddd]">
+    <div className="company-details p-[10px] rounded-[16px] border border-[#dddddd] bg-white">
         <div className="flex justify-between">
         <h3 className="text-lg font-bold mb-4">Company Details</h3>
         <div className="flex space-x-2">

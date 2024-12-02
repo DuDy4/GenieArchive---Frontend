@@ -39,7 +39,7 @@ const CompanyOverview: React.FC<{ name: string; overview: string; logo?: string 
   }, [overview]);
 
   return (
-    <div className="company-overview p-[10px] rounded-[16px] border border-[#dddddd] my-4">
+    <div className="company-overview p-[10px] rounded-[16px] border border-[#dddddd] my-4 bg-white">
       <div className="flex justify-start gap-3">
         {logo && <img className="company-logo" src={logo} alt="Company Logo" />}
         <h3 className="text-lg font-bold mb-2 self-center">{titleize(name)}</h3>

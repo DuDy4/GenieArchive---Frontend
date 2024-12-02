@@ -994,3 +994,136 @@ social-media-feed {
     transform: scale(1);
   }
 }
+
+.kpi-section {
+  background-color: #FFFFFF; /* White container */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.kpi-title {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+.kpi-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.kpi-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card-no-hover {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #eaf0f8; /* Subtle blue hover background */
+}
+
+/* Clicked effect */
+.kpi-card:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  background-color: #d4e1f4; /* Slightly darker blue for clicked state */
+}
+
+.kpi-card.clicked {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  background-color: #d4e1f4;
+}
+
+.content {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.percentage {
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #309fdb; /* Light blue */
+  color: white; /* Dark blue */
+  border-radius: 50%;
+  width: 70px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffffff; /* Light blue border */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.social-activity-button {
+  background-color: #007BFF;
+  width: 80%;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.social-activity-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.social-activity-button:active {
+  background-color: #003f7f;
+  transform: scale(0.98);
+}

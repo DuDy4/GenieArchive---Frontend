@@ -34,7 +34,8 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinU
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
-  const normalizeUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '');
+const normalizeUrl = (url: string | undefined | null) =>
+  typeof url === 'string' ? url.replace(/^https?:\/\/(www\.)?/, '') : '';
 
 
   const handleOpen = (images: string[], index: number) => {
@@ -101,8 +102,8 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinU
                   alt={post.media}
                   style={{ height: '20px', width: '20px' }}
                 />
-                  {console.log(post.reshared ? normalizeUrl(post.reshared) : 'No reshared URL')}
                   {post.reshared &&
+                    typeof post.reshared === 'string' &&
                     !linkedinUrls.some((url) => normalizeUrl(url) === normalizeUrl(post.reshared)) &&
                     `${name.split(' ')[0]} reshared this post`}
               </div>
