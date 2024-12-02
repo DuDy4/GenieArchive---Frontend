@@ -47,7 +47,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   return (
     <div
       className="w-[1050px] py-[1rem] my-0 mx-auto grid overflow-auto"
-      style={{ gridTemplateColumns: '1fr 2fr', gap: '24px', backgroundColor: '#b7c3d8' }}
+      style={{ gridTemplateColumns: '1fr 2fr', gap: '24px', backgroundColor: 'transperent' }}
     >
       <div className="flex flex-col gap-[14px] ml-2">
         {!isLoadingAttendeeInfo && (
