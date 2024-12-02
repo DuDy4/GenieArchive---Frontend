@@ -1,6 +1,11 @@
 import React from 'react';
 import KpiCard from './KpiCard';
 
+interface KpiContainerProps {
+  kpi?: string;
+  actionItems?: any[];
+}
+
 const KpiContainer: React.FC<KpiContainerProps> = ({ kpi, actionItems }) => {
   const sortedActionItems = actionItems
     ? [...actionItems].sort((a, b) => b.score - a.score)
@@ -27,4 +32,4 @@ const KpiContainer: React.FC<KpiContainerProps> = ({ kpi, actionItems }) => {
   );
 };
 
-export default kpiContainer;
+export default KpiContainer;
