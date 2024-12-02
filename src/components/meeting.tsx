@@ -2,7 +2,6 @@ import { Box, Tabs, Tab, Button, IconButton, Dialog, DialogActions, DialogConten
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete"; // Import the trash can icon
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import ProfileDetails from "./profile-details";
 import ProfilePage from "./ProfilePage";
 import MeetingOverview from "./meeting-overview";
 import { SalesCriteriaProvider } from "../providers/SalesCriteriaProvider";

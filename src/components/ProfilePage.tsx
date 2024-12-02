@@ -37,7 +37,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const handleDialogOpen = () => setDialogOpen(true);
   const handleDialogClose = () => setDialogOpen(false);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingGenie withLoadingCircle={true} />;
   if (error) return <p>Error: {error.message}</p>;
 
   if (isLoadingAttendeeInfo || isLoadingGoodToKnow || isLoadingActionItems || isLoadingSalesCriteria || isLoadingWorkExperience) {
