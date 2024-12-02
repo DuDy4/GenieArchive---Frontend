@@ -78,7 +78,7 @@ const Meeting = () => {
             className="meeting-container"
             sx={{
               color: "rgb(17, 24, 28)",
-              backgroundColor: "#ffffff",
+              backgroundColor: "#c8d9e5",
               width: "calc(95%)",
               left: "2.5%",
               zIndex: "2",
@@ -224,7 +224,7 @@ const Meeting = () => {
             value={0}
             sx={{
               marginRight: "8px", // Add margin for gap between tabs
-              backgroundColor: "white",
+              backgroundColor: "transperent",
               borderRadius: "6px", // Apply rounded corners to the individual tab as well
             }}
           />
@@ -247,7 +247,7 @@ const Meeting = () => {
               value={index + 1}
               sx={{
                 marginRight: "8px", // Add margin for gap between tabs
-                backgroundColor: "white",
+                backgroundColor: "transperent",
                 borderRadius: "6px", // Apply rounded corners to the individual tab as well
               }}
             />
