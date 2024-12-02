@@ -32,7 +32,7 @@ const ProfileCategoryDialog: React.FC<ProfileCategoryProps> = ({ profileCategory
              display: 'flex',
              flexDirection: 'column',
              alignItems: 'center',
-             backgroundColor: '#FFCC00',
+             backgroundColor: profileCategory ? profileCategory.color : '#FFCC00',
              cursor: 'pointer',
            }}>
           <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>{titlize(profileCategory.category.replace('The ', ''))}</strong></p>

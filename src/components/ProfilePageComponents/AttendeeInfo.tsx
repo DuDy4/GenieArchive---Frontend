@@ -19,7 +19,7 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            backgroundColor: '#FFCC00',
+            backgroundColor: profileCategory ? profileCategory.color : '#FFCC00',
           }}
         >
           <img
