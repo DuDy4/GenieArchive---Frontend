@@ -1,22 +1,19 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { useSalesCriteria } from "../../providers/SalesCriteriaProvider";
 
 interface SalesCriteriaChartProps {
-//   salesCriteria: any[];
-//   hoveredScores: { [key: string]: number };
-//   clickedScores: { [key: string]: number };
-//   setHoveredCriterion: (criteria: string | null) => void;
+  salesCriteria: any[];
+  hoveredScores: { [key: string]: number };
+  clickedScores: { [key: string]: number };
+  setHoveredCriterion: (criteria: string | null) => void;
 }
 
 const SalesCriteriaChart: React.FC<SalesCriteriaChartProps> = ({
-//   salesCriteria,
-//   hoveredScores,
-//   clickedScores,
-//   setHoveredCriterion,
+  salesCriteria,
+  hoveredScores,
+  clickedScores,
+  setHoveredCriterion,
 }) => {
-
-    const { salesCriteria, hoveredScores, clickedScores } = useSalesCriteria();
   // Sort criteria DESC by target score
   const sortedCriteria = salesCriteria ? [...salesCriteria].sort(
     (a: any, b: any) => b.target_score - a.target_score

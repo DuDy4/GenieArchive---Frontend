@@ -6,7 +6,11 @@ interface KpiContainerProps {
   actionItems?: any[];
 }
 
-const KpiContainer: React.FC<KpiContainerProps> = ({ kpi, actionItems }) => {
+const KpiContainer = ({kpi, actionItems,
+    handleHoveredScores,
+     handleUnhoveredScores,
+      handleClickedScores,
+       handleUnclickedScores}) => {
   const sortedActionItems = actionItems
     ? [...actionItems].sort((a, b) => b.score - a.score)
     : [];
@@ -25,6 +29,10 @@ const KpiContainer: React.FC<KpiContainerProps> = ({ kpi, actionItems }) => {
             percentage={actionItem.score}
             criteria={actionItem.criteria}
             icon={actionItem.icon}
+            handleHoveredScores={handleHoveredScores}
+            handleUnhoveredScores={handleUnhoveredScores}
+            handleClickedScores={handleClickedScores}
+            handleUnclickedScores={handleUnclickedScores}
           />
         ))}
       </div>

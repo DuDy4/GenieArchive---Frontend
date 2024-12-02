@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { SalesCriteriaProvider } from '../providers/SalesCriteriaProvider';
+import useSalesCriteria from '../hooks/useSalesCriteria';
 import AttendeeInfo from './ProfilePageComponents/AttendeeInfo';
-import { useSalesCriteria } from '../providers/SalesCriteriaProvider';
 import GoodToKnow from './ProfilePageComponents/GoodToKnow';
 import WorkHistory from './ProfilePageComponents/WorkHistory';
 import AboutSection from './ProfilePageComponents/AboutSection';
@@ -24,25 +25,43 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(user?.tenantId!, uuid);
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.tenantId!, uuid);
   const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.tenantId!, uuid);
+  const { salesCriteria, isLoadingSalesCriteria } = useSalesCriteria(user?.tenantId!, uuid);
+
   const { kpi, actionItems } = actionItemsResponse ? actionItemsResponse : {};
-  console.log('kpi', kpi);
-  console.log('actionItems', actionItems);
-  const { isLoadingSalesCriteria } = useSalesCriteria();
   const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
   const { profile_category, strengths } = data ? data : {};
   const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.tenantId!, uuid);
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [clickedScores, setClickedScores] = useState<{ [key: string]: number }>({});
+  const [hoveredScores, setHoveredScores] = useState<{ [key: string]: number }>({});
+
   const linkedinUrls = attendeeInfo?.social_media_links;
 
   const handleDialogOpen = () => setDialogOpen(true);
   const handleDialogClose = () => setDialogOpen(false);
 
-  if (isLoading) return <LoadingGenie withLoadingCircle={true} />;
+  const handleHoveredScores = (criteria: str, score: int) => {
+      setHoveredScores({ ...hoveredScores, [criteria]: score });
+    }
+    const handleUnhoveredScores = (criteria: str) => {
+      setHoveredScores({ ...hoveredScores, [criteria]: 0 });
+    }
+
+    const handleClickedScores = (criteria: str, score: int) => {
+      setClickedScores({ ...clickedScores, [criteria]: score });
+    }
+
+      const handleUnclickedScores = (criteria: str) => {
+          const { [criteria]: _, ...rest } = clickedScores;
+          setClickedScores(rest);
+      }
+
+
   if (error) return <p>Error: {error.message}</p>;
 
-  if (isLoadingAttendeeInfo || isLoadingGoodToKnow || isLoadingActionItems || isLoadingSalesCriteria || isLoadingWorkExperience) {
-    return <LoadingGenie withLoadingCircle={true} />;
-  }
+//   if (isLoadingAttendeeInfo || isLoadingGoodToKnow || isLoadingActionItems || isLoadingWorkExperience) {
+//     return <LoadingGenie withLoadingCircle={true} />;
+//   }
 
   return (
     <div
@@ -67,8 +86,24 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
         {!isLoadingWorkExperience && <WorkHistory workExperience={workExperience} />}
       </div>
       <div className="flex flex-col justify-start gap-[14px] mr-2">
-            {!isLoadingSalesCriteria && (<SalesCriteriaContainer name={name.split(' ')[0]}/>)}
-            {!isLoadingActionItems && (<KpiContainer kpi={kpi} actionItems={actionItems}/>)}
+          {!isLoadingSalesCriteria && (
+                    <SalesCriteriaContainer
+                      salesCriteria={salesCriteria}
+                      name={name.split(' ')[0]}
+                      hoveredScores={hoveredScores}
+                      clickedScores={clickedScores}
+                    />
+                  )}
+            {!isLoadingActionItems && (
+                      <KpiContainer
+                        kpi={kpi}
+                        actionItems={actionItems}
+                        handleHoveredScores={handleHoveredScores}
+                        handleUnhoveredScores={handleUnhoveredScores}
+                        handleClickedScores={handleClickedScores}
+                        handleUnclickedScores={handleUnclickedScores}
+                      />
+                    )}
       </div>
       <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="md" sx={{ padding: '0' }}>
         <IconButton

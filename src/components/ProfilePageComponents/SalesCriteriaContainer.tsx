@@ -3,6 +3,7 @@ import { Typography, Box } from '@mui/material';
 import SalesCriteriaChart from './SalesCriteriaChart'; // Import the bar chart component
 import ArcProgress from './ArcProgressChart'; // Import the arc progress component
 import { useSalesCriteria } from '../../providers/SalesCriteriaProvider'; // Import the context hook
+import LoadingGenie from '../ui/loading-genie';
 
 interface SalesCriteria {
   criteria: string;
@@ -10,23 +11,27 @@ interface SalesCriteria {
   score: number;
 }
 
-interface SalesCriteriaContainerProps {
-  name: string;
+interface SalesCriteriaChartProps {
+  sales_criteria: any[];
+  hoveredScores: { [key: string]: number };
+  clickedScores: { [key: string]: number };
 }
 
-const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name }) => {
-    const { salesCriteria, hoveredScores, clickedScores } = useSalesCriteria(); // Get sales criteria from context
+
+const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name, salesCriteria, hoveredScores, clickedScores }) => {
   const [hoveredCriterion, setHoveredCriterion] = useState<string | null>(null);
+
+    console.log("Sales Criteria: ", salesCriteria);
 
   // Calculate the total score dynamically based on hover/click states
     const calculateTotalScore = () => {
       return salesCriteria.reduce((total, item) => {
         // Get scores for the current criterion
-        const hoverScore = hoveredScores[item.criteria] || 0;
+        const hoveredScore = hoveredScores[item.criteria] || 0;
         const clickedScore = clickedScores[item.criteria] || 0;
 
         // Use the maximum of hoverScore and clickedScore
-        const additionalScore = Math.max(hoverScore, clickedScore);
+        const additionalScore = Math.max(hoveredScore, clickedScore);
 
         // Calculate the combined score
         const combinedScore = item.score + additionalScore;
@@ -93,7 +98,9 @@ const SalesCriteriaContainer: React.FC<SalesCriteriaContainerProps> = ({ name })
         }}
       >
         <SalesCriteriaChart
-          sales_criteria={salesCriteria}
+          salesCriteria={salesCriteria}
+          hoveredScores={hoveredScores}
+          clickedScores={clickedScores}
         />
       </Box>
     </Box>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSalesCriteria }  from '../../../providers/SalesCriteriaProvider';
 
 interface KpiCardProps {
   icon: string;
@@ -17,9 +16,8 @@ const formatCriteriaName = (criteria: string): string =>
       .join(' ');
 
 
-const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria }) => {
+const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria, handleHoveredScores, handleUnhoveredScores, handleClickedScores, handleUnclickedScores }) => {
   const [isClicked, setIsClicked] = useState(false);
-  const { clickedScores, handleClickedScores, handleUnclickedScores, hoveredScores, handleHoverScores, handleUnhoverScores } = useSalesCriteria();
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
@@ -30,12 +28,12 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
     }
 
   };
-    const handleHoverActionItem = () => {
-        handleHoverScores(criteria, parseInt(percentage));
+    const handleHoveredActionItem = () => {
+        handleHoveredScores(criteria, parseInt(percentage));
     }
 
-    const handleUnhoverActionItem = () => {
-        handleUnhoverScores(criteria, parseInt(percentage));
+    const handleUnhoveredActionItem = () => {
+        handleUnhoveredScores(criteria);
     }
 
   return (
@@ -43,8 +41,8 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
       className={`kpi-card ${isClicked ? 'clicked' : ''}`}
       title={criteria ? formatCriteriaName(criteria) : ''}
       onClick={handleCardClick}
-      onMouseEnter={handleHoverActionItem}
-      onMouseLeave={handleUnhoverActionItem}
+      onMouseEnter={handleHoveredActionItem}
+      onMouseLeave={handleUnhoveredActionItem}
       style={{
         display: 'flex',
         alignItems: 'center',
