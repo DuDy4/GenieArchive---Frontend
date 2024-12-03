@@ -21,11 +21,12 @@ const Meeting = () => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
   const { deleteMeeting } = useMeetingsContext();
-  const { allProfiles, isLoading } = useAllProfiles(tenantId!, id!);
+  const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
   const navigate = useNavigate();
   const name = searchParams.get("name");
 
   console.log("All profiles: ", allProfiles);
+  console.log("All persons: ", allPersons);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -251,6 +252,24 @@ const Meeting = () => {
               }}
             />
           ))}
+      {allPersons?.length > 0 && (
+          <Box
+            sx={{
+              marginLeft: "8px", // Space between the last tab and the bubble
+              padding: "4px 8px",
+              backgroundColor: "#f0f0f0", // Light background for the bubble
+              borderRadius: "12px",
+              minWidth: "40px", // Set a minimum width to prevent the bubble from shrinking
+              position: "relative", // For positioning the tooltip
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            title={"People we are still working on: \n" + allPersons.map(({email }) => `${email}`).join(", ")} // Tooltip with all person details
+          >
+            +{allPersons.length}
+          </Box>
+        )}
         </Tabs>
                     </>
                   ) : (
@@ -271,8 +290,6 @@ const Meeting = () => {
               )}
             </Box>
           </Box>
-
-
         </div>
       </main>
     );
