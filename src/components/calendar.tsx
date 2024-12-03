@@ -210,7 +210,7 @@ const events = meetings?.flatMap((meeting: Meeting) => {
 
 
   const handleSelectEvent = useCallback((event: Event) => {
-    navigate(`/meeting/${event!.id}?name=${event.title}`);
+    navigate(`/meeting/${event!.id}`);
   }, []);
 
   const handleViewChange = useCallback((view: string) => {

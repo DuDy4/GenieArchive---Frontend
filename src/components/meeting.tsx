@@ -20,10 +20,12 @@ const Meeting = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control dialog visibility
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
-  const { deleteMeeting } = useMeetingsContext();
+  const { meetings } = useMeetingsContext();
+  console.log("Meetings: ", meetings);
+  const currentMeeting  = meetings.find(({ uuid }) => uuid === id) || {};
   const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
+  console.log("Current Meeting: ", currentMeeting);
   const navigate = useNavigate();
-  const name = searchParams.get("name");
 
   console.log("All profiles: ", allProfiles);
   console.log("All persons: ", allPersons);
@@ -32,13 +34,6 @@ const Meeting = () => {
     setValue(newValue);
   };
 
-  const handleDeleteMeeting = () => {
-    console.log("Delete Meeting Clicked!");
-    deleteMeeting(id!); // Delete the meeting
-    setIsDialogOpen(false); // Close the dialog
-    console.log("Meeting deleted!");
-    navigate("/");
-  };
 
   const handleOpenDialog = () => {
     setIsDialogOpen(true); // Open the dialog
@@ -159,7 +154,7 @@ const Meeting = () => {
                           marginBottom: "8px",
                         }}
                       >
-                        {name}
+                        {currentMeeting?.subject}
                       </Box>{/* The updated Box with the Delete Meeting button */}
 
                   </Box>
@@ -273,7 +268,7 @@ const Meeting = () => {
         </Tabs>
                     </>
                   ) : (
-                    <div className="text-center">Fetching data...</div>
+                    null
                   )}
                 </Box>
               </Box>
