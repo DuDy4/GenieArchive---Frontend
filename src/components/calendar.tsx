@@ -10,7 +10,6 @@ import {
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Event, momentLocalizer } from "react-big-calendar";
-
 import { AiOutlineSync } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import { CgArrowsExpandRight } from "react-icons/cg";
@@ -161,8 +160,8 @@ const events = meetings?.flatMap((meeting: Meeting) => {
   const startTime = new Date(meeting.start_time);
   const endTime = new Date(meeting.end_time);
 
-  // Check if the meeting crosses midnight
-  if (startTime.getDate() !== endTime.getDate()) {
+//   Check if the meeting crosses midnight
+  if (startTime.getDate() !== endTime.getDate() && meeting.classification === "external") {
     // Split the meeting into two events
     const firstPart = {
       id: `${meeting.uuid}-part1`,
