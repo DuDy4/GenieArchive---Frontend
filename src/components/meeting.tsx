@@ -21,14 +21,9 @@ const Meeting = () => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
   const { meetings } = useMeetingsContext();
-  console.log("Meetings: ", meetings);
   const currentMeeting  = meetings.find(({ uuid }) => uuid === id) || {};
   const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
-  console.log("Current Meeting: ", currentMeeting);
   const navigate = useNavigate();
-
-  console.log("All profiles: ", allProfiles);
-  console.log("All persons: ", allPersons);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
