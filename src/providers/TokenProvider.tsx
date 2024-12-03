@@ -17,6 +17,7 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const { user, getAccessTokenSilently } = useAuth0();
   const email_verification = import.meta.env.VITE_EMAIL_VERIFICATION;
+  const email_allowlist = import.meta.env.VITE_EMAIL_ADMIN_ALLOWLIST;
   const [fakeTenantId, setFakeTenantId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -41,12 +42,16 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       return;
     }
     const email_verified = user?.user_email;
-    if (email_verified && email_verified.includes(email_verification)) {
+    const email_allowlist_array = [];
+    if (email_allowlist) {
+      email_allowlist_array.push(email_allowlist.split(','));
+    }
+    if (email_verified && (email_verified.includes(email_verification) || email_allowlist_array.includes(email_verified))) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
     }
-  }, [getAccessTokenSilently, user, email_verification]);
+  }, [getAccessTokenSilently, user, email_verification, email_allowlist]);
 
   const updateFakeTenantId = (tenantId: string | null) => {
     setFakeTenantId(tenantId);

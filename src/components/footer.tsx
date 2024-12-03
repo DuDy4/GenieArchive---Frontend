@@ -5,6 +5,7 @@ import { FaChevronRight } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth0 } from "@auth0/auth0-react";
 import AdminMode from './AdminMode';
+import FakeMeeting from './FakeMeeting';
 import { useToken } from "../providers/TokenProvider";
 import ContactUs from './ContactUs';
 import FileUpload from './file-upload';
@@ -18,6 +19,7 @@ const Footer: React.FC = () => {
   const [anchorElContact, setAnchorElContact] = useState<null | HTMLElement>(null);
   const [openContactModal, setOpenContactModal] = useState(false);
   const [openAdminMode, setOpenAdminMode] = useState(false);
+  const [openFakeMeetingMode, setOpenFakeMeetingMode] = useState(false);
   const [openBadges, setOpenBadges] = useState(false); // State for the Badges popup
   const [openFileUpload, setOpenFileUpload] = useState(false);
   const { user, logout } = useAuth0();
@@ -90,6 +92,16 @@ const Footer: React.FC = () => {
             </MenuItem>
           )}
 
+          {isAdmin && (
+            <MenuItem
+              onClick={() => setOpenFakeMeetingMode(true)}
+              sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
+            >
+              <Typography sx={{ fontWeight: 500 }}>Fake Meeting</Typography>
+              <FaChevronRight />
+            </MenuItem>
+          )}
+
 
 
           <MenuItem
@@ -123,6 +135,10 @@ const Footer: React.FC = () => {
 
         <Dialog open={openAdminMode} onClose={() => setOpenAdminMode(false)}>
           <AdminMode onClose={() => setOpenAdminMode(false)} />
+        </Dialog>
+
+        <Dialog open={openFakeMeetingMode} onClose={() => setOpenFakeMeetingMode(false)}>
+          <FakeMeeting onClose={() => setOpenFakeMeetingMode(false)} />
         </Dialog>
 
         <ButtonBase onClick={() => setOpenContactModal(true)} sx={{ color: "white" }}>
