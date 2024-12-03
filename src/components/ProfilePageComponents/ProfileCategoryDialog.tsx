@@ -5,6 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StrengthsIcons from "../../utils/StrengthsIcons.json";
 import RadarChart from "../chart";
 import useStrengthsAndCategories from "../../hooks/useStrengthsAndCategories";
+import { darkenColor, getContrastColor } from "../../utils/colorsUtils";
 
 interface Explanation {
   characteristics: string;
@@ -12,24 +13,6 @@ interface Explanation {
   recommendations: string;
 }
 
-const darkenColor = (color: string, percent: number) => {
-  const num = parseInt(color.replace("#", ""), 16);
-  const amt = Math.round(2.55 * percent);
-  const R = (num >> 16) + amt;
-  const G = ((num >> 8) & 0x00ff) + amt;
-  const B = (num & 0x0000ff) + amt;
-  return (
-    "#" +
-    (
-      0x1000000 +
-      (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
-      (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
-      (B < 255 ? (B < 1 ? 0 : B) : 255)
-    )
-      .toString(16)
-      .slice(1)
-  );
-};
 
 const titlize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -54,6 +37,7 @@ const ProfileCategoryDialog: React.FC<ProfileCategoryProps> = ({ profileCategory
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: profileCategory ? profileCategory.color : '#FFCC00',
+          color: profileCategory ? getContrastColor(profileCategory.color) : "black",
           cursor: 'pointer',
           transition: 'background-color 0.3s ease',
         }}
@@ -95,29 +79,50 @@ const ProfileCategoryDialog: React.FC<ProfileCategoryProps> = ({ profileCategory
 
           {/* First column */}
           <div className="flex flex-row md:flex-row gap-4 justify-between">
-
               <div className="flex flex-col justify-between gap-4 pr-5">
-                <div className="flex flex-row justify-start gap-2 "
-                        style={{
-                          backgroundColor: profileCategory ? profileCategory.color : 'white',
-                          color: profileCategory ? profileCategory.font_color : 'black',
-                          borderRadius: '8px',
-                          height: '100px',
-                        }}>
-                    <img src={profileCategory.icon} alt={profileCategory.category} style={{width: '100px', height: '100px', borderRadius: '18px', padding: '8px'}} />
+                <div
+                  className="flex flex-row justify-start gap-2"
+                  style={{
+                    backgroundColor: profileCategory ? profileCategory.color : "white",
+                    color: profileCategory ? getContrastColor(profileCategory.color) : "black",
+                    borderRadius: "8px",
+                    height: "100px",
+                  }}
+                >
+                  <img
+                    src={profileCategory.icon}
+                    alt={profileCategory.category}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "18px",
+                      padding: "8px",
+                      filter: profileCategory
+                        ? getContrastColor(profileCategory.color) === "#FFFFFF"
+                          ? "invert(1)"
+                          : "invert(0)"
+                        : "none",
+                    }}
+                  />
 
-                    <div className="flex flex-col items-center justify-center self-center py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px] " style={{
-                           display: 'flex',
-                           flexDirection: 'column',
-                           alignItems: 'center',
-                           backgroundColor: profileCategory.color,
-                           maxHeight: '60px',
-                           borderRadius: '8px',
-                           minWidth: '200px',
-                           width: '100%',
-                         }}>
-                        <p className="text-[36px]" style={{fontFamily: "Poppins"}}><strong>{profileCategory.category}</strong></p>
-                    </div>
+                  <div
+                    className="flex flex-col items-center justify-center self-center py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[1px]"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      backgroundColor: profileCategory.color,
+                      color: profileCategory ? getContrastColor(profileCategory.color) : "black",
+                      maxHeight: "60px",
+                      borderRadius: "8px",
+                      minWidth: "200px",
+                      width: "100%",
+                    }}
+                  >
+                    <p className="text-[36px]" style={{ fontFamily: "Poppins" }}>
+                      <strong>{profileCategory.category}</strong>
+                    </p>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between space-y-3"
                         style={{ marginTop: '10px' }}>
