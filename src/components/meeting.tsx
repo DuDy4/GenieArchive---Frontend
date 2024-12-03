@@ -20,8 +20,8 @@ const Meeting = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control dialog visibility
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
-  const { meetings } = useMeetingsContext();
-  const currentMeeting  = meetings.find(({ uuid }) => uuid === id) || {};
+  const { meetings = [] } = useMeetingsContext();
+  const currentMeeting = meetings?.find(({ uuid }) => uuid === id) || {};
   const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
   const navigate = useNavigate();
 
