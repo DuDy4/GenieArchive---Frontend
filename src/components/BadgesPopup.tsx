@@ -21,6 +21,7 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
                 setLoading(true);
                 const response = await makeRequest("GET", "/user-badges");
                 setBadges(response);
+                // await makeRequest("POST", "/badge-seen", {});
             } catch (error) {
                 setError("Failed to load badges. Please try again later.");
             } finally {
