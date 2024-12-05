@@ -27,7 +27,10 @@ const Footer: React.FC = () => {
   const { token, isAdmin } = useToken();
   const { connectToSSE } = useSSEClient();
   const [unseenBadges, setUnseenBadges] = useState<string[]>([]);
+  const [hasNotification, setHasNotification] = useState(false);
   const isConnectedRef = useRef(false); // Use ref to avoid unnecessary re-renders
+
+  console.log("unseenBadges", unseenBadges);
 
   useEffect(() => {
     if (isConnectedRef.current) return; // Prevent reinitializing the connection
@@ -37,6 +40,9 @@ const Footer: React.FC = () => {
       (data) => {
         console.log("Received data:", data);
         setUnseenBadges(data); // Update badges state
+        if (data.length > 0) {
+            setHasNotification(true);
+            }
       },
       (error) => {
         console.error("Error with SSE:", error);
@@ -186,7 +192,7 @@ const Footer: React.FC = () => {
         /> */}
         <FooterIcon
             Icon={EmojiEventsOutlined}
-            showNotification={unseenBadges.length > 0} // Show notification if there are unseen badges
+            showNotification={unseenBadges.length > 0}
             tooltipTitle="Challenges"
             onClick={handleOpenBadgesPopup}
         />

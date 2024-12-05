@@ -68,6 +68,11 @@ export const useSSEClient = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+  console.log("EventSource: ", eventSource);
+
+      eventSource.onopen = () => {
+        console.log("SSE connection opened");
+      }
 
       eventSource.onmessage = (event) => {
         console.log("Received SSE message:", event);
@@ -84,7 +89,7 @@ export const useSSEClient = () => {
         if (onError) onError(error);
         eventSource.close();
       };
-
+        console.log("EventSource: ", eventSource);
       return eventSource;
     };
   }, [accessToken]); // Stable as long as `accessToken` doesn’t change
