@@ -27,7 +27,6 @@ const Footer: React.FC = () => {
   const { token, isAdmin } = useToken();
   const { connectToSSE } = useSSEClient();
   const [unseenBadges, setUnseenBadges] = useState<string[]>([]);
-  const [hasNotification, setHasNotification] = useState(false);
   const isConnectedRef = useRef(false); // Use ref to avoid unnecessary re-renders
 
   console.log("unseenBadges", unseenBadges);
@@ -40,9 +39,6 @@ const Footer: React.FC = () => {
       (data) => {
         console.log("Received data:", data);
         setUnseenBadges(data); // Update badges state
-        if (data.length > 0) {
-            setHasNotification(true);
-            }
       },
       (error) => {
         console.error("Error with SSE:", error);
@@ -92,6 +88,10 @@ const Footer: React.FC = () => {
     handleCloseContactMenu();
     setOpenContactModal(true);
   };
+
+  const cleanUnseenBadges = () => {
+    setUnseenBadges([]);
+      }
 
 
 
@@ -204,7 +204,7 @@ const Footer: React.FC = () => {
 
 
         <Dialog open={openBadges} onClose={() => setOpenBadges(false)} maxWidth="md">
-          <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} lastEarnedBadgeIds={unseenBadges} />
+          <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} unseenBadges={unseenBadges} cleanUnseenBadges={cleanUnseenBadges} />
         </Dialog>
       </div>
       {/* Pass the anchorEl and handlers to the FileUploadDialog */}
