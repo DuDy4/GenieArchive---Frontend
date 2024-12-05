@@ -193,11 +193,11 @@ const Footer: React.FC = () => {
 
 
         <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
-          <ContactUs open={openContactModal} onClose={() => handleCloseFileUpload()} />
+          <ContactUs open={openContactModal} onClose={() => setOpenContactModal(false)} />
         </Dialog>
 
 
-        <Dialog open={openBadges} onClose={() => setOpenBadges(false)} maxWidth="md" fullWidth>
+        <Dialog open={openBadges} onClose={() => setOpenBadges(false)} maxWidth="md">
           <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} lastEarnedBadgeIds={unseenBadges} />
         </Dialog>
       </div>
