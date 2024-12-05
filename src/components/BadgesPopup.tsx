@@ -7,9 +7,10 @@ import { useApiClient } from "../utils/AxiosMiddleware";
 interface BadgesPopupProps {
     open: boolean;
     onClose: () => void;
+    lastEarnedBadgeIds: string[];
 }
 
-const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
+const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose, lastEarnedBadgeIds }) => {
     const [badges, setBadges] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -21,7 +22,6 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
                 setLoading(true);
                 const response = await makeRequest("GET", "/user-badges");
                 setBadges(response);
-                // await makeRequest("POST", "/badge-seen", {});
             } catch (error) {
                 setError("Failed to load badges. Please try again later.");
             } finally {
@@ -69,15 +69,15 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose }) => {
                 </Box>
             </DialogTitle>
             <DialogContent dividers sx={{ backgroundColor: "#f9f9f9", padding: 4 }}>
-                <BadgeSection title="🔥 Daily Challenges" badges={dailyBadges} />
-                <BadgeSection title="🌟 Weekly Milestones" badges={weeklyBadges} />
-                <BadgeSection title="🏆 All-Time Achievements" badges={allTimeBadges} />
+                <BadgeSection title="🔥 Daily Challenges" badges={dailyBadges} lastEarnedBadgeIds={lastEarnedBadgeIds} />
+                <BadgeSection title="🌟 Weekly Milestones" badges={weeklyBadges} lastEarnedBadgeIds={lastEarnedBadgeIds} />
+                <BadgeSection title="🏆 All-Time Achievements" badges={allTimeBadges} lastEarnedBadgeIds={lastEarnedBadgeIds} />
             </DialogContent>
         </Dialog>
     );
 };
 
-const BadgeSection: React.FC<{ title: string; badges: any[] }> = ({ title, badges }) => {
+const BadgeSection: React.FC<{ title: string; badges: any[]; lastEarnedBadgeIds: string[] }> = ({ title, badges, lastEarnedBadgeIds }) => {
     return (
         <Paper sx={{ marginBottom: 3, padding: 4, borderRadius: "15px", backgroundColor: "#f0f4f8", boxShadow: "0px 8px 16px rgba(0,0,0,0.2)" }}>
             <Typography variant="h5" sx={{ marginBottom: 3, fontWeight: "bold", color: "#333" }}>
@@ -87,7 +87,7 @@ const BadgeSection: React.FC<{ title: string; badges: any[] }> = ({ title, badge
                 {badges.length > 0 ? (
                     badges.map(badge => (
                         <Grid item xs={12} sm={6} md={4} key={badge.badge_id}>
-                            <BadgeItem badge={badge} />
+                            <BadgeItem badge={badge} lastEarnedBadgeIds={lastEarnedBadgeIds}/>
                         </Grid>
                     ))
                 ) : (
@@ -100,24 +100,26 @@ const BadgeSection: React.FC<{ title: string; badges: any[] }> = ({ title, badge
     );
 };
 
-const BadgeItem: React.FC<{ badge: any }> = ({ badge }) => {
+const BadgeItem: React.FC<{ badge: any; lastEarnedBadgeIds: string[] }> = ({ badge, lastEarnedBadgeIds }) => {
     const isAchieved = badge.progress.count >= badge.progress.goal;
+    const isLastEarned = lastEarnedBadgeIds.includes(badge.badge_id);
     const progressPercentage = Math.min((badge.progress.count / badge.progress.goal) * 100, 100);
 
     return (
         <Paper 
-            sx={{ 
-                padding: 3, 
-                borderRadius: "12px", 
-                display: "flex", 
+            sx={{
+                padding: 3,
+                borderRadius: "12px",
+                display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                height: "-webkit-fill-available",
-                alignItems: "center", 
-                backgroundColor: isAchieved ? "#e0f7fa" : "#fff", 
-                boxShadow: "0px 4px 12px rgba(0,0,0,0.1)", 
+                alignItems: "center",
+                height: "100%",
+                backgroundColor: isLastEarned ? "#fff3e0" : isAchieved ? "#e0f7fa" : "#fff",
+                boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
                 transition: "transform 0.2s",
-                "&:hover": { transform: "scale(1.05)" }
+                border: isLastEarned ? "2px solid #ff9800" : "none", // Highlight last earned badges
+                "&:hover": { transform: "scale(1.05)" },
             }}
         >
             <div style={{alignItems: 'center', justifyContent: 'center'}} >
