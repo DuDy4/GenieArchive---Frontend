@@ -1,6 +1,7 @@
 import axios, { Method } from 'axios';
 import { useToken } from '../providers/TokenProvider';
-import { useCallback } from 'react';  
+import { useMemo, useCallback } from 'react';  
+import EventSourcePolyfill from '@sanity/eventsource/browser'
 
 class ApiClient {
   private baseURL: string;
@@ -50,3 +51,86 @@ export const useApiClient = () => {
 
   return { makeRequest };
 };
+
+
+export const useSSEClient = () => {
+  const { token: accessToken } = useToken();
+
+  const connectToSSE = useMemo(() => {
+    return (url: string, onMessage: (data: any) => void, onError?: (error: any) => void) => {
+      if (!accessToken) {
+        console.warn("AccessToken is missing. Skipping SSE connection.");
+        return null;
+      }
+
+      const eventSource = new EventSourcePolyfill(`${import.meta.env.VITE_API_URL}${url}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  console.log("EventSource: ", eventSource);
+
+      eventSource.onopen = () => {
+        console.log("SSE connection opened");
+      }
+
+      eventSource.onmessage = (event) => {
+        console.log("Received SSE message:", event);
+        try {
+          const data = JSON.parse(event.data);
+          onMessage(data);
+        } catch (error) {
+          console.error("Failed to parse SSE message:", error);
+        }
+      };
+
+      eventSource.onerror = (error) => {
+        console.error("SSE connection error:", error);
+        if (onError) onError(error);
+        eventSource.close();
+      };
+        console.log("EventSource: ", eventSource);
+      return eventSource;
+    };
+  }, [accessToken]); // Stable as long as `accessToken` doesn’t change
+
+  return { connectToSSE };
+};
+
+
+// export const useSSEClient = () => {
+//   const { token: accessToken } = useToken();
+
+//   const connectToSSE = (url: string, onMessage: (data: any) => void, onError?: (error: any) => void) => {
+//     if (!accessToken) {
+//       console.error("AccessToken is missing");
+//       return;
+//     }
+
+//     const eventSource = new EventSource(`${import.meta.env.VITE_API_URL}${url}`, {
+//       withCredentials: true, // Include credentials if needed (e.g., cookies, auth headers)
+//     });
+
+//     // Attach event listeners
+//     eventSource.onmessage = (event) => {
+//       try {
+//         const data = JSON.parse(event.data);
+//         onMessage(data); // Call the onMessage callback with parsed data
+//       } catch (error) {
+//         console.error("Failed to parse SSE message:", error);
+//       }
+//     };
+
+//     eventSource.onerror = (error) => {
+//       console.error("SSE connection error:", error);
+//       if (onError) {
+//         onError(error);
+//       }
+//       eventSource.close(); // Close the connection on error
+//     };
+
+//     return eventSource; // Return the EventSource instance so it can be managed (e.g., closed later)
+//   };
+
+//   return { connectToSSE };
+// };

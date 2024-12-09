@@ -181,7 +181,6 @@ const Home = () => {
           setOpenSearchBar={setOpenSearchBar}
         />
       ) : null}
-        <Footer  />
     </main>
   );
 };

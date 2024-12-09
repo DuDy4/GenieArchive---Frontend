@@ -20,7 +20,7 @@ interface MeetingContextProps {
 const MeetingContext = createContext<MeetingContextProps | undefined>(undefined);
 
 // MeetingProvider component
-export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId: string }> = ({ children }) => {
+export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string }> = ({ children }) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isAdmin, fakeTenantId } = useToken();

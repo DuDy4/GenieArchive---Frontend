@@ -15,7 +15,7 @@ console.log('goodToKnow', goodToKnow)
 
   return (
       <>
-     {(goodToKnow.connections.length > 0 || goodToKnow.hobbies.length > 0 || goodToKnow.news.length > 0) && (<div className="flex flex-col w-full " >
+     {((goodToKnow.connections && goodToKnow.connections.length) > 0 || (goodToKnow.hobbies && goodToKnow.hobbies.length) > 0 || (goodToKnow.news && goodToKnow.news.length > 0)) && (<div className="flex flex-col w-full " >
 
       <div className="flex w-full justify-between ">
         <div className="border w-full rounded-[8px] border-primary-border py-[12px] px-[12px] bg-white">

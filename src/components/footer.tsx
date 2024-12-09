@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, ButtonBase, Tooltip, Avatar, Dialog, MenuItem, Typography } from "@mui/material";
 import { SettingsOutlined, ContactSupportOutlined, EmojiEventsOutlined } from "@mui/icons-material";
 import { FaChevronRight } from "react-icons/fa6";
@@ -13,6 +13,7 @@ import BadgesPopup from './BadgesPopup';
 import FooterIcon from './footer-icon';
 import CustomStyledMenu from './Menus/StyledMenu';
 import FileUploadDialog from './popups/fileUploadPopup';
+import { useSSEClient } from "../utils/AxiosMiddleware";
 
 const Footer: React.FC = () => {
   const [anchorElPreferences, setAnchorElPreferences] = useState<null | HTMLElement>(null);
@@ -23,7 +24,39 @@ const Footer: React.FC = () => {
   const [openBadges, setOpenBadges] = useState(false); // State for the Badges popup
   const [openFileUpload, setOpenFileUpload] = useState(false);
   const { user, logout } = useAuth0();
-  const { isAdmin } = useToken();
+  const { token, isAdmin } = useToken();
+  const { connectToSSE } = useSSEClient();
+  const [unseenBadges, setUnseenBadges] = useState<string[]>([]);
+  const isConnectedRef = useRef(false); // Use ref to avoid unnecessary re-renders
+
+  console.log("unseenBadges", unseenBadges);
+
+  useEffect(() => {
+    if (isConnectedRef.current) return; // Prevent reinitializing the connection
+
+    const eventSource = connectToSSE(
+      "/notifications/badges",
+      (data) => {
+        console.log("Received data:", data);
+        setUnseenBadges(data); // Update badges state
+      },
+      (error) => {
+        console.error("Error with SSE:", error);
+      }
+    );
+
+    if (eventSource) isConnectedRef.current = true; // Mark as connected
+
+    return () => {
+      eventSource?.close();
+      isConnectedRef.current = false; // Reset the connection status
+    };
+  }, [connectToSSE]); // Only run when `connectToSSE` changes
+
+  const handleOpenBadgesPopup = () => {
+      setOpenBadges(true);
+      setUnseenBadges([]); // Clear unseen badges when opening the popup
+  };
 
   const handleClickPreferences = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElPreferences(event.currentTarget);
@@ -56,13 +89,18 @@ const Footer: React.FC = () => {
     setOpenContactModal(true);
   };
 
+  const cleanUnseenBadges = () => {
+    setUnseenBadges([]);
+      }
+
 
 
 
   return (
     <>
       <div className="footer">
-        <ButtonBase id="preferencesButton" onClick={handleClickPreferences}>
+        <ButtonBase id="preferencesButton" onClick={handleClickPreferences}   style={{ color: "white" }}
+>
           <Tooltip arrow title="Preferences" placement="top">
             <SettingsOutlined />
           </Tooltip>
@@ -147,21 +185,27 @@ const Footer: React.FC = () => {
           </Tooltip>
         </ButtonBase>
 
-        <FooterIcon
+        {/* <FooterIcon
           Icon={EmojiEventsOutlined}
           showNotification={false}
           tooltipTitle="Challenges"
           onClick={() => setOpenBadges(true)}
+        /> */}
+        <FooterIcon
+            Icon={EmojiEventsOutlined}
+            showNotification={unseenBadges.length > 0}
+            tooltipTitle="Challenges"
+            onClick={handleOpenBadgesPopup}
         />
 
 
         <Dialog open={openContactModal} onClose={() => setOpenContactModal(false)}>
-          <ContactUs open={openContactModal} onClose={() => handleCloseFileUpload()} />
+          <ContactUs open={openContactModal} onClose={() => setOpenContactModal(false)} />
         </Dialog>
 
 
-        <Dialog open={openBadges} onClose={() => setOpenBadges(false)} maxWidth="md" fullWidth>
-          <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} />
+        <Dialog open={openBadges} onClose={() => setOpenBadges(false)} maxWidth="md">
+          <BadgesPopup open={openBadges} onClose={() => setOpenBadges(false)} unseenBadges={unseenBadges} cleanUnseenBadges={cleanUnseenBadges} />
         </Dialog>
       </div>
       {/* Pass the anchorEl and handlers to the FileUploadDialog */}
