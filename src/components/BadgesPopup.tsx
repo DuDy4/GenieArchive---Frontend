@@ -109,7 +109,7 @@ const BadgeSection: React.FC<{ title: string; badges: any[]; unseenBadges: strin
 
 const BadgeItem: React.FC<{ badge: any; unseenBadges: string[] }> = ({ badge, unseenBadges }) => {
     const isAchieved = badge.progress.count >= badge.progress.goal;
-    const isLastEarned = unseenBadges.includes(badge.badge_id);
+//     const isLastEarned = unseenBadges.includes(badge.badge_id);
     const progressPercentage = Math.min((badge.progress.count / badge.progress.goal) * 100, 100);
 
     return (
@@ -123,14 +123,14 @@ const BadgeItem: React.FC<{ badge: any; unseenBadges: string[] }> = ({ badge, un
                 justifyContent: "space-between",
                 alignItems: "center",
                 height: "100%",
-                backgroundColor: isLastEarned ? "#fff3e0" : isAchieved ? "#e0f7fa" : "#fff",
+                backgroundColor: (isAchieved && !badge.seen) ? "#fff3e0" : isAchieved ? "#e0f7fa" : "#fff",
                 boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
                 transition: "transform 0.2s",
-                border: isLastEarned ? "2px solid #ff9800" : "none", // Highlight last earned badges
+                border: (isAchieved && !badge.seen) ? "2px solid #ff9800" : "none", // Highlight last earned badges
                 "&:hover": { transform: "scale(1.05)" },
             }}
         >
-            {isLastEarned && (
+            {(isAchieved && !badge.seen) && (
                 <img
                     src="https://img.icons8.com/color/48/new--v1.png"
                     alt="Last earned"
