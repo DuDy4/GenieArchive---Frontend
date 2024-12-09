@@ -761,10 +761,12 @@ element {
   bottom: 2%;
   left: 1.5%;
   display: flex;
-  z-index: 100;
+  z-index: 1;
   padding: 10px;
   display: flex;
   gap: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .footer.icon {

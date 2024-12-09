@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { Route, Routes } from "react-router-dom";
-
+import Footer from "./components/footer";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./components/homepage";
@@ -46,6 +46,7 @@ function App() {
                                 <Route path="/meeting/:id" element={<Meeting />} />
                                 <Route path="/unsubscribe/:tenantId" element={<UnsubscribePage />} />
                             </Routes>
+                            <Footer  />
                         </MeetingsProvider>
                     </TokenProvider>
                 </>

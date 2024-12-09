@@ -99,7 +99,8 @@ const Footer: React.FC = () => {
   return (
     <>
       <div className="footer">
-        <ButtonBase id="preferencesButton" onClick={handleClickPreferences}>
+        <ButtonBase id="preferencesButton" onClick={handleClickPreferences}   style={{ color: "white" }}
+>
           <Tooltip arrow title="Preferences" placement="top">
             <SettingsOutlined />
           </Tooltip>
