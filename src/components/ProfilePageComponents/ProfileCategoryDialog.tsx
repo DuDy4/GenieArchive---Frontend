@@ -119,7 +119,7 @@ const ProfileCategoryDialog: React.FC<ProfileCategoryProps> = ({ profileCategory
                       width: "100%",
                     }}
                   >
-                    <p className="text-[36px]" style={{ fontFamily: "Poppins" }}>
+                    <p className="text-[36px]" style={{ fontFamily: "Poppins", lineHeight: "30px" }}>
                       <strong>{profileCategory.category}</strong>
                     </p>
                   </div>

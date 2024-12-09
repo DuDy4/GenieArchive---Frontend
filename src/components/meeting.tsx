@@ -141,6 +141,7 @@ const Meeting = () => {
                           minWidth: "0px",
                           padding: "0px",
                           margin: "0px",
+                          lineHeight: "30px",
                           border: "0px",
                           verticalAlign: "top",
                           flex: "1 1 0%",
