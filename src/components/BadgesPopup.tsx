@@ -109,7 +109,6 @@ const BadgeSection: React.FC<{ title: string; badges: any[]; unseenBadges: strin
 
 const BadgeItem: React.FC<{ badge: any; unseenBadges: string[] }> = ({ badge, unseenBadges }) => {
     const isAchieved = badge.progress.count >= badge.progress.goal;
-//     const isLastEarned = unseenBadges.includes(badge.badge_id);
     const progressPercentage = Math.min((badge.progress.count / badge.progress.goal) * 100, 100);
 
     return (

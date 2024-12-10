@@ -4,6 +4,7 @@ import { Box, Button, Typography, LinearProgress, IconButton, Paper, Grid, Toolt
 import { PictureAsPdf, InsertDriveFile, Close, CloudDone, ErrorOutline } from "@mui/icons-material";
 import axios from "axios";
 import { useApiClient } from "../utils/AxiosMiddleware";
+import { useToken } from "../providers/TokenProvider";
 
 interface FileUploadProps {
     onClose: () => void;
@@ -17,6 +18,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([]); // Ensure it's initialized as an empty array
     const [categories, setCategories] = useState<string[]>([]);
     const { makeRequest } = useApiClient();
+    const { fakeTenantId } = useToken();
 
     useEffect(() => {
         // Fetch already uploaded files on mount
@@ -133,8 +135,29 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
                         </Typography>
                         <Button variant="contained" sx={{ mt: 2, backgroundColor: '#42a5f5', color: 'white' }}>Browse Files</Button>
                     </Box>
-
-                    <Grid container spacing={2} sx={{ mt: 2 }}>
+                    {fakeTenantId && (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                            <Paper
+                                elevation={2}
+                                sx={{
+                                    padding: 2,
+                                    backgroundColor: '#ffe082',
+                                    color: '#bf360c',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    border: '1px solid #ffab40',
+                                    borderRadius: 2,
+                                    maxWidth: '80%',
+                                }}
+                            >
+                                <ErrorOutline sx={{ color: '#bf360c', mr: 1 }} />
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                    You are currently impersonating tenant: {fakeTenantId}.<br/><br/> Any changes or uploads will affect their account.
+                                </Typography>
+                            </Paper>
+                        </Box>
+                    )}
+                    <Grid container spacing={2}>
                         {files.map((file) => (
                             <Grid item xs={12} key={file.name}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, border: '1px solid #90caf9', borderRadius: '8px', backgroundColor: '#ffffff' }}>
