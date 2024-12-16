@@ -18,6 +18,7 @@ const formatCriteriaName = (criteria: string): string =>
 
 const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria, handleHoveredScores, handleUnhoveredScores, handleClickedScores, handleUnclickedScores }) => {
   const [isClicked, setIsClicked] = useState(false);
+  console.log("Criteria: ", criteria);
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
@@ -67,8 +68,10 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
           alignItems: 'center',
         }}
       >
-        <img src={icon} alt={`${title} icon`} style={{ height: '100%', width: '100%' }} />
-        <div className="text-center"><strong>{criteria ? formatCriteriaName(criteria) : ''}</strong></div>
+        <img src={icon} alt={`${title} icon`} style={{ height: '100%' }} />
+        <div className="text-center" style={{fontSize: criteria === 'RESPONSIVENESS' ? 'smaller' : 'small'}}>
+            <strong>{criteria ? formatCriteriaName(criteria) : ''}</strong>
+        </div>
       </div>
       <div className="content" style={{ flex: '1', marginLeft: '16px' }}>
         <h3 className="title" style={{ fontSize: '16px', margin: '0 0 8px' }}>{title}</h3>
