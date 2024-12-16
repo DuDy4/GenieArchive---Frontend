@@ -69,7 +69,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
       style={{ gridTemplateColumns: '1fr 2fr', gap: '24px', backgroundColor: 'transperent' }}
     >
       <div className="flex flex-col gap-[14px] ml-2">
-        {!isLoadingAttendeeInfo && (
+        {!isLoadingAttendeeInfo && !isLoading && (
           <AttendeeInfo
             attendeeInfo={attendeeInfo}
             name={name}
