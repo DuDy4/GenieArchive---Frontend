@@ -93,9 +93,6 @@ const Footer: React.FC = () => {
     setUnseenBadges([]);
       }
 
-
-
-
   return (
     <>
       <div className="footer">

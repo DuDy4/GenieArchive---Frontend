@@ -146,13 +146,13 @@ const MeetingsCalendar: React.FC<MeetingsCalendarProps> = ({
   }, []);
 
   // // Define the list of events to be displayed
-  // const events = meetings?.map((meeting: Meeting) => ({
-  //   id: meeting.uuid,
-  //   title: meeting.subject,
-  //   start: new Date(meeting.start_time),
-  //   end: new Date(meeting.end_time),
-  //   classification: meeting.classification || "external",
-  // }));
+//   const events = meetings?.map((meeting: Meeting) => ({
+//     id: meeting.uuid,
+//     title: meeting.subject,
+//     start: new Date(meeting.start_time),
+//     end: new Date(meeting.end_time),
+//     classification: meeting.classification || "external",
+//   }));
 
 
   // Define the list of events to be displayed
@@ -164,7 +164,7 @@ const events = meetings?.flatMap((meeting: Meeting) => {
   if (startTime.getDate() !== endTime.getDate() && meeting.classification === "external") {
     // Split the meeting into two events
     const firstPart = {
-      id: `${meeting.uuid}-part1`,
+      id: `${meeting.uuid}`,
       title: meeting.subject,
       start: startTime,
       end: new Date(
@@ -179,7 +179,7 @@ const events = meetings?.flatMap((meeting: Meeting) => {
     };
 
     const secondPart = {
-      id: `${meeting.uuid}-part2`,
+      id: `${meeting.uuid}`,
       title: meeting.subject,
       start: new Date(
         endTime.getFullYear(),

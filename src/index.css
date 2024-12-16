@@ -56,7 +56,8 @@ html {
 }
 
 .meeting-container{
-    background-color: "#F8F9FA",
+    background-color: "#F8F9FA";
+    z-index: 10;
 }
 
 .box {
@@ -956,8 +957,10 @@ social-media-feed {
 
 /* Preferences Button Styling */
 #preferencesButton {
-  z-index: 10000; /* Keep it in front of the blurred elements */
-  cursor: pointer;
+  z-index: 1100; /* Ensure the button itself is even higher */
+    position: relative; /* Ensure the z-index applies */
+    cursor: pointer;
+
 }
 
 /* Gold circle animation around the preferences button */
@@ -1065,6 +1068,23 @@ social-media-feed {
   transform: translateY(1px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   background-color: #d4e1f4;
+}
+
+.kpi-warning {
+  font-size: 14px;
+  color: #cc0000; /* Reddish text color */
+  background-color: #ffe6e6; /* Light pink background */
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ffcccc; /* Slightly darker pink border */
+    border-radius: 8px;
+}
+.kpi-warning:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .content {
