@@ -21,9 +21,6 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState<Boolean>(false);
-  const [filteredData, setFilteredData] = useState<Profile[] | null>(null);
-  const [filteredEmails, setFilteredEmails] = useState<string[]>([]);
-  const [participants, setParticipants] = useState<string[]>([]);
   const [filteredMeetings, setFilteredMeetings] = useState<Meeting[] | null>(null);
   const { user } = useAuth0();
   const [meetings, setMeetings] = useState<Meeting[] | null>(null);
@@ -39,76 +36,57 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
   useEffect(() => {
     setLoading(true);
     const fetchMeetings = async () => {
-      const meetingsResponse = await makeRequest('GET', `/${user?.tenantId}/meetings`);
-      setMeetings(meetingsResponse);
+        try {
+            const meetingsResponse = await makeRequest('GET', `/${user?.tenantId}/meetings-search`);
+            setMeetings(meetingsResponse);
+            console.log("Meetings response", meetingsResponse, "Length", meetingsResponse.length);
+            const now = new Date();
+            const sortedMeetings = meetingsResponse.sort((a, b) => {
+                const startTimeA = new Date(a.start_time);
+                const startTimeB = new Date(b.start_time);
 
-      // Map each meeting to a promise that resolves with the profiles data
-      console.log("Meetings response", meetingsResponse, "Length", meetingsResponse.length);
-      const profilePromises = meetingsResponse.map(
-        async (meeting: Meeting) => {
-            if (!user?.tenantId) {
-                throw new Error("Tenant ID not available");
-            }
-          const response = await makeRequest('GET', `/${user?.tenantId}/${meeting.uuid}/profiles`);
+                // Check if the meeting is in the future or past
+                const isFutureA = startTimeA >= now;
+                const isFutureB = startTimeB >= now;
 
-          const enhancedProfiles = response.map((profile: Profile) => ({
-            ...profile,
-            uuid: meeting?.uuid,
-            title: meeting?.subject,
-          }));
-          return enhancedProfiles;
+                if (isFutureA && !isFutureB) return -1; // A is future, B is past
+                if (!isFutureA && isFutureB) return 1;  // A is past, B is future
+
+                // Both are future or both are past: sort accordingly
+                if (isFutureA && isFutureB) {
+                    return startTimeA - startTimeB; // Future: ascending order
+                } else {
+                    return startTimeB - startTimeA; // Past: descending order
+                }
+            });
+            setMeetings(sortedMeetings);
         }
-    );
-
-      // Wait for all promises to resolve
-      const allProfiles = await Promise.all(profilePromises);
-      console.log("All profiles", allProfiles);
-      setLoading(false);
-      // Combine all profiles into one array
-      const combinedProfiles = allProfiles.flat();
-        console.log("Combined profiles", combinedProfiles);
-      // Update the profiles state with the combined data
-      setProfiles(combinedProfiles);
+        catch (error) {
+            console.error("Error fetching meetings: ", error);
+        }
+        finally {
+            setLoading(false);
+        }
     };
 
     fetchMeetings();
   }, []);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value.toLowerCase());
+ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const searchTerm = e.target.value.toLowerCase();
+   setSearchTerm(searchTerm);
 
-    // Filter profiles by name
-    const filteredData = profiles?.filter((profile) => {
-      return profile.name.toLowerCase().includes(e.target.value.toLowerCase());
-    });
+   if (meetings) {
+     const filteredMeetings = meetings.filter((meeting) =>
+       meeting.subject.toLowerCase().includes(searchTerm) || // Check if searchTerm is in the subject
+       meeting.participants.some((participant) =>
+         participant.toLowerCase().includes(searchTerm) // Check if searchTerm is in any participant name
+       )
+     );
 
-const filteredEmails = [...new Set(
-  filteredData
-    ?.map((profile) => profile.email && profile.email.toLowerCase())
-    .filter(Boolean)  // This removes any null or undefined values
-)];
-    setFilteredEmails(filteredEmails);
-
-    // Filter meetings by participants' emails OR subject
-    const filteredMeetings = meetings?.filter((meeting) => {
-      const matchesParticipants = meeting.participants_emails.some((emailObj) =>
-        filteredEmails.includes(emailObj.email.toLowerCase())
-      );
-
-
-      const matchesSubject = meeting.subject
-        .toLowerCase()
-        .includes(e.target.value.toLowerCase());
-
-      return matchesParticipants || matchesSubject;
-    });
-
-
-    const sortedMeetings = filteredMeetings?.sort((a, b) => {
-      return new Date(a.start_time).getTime() - new Date(b.start_time).getTime();
-    });
-    setFilteredMeetings(sortedMeetings);
-  };
+     setFilteredMeetings(filteredMeetings);
+   }
+ };
   console.log("Profiles:", profiles); // Check if profiles is populated correctly
 
 
@@ -132,20 +110,23 @@ const filteredEmails = [...new Set(
             value={searchTerm}
             onChange={(e) => handleSearch(e)}
             ref={searchInputRef}
-            readOnly={loading}
           />
         </div>
 
         {searchTerm ? (
           filteredMeetings?.length ? (
-            <div className="px-[12px]">
+            <div className="px-[12px]" style={{height: '90%'}}>
               <Typography variant="h6" className="text-[14px] font-normal">
                 Search results
               </Typography>
-              <ul className="ml-4 mt-3 flex gap-4 flex-col">
+              <div
+                className={`mt-3 flex gap-4 flex-col  ${filteredMeetings.length > 6 ? "scrollable-no-scrollbar" : ""}`}
+                style={{height: 'inherit'}}
+                >
+              <ul className="ml-4 mt-3 flex gap-4 flex-col" style={{height: 'inherit'}}>
                 {filteredMeetings.map((meeting, index) => (
                   <Link
-                    to={`/meeting/${meeting.uuid}?name=${meeting.subject}`}
+                    to={`/meeting/${meeting.uuid}`}
                     key={index}
                     className="text-sm transition-colors w-full bg-gray-100 px-2 rounded-md py-2"
                   >
@@ -161,14 +142,10 @@ const filteredEmails = [...new Set(
                     </li>
                     <li className="list-inside" key={meeting.uuid}>
                       Attendees with matched name: {
-                        meeting.participants_emails
-                          .filter(emailObj =>
-                            filteredEmails.includes(emailObj.email.toLowerCase())
+                        meeting.participants
+                          .filter(name =>
+                            name.toLowerCase().includes(searchTerm.toLowerCase())
                           )
-                          .map(emailObj => {
-                            const profile = profiles?.find(profile => profile.email === emailObj.email);
-                            return profile ? profile.name : emailObj.email;
-                          })
                           .join(", ")
                           || "No attendees answered the search"
 
@@ -177,6 +154,7 @@ const filteredEmails = [...new Set(
                   </Link>
                 ))}
               </ul>
+              </div>
             </div>
           ) : (
             <div className="h-full flex flex-col text-center gap-[12px] py-0 px-[68px] items-center justify-center">
@@ -194,7 +172,7 @@ const filteredEmails = [...new Set(
             </div>
           )
         ) : (
-          <LoadingGenie withLoadingCircle={false} />
+          <LoadingGenie withLoadingCircle={loading ? true: false} />
         )}
       </div>
     </CustomDrawer>
