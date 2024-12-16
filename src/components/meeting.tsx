@@ -62,6 +62,10 @@ const Meeting = () => {
             width: "100%",
             height: "100%",
             zIndex: 2,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Box
@@ -69,17 +73,17 @@ const Meeting = () => {
             sx={{
               color: "rgb(17, 24, 28)",
               backgroundColor: "#c8d9e5",
-              width: "calc(95%)",
-              left: "2.5%",
-              zIndex: "2",
+              width: "calc(90%)",
+              zIndex: 40,
               borderTopLeftRadius: "16px",
               borderTopRightRadius: "16px",
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",
+              alignSelf: "center",
               position: "fixed",
               bottom: "0px",
-              height: "90%",
+              height: "97%",
               transition: "transform 0.3s ease",
               transform: isMounted
                 ? "translateY(0%) translateZ(0px)"
@@ -102,6 +106,7 @@ const Meeting = () => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
+                zIndex: 10,
               }}
             >
               <Box

@@ -27,6 +27,6 @@ root.render(
                 <App />
             </ThemeProvider>
         </QueryClientProvider>
-      </Auth0ProviderWithHistory>,
+      </Auth0ProviderWithHistory>
   </BrowserRouter>
 );

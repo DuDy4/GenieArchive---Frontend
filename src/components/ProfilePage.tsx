@@ -6,7 +6,7 @@ import GoodToKnow from './ProfilePageComponents/GoodToKnow';
 import WorkHistory from './ProfilePageComponents/WorkHistory';
 import AboutSection from './ProfilePageComponents/AboutSection';
 import SalesCriteriaContainer from './ProfilePageComponents/SalesCriteriaContainer';
-import KpiContainer from './ProfilePageComponents/kpiComponents/KpiContainer';
+import KpiContainer from './ProfilePageComponents/KpiContainer';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ProfilesDetailsProps } from '../types';
 import useAttendeeInfo from '../hooks/useAttendeeInfo';
