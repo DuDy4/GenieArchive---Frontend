@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToken } from '../../providers/TokenProvider';
 
 interface KpiCardProps {
   icon: string;
@@ -6,19 +7,36 @@ interface KpiCardProps {
   description: string;
   percentage: string;
   criteria: string;
+  handleHoveredScores: (criteria: string, percentage?: number) => void;
+  handleUnhoveredScores: (criteria: string) => void;
+  handleClickedScores: (criteria: string, percentage: number) => void;
+  handleUnclickedScores: (criteria: string) => void;
+  handleNewActionItemDescription: (criteria: string, description: string) => void;
 }
 
 const formatCriteriaName = (criteria: string): string =>
-    criteria
-      .toLowerCase()
-      .split('_')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  criteria
+    .toLowerCase()
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
-
-const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage, criteria, handleHoveredScores, handleUnhoveredScores, handleClickedScores, handleUnclickedScores }) => {
+const KpiCard: React.FC<KpiCardProps> = ({
+  icon,
+  title,
+  description,
+  percentage,
+  criteria,
+  handleHoveredScores,
+  handleUnhoveredScores,
+  handleClickedScores,
+  handleUnclickedScores,
+  handleNewActionItemDescription,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
-  console.log("Criteria: ", criteria);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(description);
+  const { isAdmin } = useToken();
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
@@ -27,15 +45,32 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
     } else {
       handleClickedScores(criteria, parseInt(percentage));
     }
-
   };
-    const handleHoveredActionItem = () => {
-        handleHoveredScores(criteria, parseInt(percentage));
-    }
 
-    const handleUnhoveredActionItem = () => {
-        handleUnhoveredScores(criteria);
-    }
+  const handleHoveredActionItem = () => {
+    handleHoveredScores(criteria, parseInt(percentage));
+  };
+
+  const handleUnhoveredActionItem = () => {
+    handleUnhoveredScores(criteria);
+  };
+
+  const handleSave = async () => {
+    try {
+        if (isAdmin){
+            const response = await handleNewActionItemDescription(criteria, editedDescription);
+            console.log('Response:', response);
+          if (!response) {
+            throw new Error('Failed to save description');
+          }
+
+
+          setIsEditing(false); // Exit editing mode
+          }
+        } catch (error) {
+          console.error('Error updating description:', error);
+        }
+  };
 
   return (
     <div
@@ -69,14 +104,50 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, title, description, percentage,
         }}
       >
         <img src={icon} alt={`${title} icon`} style={{ height: '100%' }} />
-        <div className="text-center" style={{fontSize: criteria === 'RESPONSIVENESS' ? 'smaller' : 'small'}}>
-            <strong>{criteria ? formatCriteriaName(criteria) : ''}</strong>
+        <div className="text-center" style={{ fontSize: criteria === 'RESPONSIVENESS' ? 'smaller' : 'small' }}>
+          <strong>{criteria ? formatCriteriaName(criteria) : ''}</strong>
         </div>
       </div>
+
       <div className="content" style={{ flex: '1', marginLeft: '16px' }}>
         <h3 className="title" style={{ fontSize: '16px', margin: '0 0 8px' }}>{title}</h3>
-        <p className="description" style={{ fontSize: '14px', margin: 0 }}>{description}</p>
+        {isAdmin && isEditing ? (
+          <div>
+            <textarea
+              value={editedDescription}
+              onChange={(e) => setEditedDescription(e.target.value)}
+              style={{ width: '100%', fontSize: '14px', margin: '0 0 8px' }}
+            />
+            <button onClick={handleSave} style={{ marginRight: '8px' }}>Save</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
+        ) : (
+          <p
+            className="description"
+            style={{ fontSize: '14px', margin: 0, position: 'relative' }}
+          >
+            {editedDescription}
+            {isAdmin && (
+              <button
+                onClick={() => setIsEditing(true)}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                  color: 'blue',
+                }}
+              >
+                Edit
+              </button>
+            )}
+          </p>
+        )}
       </div>
+
       <div
         className="percentage"
         style={{

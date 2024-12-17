@@ -6,13 +6,19 @@ import FileUpload from '../file-upload';
 interface KpiContainerProps {
   kpi?: string;
   actionItems?: any[];
+    handleHoveredScores: (criteria: string, percentage?: number) => void;
+    handleUnhoveredScores: (criteria: string) => void;
+    handleClickedScores: (criteria: string, percentage: number) => void;
+    handleUnclickedScores: (criteria: string) => void;
+    handleNewActionItemDescription: (criteria: string, description: string) => void;
 }
 
 const KpiContainer = ({kpi, actionItems,
     handleHoveredScores,
      handleUnhoveredScores,
       handleClickedScores,
-       handleUnclickedScores}) => {
+       handleUnclickedScores,
+       handleNewActionItemDescription}) => {
   const sortedActionItems = actionItems
     ? [...actionItems].sort((a, b) => b.score - a.score)
     : [];
@@ -38,6 +44,7 @@ const KpiContainer = ({kpi, actionItems,
             handleUnhoveredScores={handleUnhoveredScores}
             handleClickedScores={handleClickedScores}
             handleUnclickedScores={handleUnclickedScores}
+            handleNewActionItemDescription={handleNewActionItemDescription}
           />
         ))}
       </div>
