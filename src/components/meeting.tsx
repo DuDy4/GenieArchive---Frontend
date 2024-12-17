@@ -23,6 +23,7 @@ const Meeting = () => {
   const { meetings = [] } = useMeetingsContext();
   const currentMeeting = meetings?.find(({ uuid }) => uuid === id) || {};
   const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
+  const sortedProfiles = allProfiles?.sort((a, b) => a.name.localeCompare(b.name));
   const navigate = useNavigate();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -226,7 +227,7 @@ const Meeting = () => {
           />
 
           {/* Profile tabs starting from index 1 */}
-          {allProfiles && Array.isArray(allProfiles) && allProfiles.map(({ name, uuid, profile_picture }: Profile, index: number) => (
+          {sortedProfiles && Array.isArray(sortedProfiles) && sortedProfiles.map(({ name, uuid, profile_picture }: Profile, index: number) => (
             <Tab
               key={uuid}
               onClick={() => setValue(index + 1)}
