@@ -19,14 +19,15 @@ import LoadingGenie from './ui/loading-genie';
 import { Dialog, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SocialMediaFeed from './SocialMediaFeed';
+import { useApiClient } from '../utils/AxiosMiddleware';
 
 const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth0();
+  const { makeRequest } = useApiClient();
   const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(user?.tenantId!, uuid);
   const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.tenantId!, uuid);
   const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.tenantId!, uuid);
   const { salesCriteria, isLoadingSalesCriteria } = useSalesCriteria(user?.tenantId!, uuid);
-
   const { kpi, actionItems } = actionItemsResponse ? actionItemsResponse : {};
   const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
   const { profile_category, strengths } = data ? data : {};
@@ -56,12 +57,23 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
           setClickedScores(rest);
       }
 
+  const handleNewActionItemDescription = async (criteria: str, description: str) => {
+      try {
+          const response = makeRequest('POST', `/${user?.tenantId!}/${uuid}/update-action-item`, {
+                criteria,
+                description,
+          }
+            );
+            console.log("Response: ", response);
+            return response;
+        } catch (error) {
+            console.error("Failed to update description: ", error);
+        }
+    }
+
 
   if (error) return <p>Error: {error.message}</p>;
 
-//   if (isLoadingAttendeeInfo || isLoadingGoodToKnow || isLoadingActionItems || isLoadingWorkExperience) {
-//     return <LoadingGenie withLoadingCircle={true} />;
-//   }
 
   return (
     <div
@@ -102,6 +114,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
                         handleUnhoveredScores={handleUnhoveredScores}
                         handleClickedScores={handleClickedScores}
                         handleUnclickedScores={handleUnclickedScores}
+                        handleNewActionItemDescription={handleNewActionItemDescription}
                       />
                     )}
       </div>
