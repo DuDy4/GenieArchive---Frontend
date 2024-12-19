@@ -36,7 +36,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const [isClicked, setIsClicked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState(description);
-  const { isAdmin } = useToken();
+  const { isAdmin, editMode } = useToken();
 
   const handleCardClick = () => {
     setIsClicked(!isClicked);
@@ -127,7 +127,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
             style={{ fontSize: '14px', margin: 0, position: 'relative' }}
           >
             {editedDescription}
-            {isAdmin && (
+            {isAdmin && editMode && (
               <button
                 onClick={() => setIsEditing(true)}
                 style={{

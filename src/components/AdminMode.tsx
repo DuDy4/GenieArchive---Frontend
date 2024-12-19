@@ -13,9 +13,10 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   const { user } = useAuth0();
   const adminEmail = import.meta.env.VITE_ADMIN_EMAIL; // Get the admin email from the environment variables
   const [tenants, setTenants] = useState<string[]>([]);
-  const { token, isAdmin, updateFakeTenantId } = useToken();
+  const { token, isAdmin, updateFakeTenantId, editMode, handleEditMode } = useToken();
   const { makeRequest } = useApiClient();
   const { getMeetings } = useMeetingsContext();
+
 
   if (!isAdmin || user?.email !== adminEmail) {
     return (
@@ -164,6 +165,16 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         >
           Finish Impersonation
         </Button>
+      </Box>
+    <Box sx={{ display: "flex", alignItems: "center"}}>
+        <input
+              type="checkbox"
+              id="editModeCheckbox"
+              checked={editMode}
+              onChange={(e) => handleEditMode(e.target.checked)}
+              style={{ marginRight: "8px" }}
+            />
+        <label htmlFor="editModeCheckbox">Edit mode</label>
       </Box>
     </Box>
   );

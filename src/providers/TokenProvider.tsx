@@ -19,6 +19,8 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const email_verification = import.meta.env.VITE_EMAIL_VERIFICATION;
   const email_allowlist = import.meta.env.VITE_EMAIL_ADMIN_ALLOWLIST;
   const [fakeTenantId, setFakeTenantId] = useState<string | null>(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  console.log("TokenProvider editMode: ", editMode);
 
   useEffect(() => {
     // Load fakeTenantId from localStorage on mount
@@ -62,8 +64,12 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   };
 
+    const handleEditMode = () => {
+        setEditMode(!editMode);
+    }
+
   return (
-    <TokenContext.Provider value={{ token, isAdmin, updateFakeTenantId, fakeTenantId }}>
+    <TokenContext.Provider value={{ token, isAdmin, updateFakeTenantId, fakeTenantId, editMode, handleEditMode }}>
       {children}
     </TokenContext.Provider>
   );
