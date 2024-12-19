@@ -41,7 +41,7 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
               return iconRoutes[platform.toLowerCase()] ? (
                 <div key={index}>
                   <Link
-                    to={url.includes("https") ? url : `https://${url}`}
+                    to={url}
                     target="_blank"
                   >
                     <img
