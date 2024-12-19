@@ -25,6 +25,8 @@ const Meeting = () => {
   const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
   const sortedProfiles = allProfiles?.sort((a, b) => a.name.localeCompare(b.name));
   const navigate = useNavigate();
+  const randomUrlEnding = Math.floor(Math.random() * 10000);
+
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -234,7 +236,7 @@ const Meeting = () => {
               label={
                 <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <img
-                    src={profile_picture ? profile_picture : '/images/anonymous-user-8.svg'}
+                    src={profile_picture ? profile_picture + `?random=${randomUrlEnding}` : '/images/anonymous-user-8.svg'}
                     alt={name}
                     className="h-8 w-8 rounded-full" // Adjust size to fit inside the tab
                   />
