@@ -124,11 +124,19 @@ const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinU
       }}
     >
       {/* Sorting Options */}
-      <FormControl sx={{ marginBottom: 2, width: '20%', alignSelf: 'end', display: 'flex', gap: '10px' }}>
-        <InputLabel>Sort By</InputLabel>
+      <FormControl sx={{ marginBottom: 2, width: '30%', paddingLeft: '10px', alignSelf: 'start', display: 'flex', flexDirection:'row', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', textWrap: 'nowrap', color: '#757575'}}>Sort by:</div>
+
         <Select
           value={sortMethod}
           onChange={(e) => setSortMethod(e.target.value as 'date' | 'relevancy')}
+           sx={{
+              border: '0.5px solid #e0e0e0',
+              borderRadius: '4px',
+                    padding: '4px 8px', // Reduce padding
+                    fontSize: '0.875rem', // Optional: adjust font size for a smaller appearance
+                    height: '32px', // Optional: explicitly set the height
+            }}
         >
           <MenuItem value="date" >Date</MenuItem>
           <MenuItem value="relevancy">Relevancy</MenuItem>
