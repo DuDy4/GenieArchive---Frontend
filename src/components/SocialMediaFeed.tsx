@@ -6,7 +6,11 @@ import {
   Typography,
   Link,
   Tooltip,
-  IconButton
+  IconButton,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import { Launch } from '@mui/icons-material';
 import iconRoutes from '../utils/iconRoutes.json';
@@ -27,16 +31,23 @@ interface NewsItem {
 interface SocialMediaFeedProps {
   news: NewsItem[];
   name: string;
+  linkedinUrls: string[];
 }
 
 const SocialMediaFeed: React.FC<SocialMediaFeedProps> = ({ news, name, linkedinUrls }) => {
   const [open, setOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [sortMethod, setSortMethod] = useState<'date' | 'relevancy'>('date'); // State for sorting method
 
-const normalizeUrl = (url: string | undefined | null) =>
-  typeof url === 'string' ? url.replace(/^https?:\/\/(www\.)?/, '') : '';
+  console.log('linkedinUrls', linkedinUrls);
 
+  const profileLinkedinUrl = linkedinUrls.find((url) => url.platform.toLowerCase() === 'linkedin')?.url;
+
+  console.log('profileLinkedinUrl', profileLinkedinUrl);
+
+  const normalizeUrl = (url: string | undefined | null) =>
+    typeof url === 'string' ? url.replace(/^https?:\/\/(www\.)?/, '') : '';
 
   const handleOpen = (images: string[], index: number) => {
     setSelectedImages(images);
@@ -69,6 +80,38 @@ const normalizeUrl = (url: string | undefined | null) =>
       ));
   };
 
+  // Sort posts by the selected method
+  const sortedNews = [...news].sort((a, b) => {
+    if (sortMethod === 'date') {
+      return new Date(b.date).getTime() - new Date(a.date).getTime(); // Sort by date (newest first)
+    }
+    if (sortMethod === 'relevancy') {
+        const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+
+        const categorizePost = (post: NewsItem) => {
+          const postDate = new Date(post.date);
+          const isRecent = postDate > ninetyDaysAgo;
+          const isOriginal = normalizeUrl(profileLinkedinUrl) === normalizeUrl(post.reshared);
+
+          if (isOriginal && isRecent) return 1;
+          if (!isOriginal && isRecent) return 2;
+          if (isOriginal && !isRecent) return 3;
+          if (!isOriginal && !isRecent) return 4;
+          return 5;
+        };
+
+        const categoryA = categorizePost(a);
+        const categoryB = categorizePost(b);
+
+        if (categoryA !== categoryB) {
+          return categoryA - categoryB;
+        }
+
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+    return 0;
+  });
+
   return (
     <div
       style={{
@@ -77,10 +120,31 @@ const normalizeUrl = (url: string | undefined | null) =>
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
       }}
     >
-      {news.map((post, index) => (
+      {/* Sorting Options */}
+      <FormControl sx={{ marginBottom: 2, width: '30%', paddingLeft: '10px', alignSelf: 'start', display: 'flex', flexDirection:'row', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', textWrap: 'nowrap', color: '#757575'}}>Sort by:</div>
+
+        <Select
+          value={sortMethod}
+          onChange={(e) => setSortMethod(e.target.value as 'date' | 'relevancy')}
+           sx={{
+              border: '0.5px solid #e0e0e0',
+              borderRadius: '4px',
+                    padding: '4px 8px', // Reduce padding
+                    fontSize: '0.875rem', // Optional: adjust font size for a smaller appearance
+                    height: '32px', // Optional: explicitly set the height
+            }}
+        >
+          <MenuItem value="date" >Date</MenuItem>
+          <MenuItem value="relevancy">Relevancy</MenuItem>
+        </Select>
+      </FormControl>
+
+      {/* Display Posts */}
+      {sortedNews.map((post, index) => (
         <Card
           key={index}
           sx={{
@@ -102,10 +166,9 @@ const normalizeUrl = (url: string | undefined | null) =>
                   alt={post.media}
                   style={{ height: '20px', width: '20px' }}
                 />
-                  {post.reshared &&
-                    typeof post.reshared === 'string' &&
-                    !linkedinUrls.some((url) => normalizeUrl(url) === normalizeUrl(post.reshared)) &&
-                    `${name.split(' ')[0]} reshared this post`}
+                {post.reshared &&
+                  !(normalizeUrl(profileLinkedinUrl) === normalizeUrl(post.reshared)) &&
+                  `${name.split(' ')[0]} reshared this post`}
               </div>
               <Typography variant="caption" color="text.secondary">
                 {new Date(post.date).toLocaleDateString()}
@@ -119,7 +182,7 @@ const normalizeUrl = (url: string | undefined | null) =>
                 {parseText(post.text || post.title)}
               </Typography>
             )}
-
+            <br/>
             <div
               style={{
                 display: 'flex',
@@ -128,13 +191,19 @@ const normalizeUrl = (url: string | undefined | null) =>
                 gap: '5px',
               }}
             >
+
               {post.images &&
                 post.images.map((image, idx) => (
                   <img
                     key={idx}
                     src={image}
                     alt="post"
-                    style={{ width: post.images.length === 1 ? '100%' : '49%', cursor: 'pointer', height: post.images.length === 1 ? '100%' : '49%', objectFit: 'cover' }}
+                    style={{
+                      width: post.images.length === 1 ? '100%' : '49%',
+                      cursor: 'pointer',
+                      height: post.images.length === 1 ? '100%' : '49%',
+                      objectFit: 'cover',
+                    }}
                     onClick={() => handleOpen(post.images!, idx)}
                   />
                 ))}

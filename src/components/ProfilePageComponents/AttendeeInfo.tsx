@@ -10,6 +10,7 @@ interface AttendeeInfoProps {
 }
 
 const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profileCategory, strengths }) => {
+    const randomUrlEnding = Math.floor(Math.random() * 10000);
   return (
     <div className="space-y-[23.5px] ">
       <div className="py-[10px] pb-[20px] space-y-3 px-[12px] rounded-[8px] border border-[#dddddd] bg-white">
@@ -23,7 +24,7 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
           }}
         >
           <img
-            src={attendeeInfo?.picture}
+            src={attendeeInfo?.picture + `?random=${randomUrlEnding}`}
             alt="user photo"
             className="h-full"
           />
