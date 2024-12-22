@@ -236,7 +236,7 @@ const Meeting = () => {
               label={
                 <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <img
-                    src={profile_picture ? profile_picture + `?random=${randomUrlEnding}` : '/images/anonymous-user-8.svg'}
+                    src={(profile_picture && profile_picture.includes('genieapp')) ? profile_picture + `?random=${randomUrlEnding}` : profile_picture}
                     alt={name}
                     className="h-8 w-8 rounded-full" // Adjust size to fit inside the tab
                   />

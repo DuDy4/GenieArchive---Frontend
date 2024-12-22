@@ -24,7 +24,13 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
           }}
         >
           <img
-            src={attendeeInfo?.picture + `?random=${randomUrlEnding}`}
+            src={
+                attendeeInfo?.picture
+                  ? `${attendeeInfo.picture}${
+                      attendeeInfo.picture.includes('genieapp') ? `?random=${randomUrlEnding}` : ''
+                    }`
+                  : '' // Provide a fallback in case attendeeInfo or picture is null/undefined
+              }
             alt="user photo"
             className="h-full"
           />
