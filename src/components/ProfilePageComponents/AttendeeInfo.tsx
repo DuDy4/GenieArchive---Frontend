@@ -47,17 +47,18 @@ const AttendeeInfo: React.FC<AttendeeInfoProps> = ({ attendeeInfo, name, profile
             {attendeeInfo?.social_media_links?.map(({ url, platform }: AttendeeInfoSocials, index: number) => {
               return iconRoutes[platform.toLowerCase()] ? (
                 <div key={index}>
-                  <Link
-                    to={url}
-                    target="_blank"
-                  >
+                  <a
+                      href={url.startsWith("http") ? url : `https://${url}`} // Ensure the URL is properly formatted
+                      target="_blank"
+                      rel="noopener noreferrer" // Adds security for external links
+                    >
                     <img
                       src={iconRoutes[platform.toLowerCase()]}
                       className="min-w-[27px] max-w-[27px]"
                       title={platform}
                       alt={`${platform} icon`}
                     />
-                  </Link>
+                  </a>
                 </div>
               ) : null;
             })}
