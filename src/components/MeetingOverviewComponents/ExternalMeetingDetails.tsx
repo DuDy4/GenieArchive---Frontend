@@ -32,7 +32,7 @@ const ExternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
             {company.name && company.name !== "Unknown" &&
               <CompanyOverview
                 name={company.name}
-                overview={(company.description && (company.description.length < 60)) ? capitalizeFirstLetter(company.description) : company.overview}
+                overview={(company.description && (company.description.length < 80 && company.description > 15)) ? capitalizeFirstLetter(company.description) : company.overview}
                 logo={company.logo}
               />}
               {/* {participants && <Participants participants={participants} />} */}
