@@ -75,7 +75,6 @@ export const useSSEClient = () => {
       }
 
       eventSource.onmessage = (event) => {
-        console.log("Received SSE message:", event);
         try {
           const data = JSON.parse(event.data);
           onMessage(data);
