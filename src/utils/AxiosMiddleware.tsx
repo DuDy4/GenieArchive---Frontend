@@ -25,6 +25,7 @@ class ApiClient {
         url: `${this.baseURL}${url}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "ngrok-skip-browser-warning": "69420",
         },
         data: data || null,
       });

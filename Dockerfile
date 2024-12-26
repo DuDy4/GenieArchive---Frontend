@@ -1,10 +1,26 @@
+# Use Node.js 20 base image
 FROM node:20
 
+# Set working directory inside the container
 WORKDIR /app
 
-COPY . .
- 
+# Copy only package.json and package-lock.json first for dependency installation
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-CMD ["npm", "run", "dev"]
+# Copy the rest of the application, including SSL certificates
+COPY . .
 
+# Build the application
+RUN npm run build
+
+# Install 'serve' globally to serve the built files
+RUN npm install -g serve
+
+# Expose port 5173 for HTTPS
+EXPOSE 5173
+
+# Command to start the application with HTTPS
+CMD ["serve", "-s", "dist", "--ssl-cert", "./cert.pem", "--ssl-key", "./key.pem", "-l", "5173"]
