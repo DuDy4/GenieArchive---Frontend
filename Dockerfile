@@ -23,4 +23,4 @@ RUN npm install -g serve
 EXPOSE 5173
 
 # Command to start the application with HTTPS
-CMD ["serve", "-s", "dist", "--ssl-cert", "./cert.pem", "--ssl-key", "./key.pem", "-l", "5173"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
