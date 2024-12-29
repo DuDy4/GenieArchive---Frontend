@@ -1,5 +1,5 @@
 # Use Node.js 20 base image
-FROM node:20
+FROM node:20 as builder
 
 # Set working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:1.26
+FROM nginx:1.26.2
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
