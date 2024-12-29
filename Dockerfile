@@ -7,6 +7,11 @@ WORKDIR /app
 # Copy only package.json and package-lock.json first for dependency installation
 COPY package*.json ./
 
+ARG VITE_EMAIL_VERIFICATION=@genieai.ai
+ARG VITE_API_URL=https://api.genieai.ai/v1
+ARG VITE_SELF_URL=https://alpha.genieai.ai
+ARG VITE_AUTH0_CLIENT_ID=uXuyPkNPsIPEC2GYcFBbNV3y0kSqzFx4
+ARG VITE_AUTH0_DOMAIN=https://dev-ef3pwnhntlcnkc81.us.auth0.com
 # Install dependencies
 RUN npm install
 
