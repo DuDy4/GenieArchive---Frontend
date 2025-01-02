@@ -28,7 +28,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
     return (
         <div
           className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto"
-          style={{ height: '-webkit-fill-available' }}
+          style={{ height: 'fit-content', backgroundColor: '#f9f9f9' }}
         >
             <div className="meeting-info mb-6 p-4 rounded-md shadow-sm">
                 <div className="meeting-details-info rounded-lg flex justify-between items-center">
@@ -65,7 +65,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 {/* Participants */}
                 {participants && (
                     <div className="participants-section flex-1">
-                        <Participants participants={{"profiles": participants}} />
+                        <Participants participants={participants} />
                     </div>
                 )}
             </div>
