@@ -11,8 +11,6 @@ import Auth0ProviderWithHistory from "./providers/auth0ProviderWithHistory.tsx";
 
 const queryClient = new QueryClient();
 
-console.log(import.meta.env);
-
 const auth0Domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const auth0ClientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const defaultOrgId = import.meta.env.VITE_DEFAULT_ORG_ID;

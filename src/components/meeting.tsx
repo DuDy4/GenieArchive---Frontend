@@ -200,7 +200,7 @@ const Meeting = () => {
           onChange={handleChange}
           textColor="primary"
           indicatorColor="primary"
-          variant={allProfiles?.length > 5 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
+          variant={allProfiles?.length > 4 ? "scrollable" : "standard"} // Enable scrolling when there are more than 5 profiles
           scrollButtons="auto"
           sx={{
             "& .Mui-selected": {

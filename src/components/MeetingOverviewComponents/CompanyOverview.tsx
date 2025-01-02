@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useApiClient } from '../../utils/AxiosMiddleware';
+import { IconButton, Tooltip } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const titleize = (name: string) => {
   return name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 };
 
-const CompanyOverview: React.FC<{ name: string; overview: string; logo?: string }> = ({ name, overview, logo }) => {
+interface CompanyOverviewProps {
+  name: string;
+  overview: string;
+  logo?: string;
+  handleNextCompany: () => void;
+  companiesLength: number;
+}
+
+const CompanyOverview: React.FC<CompanyOverviewProps> = ({ name, overview, logo, handleNextCompany, companiesLength }) => {
   const [translatedOverview, setTranslatedOverview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showTranslateOption, setShowTranslateOption] = useState(false);
@@ -40,10 +50,35 @@ const CompanyOverview: React.FC<{ name: string; overview: string; logo?: string 
 
   return (
     <div className="company-overview p-[10px] rounded-[16px] border border-[#dddddd] my-4 bg-white">
-      <div className="flex justify-start gap-3">
-        {logo && <img className="company-logo" src={logo} alt="Company Logo" />}
-        <h3 className="text-lg font-bold mb-2 self-center">{titleize(name)}</h3>
-      </div>
+        <div className="flex justify-between items-center gap-3">
+          <div className="flex items-center gap-3">
+            {logo && (
+              <img
+                src={logo}
+                alt="Company Logo"
+                style={{ width: 48, height: 48, borderRadius: '50%' }}
+              />
+            )}
+            <h3 className="text-lg font-bold mb-2">{titleize(name)}</h3>
+          </div>
+          {companiesLength > 1 && (
+          <Tooltip title="Next Company" arrow>
+            <IconButton
+              onClick={handleNextCompany}
+              color="primary"
+              style={{
+                backgroundColor: '#f1f1f1',
+                borderRadius: '8px',
+                border: '1 px solid #f1f1f1',
+                height: '35px',
+                padding: '8px',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <ArrowForwardIcon />
+            </IconButton>
+          </Tooltip>)}
+        </div>
       <p>{showTranslateOverview ? translatedOverview : overview}</p>
       <div>
         {/* Show the translate button only if the translation is different from the original */}

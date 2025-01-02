@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
 const Participants: React.FC<{ participants: Array<{ profiles: Array<{ name: string, profile_picture: string }>, persons: Array<{ name: string, email: string }> }> }> = ({ participants }) => {
-  const { profiles, persons } = participants;
+  participants = typeof participants === 'object' ? participants.profiles : participants;
+      const { profiles, persons } = participants;
+
 
   // Add a state to control tooltip visibility
   const [isTooltipVisible, setTooltipVisible] = useState(false);

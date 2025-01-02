@@ -29,15 +29,12 @@ const Footer: React.FC = () => {
   const [unseenBadges, setUnseenBadges] = useState<string[]>([]);
   const isConnectedRef = useRef(false); // Use ref to avoid unnecessary re-renders
 
-  console.log("unseenBadges", unseenBadges);
-
   useEffect(() => {
     if (isConnectedRef.current) return; // Prevent reinitializing the connection
 
     const eventSource = connectToSSE(
       "/notifications/badges",
       (data) => {
-        console.log("Received data:", data);
         setUnseenBadges(data); // Update badges state
       },
       (error) => {

@@ -72,9 +72,9 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
             {/* Internal Meeting Message and Sales Tip */}
             <div className="internal-meeting-message mb-6 p-6 text-center" style={{ borderRadius: '0.5rem'}}>
-                <h2 className="text-2xl font-semibold mb-4">
+                {meeting.classification === 'internal' && (<h2 className="text-2xl font-semibold mb-4">
                     Shh… internal meetings are in stealth mode! Our Genie only shares the scoop on external meetings where the real action is.
-                </h2>
+                </h2>)}
 
                 <br/>
                 <br/>

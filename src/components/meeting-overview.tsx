@@ -52,7 +52,7 @@ const MeetingOverview = ({ tenantId }) => {
   }
 
   return (
-    <div className="w-full h-full-meeting flex justify-center items-center overflow-auto">
+    <div className="w-full h-full-meeting flex justify-center overflow-auto">
       {data ? (
         renderMeetingDetails()
       ) : showNotFound ? (
