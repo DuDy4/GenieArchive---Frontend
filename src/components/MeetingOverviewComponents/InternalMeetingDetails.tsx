@@ -27,7 +27,7 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <div
-          className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto"
+          className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto mt-3"
           style={{ height: 'fit-content', backgroundColor: '#f9f9f9' }}
         >
             <div className="meeting-info mb-6 p-4 rounded-md shadow-sm">
