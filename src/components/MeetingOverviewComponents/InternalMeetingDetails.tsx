@@ -27,8 +27,8 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <div
-          className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto"
-          style={{ height: '-webkit-fill-available' }}
+          className="internal-meeting-details p-6 rounded-lg max-w-4xl mx-auto width-auto mt-3"
+          style={{ height: 'fit-content', backgroundColor: '#f9f9f9' }}
         >
             <div className="meeting-info mb-6 p-4 rounded-md shadow-sm">
                 <div className="meeting-details-info rounded-lg flex justify-between items-center">
@@ -65,16 +65,16 @@ const InternalMeetingDetails: React.FC<{ data: any }> = ({ data }) => {
                 {/* Participants */}
                 {participants && (
                     <div className="participants-section flex-1">
-                        <Participants participants={{"profiles": participants}} />
+                        <Participants participants={participants} />
                     </div>
                 )}
             </div>
 
             {/* Internal Meeting Message and Sales Tip */}
             <div className="internal-meeting-message mb-6 p-6 text-center" style={{ borderRadius: '0.5rem'}}>
-                <h2 className="text-2xl font-semibold mb-4">
+                {meeting.classification === 'internal' && (<h2 className="text-2xl font-semibold mb-4">
                     Shh… internal meetings are in stealth mode! Our Genie only shares the scoop on external meetings where the real action is.
-                </h2>
+                </h2>)}
 
                 <br/>
                 <br/>

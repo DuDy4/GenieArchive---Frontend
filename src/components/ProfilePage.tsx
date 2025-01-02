@@ -11,7 +11,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ProfilesDetailsProps } from '../types';
 import useAttendeeInfo from '../hooks/useAttendeeInfo';
 import useGoodToKnow from '../hooks/useGoodToKnow';
-import useGetToKnow from '../hooks/useGetToKnow';
 import useWorkExperience from '../hooks/useWorkExperience';
 import useStrengthsAndCategories from '../hooks/useStrengthsAndCategories';
 import useActionItems from '../hooks/useActionItems';
