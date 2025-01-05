@@ -35,8 +35,8 @@ const BadgesPopup: React.FC<BadgesPopupProps> = ({ open, onClose, unseenBadges, 
             fetchBadges();  // Fetch badges only when the popup opens
         }
 
-        return () => {
-            const response = makeRequest("POST", "/badge-seen");
+        return async() => {
+            const response = await makeRequest("POST", "/badge-seen");
             console.log("Response: ", response);
             cleanUnseenBadges();
         }

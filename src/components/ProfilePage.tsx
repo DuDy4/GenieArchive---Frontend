@@ -23,14 +23,16 @@ import { useApiClient } from '../utils/AxiosMiddleware';
 const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
   const { user } = useAuth0();
   const { makeRequest } = useApiClient();
-  const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(user?.tenantId!, uuid);
-  const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.tenantId!, uuid);
-  const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.tenantId!, uuid);
-  const { salesCriteria, isLoadingSalesCriteria } = useSalesCriteria(user?.tenantId!, uuid);
+  const userId = user?.sub!;
+  console.log('User ID:', userId);
+  const { attendeeInfo, isLoadingAttendeeInfo } = useAttendeeInfo(user?.sub!, uuid);
+  const { goodToKnow, isLoadingGoodToKnow } = useGoodToKnow(user?.sub!, uuid);
+  const { actionItemsResponse, isLoadingActionItems } = useActionItems(user?.sub!, uuid);
+  const { salesCriteria, isLoadingSalesCriteria } = useSalesCriteria(user?.sub!, uuid);
   const { kpi, actionItems } = actionItemsResponse ? actionItemsResponse : {};
-  const { data, isLoading, error } = useStrengthsAndCategories(user?.tenantId!, uuid);
+  const { data, isLoading, error } = useStrengthsAndCategories(user?.sub!, uuid);
   const { profile_category, strengths } = data ? data : {};
-  const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.tenantId!, uuid);
+  const { workExperience, isLoadingWorkExperience } = useWorkExperience(user?.sub!, uuid);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [clickedScores, setClickedScores] = useState<{ [key: string]: number }>({});
   const [hoveredScores, setHoveredScores] = useState<{ [key: string]: number }>({});
@@ -58,7 +60,7 @@ const ProfilePage: React.FC<ProfilesDetailsProps> = ({ name, uuid }) => {
 
   const handleNewActionItemDescription = async (criteria: str, description: str) => {
       try {
-          const response = makeRequest('POST', `/${user?.tenantId!}/${uuid}/update-action-item`, {
+          const response = makeRequest('POST', `/${user?.sub!}/${uuid}/update-action-item`, {
                 criteria,
                 description,
           }

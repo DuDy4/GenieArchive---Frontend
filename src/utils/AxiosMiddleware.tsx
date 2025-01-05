@@ -11,11 +11,11 @@ class ApiClient {
   }
 
   // Method to make a request
-  async request(method: Method, url: string, accessToken: string, isAdmin: boolean, fakeTenantId: string | null, data?: any) {
+  async request(method: Method, url: string, accessToken: string, isAdmin: boolean, fakeUserId: string | null, data?: any) {
     // Append fakeTenantId to the URL if the user is an admin
-    if (isAdmin && fakeTenantId) {
+    if (isAdmin && fakeUserId) {
       const separator = url.includes('?') ? '&' : '?';
-      url += `${separator}impersonate_tenant_id=${fakeTenantId}`;
+      url += `${separator}impersonate_user_id=${fakeUserId}`;
     }
 
     // Set up the request with Axios
@@ -38,7 +38,7 @@ class ApiClient {
 
 
 export const useApiClient = () => {
-  const { isAdmin, fakeTenantId, token: accessToken } = useToken();
+  const { isAdmin, fakeUserId, token: accessToken } = useToken();
 
   const apiClient = new ApiClient(import.meta.env.VITE_API_URL);
 
@@ -47,8 +47,8 @@ export const useApiClient = () => {
     if (!accessToken) {
       throw new Error('AccessToken is missing');
     }
-    return apiClient.request(method, url, accessToken, isAdmin, fakeTenantId, data);
-  }, [accessToken, isAdmin, fakeTenantId, apiClient]);
+    return apiClient.request(method, url, accessToken, isAdmin, fakeUserId, data);
+  }, [accessToken, isAdmin, fakeUserId, apiClient]);
 
   return { makeRequest };
 };

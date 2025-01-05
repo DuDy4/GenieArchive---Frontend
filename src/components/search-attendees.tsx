@@ -37,7 +37,7 @@ const SearchAttendes: React.FC<SearchAttendesProps> = ({
     setLoading(true);
     const fetchMeetings = async () => {
         try {
-            const meetingsResponse = await makeRequest('GET', `/${user?.tenantId}/meetings-search`);
+            const meetingsResponse = await makeRequest('GET', `/${user?.sub}/meetings-search`);
             setMeetings(meetingsResponse);
             console.log("Meetings response", meetingsResponse, "Length", meetingsResponse.length);
             const now = new Date();

@@ -19,14 +19,18 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const email_verification = import.meta.env.VITE_EMAIL_VERIFICATION;
   const email_allowlist = import.meta.env.VITE_EMAIL_ADMIN_ALLOWLIST;
   const [fakeTenantId, setFakeTenantId] = useState<string | null>(null);
+  const [fakeUserId, setFakeUserId] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
-  console.log("TokenProvider editMode: ", editMode);
 
   useEffect(() => {
     // Load fakeTenantId from localStorage on mount
     const savedTenantId = localStorage.getItem('fakeTenantId');
+    const savedUserId = localStorage.getItem('fakeUserId');
     if (savedTenantId) {
       setFakeTenantId(savedTenantId);
+    }
+    if (savedUserId) {
+      setFakeUserId(savedUserId);
     }
 
     const fetchToken = async () => {
@@ -64,12 +68,22 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   };
 
+  const updateFakeUserId = (userId: string | null) => {
+    setFakeUserId(userId);
+    if (userId) {
+      localStorage.setItem('fakeUserId', userId);
+    } else {
+      localStorage.removeItem('fakeUserId');
+    }
+    }
+
     const handleEditMode = () => {
         setEditMode(!editMode);
     }
 
   return (
-    <TokenContext.Provider value={{ token, isAdmin, updateFakeTenantId, fakeTenantId, editMode, handleEditMode }}>
+    <TokenContext.Provider value={{ token, isAdmin, updateFakeTenantId, fakeTenantId, fakeUserId, updateFakeUserId,
+        editMode, handleEditMode }}>
       {children}
     </TokenContext.Provider>
   );
