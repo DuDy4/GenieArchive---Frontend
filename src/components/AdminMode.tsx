@@ -64,7 +64,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
     );
   }
 
-  const fetchTenants = async () => {
+  const fetchUsers = async () => {
     try {
 //       const response = await makeRequest('GET', `/admin/tenants`);
       const response = await makeRequest('GET', `/admin/users`);
@@ -83,7 +83,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   };
 
   useEffect(() => {
-    fetchTenants();
+    fetchUsers();
   }, []);
 
   const handleTenantClick = (tenant: any) => {
@@ -101,14 +101,16 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   };
 
   const handleUserClick = (user: any) => {
-    updateFakeUserId(user.uuid);
+    updateFakeUserId(user.user_id);
     localStorage.setItem('fakeUserId', user.uuid);
+    getMeetings();
     onClose();
   };
 
     const handleRemoveUserClick = () => {
         updateFakeUserId(null);
         localStorage.removeItem('fakeUserId');
+        getMeetings();
         onClose();
     }
 
@@ -123,7 +125,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         backgroundColor: "#fff",
         borderRadius: "8px",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        minWidth: "400px",
+        minWidth: "600px",
         margin: "auto",
       }}
     >
@@ -143,6 +145,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
             <TableHead>
               <TableRow>
                 <TableCell>UserID</TableCell>
+                <TableCell>TenantID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
               </TableRow>
@@ -152,7 +155,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
                 <TableRow
                   key={user.uuid}
                   hover
-                  onClick={() => handleTenantClick(user)}
+                  onClick={() => handleUserClick(user)}
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell>{user.user_id}</TableCell>

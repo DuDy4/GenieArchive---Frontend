@@ -165,7 +165,7 @@ const Footer: React.FC = () => {
           </MenuItem>
         </CustomStyledMenu>
 
-        <Dialog open={openAdminMode} onClose={() => setOpenAdminMode(false)}>
+        <Dialog open={openAdminMode} onClose={() => setOpenAdminMode(false)} maxWidth='lg'>
           <AdminMode onClose={() => setOpenAdminMode(false)} />
         </Dialog>
 
