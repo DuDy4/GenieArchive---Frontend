@@ -23,10 +23,12 @@ const MeetingContext = createContext<MeetingContextProps | undefined>(undefined)
 export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string }> = ({ children }) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { isAdmin, fakeTenantId } = useToken();
+  const { isAdmin, fakeTenantId, fakeUserId } = useToken();
   const { makeRequest } = useApiClient();
   const { user } = useAuth0();
   const [tenantId, setTenantId ] = useState(isAdmin && fakeTenantId ? fakeTenantId : user?.tenantId)
+  const [userId, setUserId] = useState(isAdmin && fakeUserId ? fakeUserId : user?.sub);
+  console.log("User ID: ", userId);
 
     const checkSelectedDate = () => {
         const storedDate = localStorage.getItem("selectedDate");
@@ -36,9 +38,11 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
     useEffect(() => {
         if (isAdmin && fakeTenantId) {
             setTenantId(fakeTenantId);
+            setUserId(fakeUserId);
         }
         else{
             setTenantId(user?.tenantId);
+            setUserId(user?.sub);
         }
     }, [fakeTenantId]);
 
@@ -47,7 +51,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
       if (!tenantId) {
         throw new Error("TenantId is required to delete a meeting");
       }
-      const response = await makeRequest('DELETE', `/${tenantId}/${meetingId}`);
+      const response = await makeRequest('DELETE', `/${user?.sub}/${meetingId}`);
       return response;
     },
     onSettled: () => {
@@ -68,7 +72,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
       if (!tenantId) {
         return [];
       }
-      const response = await makeRequest('GET', `/${tenantId}/meetings/${checkSelectedDate().toISOString()}`);
+      const response = await makeRequest('GET', `/${user?.sub}/meetings/${checkSelectedDate().toISOString()}`);
       return response as Meeting[];
     },
     enabled: !!tenantId, // Ensure the query runs only if tenantId exists
@@ -81,7 +85,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
       }
       setIsImportingMeetings(true);
       try {
-        const response = await makeRequest('GET', `/google/import-meetings/${tenantId}`);
+        const response = await makeRequest('GET', `/google/import-meetings/${user?.sub}`);
         return response;
       } catch (err) {
         setError("An error occurred during import.");
