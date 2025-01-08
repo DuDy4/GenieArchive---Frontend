@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
-const useGoodToKnow = (tenant_id: string, uuid: string) => {
+const useGoodToKnow = (userId: string, uuid: string) => {
     const { makeRequest } = useApiClient();
   const { data: goodToKnow, isLoading: isLoadingGoodToKnow } = useQuery({
-    queryKey: ["good-to-know", tenant_id, uuid],
+    queryKey: ["good-to-know", userId, uuid],
     queryFn: async ({ queryKey }) => {
-      const [_key, tenant_id, uuid] = queryKey;
+      const [_key, userId, uuid] = queryKey;
 
-        const response = await makeRequest('GET', `/${tenant_id}/profiles/${uuid}/good-to-know`);
+        const response = await makeRequest('GET', `/${userId}/profiles/${uuid}/good-to-know`);
 
         let data = response;
 

@@ -2,20 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useToken } from "../providers/TokenProvider";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
-const useAllProfiles = (tenant_id: string, meeting_id: string) => {
+const useAllProfiles = (userId: string, meeting_id: string) => {
   const token = useToken();
   const { makeRequest } = useApiClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["all-profiles", tenant_id, meeting_id],
+    queryKey: ["all-profiles", userId, meeting_id],
     queryFn: async ({ queryKey }) => {
-      const [_key, tenantId, meetingId] = queryKey;
+      const [_key, userId, meetingId] = queryKey;
 
       if (!token) {
         throw new Error("Token not available");
       }
 
-      const response = await makeRequest("GET", `/${tenantId}/${meetingId}/profiles`);
+      const response = await makeRequest("GET", `/${userId}/${meetingId}/profiles`);
       return {
         allProfiles: response.profiles || [],
         allPersons: response.persons || [],

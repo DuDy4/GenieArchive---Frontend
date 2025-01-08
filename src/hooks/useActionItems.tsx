@@ -15,7 +15,7 @@ interface ActionItemsResponse {
   actionItems: ActionItem[];
 }
 
-const useActionItems = (tenant_id: string, uuid: string) => {
+const useActionItems = (userId: string, uuid: string) => {
   const { makeRequest } = useApiClient();
 
   const {
@@ -23,11 +23,11 @@ const useActionItems = (tenant_id: string, uuid: string) => {
     error,
     isLoading: isLoadingActionItems,
   } = useQuery<ActionItemsResponse | null>({
-    queryKey: ["actionItems", tenant_id, uuid],
+    queryKey: ["actionItems", userId, uuid],
     queryFn: async () => {
       const response = await makeRequest<ActionItemsResponse>(
         "GET",
-        `/${tenant_id}/profiles/${uuid}/action-items`
+        `/${userId}/profiles/${uuid}/action-items`
       );
 
       if (response) {

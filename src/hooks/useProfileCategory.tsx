@@ -12,15 +12,15 @@ interface ProfileCategoryResponse {
   profile_category?: ProfileCategory;
 }
 
-const useProfileCategory = (tenant_id: string, uuid: string) => {
+const useProfileCategory = (userId: string, uuid: string) => {
   const { makeRequest } = useApiClient();
 
   const { data: profileCategory, error, isLoading } = useQuery<ProfileCategory | null>({
-    queryKey: ["profileCategory", tenant_id, uuid],
+    queryKey: ["profileCategory", userId, uuid],
     queryFn: async () => {
       const response = await makeRequest<ProfileCategoryResponse>(
         "GET",
-        `/${tenant_id}/profiles/${uuid}/strengths`
+        `/${userId}/profiles/${uuid}/strengths`
       );
 
       if (Array.isArray(response)) {

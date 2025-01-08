@@ -100,9 +100,9 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
     onClose();
   };
 
-  const handleUserClick = (user: any) => {
-    updateFakeUserId(user.user_id);
-    localStorage.setItem('fakeUserId', user.uuid);
+  const handleUserClick = (user_obj: any) => {
+    updateFakeUserId(user_obj.user_id);
+    localStorage.setItem('fakeUserId', user_obj.uuid);
     getMeetings();
     onClose();
   };
@@ -181,7 +181,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={handleRemoveTenantClick}
+          onClick={handleRemoveUserClick}
         >
           Finish Impersonation
         </Button>

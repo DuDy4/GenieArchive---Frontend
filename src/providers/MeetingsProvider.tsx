@@ -44,7 +44,7 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
             setTenantId(user?.tenantId);
             setUserId(user?.sub);
         }
-    }, [fakeTenantId]);
+    }, [fakeTenantId, fakeUserId]);
 
    const deleteMeeting = useMutation({
     mutationFn: async (meetingId: string) => {
