@@ -13,7 +13,8 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   const { user } = useAuth0();
   const adminEmail = import.meta.env.VITE_ADMIN_EMAIL; // Get the admin email from the environment variables
   const [tenants, setTenants] = useState<string[]>([]);
-  const { token, isAdmin, updateFakeTenantId, editMode, handleEditMode } = useToken();
+  const [ users, setUsers ] = useState<string[]>([]);
+  const { token, isAdmin, updateFakeTenantId, editMode, handleEditMode, updateFakeUserId } = useToken();
   const { makeRequest } = useApiClient();
   const { getMeetings } = useMeetingsContext();
 
@@ -63,15 +64,18 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
     );
   }
 
-  const fetchTenants = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await makeRequest('GET', `/admin/tenants`);
+//       const response = await makeRequest('GET', `/admin/tenants`);
+      const response = await makeRequest('GET', `/admin/users`);
       console.log('response:', response);
       const data = response;
       const admin = data.admin;
-      const tenants = data.tenants;
+//       const tenants = data.tenants;
+      const users = data.users;
       if (admin) {
-        setTenants(tenants);
+//         setTenants(tenants);
+        setUsers(users);
       }
     } catch (error) {
       console.error('Error fetching tenants:', error);
@@ -79,7 +83,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   };
 
   useEffect(() => {
-    fetchTenants();
+    fetchUsers();
   }, []);
 
   const handleTenantClick = (tenant: any) => {
@@ -96,6 +100,20 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
     onClose();
   };
 
+  const handleUserClick = (user_obj: any) => {
+    updateFakeUserId(user_obj.user_id);
+    localStorage.setItem('fakeUserId', user_obj.uuid);
+    getMeetings();
+    onClose();
+  };
+
+    const handleRemoveUserClick = () => {
+        updateFakeUserId(null);
+        localStorage.removeItem('fakeUserId');
+        getMeetings();
+        onClose();
+    }
+
   const handleRefetchMeetings = () => {
     refetchMeetings(); // This triggers the refetch of meetings from the backend
   };
@@ -107,7 +125,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         backgroundColor: "#fff",
         borderRadius: "8px",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        minWidth: "400px",
+        minWidth: "600px",
         margin: "auto",
       }}
     >
@@ -119,29 +137,31 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
           textAlign: "center",
         }}
       >
-        Select a Tenant
+        Select a User
       </Typography>
-      {tenants.length > 0 ? (
+      {users.length > 0 ? (
         <TableContainer component={Paper} sx={{ marginTop: "16px" }}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>UserID</TableCell>
                 <TableCell>TenantID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tenants.map((tenant) => (
+              {users.map((user) => (
                 <TableRow
-                  key={tenant.uuid}
+                  key={user.uuid}
                   hover
-                  onClick={() => handleTenantClick(tenant)}
+                  onClick={() => handleUserClick(user)}
                   sx={{ cursor: "pointer" }}
                 >
-                  <TableCell>{tenant.tenant_id}</TableCell>
-                  <TableCell>{tenant.name}</TableCell>
-                  <TableCell>{tenant.email}</TableCell>
+                  <TableCell>{user.user_id}</TableCell>
+                  <TableCell>{user.tenant_id}</TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -161,7 +181,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={handleRemoveTenantClick}
+          onClick={handleRemoveUserClick}
         >
           Finish Impersonation
         </Button>

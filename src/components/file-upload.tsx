@@ -157,6 +157,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onClose }) => {
                             </Paper>
                         </Box>
                     )}
+                    <br/>
                     <Grid container spacing={2}>
                         {files.map((file) => (
                             <Grid item xs={12} key={file.name}>

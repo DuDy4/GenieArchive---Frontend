@@ -11,15 +11,15 @@ interface SalesCriteriaResponse {
   sales_criteria?: salesCriteria[];
 }
 
-const useSalesCriteria = (tenant_id: string, uuid: string) => {
+const useSalesCriteria = (userId: string, uuid: string) => {
   const { makeRequest } = useApiClient();
 
   const { data: salesCriteria, error, isLoading: isLoadingSalesCriteria } = useQuery<ProfileCategory | null>({
-    queryKey: ["salesCriteria", tenant_id, uuid],
+    queryKey: ["salesCriteria", userId, uuid],
     queryFn: async () => {
       const response = await makeRequest<SalesCriteriaResponse>(
         "GET",
-        `/${tenant_id}/profiles/${uuid}/sales-criteria`
+        `/${userId}/profiles/${uuid}/sales-criteria`
       );
 
       if (response?.sales_criteria) {

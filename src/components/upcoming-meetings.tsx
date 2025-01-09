@@ -7,7 +7,7 @@ import { useMeetingsContext } from "../providers/MeetingsProvider";
 
 const UpcomingMeetings = () => {
   const { user } = useAuth0();
-    // const { meetings } = useMeetings(user?.tenantId!);
+    // const { meetings } = useMeetings(user?.sub!);
     const { meetings } = useMeetingsContext();
 
   const upcomingMeeting = meetings?.find((meeting: Meeting) =>

@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { useApiClient } from "../utils/AxiosMiddleware";
 
-const useWorkExperience = (tenant_id: string, uuid: string) => {
+const useWorkExperience = (userId: string, uuid: string) => {
     const { makeRequest } = useApiClient();
   const { data: workExperience, isLoading: isLoadingWorkExperience } = useQuery(
     {
-      queryKey: ["work-experience", tenant_id, uuid],
+      queryKey: ["work-experience", userId, uuid],
       queryFn: async ({ queryKey }) => {
-        const [_key, tenant_id, uuid] = queryKey;
+        const [_key, userId, uuid] = queryKey;
 
-        const response = await makeRequest('GET', `/${tenant_id}/profiles/${uuid}/work-experience`);
+        const response = await makeRequest('GET', `/${userId}/profiles/${uuid}/work-experience`);
         return response;
       },
     }

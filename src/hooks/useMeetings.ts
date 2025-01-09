@@ -5,7 +5,7 @@ import { Meeting } from "../types";
 import { useApiClient } from "../utils/AxiosMiddleware";
 import { useToken } from "../providers/TokenProvider";
 
-const useMeetings = (tenant_id: string) => {
+const useMeetings = (userId: string) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { makeRequest } = useApiClient();
@@ -16,25 +16,25 @@ const useMeetings = (tenant_id: string) => {
     refetch,
     isRefetching,
   } = useQuery({
-    queryKey: ["meetings", tenant_id],
+    queryKey: ["meetings", userId],
     queryFn: async ({ queryKey }) => {
-      const [_key, tenant_id] = queryKey;
-      if (!tenant_id) {
+      const [_key, userId] = queryKey;
+      if (!userId) {
         return [];
       }
-      const response = await makeRequest('GET', `/${tenant_id}/meetings`);
+      const response = await makeRequest('GET', `/${userId}/meetings`);
       return response as Meeting[];
     },
   });
 
   const reImport = useMutation({
     mutationFn: async () => {
-      if (!tenant_id) {
-        throw new Error("TenantId is required to import meetings");
+      if (!userId) {
+        throw new Error("userId is required to import meetings");
       }
       setIsImportingMeetings(true);
       try {
-          const response = await makeRequest('GET', `/google/import-meetings/${tenant_id}`);
+          const response = await makeRequest('GET', `/google/import-meetings/${userId}`);
           return response;
       } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 401) {

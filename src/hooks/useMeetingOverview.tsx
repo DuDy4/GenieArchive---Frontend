@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { useApiClient } from '../utils/AxiosMiddleware';
 
-const useMeetingOverview = (tenantId: string, meeting_uuid: string) => {
+const useMeetingOverview = (userId: string, meeting_uuid: string) => {
     const { makeRequest } = useApiClient()
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["meeting-overview", tenantId, meeting_uuid],  // Giving a name to this query
+    queryKey: ["meeting-overview", userId, meeting_uuid],  // Giving a name to this query
     queryFn: async () => {
-        const response = await makeRequest('GET', `/${tenantId}/${meeting_uuid}/meeting-overview`);
+        const response = await makeRequest('GET', `/${userId}/${meeting_uuid}/meeting-overview`);
         console.log("Meeting Overview", response);
         return response;
     },
-    enabled: !!meeting_uuid && !!tenantId,  // Ensure the query runs only when these values are available
+    enabled: !!meeting_uuid && !!userId,  // Ensure the query runs only when these values are available
   });
 
   return {

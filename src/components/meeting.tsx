@@ -20,9 +20,10 @@ const Meeting = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control dialog visibility
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const tenantId = user?.tenantId;
+  const userId = user?.sub
   const { meetings = [] } = useMeetingsContext();
   const currentMeeting = meetings?.find(({ uuid }) => uuid === id) || {};
-  const { allProfiles, allPersons, isLoading } = useAllProfiles(tenantId!, id!);
+  const { allProfiles, allPersons, isLoading } = useAllProfiles(userId!, id!);
   const sortedProfiles = allProfiles?.sort((a, b) => a.name.localeCompare(b.name));
   const navigate = useNavigate();
   const randomUrlEnding = Math.floor(Math.random() * 10000);
@@ -279,7 +280,7 @@ const Meeting = () => {
 
               {/* Render content based on the selected tab */}
               {value === 0 ? (
-                <MeetingOverview tenantId={tenantId} />
+                <MeetingOverview userId={userId} />
               ) : (
                 allProfiles && Array.isArray(allProfiles) && allProfiles?.map(({ name, uuid }: Profile, index: number) => (
                   value === index + 1 && (

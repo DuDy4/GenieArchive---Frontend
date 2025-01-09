@@ -6,14 +6,14 @@ import ExternalMeetingDetails from './MeetingOverviewComponents/ExternalMeetingD
 import InternalMeetingDetails from './MeetingOverviewComponents/InternalMeetingDetails';
 import PrivateMeetingDetails from './MeetingOverviewComponents/PrivateMeetingDetails';
 
-const MeetingOverview = ({ tenantId }) => {
-  const [currentTenantId, setCurrentTenantId] = useState(tenantId);
+const MeetingOverview = ({ userId }) => {
+  const [currentUserId, setCurrentUserId] = useState(userId);
   const { id } = useParams();
   const meeting_uuid = id;
   const [retryCount, setRetryCount] = useState(0);
   const [showNotFound, setShowNotFound] = useState(false);
 
-  const { data, loading, error } = useMeetingOverview(tenantId!, meeting_uuid!);
+  const { data, loading, error } = useMeetingOverview(userId!, meeting_uuid!);
   const meeting = data?.meeting;
   const classification = data?.meeting?.classification;
 
@@ -32,8 +32,8 @@ const MeetingOverview = ({ tenantId }) => {
   };
 
   useEffect(() => {
-    setCurrentTenantId(tenantId);
-  }, [tenantId]);
+    setCurrentUserId(userId);
+  }, [userId]);
 
   useEffect(() => {
     if (!data && retryCount < 3) {
