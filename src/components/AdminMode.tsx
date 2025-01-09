@@ -102,7 +102,7 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
 
   const handleUserClick = (user_obj: any) => {
     updateFakeUserId(user_obj.user_id);
-    localStorage.setItem('fakeUserId', user_obj.uuid);
+    localStorage.setItem('fakeUserId', user_obj.user_id);
     getMeetings();
     onClose();
   };
