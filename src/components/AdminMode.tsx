@@ -89,28 +89,24 @@ const AdminMode = ({ onClose }: TicketFormProps) => {
   const handleTenantClick = (tenant: any) => {
     updateFakeTenantId(tenant.tenant_id);
     localStorage.setItem('fakeTenantId', tenant.tenant_id);
-    getMeetings();
     onClose();
   };
 
   const handleRemoveTenantClick = () => {
     updateFakeTenantId(null);
     localStorage.removeItem('fakeTenantId');
-    getMeetings();
     onClose();
   };
 
   const handleUserClick = (user_obj: any) => {
     updateFakeUserId(user_obj.user_id);
     localStorage.setItem('fakeUserId', user_obj.user_id);
-    getMeetings();
     onClose();
   };
 
     const handleRemoveUserClick = () => {
         updateFakeUserId(null);
         localStorage.removeItem('fakeUserId');
-        getMeetings();
         onClose();
     }
 

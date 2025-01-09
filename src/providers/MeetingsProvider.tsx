@@ -20,15 +20,12 @@ interface MeetingContextProps {
 const MeetingContext = createContext<MeetingContextProps | undefined>(undefined);
 
 // MeetingProvider component
-export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string }> = ({ children }) => {
+export const MeetingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isImportingMeetings, setIsImportingMeetings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isAdmin, fakeTenantId, fakeUserId } = useToken();
   const { makeRequest } = useApiClient();
   const { user } = useAuth0();
-  const [tenantId, setTenantId ] = useState(isAdmin && fakeTenantId ? fakeTenantId : user?.tenantId)
-  const [userId, setUserId] = useState(isAdmin && fakeUserId ? fakeUserId : user?.sub);
-  console.log("User ID: ", userId);
 
     const checkSelectedDate = () => {
         const storedDate = localStorage.getItem("selectedDate");
@@ -36,21 +33,14 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
     }
 
     useEffect(() => {
-        if (isAdmin && fakeTenantId) {
-            setTenantId(fakeTenantId);
-            setUserId(fakeUserId);
-        }
-        else{
-            setTenantId(user?.tenantId);
-            setUserId(user?.sub);
-        }
+        console.log("MeetingsProvider mounted");
+        setTimeout(() => {
+            getMeetings();
+          }, 50);
     }, [fakeTenantId, fakeUserId]);
 
    const deleteMeeting = useMutation({
     mutationFn: async (meetingId: string) => {
-      if (!tenantId) {
-        throw new Error("TenantId is required to delete a meeting");
-      }
       const response = await makeRequest('DELETE', `/${user?.sub}/${meetingId}`);
       return response;
     },
@@ -66,23 +56,16 @@ export const MeetingsProvider: React.FC<{ children: ReactNode, tenantId?: string
     refetch: getMeetings,
     isRefetching: isGettingMeetings,
   } = useQuery({
-    queryKey: ["meetings", tenantId],
+    queryKey: ["meetings"],
     queryFn: async ({ queryKey }) => {
-      const [_key, tenantId] = queryKey;
-      if (!tenantId) {
-        return [];
-      }
+      const [_key] = queryKey;
       const response = await makeRequest('GET', `/${user?.sub}/meetings/${checkSelectedDate().toISOString()}`);
       return response as Meeting[];
     },
-    enabled: !!tenantId, // Ensure the query runs only if tenantId exists
   });
 
   const reImport = useMutation({
     mutationFn: async () => {
-      if (!tenantId) {
-        throw new Error("TenantId is required to import meetings");
-      }
       setIsImportingMeetings(true);
       try {
         const response = await makeRequest('GET', `/google/import-meetings/${user?.sub}`);
