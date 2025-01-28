@@ -145,7 +145,7 @@ const ProfileCategoryDialog: React.FC<ProfileCategoryProps> = ({ profileCategory
 
             {/* Second column */}
             <div className="flex flex-col gap-2 justify-between py-[18px] pb-[20px] space-y-3 px-[12px] rounded-[18px] border border-[#dddddd] bg-white">
-                <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>Key Personality { name ? `of ${name.split(' ')[0]}` : ''}</strong></p>
+                <p className="text-[24px]" style={{fontFamily: "Poppins"}}><strong>Key Personality</strong></p>
                     {strengths && Array.isArray(strengths) && strengths.map(({ strength_name }: any, index: number) => (
                       StrengthsIcons[strength_name] ? (
                         <div key={index} className="flex justify-between items-center cursor-pointer gap-2">
